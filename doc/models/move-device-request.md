@@ -41,11 +41,9 @@ const moveDeviceRequest: MoveDeviceRequest = {
     {},
     {
       key: '',
-      value: '',
     },
     {
       key: '',
-      value: '',
     }
   ],
   devices: [

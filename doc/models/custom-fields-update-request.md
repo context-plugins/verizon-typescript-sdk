@@ -29,11 +29,9 @@ const customFieldsUpdateRequest: CustomFieldsUpdateRequest = {
     {},
     {
       key: '',
-      value: '',
     },
     {
       key: '',
-      value: '',
     }
   ],
   customFieldsToUpdate: [

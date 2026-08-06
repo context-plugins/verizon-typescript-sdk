@@ -29,11 +29,9 @@ const carrierActionsRequest: CarrierActionsRequest = {
     {},
     {
       key: '',
-      value: '',
     },
     {
       key: '',
-      value: '',
     }
   ],
   devices: [
