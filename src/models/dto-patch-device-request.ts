@@ -7,8 +7,10 @@ import {
 import { resourceDeviceSchema, type ResourceDevice } from "./resource-device.js";
 
 export type DtoPatchDeviceRequest = {
+  /** The numeric account name, which must include leading zeros */
   accountname?: string;
   device?: ResourceDevice;
+  /** Device identifiers, one or more are required */
   resourceidentifier?: DtoDeviceResourceIdentifier;
 };
 

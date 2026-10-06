@@ -3,7 +3,9 @@ import type { Schema } from "../core/validation/schema.js";
 
 export type RetrieveResponseItem = {
   imei?: string;
+  /** Present if credentials exist */
   username?: string;
+  /** Present if retrieval failed */
   failure?: string;
 };
 

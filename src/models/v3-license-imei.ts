@@ -1,7 +1,9 @@
 import * as s from "../core/validation/index.js";
 import type { Schema } from "../core/validation/schema.js";
 
+/** List of devices. */
 export type V3LicenseImei = {
+  /** Device IMEI list. */
   deviceList: string[];
 };
 

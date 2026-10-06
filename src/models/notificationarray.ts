@@ -21,7 +21,7 @@ export const notificationarraySchema: Schema<Notificationarray> = s.object<Notif
   callback: s.optional(s.boolean()),
   emailNotification: s.optional(s.boolean()),
   notificationGroupName: s.optional(s.string()),
-  notificationFrequencyFactor: s.optional(s.number()),
+  notificationFrequencyFactor: s.optional(s.int()),
   notificationFrequencyInterval: s.optional(s.string()),
   externalEmailRecipients: s.optional(s.string()),
   smsNotification: s.optional(s.boolean()),

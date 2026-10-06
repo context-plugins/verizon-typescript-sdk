@@ -3,6 +3,7 @@ import type { Schema } from "../core/validation/schema.js";
 import { grassSchema, type Grass } from "./grass.js";
 
 export type DescriptionOfRoadSurfaceGrass = {
+  /** Indicates the surface of the roadway is grass. */
   grass: Grass;
 };
 

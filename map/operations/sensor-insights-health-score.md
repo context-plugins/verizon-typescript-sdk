@@ -4,17 +4,19 @@
 
 Accessor: `client.sensorInsightsHealthScore` · Source: `src/resources/sensor-insights-health-score.ts` · 2 operations · Request and error types: namespace `SensorInsightsHealthScore`
 
-**Type sources**: every type an operation names, with the file that declares it and the schema value exported beside it. Import every name from `verizon`; the `Source` path is where to **read** the shape, never what to import. `ResponseError` and the runtime error family are excluded — see sdk-map.md.
+**Type sources**: every type an operation names, with the file that declares it and the schema value exported beside it. Import every name from `verizon`; the `Source` path is where to **read** the shape, never what to import. `ApiError`, the runtime error family and the file vocabulary are excluded — see sdk-map.md.
 
 ### sensorInsightsGetNetworkHealthScoreResponse
 
+- **Server**: `thingspace` — not the `hyperPreciseCredentials` group; see Servers & auth in sdk-map.md
 - **Signature**: `sensorInsightsGetNetworkHealthScoreResponse(options?: RequestOptions): ApiPromise<DtoGetNetworkHealthScoreResponse, SensorInsightsHealthScore.SensorInsightsGetNetworkHealthScoreResponseError>`
 - **Wire**: `POST /dm/v1/healthscore/network`
 - **Auth**: all of `thingspaceOauth`, `vzM2MToken` — both are sent
 - **Request body**: none — no `Content-Type` header is sent
+- **SDK-sent**: `header Idempotency-Key` (minted per call)
 - **Returns**: `DtoGetNetworkHealthScoreResponse`
-- **Error**: `SensorInsightsHealthScore.SensorInsightsGetNetworkHealthScoreResponseError` — **typed arms**, narrowed on `err.payload.kind`
-- **Error arms**: `"managementError400"` [400] `ManagementError400` · `"managementError"` [401] `ManagementError` · `"managementError403"` [403] `ManagementError403` · `"managementError2"` [406] `ManagementError` · `"managementError3"` [415] `ManagementError` · `"managementError4"` [429] `ManagementError` · `"managementError500"` [500] `ManagementError500` · `"managementError5"` [400–599] `ManagementError` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
+- **Error**: `VerizonError` with `kind: "api"`, an instance of `SensorInsightsHealthScore.SensorInsightsGetNetworkHealthScoreResponseError` — **typed arms**, narrowed on `err.payload.kind`
+- **Error arms**: `"managementError400"` [400] `ManagementError400` · `"managementError"` [401] `ManagementError` · `"managementError403"` [403] `ManagementError403` · `"managementError2"` [406] `ManagementError` · `"managementError3"` [415] `ManagementError` · `"managementError4"` [429] `ManagementError` · `"managementError500"` [500] `ManagementError500` · `"managementError5"` [default — any status no arm above covers] `ManagementError` · `"undeclared"` [a `default`-matched body that did not fit `ManagementError`] `rawBody: ArrayBuffer`
 
 | Type | Schema value | Source |
 | --- | --- | --- |
@@ -26,13 +28,15 @@ Accessor: `client.sensorInsightsHealthScore` · Source: `src/resources/sensor-in
 
 ### sensorInsightsHealthScoreSummary
 
+- **Server**: `thingspace` — not the `hyperPreciseCredentials` group; see Servers & auth in sdk-map.md
 - **Signature**: `sensorInsightsHealthScoreSummary(options?: RequestOptions): ApiPromise<DtoHealthScoreSummary, SensorInsightsHealthScore.SensorInsightsHealthScoreSummaryError>`
 - **Wire**: `POST /dm/v1/healthscore/summary`
 - **Auth**: all of `thingspaceOauth`, `vzM2MToken` — both are sent
 - **Request body**: none — no `Content-Type` header is sent
+- **SDK-sent**: `header Idempotency-Key` (minted per call)
 - **Returns**: `DtoHealthScoreSummary`
-- **Error**: `SensorInsightsHealthScore.SensorInsightsHealthScoreSummaryError` — **typed arms**, narrowed on `err.payload.kind`
-- **Error arms**: `"managementError400"` [400] `ManagementError400` · `"managementError"` [401] `ManagementError` · `"managementError403"` [403] `ManagementError403` · `"managementError2"` [406] `ManagementError` · `"managementError3"` [415] `ManagementError` · `"managementError4"` [429] `ManagementError` · `"managementError500"` [500] `ManagementError500` · `"managementError5"` [400–599] `ManagementError` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
+- **Error**: `VerizonError` with `kind: "api"`, an instance of `SensorInsightsHealthScore.SensorInsightsHealthScoreSummaryError` — **typed arms**, narrowed on `err.payload.kind`
+- **Error arms**: `"managementError400"` [400] `ManagementError400` · `"managementError"` [401] `ManagementError` · `"managementError403"` [403] `ManagementError403` · `"managementError2"` [406] `ManagementError` · `"managementError3"` [415] `ManagementError` · `"managementError4"` [429] `ManagementError` · `"managementError500"` [500] `ManagementError500` · `"managementError5"` [default — any status no arm above covers] `ManagementError` · `"undeclared"` [a `default`-matched body that did not fit `ManagementError`] `rawBody: ArrayBuffer`
 
 | Type | Schema value | Source |
 | --- | --- | --- |

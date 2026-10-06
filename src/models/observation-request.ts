@@ -7,11 +7,20 @@ import {
   type ObservationRequestAttribute,
 } from "./observation-request-attribute.js";
 
+/**
+ * Used to define callbacks including the device identity, the attribute names, corresponding
+ * attribute values and the date/timestamp of when the observation was made.
+ */
 export type ObservationRequest = {
+  /** Account identifier in "##########-#####". */
   accountName: string;
+  /** List of devices. */
   devices: Device[];
+  /** Attributes are streaming RF parameters that you want to observe. */
   attributes: ObservationRequestAttribute[];
+  /** Describes value and unit of time. */
   frequency?: NumericalData;
+  /** Describes value and unit of time. */
   duration?: NumericalData;
 };
 

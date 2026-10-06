@@ -4,17 +4,19 @@
 
 Accessor: `client.sensorInsightsSmartAlerts` · Source: `src/resources/sensor-insights-smart-alerts.ts` · 3 operations · Request and error types: namespace `SensorInsightsSmartAlerts`
 
-**Type sources**: every type an operation names, with the file that declares it and the schema value exported beside it. Import every name from `verizon`; the `Source` path is where to **read** the shape, never what to import. `ResponseError` and the runtime error family are excluded — see sdk-map.md.
+**Type sources**: every type an operation names, with the file that declares it and the schema value exported beside it. Import every name from `verizon`; the `Source` path is where to **read** the shape, never what to import. `ApiError`, the runtime error family and the file vocabulary are excluded — see sdk-map.md.
 
 ### sensorInsightsBulkUpdate
 
+- **Server**: `thingspace` — not the `hyperPreciseCredentials` group; see Servers & auth in sdk-map.md
 - **Signature**: `sensorInsightsBulkUpdate(request: SensorInsightsSmartAlerts.SensorInsightsBulkUpdateRequest, options?: RequestOptions): ApiPromise<UserSmartAlert, SensorInsightsSmartAlerts.SensorInsightsBulkUpdateError>`
 - **Wire**: `POST /dm/v1/smartAlerts/actions/bulkupdate`
 - **Auth**: all of `thingspaceOauth`, `vzM2MToken` — both are sent
 - **Request body**: `application/json` — the `body` field
+- **SDK-sent**: `header Idempotency-Key` (minted per call)
 - **Returns**: `UserSmartAlert`
-- **Error**: `SensorInsightsSmartAlerts.SensorInsightsBulkUpdateError` — **typed arms**, narrowed on `err.payload.kind`
-- **Error arms**: `"managementError400"` [400] `ManagementError400` · `"managementError"` [401] `ManagementError` · `"managementError403"` [403] `ManagementError403` · `"managementError404"` [404] `ManagementError404` · `"managementError2"` [406] `ManagementError` · `"managementError3"` [415] `ManagementError` · `"managementError4"` [429] `ManagementError` · `"managementError500"` [500] `ManagementError500` · `"managementError5"` [400–599] `ManagementError` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
+- **Error**: `VerizonError` with `kind: "api"`, an instance of `SensorInsightsSmartAlerts.SensorInsightsBulkUpdateError` — **typed arms**, narrowed on `err.payload.kind`
+- **Error arms**: `"managementError400"` [400] `ManagementError400` · `"managementError"` [401] `ManagementError` · `"managementError403"` [403] `ManagementError403` · `"managementError404"` [404] `ManagementError404` · `"managementError2"` [406] `ManagementError` · `"managementError3"` [415] `ManagementError` · `"managementError4"` [429] `ManagementError` · `"managementError500"` [500] `ManagementError500` · `"managementError5"` [default — any status no arm above covers] `ManagementError` · `"undeclared"` [a `default`-matched body that did not fit `ManagementError`] `rawBody: ArrayBuffer`
 
 **Fields** — `SensorInsightsSmartAlerts.SensorInsightsBulkUpdateRequest` (1):
 
@@ -34,13 +36,15 @@ Accessor: `client.sensorInsightsSmartAlerts` · Source: `src/resources/sensor-in
 
 ### sensorInsightsListSmartAlertsRequest
 
+- **Server**: `thingspace` — not the `hyperPreciseCredentials` group; see Servers & auth in sdk-map.md
 - **Signature**: `sensorInsightsListSmartAlertsRequest(request: SensorInsightsSmartAlerts.SensorInsightsListSmartAlertsRequestRequest, options?: RequestOptions): ApiPromise<UserSmartAlert[], SensorInsightsSmartAlerts.SensorInsightsListSmartAlertsRequestError>`
 - **Wire**: `POST /dm/v1/smartAlerts/actions/query`
 - **Auth**: all of `thingspaceOauth`, `vzM2MToken` — both are sent
 - **Request body**: `application/json` — the `body` field
+- **SDK-sent**: `header Idempotency-Key` (minted per call)
 - **Returns**: `UserSmartAlert[]` — a bare `application/json` array; the success type *is* the array, not a wrapper model
-- **Error**: `SensorInsightsSmartAlerts.SensorInsightsListSmartAlertsRequestError` — **typed arms**, narrowed on `err.payload.kind`
-- **Error arms**: `"managementError400"` [400] `ManagementError400` · `"managementError"` [401] `ManagementError` · `"managementError403"` [403] `ManagementError403` · `"managementError404"` [404] `ManagementError404` · `"managementError2"` [406] `ManagementError` · `"managementError3"` [415] `ManagementError` · `"managementError4"` [429] `ManagementError` · `"managementError500"` [500] `ManagementError500` · `"managementError5"` [400–599] `ManagementError` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
+- **Error**: `VerizonError` with `kind: "api"`, an instance of `SensorInsightsSmartAlerts.SensorInsightsListSmartAlertsRequestError` — **typed arms**, narrowed on `err.payload.kind`
+- **Error arms**: `"managementError400"` [400] `ManagementError400` · `"managementError"` [401] `ManagementError` · `"managementError403"` [403] `ManagementError403` · `"managementError404"` [404] `ManagementError404` · `"managementError2"` [406] `ManagementError` · `"managementError3"` [415] `ManagementError` · `"managementError4"` [429] `ManagementError` · `"managementError500"` [500] `ManagementError500` · `"managementError5"` [default — any status no arm above covers] `ManagementError` · `"undeclared"` [a `default`-matched body that did not fit `ManagementError`] `rawBody: ArrayBuffer`
 
 **Fields** — `SensorInsightsSmartAlerts.SensorInsightsListSmartAlertsRequestRequest` (1):
 
@@ -60,13 +64,15 @@ Accessor: `client.sensorInsightsSmartAlerts` · Source: `src/resources/sensor-in
 
 ### sensorInsightsPatchSmartAlertRequest
 
+- **Server**: `thingspace` — not the `hyperPreciseCredentials` group; see Servers & auth in sdk-map.md
 - **Signature**: `sensorInsightsPatchSmartAlertRequest(request: SensorInsightsSmartAlerts.SensorInsightsPatchSmartAlertRequestRequest, options?: RequestOptions): ApiPromise<UserSmartAlert, SensorInsightsSmartAlerts.SensorInsightsPatchSmartAlertRequestError>`
 - **Wire**: `PATCH /dm/v1/smartAlerts`
 - **Auth**: all of `thingspaceOauth`, `vzM2MToken` — both are sent
 - **Request body**: `application/json` — the `body` field
+- **SDK-sent**: `header Idempotency-Key` (minted per call)
 - **Returns**: `UserSmartAlert`
-- **Error**: `SensorInsightsSmartAlerts.SensorInsightsPatchSmartAlertRequestError` — **typed arms**, narrowed on `err.payload.kind`
-- **Error arms**: `"managementError400"` [400] `ManagementError400` · `"managementError"` [401] `ManagementError` · `"managementError403"` [403] `ManagementError403` · `"managementError404"` [404] `ManagementError404` · `"managementError2"` [406] `ManagementError` · `"managementError3"` [415] `ManagementError` · `"managementError4"` [429] `ManagementError` · `"managementError500"` [500] `ManagementError500` · `"managementError5"` [400–599] `ManagementError` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
+- **Error**: `VerizonError` with `kind: "api"`, an instance of `SensorInsightsSmartAlerts.SensorInsightsPatchSmartAlertRequestError` — **typed arms**, narrowed on `err.payload.kind`
+- **Error arms**: `"managementError400"` [400] `ManagementError400` · `"managementError"` [401] `ManagementError` · `"managementError403"` [403] `ManagementError403` · `"managementError404"` [404] `ManagementError404` · `"managementError2"` [406] `ManagementError` · `"managementError3"` [415] `ManagementError` · `"managementError4"` [429] `ManagementError` · `"managementError500"` [500] `ManagementError500` · `"managementError5"` [default — any status no arm above covers] `ManagementError` · `"undeclared"` [a `default`-matched body that did not fit `ManagementError`] `rawBody: ArrayBuffer`
 
 **Fields** — `SensorInsightsSmartAlerts.SensorInsightsPatchSmartAlertRequestRequest` (1):
 

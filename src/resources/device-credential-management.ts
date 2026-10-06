@@ -1,9 +1,11 @@
 import type { AuthSchemes } from "../auth-schemes.js";
+import { ApiError, type Declared, type ErrorDecoders, type ErrorPayload } from "../core/api-error.js";
 import type { ApiPromise } from "../core/api-promise.js";
 import type { RequestOptions } from "../core/api-request.js";
 import { allAuth } from "../core/auth/schemes.js";
 import type { RawClient } from "../core/raw-client.js";
-import { ResponseError, type Declared, type ErrorDecoders } from "../core/response-error.js";
+import { uuid } from "../core/uuid.js";
+import * as s from "../core/validation/index.js";
 import { credentialsRequestSchema, type CredentialsRequest } from "../models/credentials-request.js";
 import { dropResponseSchema, type DropResponse } from "../models/drop-response.js";
 import { errorResponseSchema, type ErrorResponse } from "../models/error-response.js";
@@ -11,6 +13,9 @@ import { generateResponseSchema, type GenerateResponse } from "../models/generat
 import { retrieveResponseSchema, type RetrieveResponse } from "../models/retrieve-response.js";
 import type { Servers } from "../servers.js";
 
+/**
+ * API endpoints for managing HPL device credentials
+ */
 export class DeviceCredentialManagement {
   readonly #rawClient: RawClient;
   readonly #servers: Servers;
@@ -22,6 +27,18 @@ export class DeviceCredentialManagement {
     this.#auth = auth;
   }
 
+  /**
+   * Drop Credentials
+   *
+   * @returns Credentials dropped successfully
+   *
+   * @throws {@link DeviceCredentialManagement.DropCredentialsError} when the API answers with an
+   * error status — narrow on `err.payload.kind`
+   *
+   * @throws {@link VerizonError} when no usable response was produced: a connection failure, a
+   * timeout, a body that would not decode, a value that would not encode, or a credential that
+   * could not be obtained
+   */
   dropCredentials(
     request: DeviceCredentialManagement.DropCredentialsRequest,
     options?: RequestOptions,
@@ -29,8 +46,11 @@ export class DeviceCredentialManagement {
     return this.#rawClient.execute(
       {
         method: "POST",
-        url: this.#servers.hyperPreciseCredentials("/credentials/drop"),
+        urlTemplate: this.#servers.hyperPreciseCredentials("/credentials/drop"),
         auth: allAuth(this.#auth.thingspaceOauth, this.#auth.vzM2MToken),
+        pathParams: [],
+        query: [],
+        headers: [{ name: "Idempotency-Key", value: uuid(), schema: s.string() }],
         body: { kind: "json", value: request.body, schema: credentialsRequestSchema },
       },
       {
@@ -41,6 +61,18 @@ export class DeviceCredentialManagement {
     );
   }
 
+  /**
+   * Generate Credentials
+   *
+   * @returns Credentials generated successfully
+   *
+   * @throws {@link DeviceCredentialManagement.GenerateCredentialsError} when the API answers with
+   * an error status — narrow on `err.payload.kind`
+   *
+   * @throws {@link VerizonError} when no usable response was produced: a connection failure, a
+   * timeout, a body that would not decode, a value that would not encode, or a credential that
+   * could not be obtained
+   */
   generateCredentials(
     request: DeviceCredentialManagement.GenerateCredentialsRequest,
     options?: RequestOptions,
@@ -48,8 +80,11 @@ export class DeviceCredentialManagement {
     return this.#rawClient.execute(
       {
         method: "POST",
-        url: this.#servers.hyperPreciseCredentials("/credentials/generate"),
+        urlTemplate: this.#servers.hyperPreciseCredentials("/credentials/generate"),
         auth: allAuth(this.#auth.thingspaceOauth, this.#auth.vzM2MToken),
+        pathParams: [],
+        query: [],
+        headers: [{ name: "Idempotency-Key", value: uuid(), schema: s.string() }],
         body: { kind: "json", value: request.body, schema: credentialsRequestSchema },
       },
       {
@@ -60,6 +95,18 @@ export class DeviceCredentialManagement {
     );
   }
 
+  /**
+   * Reset Credentials
+   *
+   * @returns Credentials reset successfully
+   *
+   * @throws {@link DeviceCredentialManagement.ResetCredentialsError} when the API answers with an
+   * error status — narrow on `err.payload.kind`
+   *
+   * @throws {@link VerizonError} when no usable response was produced: a connection failure, a
+   * timeout, a body that would not decode, a value that would not encode, or a credential that
+   * could not be obtained
+   */
   resetCredentials(
     request: DeviceCredentialManagement.ResetCredentialsRequest,
     options?: RequestOptions,
@@ -67,8 +114,11 @@ export class DeviceCredentialManagement {
     return this.#rawClient.execute(
       {
         method: "POST",
-        url: this.#servers.hyperPreciseCredentials("/credentials/reset"),
+        urlTemplate: this.#servers.hyperPreciseCredentials("/credentials/reset"),
         auth: allAuth(this.#auth.thingspaceOauth, this.#auth.vzM2MToken),
+        pathParams: [],
+        query: [],
+        headers: [{ name: "Idempotency-Key", value: uuid(), schema: s.string() }],
         body: { kind: "json", value: request.body, schema: credentialsRequestSchema },
       },
       {
@@ -79,6 +129,18 @@ export class DeviceCredentialManagement {
     );
   }
 
+  /**
+   * Retrieve Credentials
+   *
+   * @returns Successful retrieval
+   *
+   * @throws {@link DeviceCredentialManagement.RetrieveCredentialsError} when the API answers with
+   * an error status — narrow on `err.payload.kind`
+   *
+   * @throws {@link VerizonError} when no usable response was produced: a connection failure, a
+   * timeout, a body that would not decode, a value that would not encode, or a credential that
+   * could not be obtained
+   */
   retrieveCredentials(
     request: DeviceCredentialManagement.RetrieveCredentialsRequest,
     options?: RequestOptions,
@@ -86,8 +148,11 @@ export class DeviceCredentialManagement {
     return this.#rawClient.execute(
       {
         method: "POST",
-        url: this.#servers.hyperPreciseCredentials("/credentials/retrieve"),
+        urlTemplate: this.#servers.hyperPreciseCredentials("/credentials/retrieve"),
         auth: allAuth(this.#auth.thingspaceOauth, this.#auth.vzM2MToken),
+        pathParams: [],
+        query: [],
+        headers: [{ name: "Idempotency-Key", value: uuid(), schema: s.string() }],
         body: { kind: "json", value: request.body, schema: credentialsRequestSchema },
       },
       {
@@ -104,7 +169,9 @@ export namespace DeviceCredentialManagement {
     body: CredentialsRequest;
   };
 
-  export class DropCredentialsError extends ResponseError<Declared<"errorResponse", ErrorResponse>> {
+  export class DropCredentialsError extends ApiError {
+    declare readonly payload: ErrorPayload<Declared<"errorResponse", ErrorResponse>>;
+
     static readonly errors: ErrorDecoders<DropCredentialsError> = [
       { on: 400, kind: "errorResponse", decode: { kind: "json", schema: errorResponseSchema } },
     ];
@@ -114,7 +181,9 @@ export namespace DeviceCredentialManagement {
     body: CredentialsRequest;
   };
 
-  export class GenerateCredentialsError extends ResponseError<Declared<"errorResponse", ErrorResponse>> {
+  export class GenerateCredentialsError extends ApiError {
+    declare readonly payload: ErrorPayload<Declared<"errorResponse", ErrorResponse>>;
+
     static readonly errors: ErrorDecoders<GenerateCredentialsError> = [
       { on: 400, kind: "errorResponse", decode: { kind: "json", schema: errorResponseSchema } },
     ];
@@ -124,7 +193,9 @@ export namespace DeviceCredentialManagement {
     body: CredentialsRequest;
   };
 
-  export class ResetCredentialsError extends ResponseError<Declared<"errorResponse", ErrorResponse>> {
+  export class ResetCredentialsError extends ApiError {
+    declare readonly payload: ErrorPayload<Declared<"errorResponse", ErrorResponse>>;
+
     static readonly errors: ErrorDecoders<ResetCredentialsError> = [
       { on: 400, kind: "errorResponse", decode: { kind: "json", schema: errorResponseSchema } },
     ];
@@ -134,9 +205,11 @@ export namespace DeviceCredentialManagement {
     body: CredentialsRequest;
   };
 
-  export class RetrieveCredentialsError extends ResponseError<
-    Declared<"errorResponse", ErrorResponse> | Declared<"error401", undefined>
-  > {
+  export class RetrieveCredentialsError extends ApiError {
+    declare readonly payload: ErrorPayload<
+      Declared<"errorResponse", ErrorResponse> | Declared<"error401", undefined>
+    >;
+
     static readonly errors: ErrorDecoders<RetrieveCredentialsError> = [
       { on: 400, kind: "errorResponse", decode: { kind: "json", schema: errorResponseSchema } },
       { on: 401, kind: "error401", decode: { kind: "empty" } },

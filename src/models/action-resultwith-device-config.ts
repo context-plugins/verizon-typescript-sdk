@@ -6,17 +6,27 @@ import {
 } from "./dto-device-action-set-configuration.js";
 
 export type ActionResultwithDeviceConfig = {
+  /** Timestamp of the record */
   createdon?: Date;
   description?: string;
+  /** This is a UUID value of the device created when the device is onboarded */
   deviceid?: string;
+  /** Error message */
   errmsg?: string;
   fields?: DtoDeviceActionSetConfiguration;
+  /** UUID of the ECPD account the user belongs to */
   foreignid?: string;
+  /** UUID of the user record, assigned at creation */
   id?: string;
+  /** Timestamp of the record */
   lastupdated?: Date;
+  /** The current status of the device or transaction and will be `success` or `failed` */
   state?: string;
+  /** The system-generated UUID of the transaction */
   transactionid?: string;
+  /** The resource version */
   version?: string;
+  /** The UUID of the resource version */
   versionid?: string;
 };
 

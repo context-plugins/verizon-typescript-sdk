@@ -6,6 +6,7 @@ import {
 } from "./search-device-by-property-fields.js";
 
 export type Fields1 = {
+  /** List of device sensors and their most recently reported values. */
   item?: SearchDeviceByPropertyFields;
 };
 

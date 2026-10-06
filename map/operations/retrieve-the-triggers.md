@@ -4,17 +4,18 @@
 
 Accessor: `client.retrieveTheTriggers` · Source: `src/resources/retrieve-the-triggers.ts` · 4 operations · Request and error types: namespace `RetrieveTheTriggers`
 
-**Type sources**: every type an operation names, with the file that declares it and the schema value exported beside it. Import every name from `verizon`; the `Source` path is where to **read** the shape, never what to import. `ResponseError` and the runtime error family are excluded — see sdk-map.md.
+**Type sources**: every type an operation names, with the file that declares it and the schema value exported beside it. Import every name from `verizon`; the `Source` path is where to **read** the shape, never what to import. `ApiError`, the runtime error family and the file vocabulary are excluded — see sdk-map.md.
 
 ### getAllAvailableTriggers
 
+- **Server**: `thingspace` — not the `hyperPreciseCredentials` group; see Servers & auth in sdk-map.md
 - **Signature**: `getAllAvailableTriggers(options?: RequestOptions): ApiPromise<TriggerValueResponse, RetrieveTheTriggers.GetAllAvailableTriggersError>`
 - **Wire**: `GET /m2m/v2/triggers`
 - **Auth**: all of `thingspaceOauth`, `vzM2MToken` — both are sent
 - **Request body**: none — no `Content-Type` header is sent
 - **Returns**: `TriggerValueResponse`
-- **Error**: `RetrieveTheTriggers.GetAllAvailableTriggersError` — **typed arms**, narrowed on `err.payload.kind`
-- **Error arms**: `"readySimRestErrorResponse"` [400–599] `ReadySimRestErrorResponse` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
+- **Error**: `VerizonError` with `kind: "api"`, an instance of `RetrieveTheTriggers.GetAllAvailableTriggersError` — **typed arms**, narrowed on `err.payload.kind`
+- **Error arms**: `"readySimRestErrorResponse"` [default — any status no arm above covers] `ReadySimRestErrorResponse` · `"undeclared"` [a `default`-matched body that did not fit `ReadySimRestErrorResponse`] `rawBody: ArrayBuffer`
 
 | Type | Schema value | Source |
 | --- | --- | --- |
@@ -23,13 +24,14 @@ Accessor: `client.retrieveTheTriggers` · Source: `src/resources/retrieve-the-tr
 
 ### getAllTriggersByAccountName
 
+- **Server**: `thingspace` — not the `hyperPreciseCredentials` group; see Servers & auth in sdk-map.md
 - **Signature**: `getAllTriggersByAccountName(request: RetrieveTheTriggers.GetAllTriggersByAccountNameRequest, options?: RequestOptions): ApiPromise<TriggerValueResponse, RetrieveTheTriggers.GetAllTriggersByAccountNameError>`
 - **Wire**: `GET /m2m/v2/triggers/accounts/{accountName}`
 - **Auth**: all of `thingspaceOauth`, `vzM2MToken` — both are sent
 - **Request body**: none — no `Content-Type` header is sent
 - **Returns**: `TriggerValueResponse`
-- **Error**: `RetrieveTheTriggers.GetAllTriggersByAccountNameError` — **typed arms**, narrowed on `err.payload.kind`
-- **Error arms**: `"readySimRestErrorResponse"` [400–599] `ReadySimRestErrorResponse` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
+- **Error**: `VerizonError` with `kind: "api"`, an instance of `RetrieveTheTriggers.GetAllTriggersByAccountNameError` — **typed arms**, narrowed on `err.payload.kind`
+- **Error arms**: `"readySimRestErrorResponse"` [default — any status no arm above covers] `ReadySimRestErrorResponse` · `"undeclared"` [a `default`-matched body that did not fit `ReadySimRestErrorResponse`] `rawBody: ArrayBuffer`
 
 **Fields** — `RetrieveTheTriggers.GetAllTriggersByAccountNameRequest` (1):
 
@@ -44,13 +46,14 @@ Accessor: `client.retrieveTheTriggers` · Source: `src/resources/retrieve-the-tr
 
 ### getAllTriggersByTriggerCategory
 
+- **Server**: `thingspace` — not the `hyperPreciseCredentials` group; see Servers & auth in sdk-map.md
 - **Signature**: `getAllTriggersByTriggerCategory(options?: RequestOptions): ApiPromise<TriggerValueResponse2, RetrieveTheTriggers.GetAllTriggersByTriggerCategoryError>`
 - **Wire**: `GET /m2m/v2/triggers/categories/PromoAlerts`
 - **Auth**: all of `thingspaceOauth`, `vzM2MToken` — both are sent
 - **Request body**: none — no `Content-Type` header is sent
 - **Returns**: `TriggerValueResponse2`
-- **Error**: `RetrieveTheTriggers.GetAllTriggersByTriggerCategoryError` — **typed arms**, narrowed on `err.payload.kind`
-- **Error arms**: `"readySimRestErrorResponse"` [400–599] `ReadySimRestErrorResponse` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
+- **Error**: `VerizonError` with `kind: "api"`, an instance of `RetrieveTheTriggers.GetAllTriggersByTriggerCategoryError` — **typed arms**, narrowed on `err.payload.kind`
+- **Error arms**: `"readySimRestErrorResponse"` [default — any status no arm above covers] `ReadySimRestErrorResponse` · `"undeclared"` [a `default`-matched body that did not fit `ReadySimRestErrorResponse`] `rawBody: ArrayBuffer`
 
 | Type | Schema value | Source |
 | --- | --- | --- |
@@ -59,13 +62,14 @@ Accessor: `client.retrieveTheTriggers` · Source: `src/resources/retrieve-the-tr
 
 ### getTriggersById
 
+- **Server**: `thingspace` — not the `hyperPreciseCredentials` group; see Servers & auth in sdk-map.md
 - **Signature**: `getTriggersById(request: RetrieveTheTriggers.GetTriggersByIdRequest, options?: RequestOptions): ApiPromise<TriggerValueResponse2, RetrieveTheTriggers.GetTriggersByIdError>`
 - **Wire**: `GET /m2m/v2/triggers/{triggerId}`
 - **Auth**: all of `thingspaceOauth`, `vzM2MToken` — both are sent
 - **Request body**: none — no `Content-Type` header is sent
 - **Returns**: `TriggerValueResponse2`
-- **Error**: `RetrieveTheTriggers.GetTriggersByIdError` — **typed arms**, narrowed on `err.payload.kind`
-- **Error arms**: `"readySimRestErrorResponse"` [400–599] `ReadySimRestErrorResponse` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
+- **Error**: `VerizonError` with `kind: "api"`, an instance of `RetrieveTheTriggers.GetTriggersByIdError` — **typed arms**, narrowed on `err.payload.kind`
+- **Error arms**: `"readySimRestErrorResponse"` [default — any status no arm above covers] `ReadySimRestErrorResponse` · `"undeclared"` [a `default`-matched body that did not fit `ReadySimRestErrorResponse`] `rawBody: ArrayBuffer`
 
 **Fields** — `RetrieveTheTriggers.GetTriggersByIdRequest` (1):
 

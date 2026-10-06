@@ -4,7 +4,7 @@
 
 Accessor: `client.firmwareV3` · Source: `src/resources/firmware-v3.ts` · 3 operations · Request and error types: namespace `FirmwareV3`
 
-**Type sources**: every type an operation names, with the file that declares it and the schema value exported beside it. Import every name from `verizon`; the `Source` path is where to **read** the shape, never what to import. `ResponseError` and the runtime error family are excluded — see sdk-map.md.
+**Type sources**: every type an operation names, with the file that declares it and the schema value exported beside it. Import every name from `verizon`; the `Source` path is where to **read** the shape, never what to import. `ApiError`, the runtime error family and the file vocabulary are excluded — see sdk-map.md.
 
 ### listAvailableFirmware2
 
@@ -14,7 +14,7 @@ Accessor: `client.firmwareV3` · Source: `src/resources/firmware-v3.ts` · 3 ope
 - **Auth**: all of `thingspaceOauth`, `vzM2MToken` — both are sent
 - **Request body**: none — no `Content-Type` header is sent
 - **Returns**: `FirmwarePackage[]` — a bare `application/json` array; the success type *is* the array, not a wrapper model
-- **Error**: `FirmwareV3.ListAvailableFirmware2Error` — **typed arms**, narrowed on `err.payload.kind`
+- **Error**: `VerizonError` with `kind: "api"`, an instance of `FirmwareV3.ListAvailableFirmware2Error` — **typed arms**, narrowed on `err.payload.kind`
 - **Error arms**: `"fotaV3Result"` [400] `FotaV3Result` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
 
 **Fields** — `FirmwareV3.ListAvailableFirmware2Request` (2):
@@ -37,8 +37,9 @@ Accessor: `client.firmwareV3` · Source: `src/resources/firmware-v3.ts` · 3 ope
 - **Wire**: `PUT /firmware/{acc}/async/{deviceId}`
 - **Auth**: all of `thingspaceOauth`, `vzM2MToken` — both are sent
 - **Request body**: none — no `Content-Type` header is sent
+- **SDK-sent**: `header Idempotency-Key` (minted per call)
 - **Returns**: `DeviceFirmwareVersionUpdateResult`
-- **Error**: `FirmwareV3.ReportDeviceFirmwareError` — **typed arms**, narrowed on `err.payload.kind`
+- **Error**: `VerizonError` with `kind: "api"`, an instance of `FirmwareV3.ReportDeviceFirmwareError` — **typed arms**, narrowed on `err.payload.kind`
 - **Error arms**: `"fotaV3Result"` [400] `FotaV3Result` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
 
 **Fields** — `FirmwareV3.ReportDeviceFirmwareRequest` (2):
@@ -60,8 +61,9 @@ Accessor: `client.firmwareV3` · Source: `src/resources/firmware-v3.ts` · 3 ope
 - **Wire**: `PUT /firmware/{acc}/devices`
 - **Auth**: all of `thingspaceOauth`, `vzM2MToken` — both are sent
 - **Request body**: `application/json` — the `body` field
+- **SDK-sent**: `header Idempotency-Key` (minted per call)
 - **Returns**: `DeviceFirmwareList`
-- **Error**: `FirmwareV3.SynchronizeDeviceFirmwareError` — **typed arms**, narrowed on `err.payload.kind`
+- **Error**: `VerizonError` with `kind: "api"`, an instance of `FirmwareV3.SynchronizeDeviceFirmwareError` — **typed arms**, narrowed on `err.payload.kind`
 - **Error arms**: `"fotaV3Result"` [400] `FotaV3Result` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
 
 **Fields** — `FirmwareV3.SynchronizeDeviceFirmwareRequest` (2):

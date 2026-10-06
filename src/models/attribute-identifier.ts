@@ -1,6 +1,7 @@
 import * as s from "../core/validation/index.js";
 import type { EnumSchema } from "../core/validation/schema.js";
 
+/** Attribute identifier. */
 export const AttributeIdentifier = {
   NetworkBearer: "NETWORK_BEARER",
   RadioSignalStrength: "RADIO_SIGNAL_STRENGTH",

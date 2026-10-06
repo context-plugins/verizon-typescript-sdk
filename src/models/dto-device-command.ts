@@ -4,6 +4,7 @@ import { dtoResourceidentifierSchema, type DtoResourceidentifier } from "./dto-r
 import { rbstiltconfigSchema, type Rbstiltconfig } from "./rbstiltconfig.js";
 
 export type DtoDeviceCommand = {
+  /** The numeric account name, which must include leading zeros */
   accountName?: string;
   configuration?: Rbstiltconfig;
   resourceidentifier?: DtoResourceidentifier;

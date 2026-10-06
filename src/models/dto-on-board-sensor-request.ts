@@ -3,6 +3,7 @@ import type { Schema } from "../core/validation/schema.js";
 import { payloadSchema, type Payload } from "./payload.js";
 
 export type DtoOnBoardSensorRequest = {
+  /** The numeric account name, which must include leading zeros */
   accountname?: string;
   payload?: Payload;
 };

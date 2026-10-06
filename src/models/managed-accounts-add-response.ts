@@ -3,6 +3,7 @@ import type { Schema } from "../core/validation/schema.js";
 import { statusListSchema, type StatusList } from "./status-list.js";
 
 export type ManagedAccountsAddResponse = {
+  /** Transaction identifier */
   txId?: string;
   statusList?: StatusList[];
 };

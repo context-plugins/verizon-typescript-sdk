@@ -1,6 +1,7 @@
 import * as s from "../core/validation/index.js";
 import type { Schema } from "../core/validation/schema.js";
 
+/** List of the field names and values to set. */
 export type Configuration = {
   frequency?: string;
 };

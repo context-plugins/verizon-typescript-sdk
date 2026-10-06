@@ -1,6 +1,7 @@
 import * as s from "../core/validation/index.js";
 import type { EnumSchema } from "../core/validation/schema.js";
 
+/** Type of the GeoJSON geometry, must be 'Polygon'. */
 export const EtxMapMessageGeofenceGeometry = {
   Polygon: "Polygon",
 } as const;

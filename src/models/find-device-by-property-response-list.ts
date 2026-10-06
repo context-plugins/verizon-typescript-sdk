@@ -5,6 +5,10 @@ import {
   type FindDeviceByPropertyResponse,
 } from "./find-device-by-property-response.js";
 
+/**
+ * A success response includes an array of all matching devices. Each device includes the full
+ * device resource definition.
+ */
 export type FindDeviceByPropertyResponseList = {
   deviceProperty?: FindDeviceByPropertyResponse[];
 };

@@ -4,7 +4,7 @@
 
 Accessor: `client.softwareManagementLicensesV3` · Source: `src/resources/software-management-licenses-v3.ts` · 3 operations · Request and error types: namespace `SoftwareManagementLicensesV3`
 
-**Type sources**: every type an operation names, with the file that declares it and the schema value exported beside it. Import every name from `verizon`; the `Source` path is where to **read** the shape, never what to import. `ResponseError` and the runtime error family are excluded — see sdk-map.md.
+**Type sources**: every type an operation names, with the file that declares it and the schema value exported beside it. Import every name from `verizon`; the `Source` path is where to **read** the shape, never what to import. `ApiError`, the runtime error family and the file vocabulary are excluded — see sdk-map.md.
 
 ### assignLicensesToDevices3
 
@@ -13,8 +13,9 @@ Accessor: `client.softwareManagementLicensesV3` · Source: `src/resources/softwa
 - **Wire**: `POST /licenses/{acc}/assign`
 - **Auth**: all of `thingspaceOauth`, `vzM2MToken` — both are sent
 - **Request body**: `application/json` — the `body` field
+- **SDK-sent**: `header Idempotency-Key` (minted per call)
 - **Returns**: `V3LicenseAssignedRemovedResult`
-- **Error**: `SoftwareManagementLicensesV3.AssignLicensesToDevices3Error` — **typed arms**, narrowed on `err.payload.kind`
+- **Error**: `VerizonError` with `kind: "api"`, an instance of `SoftwareManagementLicensesV3.AssignLicensesToDevices3Error` — **typed arms**, narrowed on `err.payload.kind`
 - **Error arms**: `"fotaV3Result"` [400] `FotaV3Result` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
 
 **Fields** — `SoftwareManagementLicensesV3.AssignLicensesToDevices3Request` (2):
@@ -38,7 +39,7 @@ Accessor: `client.softwareManagementLicensesV3` · Source: `src/resources/softwa
 - **Auth**: all of `thingspaceOauth`, `vzM2MToken` — both are sent
 - **Request body**: none — no `Content-Type` header is sent
 - **Returns**: `V3LicenseSummary`
-- **Error**: `SoftwareManagementLicensesV3.GetAccountLicensesStatusError` — **typed arms**, narrowed on `err.payload.kind`
+- **Error**: `VerizonError` with `kind: "api"`, an instance of `SoftwareManagementLicensesV3.GetAccountLicensesStatusError` — **typed arms**, narrowed on `err.payload.kind`
 - **Error arms**: `"fotaV3Result"` [400] `FotaV3Result` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
 
 **Fields** — `SoftwareManagementLicensesV3.GetAccountLicensesStatusRequest` (2):
@@ -60,8 +61,9 @@ Accessor: `client.softwareManagementLicensesV3` · Source: `src/resources/softwa
 - **Wire**: `POST /licenses/{acc}/remove`
 - **Auth**: all of `thingspaceOauth`, `vzM2MToken` — both are sent
 - **Request body**: `application/json` — the `body` field
+- **SDK-sent**: `header Idempotency-Key` (minted per call)
 - **Returns**: `V3LicenseAssignedRemovedResult`
-- **Error**: `SoftwareManagementLicensesV3.RemoveLicensesFromDevices3Error` — **typed arms**, narrowed on `err.payload.kind`
+- **Error**: `VerizonError` with `kind: "api"`, an instance of `SoftwareManagementLicensesV3.RemoveLicensesFromDevices3Error` — **typed arms**, narrowed on `err.payload.kind`
 - **Error arms**: `"fotaV3Result"` [400] `FotaV3Result` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
 
 **Fields** — `SoftwareManagementLicensesV3.RemoveLicensesFromDevices3Request` (2):

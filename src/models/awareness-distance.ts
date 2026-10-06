@@ -1,6 +1,7 @@
 import * as s from "../core/validation/index.js";
 import type { EnumSchema } from "../core/validation/schema.js";
 
+/** Specifies how far the event is relevant to. */
 export const AwarenessDistance = {
   LessThan50M: "lessThan50m",
   LessThan100M: "lessThan100m",

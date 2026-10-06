@@ -1,6 +1,7 @@
 import * as s from "../core/validation/index.js";
 import type { EnumSchema } from "../core/validation/schema.js";
 
+/** The format of the payload in the response body. */
 export const EtxExpectedTypeEnum = {
   Base64: "BASE64",
   Json: "JSON",

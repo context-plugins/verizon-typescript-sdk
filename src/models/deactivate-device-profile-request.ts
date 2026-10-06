@@ -7,7 +7,9 @@ export type DeactivateDeviceProfileRequest = {
   reasonCode: string;
   devices?: DeactivateDeviceList[];
   carrierName?: string;
+  /** @default true */
   etfWaiver?: boolean;
+  /** @default false */
   checkFallbackProfile?: boolean;
 };
 
@@ -17,6 +19,6 @@ export const deactivateDeviceProfileRequestSchema: Schema<DeactivateDeviceProfil
     reasonCode: s.string(),
     devices: s.optional(s.array(s.lazy(() => deactivateDeviceListSchema))),
     carrierName: s.optional(s.string()),
-    etfWaiver: s.optional(s.boolean()),
-    checkFallbackProfile: s.optional(s.boolean()),
+    etfWaiver: s.defaulted(s.boolean(), true),
+    checkFallbackProfile: s.defaulted(s.boolean(), false),
   });

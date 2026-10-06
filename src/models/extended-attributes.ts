@@ -1,6 +1,7 @@
 import * as s from "../core/validation/index.js";
 import type { Schema } from "../core/validation/schema.js";
 
+/** Additional properties associated with data. */
 export type ExtendedAttributes = {
   key?: string;
   value?: string;

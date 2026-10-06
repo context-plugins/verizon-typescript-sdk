@@ -7,6 +7,7 @@ import {
 } from "./managed-acc-provisioned-list.js";
 
 export type ManagedAccountsGetAllResponse = {
+  /** Account Name */
   accountName?: string;
   managedAccAddedList?: ManagedAccAddedList[];
   managedAccProvisionedList?: ManagedAccProvisionedList[];

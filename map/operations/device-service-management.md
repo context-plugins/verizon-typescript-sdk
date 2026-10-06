@@ -4,7 +4,7 @@
 
 Accessor: `client.deviceServiceManagement` · Source: `src/resources/device-service-management.ts` · 2 operations · Request and error types: namespace `DeviceServiceManagement`
 
-**Type sources**: every type an operation names, with the file that declares it and the schema value exported beside it. Import every name from `verizon`; the `Source` path is where to **read** the shape, never what to import. `ResponseError` and the runtime error family are excluded — see sdk-map.md.
+**Type sources**: every type an operation names, with the file that declares it and the schema value exported beside it. Import every name from `verizon`; the `Source` path is where to **read** the shape, never what to import. `ApiError`, the runtime error family and the file vocabulary are excluded — see sdk-map.md.
 
 ### getDeviceHyperPreciseStatus
 
@@ -14,7 +14,7 @@ Accessor: `client.deviceServiceManagement` · Source: `src/resources/device-serv
 - **Auth**: all of `thingspaceOauth`, `vzM2MToken` — both are sent
 - **Request body**: none — no `Content-Type` header is sent
 - **Returns**: `BullseyeServiceResult`
-- **Error**: `DeviceServiceManagement.GetDeviceHyperPreciseStatusError` — **typed arms**, narrowed on `err.payload.kind`
+- **Error**: `VerizonError` with `kind: "api"`, an instance of `DeviceServiceManagement.GetDeviceHyperPreciseStatusError` — **typed arms**, narrowed on `err.payload.kind`
 - **Error arms**: `"hyperPreciseLocationResult"` [400] `HyperPreciseLocationResult` · `"hyperPreciseLocationResult2"` [401] `HyperPreciseLocationResult` · `"hyperPreciseLocationResult3"` [403] `HyperPreciseLocationResult` · `"hyperPreciseLocationResult4"` [404] `HyperPreciseLocationResult` · `"hyperPreciseLocationResult5"` [409] `HyperPreciseLocationResult` · `"hyperPreciseLocationResult6"` [500] `HyperPreciseLocationResult` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
 
 **Fields** — `DeviceServiceManagement.GetDeviceHyperPreciseStatusRequest` (2):
@@ -36,8 +36,9 @@ Accessor: `client.deviceServiceManagement` · Source: `src/resources/device-serv
 - **Wire**: `PUT /devices/services`
 - **Auth**: all of `thingspaceOauth`, `vzM2MToken` — both are sent
 - **Request body**: `application/json` — the `body` field
+- **SDK-sent**: `header Idempotency-Key` (minted per call)
 - **Returns**: `BullseyeServiceResult`
-- **Error**: `DeviceServiceManagement.UpdateDeviceHyperPreciseStatusError` — **typed arms**, narrowed on `err.payload.kind`
+- **Error**: `VerizonError` with `kind: "api"`, an instance of `DeviceServiceManagement.UpdateDeviceHyperPreciseStatusError` — **typed arms**, narrowed on `err.payload.kind`
 - **Error arms**: `"hyperPreciseLocationResult"` [400] `HyperPreciseLocationResult` · `"hyperPreciseLocationResult2"` [401] `HyperPreciseLocationResult` · `"hyperPreciseLocationResult3"` [403] `HyperPreciseLocationResult` · `"hyperPreciseLocationResult4"` [404] `HyperPreciseLocationResult` · `"hyperPreciseLocationResult5"` [409] `HyperPreciseLocationResult` · `"hyperPreciseLocationResult6"` [500] `HyperPreciseLocationResult` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
 
 **Fields** — `DeviceServiceManagement.UpdateDeviceHyperPreciseStatusRequest` (1):

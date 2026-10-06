@@ -4,7 +4,7 @@
 
 Accessor: `client.configurationFiles` · Source: `src/resources/configuration-files.ts` · 2 operations · Request and error types: namespace `ConfigurationFiles`
 
-**Type sources**: every type an operation names, with the file that declares it and the schema value exported beside it. Import every name from `verizon`; the `Source` path is where to **read** the shape, never what to import. `ResponseError` and the runtime error family are excluded — see sdk-map.md.
+**Type sources**: every type an operation names, with the file that declares it and the schema value exported beside it. Import every name from `verizon`; the `Source` path is where to **read** the shape, never what to import. `ApiError`, the runtime error family and the file vocabulary are excluded — see sdk-map.md.
 
 ### getListOfFiles
 
@@ -14,7 +14,7 @@ Accessor: `client.configurationFiles` · Source: `src/resources/configuration-fi
 - **Auth**: all of `thingspaceOauth`, `vzM2MToken` — both are sent
 - **Request body**: none — no `Content-Type` header is sent
 - **Returns**: `RetrievesAvailableFilesResponseList`
-- **Error**: `ConfigurationFiles.GetListOfFilesError` — **typed arms**, narrowed on `err.payload.kind`
+- **Error**: `VerizonError` with `kind: "api"`, an instance of `ConfigurationFiles.GetListOfFilesError` — **typed arms**, narrowed on `err.payload.kind`
 - **Error arms**: `"fotaV2Result"` [400] `FotaV2Result` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
 
 **Fields** — `ConfigurationFiles.GetListOfFilesRequest` (2):
@@ -35,16 +35,22 @@ Accessor: `client.configurationFiles` · Source: `src/resources/configuration-fi
 - **Signature**: `uploadConfigFile(request: ConfigurationFiles.UploadConfigFileRequest, options?: RequestOptions): ApiPromise<UploadConfigurationFilesResponse, ConfigurationFiles.UploadConfigFileError>`
 - **Wire**: `POST /files/{acc}`
 - **Auth**: all of `thingspaceOauth`, `vzM2MToken` — both are sent
-- **Request body**: none — no `Content-Type` header is sent
+- **Request body**: `multipart/form-data` — every field marked `form`. `fileupload` is a file part, framed as bytes rather than encoded. The platform writes the boundary, or the SDK does when a file part streams
+- **SDK-sent**: `header Idempotency-Key` (minted per call)
 - **Returns**: `UploadConfigurationFilesResponse`
-- **Error**: `ConfigurationFiles.UploadConfigFileError` — **typed arms**, narrowed on `err.payload.kind`
+- **Error**: `VerizonError` with `kind: "api"`, an instance of `ConfigurationFiles.UploadConfigFileError` — **typed arms**, narrowed on `err.payload.kind`
 - **Error arms**: `"fotaV2Result"` [400] `FotaV2Result` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
 
-**Fields** — `ConfigurationFiles.UploadConfigFileRequest` (1):
+**Fields** — `ConfigurationFiles.UploadConfigFileRequest` (6):
 
 | Field | Channel | Type | Req |
 | --- | --- | --- | --- |
 | `acc` | `path` | `string` | yes |
+| `fileupload` | `form` | `FileInput` | no |
+| `fileVersion` | `form` | `string` | no |
+| `make` | `form` | `string` | no |
+| `model` | `form` | `string` | no |
+| `localTargetPath` | `form` | `string` | no |
 
 | Type | Schema value | Source |
 | --- | --- | --- |

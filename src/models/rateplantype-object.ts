@@ -5,6 +5,7 @@ import { rateplantype2Schema, type Rateplantype2 } from "./rateplantype2.js";
 export type RateplantypeObject = {
   ratePlanGroupDescription?: string;
   ratePlanType?: string;
+  /** An array of rateplan names */
   ratePlan?: Rateplantype2[];
 };
 

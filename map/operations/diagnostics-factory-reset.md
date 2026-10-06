@@ -4,7 +4,7 @@
 
 Accessor: `client.diagnosticsFactoryReset` · Source: `src/resources/diagnostics-factory-reset.ts` · 1 operation · Request and error types: namespace `DiagnosticsFactoryReset`
 
-**Type sources**: every type an operation names, with the file that declares it and the schema value exported beside it. Import every name from `verizon`; the `Source` path is where to **read** the shape, never what to import. `ResponseError` and the runtime error family are excluded — see sdk-map.md.
+**Type sources**: every type an operation names, with the file that declares it and the schema value exported beside it. Import every name from `verizon`; the `Source` path is where to **read** the shape, never what to import. `ApiError`, the runtime error family and the file vocabulary are excluded — see sdk-map.md.
 
 ### decivesRestart
 
@@ -13,9 +13,10 @@ Accessor: `client.diagnosticsFactoryReset` · Source: `src/resources/diagnostics
 - **Wire**: `POST /devices/actions/restart`
 - **Auth**: all of `thingspaceOauth`, `vzM2MToken` — both are sent
 - **Request body**: `application/json` — the `body` field
+- **SDK-sent**: `header Idempotency-Key` (minted per call)
 - **Returns**: `DiagnosticsObservationResult`
-- **Error**: `DiagnosticsFactoryReset.DecivesRestartError` — **typed arms**, narrowed on `err.payload.kind`
-- **Error arms**: `"deviceDiagnosticsResult"` [400–599] `DeviceDiagnosticsResult` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
+- **Error**: `VerizonError` with `kind: "api"`, an instance of `DiagnosticsFactoryReset.DecivesRestartError` — **typed arms**, narrowed on `err.payload.kind`
+- **Error arms**: `"deviceDiagnosticsResult"` [default — any status no arm above covers] `DeviceDiagnosticsResult` · `"undeclared"` [a `default`-matched body that did not fit `DeviceDiagnosticsResult`] `rawBody: ArrayBuffer`
 
 **Fields** — `DiagnosticsFactoryReset.DecivesRestartRequest` (1):
 

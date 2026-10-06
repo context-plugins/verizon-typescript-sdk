@@ -4,7 +4,7 @@
 
 Accessor: `client.hyperPreciseLocationCallbacks` · Source: `src/resources/hyper-precise-location-callbacks.ts` · 3 operations · Request and error types: namespace `HyperPreciseLocationCallbacks`
 
-**Type sources**: every type an operation names, with the file that declares it and the schema value exported beside it. Import every name from `verizon`; the `Source` path is where to **read** the shape, never what to import. `ResponseError` and the runtime error family are excluded — see sdk-map.md.
+**Type sources**: every type an operation names, with the file that declares it and the schema value exported beside it. Import every name from `verizon`; the `Source` path is where to **read** the shape, never what to import. `ApiError`, the runtime error family and the file vocabulary are excluded — see sdk-map.md.
 
 ### deregisterCallback6
 
@@ -13,8 +13,9 @@ Accessor: `client.hyperPreciseLocationCallbacks` · Source: `src/resources/hyper
 - **Wire**: `DELETE /callbacks`
 - **Auth**: all of `thingspaceOauth`, `vzM2MToken` — both are sent
 - **Request body**: none — no `Content-Type` header is sent
+- **SDK-sent**: `header Idempotency-Key` (minted per call)
 - **Returns**: `undefined` — the operation resolves to nothing
-- **Error**: `HyperPreciseLocationCallbacks.DeregisterCallback6Error` — **typed arms**, narrowed on `err.payload.kind`
+- **Error**: `VerizonError` with `kind: "api"`, an instance of `HyperPreciseLocationCallbacks.DeregisterCallback6Error` — **typed arms**, narrowed on `err.payload.kind`
 - **Error arms**: `"hyperPreciseLocationResult"` [400] `HyperPreciseLocationResult` · `"hyperPreciseLocationResult2"` [401] `HyperPreciseLocationResult` · `"hyperPreciseLocationResult3"` [403] `HyperPreciseLocationResult` · `"hyperPreciseLocationResult4"` [404] `HyperPreciseLocationResult` · `"hyperPreciseLocationResult5"` [409] `HyperPreciseLocationResult` · `"hyperPreciseLocationResult6"` [500] `HyperPreciseLocationResult` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
 
 **Fields** — `HyperPreciseLocationCallbacks.DeregisterCallback6Request` (2):
@@ -36,7 +37,7 @@ Accessor: `client.hyperPreciseLocationCallbacks` · Source: `src/resources/hyper
 - **Auth**: all of `thingspaceOauth`, `vzM2MToken` — both are sent
 - **Request body**: none — no `Content-Type` header is sent
 - **Returns**: `CallbackCreated[]` — a bare `application/json` array; the success type *is* the array, not a wrapper model
-- **Error**: `HyperPreciseLocationCallbacks.ListRegisteredCallbacks6Error` — **typed arms**, narrowed on `err.payload.kind`
+- **Error**: `VerizonError` with `kind: "api"`, an instance of `HyperPreciseLocationCallbacks.ListRegisteredCallbacks6Error` — **typed arms**, narrowed on `err.payload.kind`
 - **Error arms**: `"hyperPreciseLocationResult"` [400] `HyperPreciseLocationResult` · `"hyperPreciseLocationResult2"` [401] `HyperPreciseLocationResult` · `"hyperPreciseLocationResult3"` [403] `HyperPreciseLocationResult` · `"hyperPreciseLocationResult4"` [404] `HyperPreciseLocationResult` · `"hyperPreciseLocationResult5"` [409] `HyperPreciseLocationResult` · `"hyperPreciseLocationResult6"` [500] `HyperPreciseLocationResult` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
 
 **Fields** — `HyperPreciseLocationCallbacks.ListRegisteredCallbacks6Request` (1):
@@ -57,8 +58,9 @@ Accessor: `client.hyperPreciseLocationCallbacks` · Source: `src/resources/hyper
 - **Wire**: `POST /callbacks`
 - **Auth**: all of `thingspaceOauth`, `vzM2MToken` — both are sent
 - **Request body**: `application/json` — the `body` field
+- **SDK-sent**: `header Idempotency-Key` (minted per call)
 - **Returns**: `CallbackRegistered`
-- **Error**: `HyperPreciseLocationCallbacks.RegisterCallback6Error` — **typed arms**, narrowed on `err.payload.kind`
+- **Error**: `VerizonError` with `kind: "api"`, an instance of `HyperPreciseLocationCallbacks.RegisterCallback6Error` — **typed arms**, narrowed on `err.payload.kind`
 - **Error arms**: `"hyperPreciseLocationResult"` [400] `HyperPreciseLocationResult` · `"hyperPreciseLocationResult2"` [401] `HyperPreciseLocationResult` · `"hyperPreciseLocationResult3"` [403] `HyperPreciseLocationResult` · `"hyperPreciseLocationResult4"` [404] `HyperPreciseLocationResult` · `"hyperPreciseLocationResult5"` [409] `HyperPreciseLocationResult` · `"hyperPreciseLocationResult6"` [500] `HyperPreciseLocationResult` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
 
 **Fields** — `HyperPreciseLocationCallbacks.RegisterCallback6Request` (2):

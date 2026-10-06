@@ -1,9 +1,10 @@
 import type { AuthSchemes } from "../auth-schemes.js";
+import { ApiError, type Declared, type ErrorDecoders, type ErrorPayload } from "../core/api-error.js";
 import type { ApiPromise } from "../core/api-promise.js";
 import type { RequestOptions } from "../core/api-request.js";
 import { allAuth } from "../core/auth/schemes.js";
 import type { RawClient } from "../core/raw-client.js";
-import { ResponseError, type Declared, type ErrorDecoders } from "../core/response-error.js";
+import { uuid } from "../core/uuid.js";
 import * as s from "../core/validation/index.js";
 import {
   readySimRestErrorResponseSchema,
@@ -13,6 +14,9 @@ import { requestTriggerSchema, type RequestTrigger } from "../models/request-tri
 import { successSchema, type Success } from "../models/success.js";
 import type { Servers } from "../servers.js";
 
+/**
+ * Updates the trigger threshold values for alerts.
+ */
 export class UpdateTriggers {
   readonly #rawClient: RawClient;
   readonly #servers: Servers;
@@ -24,6 +28,21 @@ export class UpdateTriggers {
     this.#auth = auth;
   }
 
+  /**
+   * Update promotional triggers.
+   *
+   * @remarks
+   * Updates the promotional triggers for pseudo-MDN.
+   *
+   * @returns Status of Request
+   *
+   * @throws {@link UpdateTriggers.UpdateAllAvailableTriggersError} when the API answers with an
+   * error status — narrow on `err.payload.kind`
+   *
+   * @throws {@link VerizonError} when no usable response was produced: a connection failure, a
+   * timeout, a body that would not decode, a value that would not encode, or a credential that
+   * could not be obtained
+   */
   updateAllAvailableTriggers(
     request: UpdateTriggers.UpdateAllAvailableTriggersRequest,
     options?: RequestOptions,
@@ -31,8 +50,11 @@ export class UpdateTriggers {
     return this.#rawClient.execute(
       {
         method: "PUT",
-        url: this.#servers.hyperPreciseCredentials("/m2m/v2/triggers"),
+        urlTemplate: this.#servers.thingspace("/m2m/v2/triggers"),
         auth: allAuth(this.#auth.thingspaceOauth, this.#auth.vzM2MToken),
+        pathParams: [],
+        query: [],
+        headers: [{ name: "Idempotency-Key", value: uuid(), schema: s.string() }],
         body: { kind: "json", value: request.body, schema: s.optional(s.lazy(() => requestTriggerSchema)) },
       },
       {
@@ -46,15 +68,16 @@ export class UpdateTriggers {
 
 export namespace UpdateTriggers {
   export type UpdateAllAvailableTriggersRequest = {
+    /** Update the triggers */
     body?: RequestTrigger;
   };
 
-  export class UpdateAllAvailableTriggersError extends ResponseError<
-    Declared<"readySimRestErrorResponse", ReadySimRestErrorResponse>
-  > {
+  export class UpdateAllAvailableTriggersError extends ApiError {
+    declare readonly payload: ErrorPayload<Declared<"readySimRestErrorResponse", ReadySimRestErrorResponse>>;
+
     static readonly errors: ErrorDecoders<UpdateAllAvailableTriggersError> = [
       {
-        on: [400, 599],
+        on: "default",
         kind: "readySimRestErrorResponse",
         decode: { kind: "json", schema: readySimRestErrorResponseSchema },
       },

@@ -6,9 +6,13 @@ import {
   type HistorySearchFilterAttributes,
 } from "./history-search-filter-attributes.js";
 
+/** The selected device and attributes for which a request should retrieve data. */
 export type HistorySearchFilter = {
+  /** Account name identifier. */
   accountName: string;
+  /** Identifies a particular IoT device. */
   device: Device;
+  /** Streaming RF parameters for which you want to retrieve history data. */
   attributes?: HistorySearchFilterAttributes;
 };
 

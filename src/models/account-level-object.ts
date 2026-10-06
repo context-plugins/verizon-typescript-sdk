@@ -10,6 +10,7 @@ import {
 export type AccountLevelObject = {
   filterCriteria?: AccountLevelFilter;
   condition?: AccountLevelObjectcondition;
+  /** The action taken when trigger conditions are met */
   action?: AccountLevelAction;
 };
 

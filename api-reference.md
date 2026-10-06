@@ -22,22 +22,39 @@ Returns aaccount information associated with a specified account.
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.accountServiceController.getAccountInformationUsingGet({ accountName });
+  const response = await client.accountServiceController.getAccountInformationUsingGet({
+    accountName: "0000123456-00002",
+  });
   // TODO: Handle 'response' of type GetAccountInformationResponseforplanner
 } catch (err) {
-  if (
-    err instanceof AccountServiceController.GetAccountInformationUsingGetError &&
-      err.payload.kind === "restErrorResponseforplanner"
-  ) {
-    // TODO: Handle 'err.payload.body' of type RestErrorResponseforplanner
-  }
+  // TODO: Handle 'err' of type AccountServiceController.GetAccountInformationUsingGetError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.accountServiceController.getAccountInformationUsingGet({
+  accountName: "0000123456-00002",
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type GetAccountInformationResponseforplanner
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -61,9 +78,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[GetAccountInformationResponseforplanner](src/models/get-account-information-responseforplanner.ts)</code>
+**Direct**: `await client.accountServiceController.getAccountInformationUsingGet(request)`
 
-**OnError**: <code>[AccountServiceController.GetAccountInformationUsingGetError](src/resources/account-service-controller.ts)</code>
+- **OnSuccess**: <code>[GetAccountInformationResponseforplanner](src/models/get-account-information-responseforplanner.ts)</code>
+- **OnError**: throws <code>[AccountServiceController.GetAccountInformationUsingGetError](src/resources/account-service-controller.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.accountServiceController.getAccountInformationUsingGet(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;GetAccountInformationResponseforplanner, AccountServiceController.GetAccountInformationUsingGetError&gt;</code>, with `result.value` of type <code>[GetAccountInformationResponseforplanner](src/models/get-account-information-responseforplanner.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -93,22 +118,47 @@ Retrieves available device windows for Connection Planner.
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.intelligenceServiceController.setConnectionPlanner();
+  const response = await client.intelligenceServiceController.setConnectionPlanner({
+    body: {
+      accountNumber: "0000123456-00001",
+      filter: "All or Best or Worst",
+      devices: [{ deviceIds: [{ kind: "imei", id: "15-digit IMEI value" }] }],
+    },
+  });
   // TODO: Handle 'response' of type AsynchronousRequestResultforplanner
 } catch (err) {
-  if (
-    err instanceof IntelligenceServiceController.SetConnectionPlannerError &&
-      err.payload.kind === "restErrorResponseforplanner"
-  ) {
-    // TODO: Handle 'err.payload.body' of type RestErrorResponseforplanner
-  }
+  // TODO: Handle 'err' of type IntelligenceServiceController.SetConnectionPlannerError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.intelligenceServiceController.setConnectionPlanner({
+  body: {
+    accountNumber: "0000123456-00001",
+    filter: "All or Best or Worst",
+    devices: [{ deviceIds: [{ kind: "imei", id: "15-digit IMEI value" }] }],
+  },
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type AsynchronousRequestResultforplanner
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -132,9 +182,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[AsynchronousRequestResultforplanner](src/models/asynchronous-request-resultforplanner.ts)</code>
+**Direct**: `await client.intelligenceServiceController.setConnectionPlanner(request)`
 
-**OnError**: <code>[IntelligenceServiceController.SetConnectionPlannerError](src/resources/intelligence-service-controller.ts)</code>
+- **OnSuccess**: <code>[AsynchronousRequestResultforplanner](src/models/asynchronous-request-resultforplanner.ts)</code>
+- **OnError**: throws <code>[IntelligenceServiceController.SetConnectionPlannerError](src/resources/intelligence-service-controller.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.intelligenceServiceController.setConnectionPlanner(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;AsynchronousRequestResultforplanner, IntelligenceServiceController.SetConnectionPlannerError&gt;</code>, with `result.value` of type <code>[AsynchronousRequestResultforplanner](src/models/asynchronous-request-resultforplanner.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -160,7 +218,7 @@ Retrieves the device status for the Connection Planner service.
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
@@ -170,12 +228,25 @@ try {
   const response = await client.intelligenceServiceController.statusConnectionPlanner();
   // TODO: Handle 'response' of type GetDeviceStatusesResponseforplanner
 } catch (err) {
-  if (
-    err instanceof IntelligenceServiceController.StatusConnectionPlannerError &&
-      err.payload.kind === "restErrorResponseforplanner"
-  ) {
-    // TODO: Handle 'err.payload.body' of type RestErrorResponseforplanner
-  }
+  // TODO: Handle 'err' of type IntelligenceServiceController.StatusConnectionPlannerError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.intelligenceServiceController.statusConnectionPlanner().asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type GetDeviceStatusesResponseforplanner
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -199,9 +270,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[GetDeviceStatusesResponseforplanner](src/models/get-device-statuses-responseforplanner.ts)</code>
+**Direct**: `await client.intelligenceServiceController.statusConnectionPlanner(request)`
 
-**OnError**: <code>[IntelligenceServiceController.StatusConnectionPlannerError](src/resources/intelligence-service-controller.ts)</code>
+- **OnSuccess**: <code>[GetDeviceStatusesResponseforplanner](src/models/get-device-statuses-responseforplanner.ts)</code>
+- **OnError**: throws <code>[IntelligenceServiceController.StatusConnectionPlannerError](src/resources/intelligence-service-controller.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.intelligenceServiceController.statusConnectionPlanner(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;GetDeviceStatusesResponseforplanner, IntelligenceServiceController.StatusConnectionPlannerError&gt;</code>, with `result.value` of type <code>[GetDeviceStatusesResponseforplanner](src/models/get-device-statuses-responseforplanner.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -231,22 +310,91 @@ If the devices do not already exist in the account, this API resource adds them 
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.deviceManagement.activateServiceForDevices({ body });
+  const response = await client.deviceManagement.activateServiceForDevices({
+    body: {
+      devices: [
+        {
+          deviceIds: [{ id: "990013907835573", kind: "imei" }, { id: "89141390780800784259", kind: "iccid" }],
+          ipAddress: "1.2.3.456",
+        },
+        {
+          deviceIds: [{ id: "990013907884259", kind: "imei" }, { id: "89141390780800735573", kind: "iccid" }],
+          ipAddress: "1.2.3.456",
+        },
+      ],
+      servicePlan: "the service plan name",
+      mdnZipCode: "98801",
+      accountName: "0868924207-00001",
+      customFields: [{ key: "CustomField2", value: "SuperVend" }],
+      groupName: "4G West",
+      primaryPlaceOfUse: {
+        address: {
+          addressLine1: "1600 Pennsylvania Ave NW",
+          city: "Washington",
+          state: "DC",
+          zip: "20500",
+          country: "USA",
+        },
+        customerName: { title: "President", firstName: "Zaffod", lastName: "Beeblebrox" },
+      },
+    },
+  });
   // TODO: Handle 'response' of type DeviceManagementResult
 } catch (err) {
-  if (
-    err instanceof DeviceManagement.ActivateServiceForDevicesError &&
-      err.payload.kind === "connectivityManagementResult"
-  ) {
-    // TODO: Handle 'err.payload.body' of type ConnectivityManagementResult
-  }
+  // TODO: Handle 'err' of type DeviceManagement.ActivateServiceForDevicesError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.deviceManagement.activateServiceForDevices({
+  body: {
+    devices: [
+      {
+        deviceIds: [{ id: "990013907835573", kind: "imei" }, { id: "89141390780800784259", kind: "iccid" }],
+        ipAddress: "1.2.3.456",
+      },
+      {
+        deviceIds: [{ id: "990013907884259", kind: "imei" }, { id: "89141390780800735573", kind: "iccid" }],
+        ipAddress: "1.2.3.456",
+      },
+    ],
+    servicePlan: "the service plan name",
+    mdnZipCode: "98801",
+    accountName: "0868924207-00001",
+    customFields: [{ key: "CustomField2", value: "SuperVend" }],
+    groupName: "4G West",
+    primaryPlaceOfUse: {
+      address: {
+        addressLine1: "1600 Pennsylvania Ave NW",
+        city: "Washington",
+        state: "DC",
+        zip: "20500",
+        country: "USA",
+      },
+      customerName: { title: "President", firstName: "Zaffod", lastName: "Beeblebrox" },
+    },
+  },
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type DeviceManagementResult
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -270,9 +418,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[DeviceManagementResult](src/models/device-management-result.ts)</code>
+**Direct**: `await client.deviceManagement.activateServiceForDevices(request)`
 
-**OnError**: <code>[DeviceManagement.ActivateServiceForDevicesError](src/resources/device-management.ts)</code>
+- **OnSuccess**: <code>[DeviceManagementResult](src/models/device-management-result.ts)</code>
+- **OnError**: throws <code>[DeviceManagement.ActivateServiceForDevicesError](src/resources/device-management.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.deviceManagement.activateServiceForDevices(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;DeviceManagementResult, DeviceManagement.ActivateServiceForDevicesError&gt;</code>, with `result.value` of type <code>[DeviceManagementResult](src/models/device-management-result.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -298,21 +454,57 @@ Use this API if you want to manage some device settings before you are ready to 
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.deviceManagement.addDevices({ body });
+  const response = await client.deviceManagement.addDevices({
+    body: {
+      state: "Pre-active",
+      devicesToAdd: [
+        { deviceIds: [{ id: "15-digit IMEI", kind: "imei" }, { id: "20-digit ICCID", kind: "iccid" }] },
+        { deviceIds: [{ id: "15-digit IMEI", kind: "imei" }, { id: "20-digit ICCID", kind: "iccid" }] },
+      ],
+      accountName: "0000123456-00001",
+      customFields: [{ key: "CustomField2", value: "SuperVend" }],
+      groupName: "West Region",
+    },
+  });
   // TODO: Handle 'response' of type AddDevicesResult[]
 } catch (err) {
-  if (
-    err instanceof DeviceManagement.AddDevicesError && err.payload.kind === "connectivityManagementResult"
-  ) {
-    // TODO: Handle 'err.payload.body' of type ConnectivityManagementResult
-  }
+  // TODO: Handle 'err' of type DeviceManagement.AddDevicesError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.deviceManagement.addDevices({
+  body: {
+    state: "Pre-active",
+    devicesToAdd: [
+      { deviceIds: [{ id: "15-digit IMEI", kind: "imei" }, { id: "20-digit ICCID", kind: "iccid" }] },
+      { deviceIds: [{ id: "15-digit IMEI", kind: "imei" }, { id: "20-digit ICCID", kind: "iccid" }] },
+    ],
+    accountName: "0000123456-00001",
+    customFields: [{ key: "CustomField2", value: "SuperVend" }],
+    groupName: "West Region",
+  },
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type AddDevicesResult[]
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -336,9 +528,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[AddDevicesResult](src/models/add-devices-result.ts)[]</code>
+**Direct**: `await client.deviceManagement.addDevices(request)`
 
-**OnError**: <code>[DeviceManagement.AddDevicesError](src/resources/device-management.ts)</code>
+- **OnSuccess**: <code>[AddDevicesResult](src/models/add-devices-result.ts)[]</code>
+- **OnError**: throws <code>[DeviceManagement.AddDevicesError](src/resources/device-management.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.deviceManagement.addDevices(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;AddDevicesResult[], DeviceManagement.AddDevicesError&gt;</code>, with `result.value` of type <code>[AddDevicesResult](src/models/add-devices-result.ts)[]</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -364,22 +564,39 @@ Gets billed usage for for either multiple devices or an entire billing account.
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.deviceManagement.billedUsageInfo({ body });
+  const response = await client.deviceManagement.billedUsageInfo({
+    body: { accountName: "0342077109-00001" },
+  });
   // TODO: Handle 'response' of type DeviceManagementResult
 } catch (err) {
-  if (
-    err instanceof DeviceManagement.BilledUsageInfoError &&
-      err.payload.kind === "connectivityManagementResult"
-  ) {
-    // TODO: Handle 'err.payload.body' of type ConnectivityManagementResult
-  }
+  // TODO: Handle 'err' of type DeviceManagement.BilledUsageInfoError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.deviceManagement.billedUsageInfo({
+  body: { accountName: "0342077109-00001" },
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type DeviceManagementResult
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -403,9 +620,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[DeviceManagementResult](src/models/device-management-result.ts)</code>
+**Direct**: `await client.deviceManagement.billedUsageInfo(request)`
 
-**OnError**: <code>[DeviceManagement.BilledUsageInfoError](src/resources/device-management.ts)</code>
+- **OnSuccess**: <code>[DeviceManagementResult](src/models/device-management-result.ts)</code>
+- **OnError**: throws <code>[DeviceManagement.BilledUsageInfoError](src/resources/device-management.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.deviceManagement.billedUsageInfo(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;DeviceManagementResult, DeviceManagement.BilledUsageInfoError&gt;</code>, with `result.value` of type <code>[DeviceManagementResult](src/models/device-management-result.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -431,22 +656,47 @@ Changes the service plan for one or more devices.
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.deviceManagement.changeDevicesServicePlan({ body });
+  const response = await client.deviceManagement.changeDevicesServicePlan({
+    body: {
+      servicePlan: "Tablet5GB",
+      devices: [{ deviceIds: [{ id: "A100003685E561", kind: "meid" }] }],
+      carrierIpPoolName: "IPPool",
+    },
+  });
   // TODO: Handle 'response' of type DeviceManagementResult
 } catch (err) {
-  if (
-    err instanceof DeviceManagement.ChangeDevicesServicePlanError &&
-      err.payload.kind === "connectivityManagementResult"
-  ) {
-    // TODO: Handle 'err.payload.body' of type ConnectivityManagementResult
-  }
+  // TODO: Handle 'err' of type DeviceManagement.ChangeDevicesServicePlanError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.deviceManagement.changeDevicesServicePlan({
+  body: {
+    servicePlan: "Tablet5GB",
+    devices: [{ deviceIds: [{ id: "A100003685E561", kind: "meid" }] }],
+    carrierIpPoolName: "IPPool",
+  },
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type DeviceManagementResult
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -470,9 +720,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[DeviceManagementResult](src/models/device-management-result.ts)</code>
+**Direct**: `await client.deviceManagement.changeDevicesServicePlan(request)`
 
-**OnError**: <code>[DeviceManagement.ChangeDevicesServicePlanError](src/resources/device-management.ts)</code>
+- **OnSuccess**: <code>[DeviceManagementResult](src/models/device-management-result.ts)</code>
+- **OnError**: throws <code>[DeviceManagement.ChangeDevicesServicePlanError](src/resources/device-management.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.deviceManagement.changeDevicesServicePlan(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;DeviceManagementResult, DeviceManagement.ChangeDevicesServicePlanError&gt;</code>, with `result.value` of type <code>[DeviceManagementResult](src/models/device-management-result.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -498,22 +756,45 @@ Checks whether specified devices are registered by the manufacturer with the Ver
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.deviceManagement.checkDevicesAvailabilityForActivation({ body });
+  const response = await client.deviceManagement.checkDevicesAvailabilityForActivation({
+    body: {
+      accountName: "0212345678-00001",
+      devices: [{ deviceIds: [{ id: "A100008385E561", kind: "meid" }] }],
+    },
+  });
   // TODO: Handle 'response' of type DeviceManagementResult
 } catch (err) {
-  if (
-    err instanceof DeviceManagement.CheckDevicesAvailabilityForActivationError &&
-      err.payload.kind === "connectivityManagementResult"
-  ) {
-    // TODO: Handle 'err.payload.body' of type ConnectivityManagementResult
-  }
+  // TODO: Handle 'err' of type DeviceManagement.CheckDevicesAvailabilityForActivationError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.deviceManagement.checkDevicesAvailabilityForActivation({
+  body: {
+    accountName: "0212345678-00001",
+    devices: [{ deviceIds: [{ id: "A100008385E561", kind: "meid" }] }],
+  },
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type DeviceManagementResult
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -537,9 +818,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[DeviceManagementResult](src/models/device-management-result.ts)</code>
+**Direct**: `await client.deviceManagement.checkDevicesAvailabilityForActivation(request)`
 
-**OnError**: <code>[DeviceManagement.CheckDevicesAvailabilityForActivationError](src/resources/device-management.ts)</code>
+- **OnSuccess**: <code>[DeviceManagementResult](src/models/device-management-result.ts)</code>
+- **OnError**: throws <code>[DeviceManagement.CheckDevicesAvailabilityForActivationError](src/resources/device-management.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.deviceManagement.checkDevicesAvailabilityForActivation(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;DeviceManagementResult, DeviceManagement.CheckDevicesAvailabilityForActivationError&gt;</code>, with `result.value` of type <code>[DeviceManagementResult](src/models/device-management-result.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -565,22 +854,51 @@ Deactivating service for a device may result in an early termination fee (ETF) b
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.deviceManagement.deactivateServiceForDevices({ body });
+  const response = await client.deviceManagement.deactivateServiceForDevices({
+    body: {
+      accountName: "0000123456-00001",
+      devices: [{ deviceIds: [{ id: "20-digit ICCID", kind: "iccid" }] }],
+      reasonCode: "FF",
+      etfWaiver: true,
+      deleteAfterDeactivation: true,
+    },
+  });
   // TODO: Handle 'response' of type DeviceManagementResult
 } catch (err) {
-  if (
-    err instanceof DeviceManagement.DeactivateServiceForDevicesError &&
-      err.payload.kind === "connectivityManagementResult"
-  ) {
-    // TODO: Handle 'err.payload.body' of type ConnectivityManagementResult
-  }
+  // TODO: Handle 'err' of type DeviceManagement.DeactivateServiceForDevicesError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.deviceManagement.deactivateServiceForDevices({
+  body: {
+    accountName: "0000123456-00001",
+    devices: [{ deviceIds: [{ id: "20-digit ICCID", kind: "iccid" }] }],
+    reasonCode: "FF",
+    etfWaiver: true,
+    deleteAfterDeactivation: true,
+  },
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type DeviceManagementResult
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -604,9 +922,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[DeviceManagementResult](src/models/device-management-result.ts)</code>
+**Direct**: `await client.deviceManagement.deactivateServiceForDevices(request)`
 
-**OnError**: <code>[DeviceManagement.DeactivateServiceForDevicesError](src/resources/device-management.ts)</code>
+- **OnSuccess**: <code>[DeviceManagementResult](src/models/device-management-result.ts)</code>
+- **OnError**: throws <code>[DeviceManagement.DeactivateServiceForDevicesError](src/resources/device-management.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.deviceManagement.deactivateServiceForDevices(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;DeviceManagementResult, DeviceManagement.DeactivateServiceForDevicesError&gt;</code>, with `result.value` of type <code>[DeviceManagementResult](src/models/device-management-result.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -632,22 +958,51 @@ Use this API to remove unneeded devices from an account.
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.deviceManagement.deleteDeactivatedDevices({ body });
+  const response = await client.deviceManagement.deleteDeactivatedDevices({
+    body: {
+      devicesToDelete: [
+        { deviceIds: [{ id: "09005470263", kind: "esn" }] },
+        { deviceIds: [{ id: "85000022411113460014", kind: "iccid" }] },
+        { deviceIds: [{ id: "85000022412313460016", kind: "iccid" }] },
+      ],
+    },
+  });
   // TODO: Handle 'response' of type DeleteDevicesResult[]
 } catch (err) {
-  if (
-    err instanceof DeviceManagement.DeleteDeactivatedDevicesError &&
-      err.payload.kind === "connectivityManagementResult"
-  ) {
-    // TODO: Handle 'err.payload.body' of type ConnectivityManagementResult
-  }
+  // TODO: Handle 'err' of type DeviceManagement.DeleteDeactivatedDevicesError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.deviceManagement.deleteDeactivatedDevices({
+  body: {
+    devicesToDelete: [
+      { deviceIds: [{ id: "09005470263", kind: "esn" }] },
+      { deviceIds: [{ id: "85000022411113460014", kind: "iccid" }] },
+      { deviceIds: [{ id: "85000022412313460016", kind: "iccid" }] },
+    ],
+  },
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type DeleteDevicesResult[]
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -671,9 +1026,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[DeleteDevicesResult](src/models/delete-devices-result.ts)[]</code>
+**Direct**: `await client.deviceManagement.deleteDeactivatedDevices(request)`
 
-**OnError**: <code>[DeviceManagement.DeleteDeactivatedDevicesError](src/resources/device-management.ts)</code>
+- **OnSuccess**: <code>[DeleteDevicesResult](src/models/delete-devices-result.ts)[]</code>
+- **OnError**: throws <code>[DeviceManagement.DeleteDeactivatedDevicesError](src/resources/device-management.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.deviceManagement.deleteDeactivatedDevices(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;DeleteDevicesResult[], DeviceManagement.DeleteDeactivatedDevicesError&gt;</code>, with `result.value` of type <code>[DeleteDevicesResult](src/models/delete-devices-result.ts)[]</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -699,19 +1062,59 @@ Upload a device record
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.deviceManagement.deviceUpload({ body });
+  const response = await client.deviceManagement.deviceUpload({
+    body: {
+      accountName: "1223334444-00001",
+      devices: [
+        { deviceIds: [{ id: "15-digit IMEI", kind: "IMEI" }] },
+        { deviceIds: [{ id: "15-digit IMEI", kind: "IMEI" }] },
+        { deviceIds: [{ id: "15-digit IMEI", kind: "IMEI" }] },
+      ],
+      emailAddress: "bob@mycompany.com",
+      deviceSku: "VZW123456",
+      uploadType: "IMEI",
+    },
+  });
   // TODO: Handle 'response' of type RequestResponse
 } catch (err) {
-  if (err instanceof DeviceManagement.DeviceUploadError && err.payload.kind === "restErrorResponse") {
-    // TODO: Handle 'err.payload.body' of type RestErrorResponse
-  }
+  // TODO: Handle 'err' of type DeviceManagement.DeviceUploadError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.deviceManagement.deviceUpload({
+  body: {
+    accountName: "1223334444-00001",
+    devices: [
+      { deviceIds: [{ id: "15-digit IMEI", kind: "IMEI" }] },
+      { deviceIds: [{ id: "15-digit IMEI", kind: "IMEI" }] },
+      { deviceIds: [{ id: "15-digit IMEI", kind: "IMEI" }] },
+    ],
+    emailAddress: "bob@mycompany.com",
+    deviceSku: "VZW123456",
+    uploadType: "IMEI",
+  },
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type RequestResponse
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -735,9 +1138,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[RequestResponse](src/models/request-response.ts)</code>
+**Direct**: `await client.deviceManagement.deviceUpload(request)`
 
-**OnError**: <code>[DeviceManagement.DeviceUploadError](src/resources/device-management.ts)</code>
+- **OnSuccess**: <code>[RequestResponse](src/models/request-response.ts)</code>
+- **OnError**: throws <code>[DeviceManagement.DeviceUploadError](src/resources/device-management.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.deviceManagement.deviceUpload(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;RequestResponse, DeviceManagement.DeviceUploadError&gt;</code>, with `result.value` of type <code>[RequestResponse](src/models/request-response.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -763,22 +1174,47 @@ Checks the status of an activation order and lists where the order is in the pro
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.deviceManagement.deviceUploadStatus({ body });
+  const response = await client.deviceManagement.deviceUploadStatus({
+    body: {
+      accountName: "4Gpublicaccount ",
+      orderRequestId: " f55fea16-3664-4a32-ae9d-c0cbe3eedf1d ",
+      devices: [{ deviceIds: [{ id: "20112019672551234613", kind: "iccid" }] }],
+    },
+  });
   // TODO: Handle 'response' of type DeviceManagementResult
 } catch (err) {
-  if (
-    err instanceof DeviceManagement.DeviceUploadStatusError &&
-      err.payload.kind === "connectivityManagementResult"
-  ) {
-    // TODO: Handle 'err.payload.body' of type ConnectivityManagementResult
-  }
+  // TODO: Handle 'err' of type DeviceManagement.DeviceUploadStatusError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.deviceManagement.deviceUploadStatus({
+  body: {
+    accountName: "4Gpublicaccount ",
+    orderRequestId: " f55fea16-3664-4a32-ae9d-c0cbe3eedf1d ",
+    devices: [{ deviceIds: [{ id: "20112019672551234613", kind: "iccid" }] }],
+  },
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type DeviceManagementResult
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -802,9 +1238,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[DeviceManagementResult](src/models/device-management-result.ts)</code>
+**Direct**: `await client.deviceManagement.deviceUploadStatus(request)`
 
-**OnError**: <code>[DeviceManagement.DeviceUploadStatusError](src/resources/device-management.ts)</code>
+- **OnSuccess**: <code>[DeviceManagementResult](src/models/device-management-result.ts)</code>
+- **OnError**: throws <code>[DeviceManagement.DeviceUploadStatusError](src/resources/device-management.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.deviceManagement.deviceUploadStatus(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;DeviceManagementResult, DeviceManagement.DeviceUploadStatusError&gt;</code>, with `result.value` of type <code>[DeviceManagementResult](src/models/device-management-result.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -830,22 +1274,39 @@ Returns extended diagnostic information about a specified device, including conn
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.deviceManagement.getDeviceExtendedDiagnosticInformation({ body });
+  const response = await client.deviceManagement.getDeviceExtendedDiagnosticInformation({
+    body: { accountName: "0000123456-00001", deviceList: [{ id: "10-digit MDN", kind: "mdn" }] },
+  });
   // TODO: Handle 'response' of type DeviceExtendedDiagnosticsResult
 } catch (err) {
-  if (
-    err instanceof DeviceManagement.GetDeviceExtendedDiagnosticInformationError &&
-      err.payload.kind === "connectivityManagementResult"
-  ) {
-    // TODO: Handle 'err.payload.body' of type ConnectivityManagementResult
-  }
+  // TODO: Handle 'err' of type DeviceManagement.GetDeviceExtendedDiagnosticInformationError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.deviceManagement.getDeviceExtendedDiagnosticInformation({
+  body: { accountName: "0000123456-00001", deviceList: [{ id: "10-digit MDN", kind: "mdn" }] },
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type DeviceExtendedDiagnosticsResult
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -869,9 +1330,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[DeviceExtendedDiagnosticsResult](src/models/device-extended-diagnostics-result.ts)</code>
+**Direct**: `await client.deviceManagement.getDeviceExtendedDiagnosticInformation(request)`
 
-**OnError**: <code>[DeviceManagement.GetDeviceExtendedDiagnosticInformationError](src/resources/device-management.ts)</code>
+- **OnSuccess**: <code>[DeviceExtendedDiagnosticsResult](src/models/device-extended-diagnostics-result.ts)</code>
+- **OnError**: throws <code>[DeviceManagement.GetDeviceExtendedDiagnosticInformationError](src/resources/device-management.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.deviceManagement.getDeviceExtendedDiagnosticInformation(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;DeviceExtendedDiagnosticsResult, DeviceManagement.GetDeviceExtendedDiagnosticInformationError&gt;</code>, with `result.value` of type <code>[DeviceExtendedDiagnosticsResult](src/models/device-extended-diagnostics-result.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -897,22 +1366,39 @@ Returns DeviceSuspensionStatus callback messages containing the current device s
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.deviceManagement.getDeviceServiceSuspensionStatus({ body });
+  const response = await client.deviceManagement.getDeviceServiceSuspensionStatus({
+    body: { deviceIds: [{ id: "A10085E5003861", kind: "meid" }, { id: "A10085E5003186", kind: "meid" }] },
+  });
   // TODO: Handle 'response' of type DeviceManagementResult
 } catch (err) {
-  if (
-    err instanceof DeviceManagement.GetDeviceServiceSuspensionStatusError &&
-      err.payload.kind === "connectivityManagementResult"
-  ) {
-    // TODO: Handle 'err.payload.body' of type ConnectivityManagementResult
-  }
+  // TODO: Handle 'err' of type DeviceManagement.GetDeviceServiceSuspensionStatusError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.deviceManagement.getDeviceServiceSuspensionStatus({
+  body: { deviceIds: [{ id: "A10085E5003861", kind: "meid" }, { id: "A10085E5003186", kind: "meid" }] },
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type DeviceManagementResult
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -936,9 +1422,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[DeviceManagementResult](src/models/device-management-result.ts)</code>
+**Direct**: `await client.deviceManagement.getDeviceServiceSuspensionStatus(request)`
 
-**OnError**: <code>[DeviceManagement.GetDeviceServiceSuspensionStatusError](src/resources/device-management.ts)</code>
+- **OnSuccess**: <code>[DeviceManagementResult](src/models/device-management-result.ts)</code>
+- **OnError**: throws <code>[DeviceManagement.GetDeviceServiceSuspensionStatusError](src/resources/device-management.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.deviceManagement.getDeviceServiceSuspensionStatus(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;DeviceManagementResult, DeviceManagement.GetDeviceServiceSuspensionStatusError&gt;</code>, with `result.value` of type <code>[DeviceManagementResult](src/models/device-management-result.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -964,22 +1458,39 @@ try {
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.deviceManagement.listCurrentDevicesPrlVersion({ body });
+  const response = await client.deviceManagement.listCurrentDevicesPrlVersion({
+    body: { deviceIds: [{ id: "A10085E5003861", kind: "meid" }, { id: "A10085E5003186", kind: "meid" }] },
+  });
   // TODO: Handle 'response' of type DeviceManagementResult
 } catch (err) {
-  if (
-    err instanceof DeviceManagement.ListCurrentDevicesPrlVersionError &&
-      err.payload.kind === "connectivityManagementResult"
-  ) {
-    // TODO: Handle 'err.payload.body' of type ConnectivityManagementResult
-  }
+  // TODO: Handle 'err' of type DeviceManagement.ListCurrentDevicesPrlVersionError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.deviceManagement.listCurrentDevicesPrlVersion({
+  body: { deviceIds: [{ id: "A10085E5003861", kind: "meid" }, { id: "A10085E5003186", kind: "meid" }] },
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type DeviceManagementResult
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -1003,9 +1514,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[DeviceManagementResult](src/models/device-management-result.ts)</code>
+**Direct**: `await client.deviceManagement.listCurrentDevicesPrlVersion(request)`
 
-**OnError**: <code>[DeviceManagement.ListCurrentDevicesPrlVersionError](src/resources/device-management.ts)</code>
+- **OnSuccess**: <code>[DeviceManagementResult](src/models/device-management-result.ts)</code>
+- **OnError**: throws <code>[DeviceManagement.ListCurrentDevicesPrlVersionError](src/resources/device-management.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.deviceManagement.listCurrentDevicesPrlVersion(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;DeviceManagementResult, DeviceManagement.ListCurrentDevicesPrlVersionError&gt;</code>, with `result.value` of type <code>[DeviceManagementResult](src/models/device-management-result.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -1031,22 +1550,39 @@ Returns information about a single device or information about all devices that 
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.deviceManagement.listDevicesInformation({ body });
+  const response = await client.deviceManagement.listDevicesInformation({
+    body: { deviceId: { id: "20-digit ICCID", kind: "iccid" } },
+  });
   // TODO: Handle 'response' of type AccountDeviceListResult
 } catch (err) {
-  if (
-    err instanceof DeviceManagement.ListDevicesInformationError &&
-      err.payload.kind === "connectivityManagementResult"
-  ) {
-    // TODO: Handle 'err.payload.body' of type ConnectivityManagementResult
-  }
+  // TODO: Handle 'err' of type DeviceManagement.ListDevicesInformationError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.deviceManagement.listDevicesInformation({
+  body: { deviceId: { id: "20-digit ICCID", kind: "iccid" } },
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type AccountDeviceListResult
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -1070,9 +1606,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[AccountDeviceListResult](src/models/account-device-list-result.ts)</code>
+**Direct**: `await client.deviceManagement.listDevicesInformation(request)`
 
-**OnError**: <code>[DeviceManagement.ListDevicesInformationError](src/resources/device-management.ts)</code>
+- **OnSuccess**: <code>[AccountDeviceListResult](src/models/account-device-list-result.ts)</code>
+- **OnError**: throws <code>[DeviceManagement.ListDevicesInformationError](src/resources/device-management.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.deviceManagement.listDevicesInformation(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;AccountDeviceListResult, DeviceManagement.ListDevicesInformationError&gt;</code>, with `result.value` of type <code>[AccountDeviceListResult](src/models/account-device-list-result.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -1098,22 +1642,47 @@ Returns the provisioning history of a specified device during a specified time p
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.deviceManagement.listDevicesProvisioningHistory({ body });
+  const response = await client.deviceManagement.listDevicesProvisioningHistory({
+    body: {
+      deviceId: { id: "89141390780800784259", kind: "iccid" },
+      earliest: "2015-09-16T00:00:01Z",
+      latest: "2015-09-18T00:00:01Z",
+    },
+  });
   // TODO: Handle 'response' of type DeviceProvisioningHistoryListResult[]
 } catch (err) {
-  if (
-    err instanceof DeviceManagement.ListDevicesProvisioningHistoryError &&
-      err.payload.kind === "connectivityManagementResult"
-  ) {
-    // TODO: Handle 'err.payload.body' of type ConnectivityManagementResult
-  }
+  // TODO: Handle 'err' of type DeviceManagement.ListDevicesProvisioningHistoryError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.deviceManagement.listDevicesProvisioningHistory({
+  body: {
+    deviceId: { id: "89141390780800784259", kind: "iccid" },
+    earliest: "2015-09-16T00:00:01Z",
+    latest: "2015-09-18T00:00:01Z",
+  },
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type DeviceProvisioningHistoryListResult[]
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -1137,9 +1706,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[DeviceProvisioningHistoryListResult](src/models/device-provisioning-history-list-result.ts)[]</code>
+**Direct**: `await client.deviceManagement.listDevicesProvisioningHistory(request)`
 
-**OnError**: <code>[DeviceManagement.ListDevicesProvisioningHistoryError](src/resources/device-management.ts)</code>
+- **OnSuccess**: <code>[DeviceProvisioningHistoryListResult](src/models/device-provisioning-history-list-result.ts)[]</code>
+- **OnError**: throws <code>[DeviceManagement.ListDevicesProvisioningHistoryError](src/resources/device-management.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.deviceManagement.listDevicesProvisioningHistory(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;DeviceProvisioningHistoryListResult[], DeviceManagement.ListDevicesProvisioningHistoryError&gt;</code>, with `result.value` of type <code>[DeviceProvisioningHistoryListResult](src/models/device-provisioning-history-list-result.ts)[]</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -1165,22 +1742,47 @@ Returns the network data usage history of a device during a specified time perio
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.deviceManagement.listDevicesUsageHistory({ body });
+  const response = await client.deviceManagement.listDevicesUsageHistory({
+    body: {
+      earliest: "2018-03-20T00:00:01Z",
+      latest: "2020-12-31T00:00:01Z",
+      deviceId: { id: "50684915885088839315521399821675", kind: "eid" },
+    },
+  });
   // TODO: Handle 'response' of type DeviceUsageListResult
 } catch (err) {
-  if (
-    err instanceof DeviceManagement.ListDevicesUsageHistoryError &&
-      err.payload.kind === "connectivityManagementResult"
-  ) {
-    // TODO: Handle 'err.payload.body' of type ConnectivityManagementResult
-  }
+  // TODO: Handle 'err' of type DeviceManagement.ListDevicesUsageHistoryError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.deviceManagement.listDevicesUsageHistory({
+  body: {
+    earliest: "2018-03-20T00:00:01Z",
+    latest: "2020-12-31T00:00:01Z",
+    deviceId: { id: "50684915885088839315521399821675", kind: "eid" },
+  },
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type DeviceUsageListResult
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -1204,9 +1806,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[DeviceUsageListResult](src/models/device-usage-list-result.ts)</code>
+**Direct**: `await client.deviceManagement.listDevicesUsageHistory(request)`
 
-**OnError**: <code>[DeviceManagement.ListDevicesUsageHistoryError](src/resources/device-management.ts)</code>
+- **OnSuccess**: <code>[DeviceUsageListResult](src/models/device-usage-list-result.ts)</code>
+- **OnError**: throws <code>[DeviceManagement.ListDevicesUsageHistoryError](src/resources/device-management.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.deviceManagement.listDevicesUsageHistory(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;DeviceUsageListResult, DeviceManagement.ListDevicesUsageHistoryError&gt;</code>, with `result.value` of type <code>[DeviceUsageListResult](src/models/device-usage-list-result.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -1232,22 +1842,49 @@ Returns a list of all 4G devices with an ICCID (SIM) that was not activated with
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.deviceManagement.listDevicesWithImeiIccidMismatch({ body });
+  const response = await client.deviceManagement.listDevicesWithImeiIccidMismatch({
+    body: {
+      filter: { earliest: "2020-05-01T15:00:00-08:00Z", latest: "2020-07-30T15:00:00-08:00Z" },
+      devices: [
+        { deviceIds: [{ id: "8914800000080078", kind: "ICCID" }, { id: "5096300587", kind: "MDN" }] },
+      ],
+      accountName: "0342077109-00001",
+    },
+  });
   // TODO: Handle 'response' of type DeviceMismatchListResult
 } catch (err) {
-  if (
-    err instanceof DeviceManagement.ListDevicesWithImeiIccidMismatchError &&
-      err.payload.kind === "connectivityManagementResult"
-  ) {
-    // TODO: Handle 'err.payload.body' of type ConnectivityManagementResult
-  }
+  // TODO: Handle 'err' of type DeviceManagement.ListDevicesWithImeiIccidMismatchError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.deviceManagement.listDevicesWithImeiIccidMismatch({
+  body: {
+    filter: { earliest: "2020-05-01T15:00:00-08:00Z", latest: "2020-07-30T15:00:00-08:00Z" },
+    devices: [{ deviceIds: [{ id: "8914800000080078", kind: "ICCID" }, { id: "5096300587", kind: "MDN" }] }],
+    accountName: "0342077109-00001",
+  },
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type DeviceMismatchListResult
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -1271,9 +1908,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[DeviceMismatchListResult](src/models/device-mismatch-list-result.ts)</code>
+**Direct**: `await client.deviceManagement.listDevicesWithImeiIccidMismatch(request)`
 
-**OnError**: <code>[DeviceManagement.ListDevicesWithImeiIccidMismatchError](src/resources/device-management.ts)</code>
+- **OnSuccess**: <code>[DeviceMismatchListResult](src/models/device-mismatch-list-result.ts)</code>
+- **OnError**: throws <code>[DeviceManagement.ListDevicesWithImeiIccidMismatchError](src/resources/device-management.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.deviceManagement.listDevicesWithImeiIccidMismatch(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;DeviceMismatchListResult, DeviceManagement.ListDevicesWithImeiIccidMismatchError&gt;</code>, with `result.value` of type <code>[DeviceMismatchListResult](src/models/device-mismatch-list-result.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -1299,22 +1944,47 @@ Move active devices from one billing account to another within a customer profil
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.deviceManagement.moveDevicesWithinAccountsOfProfile({ body });
+  const response = await client.deviceManagement.moveDevicesWithinAccountsOfProfile({
+    body: {
+      accountName: "0212345678-00001",
+      devices: [{ deviceIds: [{ id: "19110173057", kind: "ESN" }] }],
+      servicePlan: "M2M5GB",
+    },
+  });
   // TODO: Handle 'response' of type DeviceManagementResult
 } catch (err) {
-  if (
-    err instanceof DeviceManagement.MoveDevicesWithinAccountsOfProfileError &&
-      err.payload.kind === "connectivityManagementResult"
-  ) {
-    // TODO: Handle 'err.payload.body' of type ConnectivityManagementResult
-  }
+  // TODO: Handle 'err' of type DeviceManagement.MoveDevicesWithinAccountsOfProfileError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.deviceManagement.moveDevicesWithinAccountsOfProfile({
+  body: {
+    accountName: "0212345678-00001",
+    devices: [{ deviceIds: [{ id: "19110173057", kind: "ESN" }] }],
+    servicePlan: "M2M5GB",
+  },
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type DeviceManagementResult
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -1338,9 +2008,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[DeviceManagementResult](src/models/device-management-result.ts)</code>
+**Direct**: `await client.deviceManagement.moveDevicesWithinAccountsOfProfile(request)`
 
-**OnError**: <code>[DeviceManagement.MoveDevicesWithinAccountsOfProfileError](src/resources/device-management.ts)</code>
+- **OnSuccess**: <code>[DeviceManagementResult](src/models/device-management-result.ts)</code>
+- **OnError**: throws <code>[DeviceManagement.MoveDevicesWithinAccountsOfProfileError](src/resources/device-management.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.deviceManagement.moveDevicesWithinAccountsOfProfile(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;DeviceManagementResult, DeviceManagement.MoveDevicesWithinAccountsOfProfileError&gt;</code>, with `result.value` of type <code>[DeviceManagementResult](src/models/device-management-result.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -1366,22 +2044,39 @@ Restores service to one or more suspended devices.
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.deviceManagement.restoreServiceForSuspendedDevices({ body });
+  const response = await client.deviceManagement.restoreServiceForSuspendedDevices({
+    body: { devices: [{ deviceIds: [{ id: "89148000000800139708", kind: "iccid" }] }] },
+  });
   // TODO: Handle 'response' of type DeviceManagementResult
 } catch (err) {
-  if (
-    err instanceof DeviceManagement.RestoreServiceForSuspendedDevicesError &&
-      err.payload.kind === "connectivityManagementResult"
-  ) {
-    // TODO: Handle 'err.payload.body' of type ConnectivityManagementResult
-  }
+  // TODO: Handle 'err' of type DeviceManagement.RestoreServiceForSuspendedDevicesError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.deviceManagement.restoreServiceForSuspendedDevices({
+  body: { devices: [{ deviceIds: [{ id: "89148000000800139708", kind: "iccid" }] }] },
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type DeviceManagementResult
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -1405,9 +2100,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[DeviceManagementResult](src/models/device-management-result.ts)</code>
+**Direct**: `await client.deviceManagement.restoreServiceForSuspendedDevices(request)`
 
-**OnError**: <code>[DeviceManagement.RestoreServiceForSuspendedDevicesError](src/resources/device-management.ts)</code>
+- **OnSuccess**: <code>[DeviceManagementResult](src/models/device-management-result.ts)</code>
+- **OnError**: throws <code>[DeviceManagement.RestoreServiceForSuspendedDevicesError](src/resources/device-management.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.deviceManagement.restoreServiceForSuspendedDevices(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;DeviceManagementResult, DeviceManagement.RestoreServiceForSuspendedDevicesError&gt;</code>, with `result.value` of type <code>[DeviceManagementResult](src/models/device-management-result.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -1433,22 +2136,49 @@ The information is returned in a callback response, so you must register a URL f
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.deviceManagement.retrieveAggregateDeviceUsageHistory({ body });
+  const response = await client.deviceManagement.retrieveAggregateDeviceUsageHistory({
+    body: {
+      startTime: "2021-08-01T00:00:00-06:00",
+      endTime: "2021-08-30T00:00:00-06:00",
+      deviceIds: [{ id: "84258000000891490087", kind: "ICCID" }],
+      accountName: "9992330389-00001",
+    },
+  });
   // TODO: Handle 'response' of type DeviceManagementResult
 } catch (err) {
-  if (
-    err instanceof DeviceManagement.RetrieveAggregateDeviceUsageHistoryError &&
-      err.payload.kind === "connectivityManagementResult"
-  ) {
-    // TODO: Handle 'err.payload.body' of type ConnectivityManagementResult
-  }
+  // TODO: Handle 'err' of type DeviceManagement.RetrieveAggregateDeviceUsageHistoryError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.deviceManagement.retrieveAggregateDeviceUsageHistory({
+  body: {
+    startTime: "2021-08-01T00:00:00-06:00",
+    endTime: "2021-08-30T00:00:00-06:00",
+    deviceIds: [{ id: "84258000000891490087", kind: "ICCID" }],
+    accountName: "9992330389-00001",
+  },
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type DeviceManagementResult
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -1472,9 +2202,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[DeviceManagementResult](src/models/device-management-result.ts)</code>
+**Direct**: `await client.deviceManagement.retrieveAggregateDeviceUsageHistory(request)`
 
-**OnError**: <code>[DeviceManagement.RetrieveAggregateDeviceUsageHistoryError](src/resources/device-management.ts)</code>
+- **OnSuccess**: <code>[DeviceManagementResult](src/models/device-management-result.ts)</code>
+- **OnError**: throws <code>[DeviceManagement.RetrieveAggregateDeviceUsageHistoryError](src/resources/device-management.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.deviceManagement.retrieveAggregateDeviceUsageHistory(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;DeviceManagementResult, DeviceManagement.RetrieveAggregateDeviceUsageHistoryError&gt;</code>, with `result.value` of type <code>[DeviceManagementResult](src/models/device-management-result.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -1500,22 +2238,47 @@ Each response includes a maximum of 500 records. To obtain more records, you can
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.deviceManagement.retrieveDeviceConnectionHistory({ body });
+  const response = await client.deviceManagement.retrieveDeviceConnectionHistory({
+    body: {
+      deviceId: { id: "89141390780800784259", kind: "iccid" },
+      earliest: "2015-09-16T00:00:01Z",
+      latest: "2010-09-18T00:00:01Z",
+    },
+  });
   // TODO: Handle 'response' of type ConnectionHistoryResult
 } catch (err) {
-  if (
-    err instanceof DeviceManagement.RetrieveDeviceConnectionHistoryError &&
-      err.payload.kind === "connectivityManagementResult"
-  ) {
-    // TODO: Handle 'err.payload.body' of type ConnectivityManagementResult
-  }
+  // TODO: Handle 'err' of type DeviceManagement.RetrieveDeviceConnectionHistoryError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.deviceManagement.retrieveDeviceConnectionHistory({
+  body: {
+    deviceId: { id: "89141390780800784259", kind: "iccid" },
+    earliest: "2015-09-16T00:00:01Z",
+    latest: "2010-09-18T00:00:01Z",
+  },
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type ConnectionHistoryResult
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -1539,9 +2302,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[ConnectionHistoryResult](src/models/connection-history-result.ts)</code>
+**Direct**: `await client.deviceManagement.retrieveDeviceConnectionHistory(request)`
 
-**OnError**: <code>[DeviceManagement.RetrieveDeviceConnectionHistoryError](src/resources/device-management.ts)</code>
+- **OnSuccess**: <code>[ConnectionHistoryResult](src/models/connection-history-result.ts)</code>
+- **OnError**: throws <code>[DeviceManagement.RetrieveDeviceConnectionHistoryError](src/resources/device-management.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.deviceManagement.retrieveDeviceConnectionHistory(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;ConnectionHistoryResult, DeviceManagement.RetrieveDeviceConnectionHistoryError&gt;</code>, with `result.value` of type <code>[ConnectionHistoryResult](src/models/connection-history-result.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -1567,22 +2338,39 @@ Suspends service for one or more devices.
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.deviceManagement.suspendServiceForDevices({ body });
+  const response = await client.deviceManagement.suspendServiceForDevices({
+    body: { devices: [{ deviceIds: [{ id: "89148000000800139708", kind: "iccid" }] }] },
+  });
   // TODO: Handle 'response' of type DeviceManagementResult
 } catch (err) {
-  if (
-    err instanceof DeviceManagement.SuspendServiceForDevicesError &&
-      err.payload.kind === "connectivityManagementResult"
-  ) {
-    // TODO: Handle 'err.payload.body' of type ConnectivityManagementResult
-  }
+  // TODO: Handle 'err' of type DeviceManagement.SuspendServiceForDevicesError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.deviceManagement.suspendServiceForDevices({
+  body: { devices: [{ deviceIds: [{ id: "89148000000800139708", kind: "iccid" }] }] },
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type DeviceManagementResult
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -1606,9 +2394,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[DeviceManagementResult](src/models/device-management-result.ts)</code>
+**Direct**: `await client.deviceManagement.suspendServiceForDevices(request)`
 
-**OnError**: <code>[DeviceManagement.SuspendServiceForDevicesError](src/resources/device-management.ts)</code>
+- **OnSuccess**: <code>[DeviceManagementResult](src/models/device-management-result.ts)</code>
+- **OnError**: throws <code>[DeviceManagement.SuspendServiceForDevicesError](src/resources/device-management.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.deviceManagement.suspendServiceForDevices(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;DeviceManagementResult, DeviceManagement.SuspendServiceForDevicesError&gt;</code>, with `result.value` of type <code>[DeviceManagementResult](src/models/device-management-result.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -1634,21 +2430,53 @@ Changes the identifier of a 3G or 4G device to match hardware changes made for a
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.deviceManagement.updateDeviceId({ serviceType, body });
+  const response = await client.deviceManagement.updateDeviceId({
+    serviceType: "some example string",
+    body: {
+      change4GOption: "ChangeICCID",
+      deviceIds: [{ id: "42590078891480000008", kind: "iccid" }],
+      deviceIdsTo: [{ id: "89148000000842590078", kind: "iccid" }],
+      servicePlan: "4G 2GB",
+      zipCode: "98802",
+    },
+  });
   // TODO: Handle 'response' of type DeviceManagementResult
 } catch (err) {
-  if (
-    err instanceof DeviceManagement.UpdateDeviceIdError && err.payload.kind === "connectivityManagementResult"
-  ) {
-    // TODO: Handle 'err.payload.body' of type ConnectivityManagementResult
-  }
+  // TODO: Handle 'err' of type DeviceManagement.UpdateDeviceIdError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.deviceManagement.updateDeviceId({
+  serviceType: "some example string",
+  body: {
+    change4GOption: "ChangeICCID",
+    deviceIds: [{ id: "42590078891480000008", kind: "iccid" }],
+    deviceIdsTo: [{ id: "89148000000842590078", kind: "iccid" }],
+    servicePlan: "4G 2GB",
+    zipCode: "98802",
+  },
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type DeviceManagementResult
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -1673,9 +2501,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[DeviceManagementResult](src/models/device-management-result.ts)</code>
+**Direct**: `await client.deviceManagement.updateDeviceId(request)`
 
-**OnError**: <code>[DeviceManagement.UpdateDeviceIdError](src/resources/device-management.ts)</code>
+- **OnSuccess**: <code>[DeviceManagementResult](src/models/device-management-result.ts)</code>
+- **OnError**: throws <code>[DeviceManagement.UpdateDeviceIdError](src/resources/device-management.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.deviceManagement.updateDeviceId(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;DeviceManagementResult, DeviceManagement.UpdateDeviceIdError&gt;</code>, with `result.value` of type <code>[DeviceManagementResult](src/models/device-management-result.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -1701,22 +2537,87 @@ Sends a CarrierService callback message for each device in the request when the 
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.deviceManagement.updateDevicesContactInformation({ body });
+  const response = await client.deviceManagement.updateDevicesContactInformation({
+    body: {
+      primaryPlaceOfUse: {
+        address: {
+          addressLine1: "9868 Scranton Rd",
+          addressLine2: "Suite A",
+          city: "San Diego",
+          state: "CA",
+          zip: "92121",
+          zip4: "0001",
+          country: "USA",
+          phone: "1234567890",
+          phoneType: "H",
+          emailAddress: "zaffod@theinternet.com",
+        },
+        customerName: {
+          title: "President",
+          firstName: "Zaffod",
+          middleName: "P",
+          lastName: "Beeblebrox",
+          suffix: "I",
+        },
+      },
+      accountName: "0000123456-00001",
+      devices: [{ deviceIds: [{ id: "19110173057", kind: "ESN" }, { id: "19110173057", kind: "ESN" }] }],
+    },
+  });
   // TODO: Handle 'response' of type DeviceManagementResult
 } catch (err) {
-  if (
-    err instanceof DeviceManagement.UpdateDevicesContactInformationError &&
-      err.payload.kind === "connectivityManagementResult"
-  ) {
-    // TODO: Handle 'err.payload.body' of type ConnectivityManagementResult
-  }
+  // TODO: Handle 'err' of type DeviceManagement.UpdateDevicesContactInformationError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.deviceManagement.updateDevicesContactInformation({
+  body: {
+    primaryPlaceOfUse: {
+      address: {
+        addressLine1: "9868 Scranton Rd",
+        addressLine2: "Suite A",
+        city: "San Diego",
+        state: "CA",
+        zip: "92121",
+        zip4: "0001",
+        country: "USA",
+        phone: "1234567890",
+        phoneType: "H",
+        emailAddress: "zaffod@theinternet.com",
+      },
+      customerName: {
+        title: "President",
+        firstName: "Zaffod",
+        middleName: "P",
+        lastName: "Beeblebrox",
+        suffix: "I",
+      },
+    },
+    accountName: "0000123456-00001",
+    devices: [{ deviceIds: [{ id: "19110173057", kind: "ESN" }, { id: "19110173057", kind: "ESN" }] }],
+  },
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type DeviceManagementResult
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -1740,9 +2641,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[DeviceManagementResult](src/models/device-management-result.ts)</code>
+**Direct**: `await client.deviceManagement.updateDevicesContactInformation(request)`
 
-**OnError**: <code>[DeviceManagement.UpdateDevicesContactInformationError](src/resources/device-management.ts)</code>
+- **OnSuccess**: <code>[DeviceManagementResult](src/models/device-management-result.ts)</code>
+- **OnError**: throws <code>[DeviceManagement.UpdateDevicesContactInformationError](src/resources/device-management.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.deviceManagement.updateDevicesContactInformation(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;DeviceManagementResult, DeviceManagement.UpdateDevicesContactInformationError&gt;</code>, with `result.value` of type <code>[DeviceManagementResult](src/models/device-management-result.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -1768,22 +2677,42 @@ Changes or removes the CostCenterCode value or customer name and address (Primar
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.deviceManagement.updateDevicesCostCenterCode({ body });
+  const response = await client.deviceManagement.updateDevicesCostCenterCode({
+    body: {
+      costCenter: "cc12345",
+      devices: [{ deviceIds: [{ id: "89148000000800139708", kind: "iccid" }] }],
+    },
+  });
   // TODO: Handle 'response' of type DeviceManagementResult
 } catch (err) {
-  if (
-    err instanceof DeviceManagement.UpdateDevicesCostCenterCodeError &&
-      err.payload.kind === "connectivityManagementResult"
-  ) {
-    // TODO: Handle 'err.payload.body' of type ConnectivityManagementResult
-  }
+  // TODO: Handle 'err' of type DeviceManagement.UpdateDevicesCostCenterCodeError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.deviceManagement.updateDevicesCostCenterCode({
+  body: { costCenter: "cc12345", devices: [{ deviceIds: [{ id: "89148000000800139708", kind: "iccid" }] }] },
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type DeviceManagementResult
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -1807,9 +2736,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[DeviceManagementResult](src/models/device-management-result.ts)</code>
+**Direct**: `await client.deviceManagement.updateDevicesCostCenterCode(request)`
 
-**OnError**: <code>[DeviceManagement.UpdateDevicesCostCenterCodeError](src/resources/device-management.ts)</code>
+- **OnSuccess**: <code>[DeviceManagementResult](src/models/device-management-result.ts)</code>
+- **OnError**: throws <code>[DeviceManagement.UpdateDevicesCostCenterCodeError](src/resources/device-management.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.deviceManagement.updateDevicesCostCenterCode(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;DeviceManagementResult, DeviceManagement.UpdateDevicesCostCenterCodeError&gt;</code>, with `result.value` of type <code>[DeviceManagementResult](src/models/device-management-result.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -1835,22 +2772,51 @@ Sends a CarrierService callback message for each device in the request when the 
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.deviceManagement.updateDevicesCustomFields({ body });
+  const response = await client.deviceManagement.updateDevicesCustomFields({
+    body: {
+      customFieldsToUpdate: [
+        { key: "CustomField1", value: "West Region" },
+        { key: "CustomField2", value: "Distribution" },
+      ],
+      devices: [{ deviceIds: [{ id: "89148000000800139708", kind: "iccid" }] }],
+    },
+  });
   // TODO: Handle 'response' of type DeviceManagementResult
 } catch (err) {
-  if (
-    err instanceof DeviceManagement.UpdateDevicesCustomFieldsError &&
-      err.payload.kind === "connectivityManagementResult"
-  ) {
-    // TODO: Handle 'err.payload.body' of type ConnectivityManagementResult
-  }
+  // TODO: Handle 'err' of type DeviceManagement.UpdateDevicesCustomFieldsError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.deviceManagement.updateDevicesCustomFields({
+  body: {
+    customFieldsToUpdate: [
+      { key: "CustomField1", value: "West Region" },
+      { key: "CustomField2", value: "Distribution" },
+    ],
+    devices: [{ deviceIds: [{ id: "89148000000800139708", kind: "iccid" }] }],
+  },
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type DeviceManagementResult
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -1874,9 +2840,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[DeviceManagementResult](src/models/device-management-result.ts)</code>
+**Direct**: `await client.deviceManagement.updateDevicesCustomFields(request)`
 
-**OnError**: <code>[DeviceManagement.UpdateDevicesCustomFieldsError](src/resources/device-management.ts)</code>
+- **OnSuccess**: <code>[DeviceManagementResult](src/models/device-management-result.ts)</code>
+- **OnError**: throws <code>[DeviceManagement.UpdateDevicesCustomFieldsError](src/resources/device-management.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.deviceManagement.updateDevicesCustomFields(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;DeviceManagementResult, DeviceManagement.UpdateDevicesCustomFieldsError&gt;</code>, with `result.value` of type <code>[DeviceManagementResult](src/models/device-management-result.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -1902,22 +2876,49 @@ Changes the provisioning state of one or more devices to a specified customer-de
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.deviceManagement.updateDevicesState({ body });
+  const response = await client.deviceManagement.updateDevicesState({
+    body: {
+      serviceName: "some example string",
+      stateName: "some example string",
+      servicePlan: "some example string",
+      mdnZipCode: "some example string",
+    },
+  });
   // TODO: Handle 'response' of type DeviceManagementResult
 } catch (err) {
-  if (
-    err instanceof DeviceManagement.UpdateDevicesStateError &&
-      err.payload.kind === "connectivityManagementResult"
-  ) {
-    // TODO: Handle 'err.payload.body' of type ConnectivityManagementResult
-  }
+  // TODO: Handle 'err' of type DeviceManagement.UpdateDevicesStateError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.deviceManagement.updateDevicesState({
+  body: {
+    serviceName: "some example string",
+    stateName: "some example string",
+    servicePlan: "some example string",
+    mdnZipCode: "some example string",
+  },
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type DeviceManagementResult
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -1941,9 +2942,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[DeviceManagementResult](src/models/device-management-result.ts)</code>
+**Direct**: `await client.deviceManagement.updateDevicesState(request)`
 
-**OnError**: <code>[DeviceManagement.UpdateDevicesStateError](src/resources/device-management.ts)</code>
+- **OnSuccess**: <code>[DeviceManagementResult](src/models/device-management-result.ts)</code>
+- **OnError**: throws <code>[DeviceManagement.UpdateDevicesStateError](src/resources/device-management.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.deviceManagement.updateDevicesState(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;DeviceManagementResult, DeviceManagement.UpdateDevicesStateError&gt;</code>, with `result.value` of type <code>[DeviceManagementResult](src/models/device-management-result.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -1969,22 +2978,63 @@ Uploads and activates device identifiers and SKUs for new devices from OEMs to V
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.deviceManagement.uploadActivateDevice({ body });
+  const response = await client.deviceManagement.uploadActivateDevice({
+    body: {
+      accountName: "1223334444-00001",
+      emailAddress: "bob@mycompany.com",
+      deviceSku: "VZW123456",
+      uploadType: "IMEI ICCID Pair",
+      servicePlan: "15MBShr",
+      carrierIpPoolName: "",
+      mdnZipCode: "92222",
+      devices: [
+        {
+          deviceIds: [{ id: "990013907835573", kind: "imei" }, { id: "89141390780800784259", kind: "iccid" }],
+        },
+      ],
+    },
+  });
   // TODO: Handle 'response' of type DeviceManagementResult
 } catch (err) {
-  if (
-    err instanceof DeviceManagement.UploadActivateDeviceError &&
-      err.payload.kind === "connectivityManagementResult"
-  ) {
-    // TODO: Handle 'err.payload.body' of type ConnectivityManagementResult
-  }
+  // TODO: Handle 'err' of type DeviceManagement.UploadActivateDeviceError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.deviceManagement.uploadActivateDevice({
+  body: {
+    accountName: "1223334444-00001",
+    emailAddress: "bob@mycompany.com",
+    deviceSku: "VZW123456",
+    uploadType: "IMEI ICCID Pair",
+    servicePlan: "15MBShr",
+    carrierIpPoolName: "",
+    mdnZipCode: "92222",
+    devices: [
+      { deviceIds: [{ id: "990013907835573", kind: "imei" }, { id: "89141390780800784259", kind: "iccid" }] },
+    ],
+  },
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type DeviceManagementResult
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -2008,9 +3058,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[DeviceManagementResult](src/models/device-management-result.ts)</code>
+**Direct**: `await client.deviceManagement.uploadActivateDevice(request)`
 
-**OnError**: <code>[DeviceManagement.UploadActivateDeviceError](src/resources/device-management.ts)</code>
+- **OnSuccess**: <code>[DeviceManagementResult](src/models/device-management-result.ts)</code>
+- **OnError**: throws <code>[DeviceManagement.UploadActivateDeviceError](src/resources/device-management.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.deviceManagement.uploadActivateDevice(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;DeviceManagementResult, DeviceManagement.UploadActivateDeviceError&gt;</code>, with `result.value` of type <code>[DeviceManagementResult](src/models/device-management-result.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -2036,22 +3094,39 @@ Allows you to associate your own usage segmentation label with a device.
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.deviceManagement.usageSegmentationLabelAssociation({ body });
+  const response = await client.deviceManagement.usageSegmentationLabelAssociation({
+    body: { accountName: "some example string", labels: { devices: [{}] } },
+  });
   // TODO: Handle 'response' of type DeviceManagementResult
 } catch (err) {
-  if (
-    err instanceof DeviceManagement.UsageSegmentationLabelAssociationError &&
-      err.payload.kind === "connectivityManagementResult"
-  ) {
-    // TODO: Handle 'err.payload.body' of type ConnectivityManagementResult
-  }
+  // TODO: Handle 'err' of type DeviceManagement.UsageSegmentationLabelAssociationError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.deviceManagement.usageSegmentationLabelAssociation({
+  body: { accountName: "some example string", labels: { devices: [{}] } },
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type DeviceManagementResult
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -2075,9 +3150,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[DeviceManagementResult](src/models/device-management-result.ts)</code>
+**Direct**: `await client.deviceManagement.usageSegmentationLabelAssociation(request)`
 
-**OnError**: <code>[DeviceManagement.UsageSegmentationLabelAssociationError](src/resources/device-management.ts)</code>
+- **OnSuccess**: <code>[DeviceManagementResult](src/models/device-management-result.ts)</code>
+- **OnError**: throws <code>[DeviceManagement.UsageSegmentationLabelAssociationError](src/resources/device-management.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.deviceManagement.usageSegmentationLabelAssociation(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;DeviceManagementResult, DeviceManagement.UsageSegmentationLabelAssociationError&gt;</code>, with `result.value` of type <code>[DeviceManagementResult](src/models/device-management-result.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -2103,22 +3186,41 @@ Allow customers to remove the associated label from a device.
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.deviceManagement.usageSegmentationLabelDeletion({ accountName, labelList });
+  const response = await client.deviceManagement.usageSegmentationLabelDeletion({
+    accountName: "0000123456-00001",
+    labelList: {},
+  });
   // TODO: Handle 'response' of type DeviceManagementResult
 } catch (err) {
-  if (
-    err instanceof DeviceManagement.UsageSegmentationLabelDeletionError &&
-      err.payload.kind === "connectivityManagementResult"
-  ) {
-    // TODO: Handle 'err.payload.body' of type ConnectivityManagementResult
-  }
+  // TODO: Handle 'err' of type DeviceManagement.UsageSegmentationLabelDeletionError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.deviceManagement.usageSegmentationLabelDeletion({
+  accountName: "0000123456-00001",
+  labelList: {},
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type DeviceManagementResult
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -2143,9 +3245,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[DeviceManagementResult](src/models/device-management-result.ts)</code>
+**Direct**: `await client.deviceManagement.usageSegmentationLabelDeletion(request)`
 
-**OnError**: <code>[DeviceManagement.UsageSegmentationLabelDeletionError](src/resources/device-management.ts)</code>
+- **OnSuccess**: <code>[DeviceManagementResult](src/models/device-management-result.ts)</code>
+- **OnError**: throws <code>[DeviceManagement.UsageSegmentationLabelDeletionError](src/resources/device-management.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.deviceManagement.usageSegmentationLabelDeletion(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;DeviceManagementResult, DeviceManagement.UsageSegmentationLabelDeletionError&gt;</code>, with `result.value` of type <code>[DeviceManagementResult](src/models/device-management-result.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -2175,21 +3285,35 @@ Returns information about a specified account.
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.accounts.getAccountInformation({ aname });
+  const response = await client.accounts.getAccountInformation({ aname: "Chintan_CPNStaticBulk" });
   // TODO: Handle 'response' of type Account
 } catch (err) {
-  if (
-    err instanceof Accounts.GetAccountInformationError && err.payload.kind === "connectivityManagementResult"
-  ) {
-    // TODO: Handle 'err.payload.body' of type ConnectivityManagementResult
-  }
+  // TODO: Handle 'err' of type Accounts.GetAccountInformationError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.accounts.getAccountInformation({ aname: "Chintan_CPNStaticBulk" }).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type Account
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -2213,9 +3337,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[Account](src/models/account.ts)</code>
+**Direct**: `await client.accounts.getAccountInformation(request)`
 
-**OnError**: <code>[Accounts.GetAccountInformationError](src/resources/accounts.ts)</code>
+- **OnSuccess**: <code>[Account](src/models/account.ts)</code>
+- **OnError**: throws <code>[Accounts.GetAccountInformationError](src/resources/accounts.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.accounts.getAccountInformation(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;Account, Accounts.GetAccountInformationError&gt;</code>, with `result.value` of type <code>[Account](src/models/account.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -2241,19 +3373,35 @@ When HTTP status is 202, a URL will be returned in the Location header of the fo
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.accounts.listAccountLeads({ aname });
+  const response = await client.accounts.listAccountLeads({ aname: "0252012345-00001" });
   // TODO: Handle 'response' of type AccountLeadsResult
 } catch (err) {
-  if (err instanceof Accounts.ListAccountLeadsError && err.payload.kind === "connectivityManagementResult") {
-    // TODO: Handle 'err.payload.body' of type ConnectivityManagementResult
-  }
+  // TODO: Handle 'err' of type Accounts.ListAccountLeadsError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.accounts.listAccountLeads({ aname: "0252012345-00001" }).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type AccountLeadsResult
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -2278,9 +3426,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[AccountLeadsResult](src/models/account-leads-result.ts)</code>
+**Direct**: `await client.accounts.listAccountLeads(request)`
 
-**OnError**: <code>[Accounts.ListAccountLeadsError](src/resources/accounts.ts)</code>
+- **OnSuccess**: <code>[AccountLeadsResult](src/models/account-leads-result.ts)</code>
+- **OnError**: throws <code>[Accounts.ListAccountLeadsError](src/resources/accounts.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.accounts.listAccountLeads(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;AccountLeadsResult, Accounts.ListAccountLeadsError&gt;</code>, with `result.value` of type <code>[AccountLeadsResult](src/models/account-leads-result.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -2306,22 +3462,37 @@ Returns a list and details of all custom services and states defined for a speci
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.accounts.listAccountStatesAndServices({ aname });
+  const response = await client.accounts.listAccountStatesAndServices({ aname: "0252012345-00001" });
   // TODO: Handle 'response' of type AccountStatesAndServices
 } catch (err) {
-  if (
-    err instanceof Accounts.ListAccountStatesAndServicesError &&
-      err.payload.kind === "connectivityManagementResult"
-  ) {
-    // TODO: Handle 'err.payload.body' of type ConnectivityManagementResult
-  }
+  // TODO: Handle 'err' of type Accounts.ListAccountStatesAndServicesError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.accounts.listAccountStatesAndServices({
+  aname: "0252012345-00001",
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type AccountStatesAndServices
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -2345,9 +3516,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[AccountStatesAndServices](src/models/account-states-and-services.ts)</code>
+**Direct**: `await client.accounts.listAccountStatesAndServices(request)`
 
-**OnError**: <code>[Accounts.ListAccountStatesAndServicesError](src/resources/accounts.ts)</code>
+- **OnSuccess**: <code>[AccountStatesAndServices](src/models/account-states-and-services.ts)</code>
+- **OnError**: throws <code>[Accounts.ListAccountStatesAndServicesError](src/resources/accounts.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.accounts.listAccountStatesAndServices(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;AccountStatesAndServices, Accounts.ListAccountStatesAndServicesError&gt;</code>, with `result.value` of type <code>[AccountStatesAndServices](src/models/account-states-and-services.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -2377,21 +3556,49 @@ Create a new device group and optionally add devices to the group. Device groups
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.deviceGroups.createDeviceGroup({ body });
+  const response = await client.deviceGroups.createDeviceGroup({
+    body: {
+      accountName: "0000123456-00001",
+      groupDescription: "descriptive string",
+      groupName: "group name",
+      devicesToAdd: [{ id: "15-digit IMEI", kind: "imei" }],
+    },
+  });
   // TODO: Handle 'response' of type ConnectivityManagementSuccessResult
 } catch (err) {
-  if (
-    err instanceof DeviceGroups.CreateDeviceGroupError && err.payload.kind === "connectivityManagementResult"
-  ) {
-    // TODO: Handle 'err.payload.body' of type ConnectivityManagementResult
-  }
+  // TODO: Handle 'err' of type DeviceGroups.CreateDeviceGroupError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.deviceGroups.createDeviceGroup({
+  body: {
+    accountName: "0000123456-00001",
+    groupDescription: "descriptive string",
+    groupName: "group name",
+    devicesToAdd: [{ id: "15-digit IMEI", kind: "imei" }],
+  },
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type ConnectivityManagementSuccessResult
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -2415,9 +3622,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[ConnectivityManagementSuccessResult](src/models/connectivity-management-success-result.ts)</code>
+**Direct**: `await client.deviceGroups.createDeviceGroup(request)`
 
-**OnError**: <code>[DeviceGroups.CreateDeviceGroupError](src/resources/device-groups.ts)</code>
+- **OnSuccess**: <code>[ConnectivityManagementSuccessResult](src/models/connectivity-management-success-result.ts)</code>
+- **OnError**: throws <code>[DeviceGroups.CreateDeviceGroupError](src/resources/device-groups.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.deviceGroups.createDeviceGroup(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;ConnectivityManagementSuccessResult, DeviceGroups.CreateDeviceGroupError&gt;</code>, with `result.value` of type <code>[ConnectivityManagementSuccessResult](src/models/connectivity-management-success-result.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -2443,21 +3658,41 @@ Deletes a device group from the account. Devices in the group are moved to the d
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.deviceGroups.deleteDeviceGroup({ aname, gname });
+  const response = await client.deviceGroups.deleteDeviceGroup({
+    aname: "0252012345-00001",
+    gname: "some example string",
+  });
   // TODO: Handle 'response' of type ConnectivityManagementSuccessResult
 } catch (err) {
-  if (
-    err instanceof DeviceGroups.DeleteDeviceGroupError && err.payload.kind === "connectivityManagementResult"
-  ) {
-    // TODO: Handle 'err.payload.body' of type ConnectivityManagementResult
-  }
+  // TODO: Handle 'err' of type DeviceGroups.DeleteDeviceGroupError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.deviceGroups.deleteDeviceGroup({
+  aname: "0252012345-00001",
+  gname: "some example string",
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type ConnectivityManagementSuccessResult
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -2482,9 +3717,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[ConnectivityManagementSuccessResult](src/models/connectivity-management-success-result.ts)</code>
+**Direct**: `await client.deviceGroups.deleteDeviceGroup(request)`
 
-**OnError**: <code>[DeviceGroups.DeleteDeviceGroupError](src/resources/device-groups.ts)</code>
+- **OnSuccess**: <code>[ConnectivityManagementSuccessResult](src/models/connectivity-management-success-result.ts)</code>
+- **OnError**: throws <code>[DeviceGroups.DeleteDeviceGroupError](src/resources/device-groups.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.deviceGroups.deleteDeviceGroup(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;ConnectivityManagementSuccessResult, DeviceGroups.DeleteDeviceGroupError&gt;</code>, with `result.value` of type <code>[ConnectivityManagementSuccessResult](src/models/connectivity-management-success-result.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -2510,22 +3753,41 @@ When HTTP status is 202, a URL will be returned in the Location header of the fo
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.deviceGroups.getDeviceGroupInformation({ aname, gname });
+  const response = await client.deviceGroups.getDeviceGroupInformation({
+    aname: "0252012345-00001",
+    gname: "some example string",
+  });
   // TODO: Handle 'response' of type DeviceGroupDevicesData
 } catch (err) {
-  if (
-    err instanceof DeviceGroups.GetDeviceGroupInformationError &&
-      err.payload.kind === "connectivityManagementResult"
-  ) {
-    // TODO: Handle 'err.payload.body' of type ConnectivityManagementResult
-  }
+  // TODO: Handle 'err' of type DeviceGroups.GetDeviceGroupInformationError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.deviceGroups.getDeviceGroupInformation({
+  aname: "0252012345-00001",
+  gname: "some example string",
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type DeviceGroupDevicesData
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -2551,9 +3813,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[DeviceGroupDevicesData](src/models/device-group-devices-data.ts)</code>
+**Direct**: `await client.deviceGroups.getDeviceGroupInformation(request)`
 
-**OnError**: <code>[DeviceGroups.GetDeviceGroupInformationError](src/resources/device-groups.ts)</code>
+- **OnSuccess**: <code>[DeviceGroupDevicesData](src/models/device-group-devices-data.ts)</code>
+- **OnError**: throws <code>[DeviceGroups.GetDeviceGroupInformationError](src/resources/device-groups.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.deviceGroups.getDeviceGroupInformation(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;DeviceGroupDevicesData, DeviceGroups.GetDeviceGroupInformationError&gt;</code>, with `result.value` of type <code>[DeviceGroupDevicesData](src/models/device-group-devices-data.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -2579,21 +3849,35 @@ Returns a list of all device groups in a specified account.
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.deviceGroups.listDeviceGroups({ aname });
+  const response = await client.deviceGroups.listDeviceGroups({ aname: "0252012345-00001" });
   // TODO: Handle 'response' of type DeviceGroup[]
 } catch (err) {
-  if (
-    err instanceof DeviceGroups.ListDeviceGroupsError && err.payload.kind === "connectivityManagementResult"
-  ) {
-    // TODO: Handle 'err.payload.body' of type ConnectivityManagementResult
-  }
+  // TODO: Handle 'err' of type DeviceGroups.ListDeviceGroupsError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.deviceGroups.listDeviceGroups({ aname: "0252012345-00001" }).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type DeviceGroup[]
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -2617,9 +3901,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[DeviceGroup](src/models/device-group.ts)[]</code>
+**Direct**: `await client.deviceGroups.listDeviceGroups(request)`
 
-**OnError**: <code>[DeviceGroups.ListDeviceGroupsError](src/resources/device-groups.ts)</code>
+- **OnSuccess**: <code>[DeviceGroup](src/models/device-group.ts)[]</code>
+- **OnError**: throws <code>[DeviceGroups.ListDeviceGroupsError](src/resources/device-groups.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.deviceGroups.listDeviceGroups(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;DeviceGroup[], DeviceGroups.ListDeviceGroupsError&gt;</code>, with `result.value` of type <code>[DeviceGroup](src/models/device-group.ts)[]</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -2645,21 +3937,51 @@ Make changes to a device group, including changing the name and description, and
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.deviceGroups.updateDeviceGroup({ aname, gname, body });
+  const response = await client.deviceGroups.updateDeviceGroup({
+    aname: "0252012345-00001",
+    gname: "some example string",
+    body: {
+      devicesToAdd: [{ id: "990003420535537", kind: "imei" }],
+      newGroupDescription: "All western region tank level monitors.",
+      newGroupName: "Western region tanks",
+    },
+  });
   // TODO: Handle 'response' of type ConnectivityManagementSuccessResult
 } catch (err) {
-  if (
-    err instanceof DeviceGroups.UpdateDeviceGroupError && err.payload.kind === "connectivityManagementResult"
-  ) {
-    // TODO: Handle 'err.payload.body' of type ConnectivityManagementResult
-  }
+  // TODO: Handle 'err' of type DeviceGroups.UpdateDeviceGroupError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.deviceGroups.updateDeviceGroup({
+  aname: "0252012345-00001",
+  gname: "some example string",
+  body: {
+    devicesToAdd: [{ id: "990003420535537", kind: "imei" }],
+    newGroupDescription: "All western region tank level monitors.",
+    newGroupName: "Western region tanks",
+  },
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type ConnectivityManagementSuccessResult
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -2685,9 +4007,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[ConnectivityManagementSuccessResult](src/models/connectivity-management-success-result.ts)</code>
+**Direct**: `await client.deviceGroups.updateDeviceGroup(request)`
 
-**OnError**: <code>[DeviceGroups.UpdateDeviceGroupError](src/resources/device-groups.ts)</code>
+- **OnSuccess**: <code>[ConnectivityManagementSuccessResult](src/models/connectivity-management-success-result.ts)</code>
+- **OnError**: throws <code>[DeviceGroups.UpdateDeviceGroupError](src/resources/device-groups.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.deviceGroups.updateDeviceGroup(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;ConnectivityManagementSuccessResult, DeviceGroups.UpdateDeviceGroupError&gt;</code>, with `result.value` of type <code>[ConnectivityManagementSuccessResult](src/models/connectivity-management-success-result.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -2717,19 +4047,35 @@ When HTTP status is 202, a URL will be returned in the Location header of the fo
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.sms.listDevicesSmsMessages({ aname });
+  const response = await client.sms.listDevicesSmsMessages({ aname: "0252012345-00001" });
   // TODO: Handle 'response' of type SmsMessagesQueryResult
 } catch (err) {
-  if (err instanceof Sms.ListDevicesSmsMessagesError && err.payload.kind === "connectivityManagementResult") {
-    // TODO: Handle 'err.payload.body' of type ConnectivityManagementResult
-  }
+  // TODO: Handle 'err' of type Sms.ListDevicesSmsMessagesError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.sms.listDevicesSmsMessages({ aname: "0252012345-00001" }).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type SmsMessagesQueryResult
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -2754,9 +4100,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[SmsMessagesQueryResult](src/models/sms-messages-query-result.ts)</code>
+**Direct**: `await client.sms.listDevicesSmsMessages(request)`
 
-**OnError**: <code>[Sms.ListDevicesSmsMessagesError](src/resources/sms.ts)</code>
+- **OnSuccess**: <code>[SmsMessagesQueryResult](src/models/sms-messages-query-result.ts)</code>
+- **OnError**: throws <code>[Sms.ListDevicesSmsMessagesError](src/resources/sms.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.sms.listDevicesSmsMessages(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;SmsMessagesQueryResult, Sms.ListDevicesSmsMessagesError&gt;</code>, with `result.value` of type <code>[SmsMessagesQueryResult](src/models/sms-messages-query-result.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -2782,19 +4136,53 @@ The messages are queued on the ThingSpace Platform and sent as soon as possible,
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.sms.sendSmsToDevice({ body });
+  const response = await client.sms.sendSmsToDevice({
+    body: {
+      accountName: "0000123456-00001",
+      smsMessage: "the body or text of the message itself",
+      customFields: [{ key: "CustomField1", value: "value of the field" }],
+      dataEncoding: "optional 7 or 8-bit encoding",
+      deviceIds: [{ id: "20-digit ICCID", kind: "iccid" }],
+      timeToLive: "a000000010000000R",
+    },
+  });
   // TODO: Handle 'response' of type DeviceManagementResult
 } catch (err) {
-  if (err instanceof Sms.SendSmsToDeviceError && err.payload.kind === "connectivityManagementResult") {
-    // TODO: Handle 'err.payload.body' of type ConnectivityManagementResult
-  }
+  // TODO: Handle 'err' of type Sms.SendSmsToDeviceError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.sms.sendSmsToDevice({
+  body: {
+    accountName: "0000123456-00001",
+    smsMessage: "the body or text of the message itself",
+    customFields: [{ key: "CustomField1", value: "value of the field" }],
+    dataEncoding: "optional 7 or 8-bit encoding",
+    deviceIds: [{ id: "20-digit ICCID", kind: "iccid" }],
+    timeToLive: "a000000010000000R",
+  },
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type DeviceManagementResult
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -2818,9 +4206,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[DeviceManagementResult](src/models/device-management-result.ts)</code>
+**Direct**: `await client.sms.sendSmsToDevice(request)`
 
-**OnError**: <code>[Sms.SendSmsToDeviceError](src/resources/sms.ts)</code>
+- **OnSuccess**: <code>[DeviceManagementResult](src/models/device-management-result.ts)</code>
+- **OnError**: throws <code>[Sms.SendSmsToDeviceError](src/resources/sms.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.sms.sendSmsToDevice(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;DeviceManagementResult, Sms.SendSmsToDeviceError&gt;</code>, with `result.value` of type <code>[DeviceManagementResult](src/models/device-management-result.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -2846,19 +4242,35 @@ Tells the ThingSpace Platform to start sending mobile-originated SMS messages th
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.sms.startQueuedSmsDelivery({ aname });
+  const response = await client.sms.startQueuedSmsDelivery({ aname: "0252012345-00001" });
   // TODO: Handle 'response' of type ConnectivityManagementSuccessResult
 } catch (err) {
-  if (err instanceof Sms.StartQueuedSmsDeliveryError && err.payload.kind === "connectivityManagementResult") {
-    // TODO: Handle 'err.payload.body' of type ConnectivityManagementResult
-  }
+  // TODO: Handle 'err' of type Sms.StartQueuedSmsDeliveryError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.sms.startQueuedSmsDelivery({ aname: "0252012345-00001" }).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type ConnectivityManagementSuccessResult
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -2882,9 +4294,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[ConnectivityManagementSuccessResult](src/models/connectivity-management-success-result.ts)</code>
+**Direct**: `await client.sms.startQueuedSmsDelivery(request)`
 
-**OnError**: <code>[Sms.StartQueuedSmsDeliveryError](src/resources/sms.ts)</code>
+- **OnSuccess**: <code>[ConnectivityManagementSuccessResult](src/models/connectivity-management-success-result.ts)</code>
+- **OnError**: throws <code>[Sms.StartQueuedSmsDeliveryError](src/resources/sms.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.sms.startQueuedSmsDelivery(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;ConnectivityManagementSuccessResult, Sms.StartQueuedSmsDeliveryError&gt;</code>, with `result.value` of type <code>[ConnectivityManagementSuccessResult](src/models/connectivity-management-success-result.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -2914,7 +4334,7 @@ Ends a Connectivity Management session.
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
@@ -2924,12 +4344,25 @@ try {
   const response = await client.sessionManagement.endConnectivityManagementSession();
   // TODO: Handle 'response' of type LogOutRequest
 } catch (err) {
-  if (
-    err instanceof SessionManagement.EndConnectivityManagementSessionError &&
-      err.payload.kind === "connectivityManagementResult"
-  ) {
-    // TODO: Handle 'err.payload.body' of type ConnectivityManagementResult
-  }
+  // TODO: Handle 'err' of type SessionManagement.EndConnectivityManagementSessionError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.sessionManagement.endConnectivityManagementSession().asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type LogOutRequest
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -2941,9 +4374,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[LogOutRequest](src/models/log-out-request.ts)</code>
+**Direct**: `await client.sessionManagement.endConnectivityManagementSession()`
 
-**OnError**: <code>[SessionManagement.EndConnectivityManagementSessionError](src/resources/session-management.ts)</code>
+- **OnSuccess**: <code>[LogOutRequest](src/models/log-out-request.ts)</code>
+- **OnError**: throws <code>[SessionManagement.EndConnectivityManagementSessionError](src/resources/session-management.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.sessionManagement.endConnectivityManagementSession().asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;LogOutRequest, SessionManagement.EndConnectivityManagementSessionError&gt;</code>, with `result.value` of type <code>[LogOutRequest](src/models/log-out-request.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -2969,22 +4410,39 @@ The new password is effective immediately. Passwords do not expire, but Verizon 
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.sessionManagement.resetConnectivityManagementPassword({ body });
+  const response = await client.sessionManagement.resetConnectivityManagementPassword({
+    body: { oldPassword: "grflbk" },
+  });
   // TODO: Handle 'response' of type SessionResetPasswordResult
 } catch (err) {
-  if (
-    err instanceof SessionManagement.ResetConnectivityManagementPasswordError &&
-      err.payload.kind === "connectivityManagementResult"
-  ) {
-    // TODO: Handle 'err.payload.body' of type ConnectivityManagementResult
-  }
+  // TODO: Handle 'err' of type SessionManagement.ResetConnectivityManagementPasswordError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.sessionManagement.resetConnectivityManagementPassword({
+  body: { oldPassword: "grflbk" },
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type SessionResetPasswordResult
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -3008,9 +4466,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[SessionResetPasswordResult](src/models/session-reset-password-result.ts)</code>
+**Direct**: `await client.sessionManagement.resetConnectivityManagementPassword(request)`
 
-**OnError**: <code>[SessionManagement.ResetConnectivityManagementPasswordError](src/resources/session-management.ts)</code>
+- **OnSuccess**: <code>[SessionResetPasswordResult](src/models/session-reset-password-result.ts)</code>
+- **OnError**: throws <code>[SessionManagement.ResetConnectivityManagementPasswordError](src/resources/session-management.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.sessionManagement.resetConnectivityManagementPassword(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;SessionResetPasswordResult, SessionManagement.ResetConnectivityManagementPasswordError&gt;</code>, with `result.value` of type <code>[SessionResetPasswordResult](src/models/session-reset-password-result.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -3036,22 +4502,39 @@ Initiates a Connectivity Management session and returns a VZ-M2M session token t
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.sessionManagement.startConnectivityManagementSession();
+  const response = await client.sessionManagement.startConnectivityManagementSession({
+    body: { username: "zbeeblebrox", password: "IMgr8" },
+  });
   // TODO: Handle 'response' of type LogInResult
 } catch (err) {
-  if (
-    err instanceof SessionManagement.StartConnectivityManagementSessionError &&
-      err.payload.kind === "connectivityManagementResult"
-  ) {
-    // TODO: Handle 'err.payload.body' of type ConnectivityManagementResult
-  }
+  // TODO: Handle 'err' of type SessionManagement.StartConnectivityManagementSessionError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.sessionManagement.startConnectivityManagementSession({
+  body: { username: "zbeeblebrox", password: "IMgr8" },
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type LogInResult
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -3075,9 +4558,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[LogInResult](src/models/log-in-result.ts)</code>
+**Direct**: `await client.sessionManagement.startConnectivityManagementSession(request)`
 
-**OnError**: <code>[SessionManagement.StartConnectivityManagementSessionError](src/resources/session-management.ts)</code>
+- **OnSuccess**: <code>[LogInResult](src/models/log-in-result.ts)</code>
+- **OnError**: throws <code>[SessionManagement.StartConnectivityManagementSessionError](src/resources/session-management.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.sessionManagement.startConnectivityManagementSession(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;LogInResult, SessionManagement.StartConnectivityManagementSessionError&gt;</code>, with `result.value` of type <code>[LogInResult](src/models/log-in-result.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -3107,22 +4598,41 @@ Stops ThingSpace from sending callback messages for the specified account and se
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.connectivityCallbacks.deregisterCallback({ aname, sname });
+  const response = await client.connectivityCallbacks.deregisterCallback({
+    aname: "1223334444-00001",
+    sname: "CarrierService",
+  });
   // TODO: Handle 'response' of type CallbackActionResult
 } catch (err) {
-  if (
-    err instanceof ConnectivityCallbacks.DeregisterCallbackError &&
-      err.payload.kind === "connectivityManagementResult"
-  ) {
-    // TODO: Handle 'err.payload.body' of type ConnectivityManagementResult
-  }
+  // TODO: Handle 'err' of type ConnectivityCallbacks.DeregisterCallbackError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.connectivityCallbacks.deregisterCallback({
+  aname: "1223334444-00001",
+  sname: "CarrierService",
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type CallbackActionResult
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -3147,9 +4657,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[CallbackActionResult](src/models/callback-action-result.ts)</code>
+**Direct**: `await client.connectivityCallbacks.deregisterCallback(request)`
 
-**OnError**: <code>[ConnectivityCallbacks.DeregisterCallbackError](src/resources/connectivity-callbacks.ts)</code>
+- **OnSuccess**: <code>[CallbackActionResult](src/models/callback-action-result.ts)</code>
+- **OnError**: throws <code>[ConnectivityCallbacks.DeregisterCallbackError](src/resources/connectivity-callbacks.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.connectivityCallbacks.deregisterCallback(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;CallbackActionResult, ConnectivityCallbacks.DeregisterCallbackError&gt;</code>, with `result.value` of type <code>[CallbackActionResult](src/models/callback-action-result.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -3175,22 +4693,37 @@ Returns the name and endpoint URL of the callback listening services registered 
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.connectivityCallbacks.listRegisteredCallbacks({ aname });
+  const response = await client.connectivityCallbacks.listRegisteredCallbacks({ aname: "0252012345-00001" });
   // TODO: Handle 'response' of type ConnectivityManagementCallback[]
 } catch (err) {
-  if (
-    err instanceof ConnectivityCallbacks.ListRegisteredCallbacksError &&
-      err.payload.kind === "connectivityManagementResult"
-  ) {
-    // TODO: Handle 'err.payload.body' of type ConnectivityManagementResult
-  }
+  // TODO: Handle 'err' of type ConnectivityCallbacks.ListRegisteredCallbacksError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.connectivityCallbacks.listRegisteredCallbacks({
+  aname: "0252012345-00001",
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type ConnectivityManagementCallback[]
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -3214,9 +4747,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[ConnectivityManagementCallback](src/models/connectivity-management-callback.ts)[]</code>
+**Direct**: `await client.connectivityCallbacks.listRegisteredCallbacks(request)`
 
-**OnError**: <code>[ConnectivityCallbacks.ListRegisteredCallbacksError](src/resources/connectivity-callbacks.ts)</code>
+- **OnSuccess**: <code>[ConnectivityManagementCallback](src/models/connectivity-management-callback.ts)[]</code>
+- **OnError**: throws <code>[ConnectivityCallbacks.ListRegisteredCallbacksError](src/resources/connectivity-callbacks.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.connectivityCallbacks.listRegisteredCallbacks(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;ConnectivityManagementCallback[], ConnectivityCallbacks.ListRegisteredCallbacksError&gt;</code>, with `result.value` of type <code>[ConnectivityManagementCallback](src/models/connectivity-management-callback.ts)[]</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -3242,22 +4783,41 @@ You are responsible for creating and running a listening process on your server 
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.connectivityCallbacks.registerCallback({ aname, body });
+  const response = await client.connectivityCallbacks.registerCallback({
+    aname: "TestAccount-2",
+    body: { name: "CarrierService", url: "https://mock.thingspace.verizon.com/webhook" },
+  });
   // TODO: Handle 'response' of type CallbackActionResult
 } catch (err) {
-  if (
-    err instanceof ConnectivityCallbacks.RegisterCallbackError &&
-      err.payload.kind === "connectivityManagementResult"
-  ) {
-    // TODO: Handle 'err.payload.body' of type ConnectivityManagementResult
-  }
+  // TODO: Handle 'err' of type ConnectivityCallbacks.RegisterCallbackError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.connectivityCallbacks.registerCallback({
+  aname: "TestAccount-2",
+  body: { name: "CarrierService", url: "https://mock.thingspace.verizon.com/webhook" },
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type CallbackActionResult
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -3282,9 +4842,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[CallbackActionResult](src/models/callback-action-result.ts)</code>
+**Direct**: `await client.connectivityCallbacks.registerCallback(request)`
 
-**OnError**: <code>[ConnectivityCallbacks.RegisterCallbackError](src/resources/connectivity-callbacks.ts)</code>
+- **OnSuccess**: <code>[CallbackActionResult](src/models/callback-action-result.ts)</code>
+- **OnError**: throws <code>[ConnectivityCallbacks.RegisterCallbackError](src/resources/connectivity-callbacks.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.connectivityCallbacks.registerCallback(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;CallbackActionResult, ConnectivityCallbacks.RegisterCallbackError&gt;</code>, with `result.value` of type <code>[CallbackActionResult](src/models/callback-action-result.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -3314,22 +4882,41 @@ Returns the current status of an asynchronous request that was made for a single
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.accountRequests.getCurrentAsynchronousRequestStatus({ aname, requestId });
+  const response = await client.accountRequests.getCurrentAsynchronousRequestStatus({
+    aname: "0252012345-00001",
+    requestId: "86c83330-4bf5-4235-9c4e-a83f93aeae4c",
+  });
   // TODO: Handle 'response' of type AsynchronousRequestResult
 } catch (err) {
-  if (
-    err instanceof AccountRequests.GetCurrentAsynchronousRequestStatusError &&
-      err.payload.kind === "connectivityManagementResult"
-  ) {
-    // TODO: Handle 'err.payload.body' of type ConnectivityManagementResult
-  }
+  // TODO: Handle 'err' of type AccountRequests.GetCurrentAsynchronousRequestStatusError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.accountRequests.getCurrentAsynchronousRequestStatus({
+  aname: "0252012345-00001",
+  requestId: "86c83330-4bf5-4235-9c4e-a83f93aeae4c",
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type AsynchronousRequestResult
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -3354,9 +4941,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[AsynchronousRequestResult](src/models/asynchronous-request-result.ts)</code>
+**Direct**: `await client.accountRequests.getCurrentAsynchronousRequestStatus(request)`
 
-**OnError**: <code>[AccountRequests.GetCurrentAsynchronousRequestStatusError](src/resources/account-requests.ts)</code>
+- **OnSuccess**: <code>[AsynchronousRequestResult](src/models/asynchronous-request-result.ts)</code>
+- **OnError**: throws <code>[AccountRequests.GetCurrentAsynchronousRequestStatusError](src/resources/account-requests.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.accountRequests.getCurrentAsynchronousRequestStatus(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;AsynchronousRequestResult, AccountRequests.GetCurrentAsynchronousRequestStatusError&gt;</code>, with `result.value` of type <code>[AsynchronousRequestResult](src/models/asynchronous-request-result.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -3386,22 +4981,35 @@ Returns a list of all data service plans that are associated with a specified bi
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.servicePlans.listAccountServicePlans({ aname });
+  const response = await client.servicePlans.listAccountServicePlans({ aname: "0252012345-00001" });
   // TODO: Handle 'response' of type ServicePlan[]
 } catch (err) {
-  if (
-    err instanceof ServicePlans.ListAccountServicePlansError &&
-      err.payload.kind === "connectivityManagementResult"
-  ) {
-    // TODO: Handle 'err.payload.body' of type ConnectivityManagementResult
-  }
+  // TODO: Handle 'err' of type ServicePlans.ListAccountServicePlansError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.servicePlans.listAccountServicePlans({ aname: "0252012345-00001" }).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type ServicePlan[]
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -3425,9 +5033,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[ServicePlan](src/models/service-plan.ts)[]</code>
+**Direct**: `await client.servicePlans.listAccountServicePlans(request)`
 
-**OnError**: <code>[ServicePlans.ListAccountServicePlansError](src/resources/service-plans.ts)</code>
+- **OnSuccess**: <code>[ServicePlan](src/models/service-plan.ts)[]</code>
+- **OnError**: throws <code>[ServicePlans.ListAccountServicePlansError](src/resources/service-plans.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.servicePlans.listAccountServicePlans(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;ServicePlan[], ServicePlans.ListAccountServicePlansError&gt;</code>, with `result.value` of type <code>[ServicePlan](src/models/service-plan.ts)[]</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -3457,22 +5073,47 @@ If the devices do not already exist in the account, this API resource adds them 
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.deviceDiagnostics.deviceReachabilityStatusUsingPost({ body });
+  const response = await client.deviceDiagnostics.deviceReachabilityStatusUsingPost({
+    body: {
+      accountName: "some example string",
+      device: { id: "some example string", kind: "some example string" },
+      requestType: "some example string",
+    },
+  });
   // TODO: Handle 'response' of type DeviceManagementResult
 } catch (err) {
-  if (
-    err instanceof DeviceDiagnostics.DeviceReachabilityStatusUsingPostError &&
-      err.payload.kind === "connectivityManagementResult"
-  ) {
-    // TODO: Handle 'err.payload.body' of type ConnectivityManagementResult
-  }
+  // TODO: Handle 'err' of type DeviceDiagnostics.DeviceReachabilityStatusUsingPostError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.deviceDiagnostics.deviceReachabilityStatusUsingPost({
+  body: {
+    accountName: "some example string",
+    device: { id: "some example string", kind: "some example string" },
+    requestType: "some example string",
+  },
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type DeviceManagementResult
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -3496,9 +5137,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[DeviceManagementResult](src/models/device-management-result.ts)</code>
+**Direct**: `await client.deviceDiagnostics.deviceReachabilityStatusUsingPost(request)`
 
-**OnError**: <code>[DeviceDiagnostics.DeviceReachabilityStatusUsingPostError](src/resources/device-diagnostics.ts)</code>
+- **OnSuccess**: <code>[DeviceManagementResult](src/models/device-management-result.ts)</code>
+- **OnError**: throws <code>[DeviceDiagnostics.DeviceReachabilityStatusUsingPostError](src/resources/device-diagnostics.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.deviceDiagnostics.deviceReachabilityStatusUsingPost(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;DeviceManagementResult, DeviceDiagnostics.DeviceReachabilityStatusUsingPostError&gt;</code>, with `result.value` of type <code>[DeviceManagementResult](src/models/device-management-result.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -3524,22 +5173,45 @@ Retrieve all the active monitors.
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.deviceDiagnostics.retrieveActiveMonitorsUsingPost({ body });
+  const response = await client.deviceDiagnostics.retrieveActiveMonitorsUsingPost({
+    body: {
+      accountName: "0242123520-00001",
+      devices: [{ deviceIds: [{ id: "12016560696", kind: "msisdn" }] }],
+    },
+  });
   // TODO: Handle 'response' of type DeviceManagementResult
 } catch (err) {
-  if (
-    err instanceof DeviceDiagnostics.RetrieveActiveMonitorsUsingPostError &&
-      err.payload.kind === "connectivityManagementResult"
-  ) {
-    // TODO: Handle 'err.payload.body' of type ConnectivityManagementResult
-  }
+  // TODO: Handle 'err' of type DeviceDiagnostics.RetrieveActiveMonitorsUsingPostError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.deviceDiagnostics.retrieveActiveMonitorsUsingPost({
+  body: {
+    accountName: "0242123520-00001",
+    devices: [{ deviceIds: [{ id: "12016560696", kind: "msisdn" }] }],
+  },
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type DeviceManagementResult
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -3563,9 +5235,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[DeviceManagementResult](src/models/device-management-result.ts)</code>
+**Direct**: `await client.deviceDiagnostics.retrieveActiveMonitorsUsingPost(request)`
 
-**OnError**: <code>[DeviceDiagnostics.RetrieveActiveMonitorsUsingPostError](src/resources/device-diagnostics.ts)</code>
+- **OnSuccess**: <code>[DeviceManagementResult](src/models/device-management-result.ts)</code>
+- **OnError**: throws <code>[DeviceDiagnostics.RetrieveActiveMonitorsUsingPostError](src/resources/device-diagnostics.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.deviceDiagnostics.retrieveActiveMonitorsUsingPost(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;DeviceManagementResult, DeviceDiagnostics.RetrieveActiveMonitorsUsingPostError&gt;</code>, with `result.value` of type <code>[DeviceManagementResult](src/models/device-management-result.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -3585,19 +5265,53 @@ try {
 <dl>
 <dd>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.deviceMonitoring.deviceReachability({ body });
+  const response = await client.deviceMonitoring.deviceReachability({
+    body: {
+      accountName: "0000123456-00001",
+      requestType: "REACHABLE_FOR_DATA",
+      devices: [
+        { deviceIds: [{ id: "20-digit ICCID", kind: "iccid" }, { id: "20-digit ICCID", kind: "iccid" }] },
+      ],
+      monitorExpirationTime: "2019-12-02T15:00:00-08:00Z",
+    },
+  });
   // TODO: Handle 'response' of type RequestResponse
 } catch (err) {
-  if (err instanceof DeviceMonitoring.DeviceReachabilityError && err.payload.kind === "restErrorResponse") {
-    // TODO: Handle 'err.payload.body' of type RestErrorResponse
-  }
+  // TODO: Handle 'err' of type DeviceMonitoring.DeviceReachabilityError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.deviceMonitoring.deviceReachability({
+  body: {
+    accountName: "0000123456-00001",
+    requestType: "REACHABLE_FOR_DATA",
+    devices: [
+      { deviceIds: [{ id: "20-digit ICCID", kind: "iccid" }, { id: "20-digit ICCID", kind: "iccid" }] },
+    ],
+    monitorExpirationTime: "2019-12-02T15:00:00-08:00Z",
+  },
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type RequestResponse
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -3621,9 +5335,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[RequestResponse](src/models/request-response.ts)</code>
+**Direct**: `await client.deviceMonitoring.deviceReachability(request)`
 
-**OnError**: <code>[DeviceMonitoring.DeviceReachabilityError](src/resources/device-monitoring.ts)</code>
+- **OnSuccess**: <code>[RequestResponse](src/models/request-response.ts)</code>
+- **OnError**: throws <code>[DeviceMonitoring.DeviceReachabilityError](src/resources/device-monitoring.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.deviceMonitoring.deviceReachability(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;RequestResponse, DeviceMonitoring.DeviceReachabilityError&gt;</code>, with `result.value` of type <code>[RequestResponse](src/models/request-response.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -3639,21 +5361,45 @@ try {
 <dl>
 <dd>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.deviceMonitoring.stopDeviceReachability({ stopreachabilitypayload });
+  const response = await client.deviceMonitoring.stopDeviceReachability({
+    stopreachabilitypayload: {
+      accountName: "0000123456-00001",
+      devices: [{ deviceIds: [{ id: "1+ 10-digit phone number", kind: "msisdn" }] }],
+    },
+  });
   // TODO: Handle 'response' of type RequestResponse
 } catch (err) {
-  if (
-    err instanceof DeviceMonitoring.StopDeviceReachabilityError && err.payload.kind === "restErrorResponse"
-  ) {
-    // TODO: Handle 'err.payload.body' of type RestErrorResponse
-  }
+  // TODO: Handle 'err' of type DeviceMonitoring.StopDeviceReachabilityError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.deviceMonitoring.stopDeviceReachability({
+  stopreachabilitypayload: {
+    accountName: "0000123456-00001",
+    devices: [{ deviceIds: [{ id: "1+ 10-digit phone number", kind: "msisdn" }] }],
+  },
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type RequestResponse
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -3677,9 +5423,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[RequestResponse](src/models/request-response.ts)</code>
+**Direct**: `await client.deviceMonitoring.stopDeviceReachability(request)`
 
-**OnError**: <code>[DeviceMonitoring.StopDeviceReachabilityError](src/resources/device-monitoring.ts)</code>
+- **OnSuccess**: <code>[RequestResponse](src/models/request-response.ts)</code>
+- **OnError**: throws <code>[DeviceMonitoring.StopDeviceReachabilityError](src/resources/device-monitoring.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.deviceMonitoring.stopDeviceReachability(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;RequestResponse, DeviceMonitoring.StopDeviceReachabilityError&gt;</code>, with `result.value` of type <code>[RequestResponse](src/models/request-response.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -3709,22 +5463,49 @@ Uses the profile to bring the device under management.
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.deviceProfileManagement.activateDeviceThroughProfile({ body });
+  const response = await client.deviceProfileManagement.activateDeviceThroughProfile({
+    body: {
+      devices: [{ deviceIds: [{ id: "32-digit EID", kind: "eid" }, { id: "15-digit IMEI", kind: "imei" }] }],
+      accountName: "0000123456-00001",
+      servicePlan: "The service plan name",
+      mdnZipCode: "five digit zip code",
+    },
+  });
   // TODO: Handle 'response' of type RequestResponse
 } catch (err) {
-  if (
-    err instanceof DeviceProfileManagement.ActivateDeviceThroughProfileError &&
-      err.payload.kind === "restErrorResponse"
-  ) {
-    // TODO: Handle 'err.payload.body' of type RestErrorResponse
-  }
+  // TODO: Handle 'err' of type DeviceProfileManagement.ActivateDeviceThroughProfileError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.deviceProfileManagement.activateDeviceThroughProfile({
+  body: {
+    devices: [{ deviceIds: [{ id: "32-digit EID", kind: "eid" }, { id: "15-digit IMEI", kind: "imei" }] }],
+    accountName: "0000123456-00001",
+    servicePlan: "The service plan name",
+    mdnZipCode: "five digit zip code",
+  },
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type RequestResponse
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -3748,9 +5529,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[RequestResponse](src/models/request-response.ts)</code>
+**Direct**: `await client.deviceProfileManagement.activateDeviceThroughProfile(request)`
 
-**OnError**: <code>[DeviceProfileManagement.ActivateDeviceThroughProfileError](src/resources/device-profile-management.ts)</code>
+- **OnSuccess**: <code>[RequestResponse](src/models/request-response.ts)</code>
+- **OnError**: throws <code>[DeviceProfileManagement.ActivateDeviceThroughProfileError](src/resources/device-profile-management.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.deviceProfileManagement.activateDeviceThroughProfile(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;RequestResponse, DeviceProfileManagement.ActivateDeviceThroughProfileError&gt;</code>, with `result.value` of type <code>[RequestResponse](src/models/request-response.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -3776,22 +5565,39 @@ Uses the profile to activate the device.
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.deviceProfileManagement.profileToActivateDevice({ body });
+  const response = await client.deviceProfileManagement.profileToActivateDevice({
+    body: { accountName: "some example string", devices: [{}] },
+  });
   // TODO: Handle 'response' of type RequestResponse
 } catch (err) {
-  if (
-    err instanceof DeviceProfileManagement.ProfileToActivateDeviceError &&
-      err.payload.kind === "restErrorResponse"
-  ) {
-    // TODO: Handle 'err.payload.body' of type RestErrorResponse
-  }
+  // TODO: Handle 'err' of type DeviceProfileManagement.ProfileToActivateDeviceError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.deviceProfileManagement.profileToActivateDevice({
+  body: { accountName: "some example string", devices: [{}] },
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type RequestResponse
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -3815,9 +5621,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[RequestResponse](src/models/request-response.ts)</code>
+**Direct**: `await client.deviceProfileManagement.profileToActivateDevice(request)`
 
-**OnError**: <code>[DeviceProfileManagement.ProfileToActivateDeviceError](src/resources/device-profile-management.ts)</code>
+- **OnSuccess**: <code>[RequestResponse](src/models/request-response.ts)</code>
+- **OnError**: throws <code>[DeviceProfileManagement.ProfileToActivateDeviceError](src/resources/device-profile-management.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.deviceProfileManagement.profileToActivateDevice(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;RequestResponse, DeviceProfileManagement.ProfileToActivateDeviceError&gt;</code>, with `result.value` of type <code>[RequestResponse](src/models/request-response.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -3843,22 +5657,39 @@ Uses the profile to deactivate the device.
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.deviceProfileManagement.profileToDeactivateDevice({ body });
+  const response = await client.deviceProfileManagement.profileToDeactivateDevice({
+    body: { accountName: "some example string", reasonCode: "some example string" },
+  });
   // TODO: Handle 'response' of type RequestResponse
 } catch (err) {
-  if (
-    err instanceof DeviceProfileManagement.ProfileToDeactivateDeviceError &&
-      err.payload.kind === "restErrorResponse"
-  ) {
-    // TODO: Handle 'err.payload.body' of type RestErrorResponse
-  }
+  // TODO: Handle 'err' of type DeviceProfileManagement.ProfileToDeactivateDeviceError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.deviceProfileManagement.profileToDeactivateDevice({
+  body: { accountName: "some example string", reasonCode: "some example string" },
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type RequestResponse
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -3882,9 +5713,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[RequestResponse](src/models/request-response.ts)</code>
+**Direct**: `await client.deviceProfileManagement.profileToDeactivateDevice(request)`
 
-**OnError**: <code>[DeviceProfileManagement.ProfileToDeactivateDeviceError](src/resources/device-profile-management.ts)</code>
+- **OnSuccess**: <code>[RequestResponse](src/models/request-response.ts)</code>
+- **OnError**: throws <code>[DeviceProfileManagement.ProfileToDeactivateDeviceError](src/resources/device-profile-management.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.deviceProfileManagement.profileToDeactivateDevice(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;RequestResponse, DeviceProfileManagement.ProfileToDeactivateDeviceError&gt;</code>, with `result.value` of type <code>[RequestResponse](src/models/request-response.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -3910,22 +5749,39 @@ Allows the profile to set the fallback attribute to the device.
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.deviceProfileManagement.profileToSetFallbackAttribute({ body });
+  const response = await client.deviceProfileManagement.profileToSetFallbackAttribute({
+    body: { devices: [{}], accountName: "some example string" },
+  });
   // TODO: Handle 'response' of type RequestResponse
 } catch (err) {
-  if (
-    err instanceof DeviceProfileManagement.ProfileToSetFallbackAttributeError &&
-      err.payload.kind === "restErrorResponse"
-  ) {
-    // TODO: Handle 'err.payload.body' of type RestErrorResponse
-  }
+  // TODO: Handle 'err' of type DeviceProfileManagement.ProfileToSetFallbackAttributeError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.deviceProfileManagement.profileToSetFallbackAttribute({
+  body: { devices: [{}], accountName: "some example string" },
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type RequestResponse
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -3949,9 +5805,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[RequestResponse](src/models/request-response.ts)</code>
+**Direct**: `await client.deviceProfileManagement.profileToSetFallbackAttribute(request)`
 
-**OnError**: <code>[DeviceProfileManagement.ProfileToSetFallbackAttributeError](src/resources/device-profile-management.ts)</code>
+- **OnSuccess**: <code>[RequestResponse](src/models/request-response.ts)</code>
+- **OnError**: throws <code>[DeviceProfileManagement.ProfileToSetFallbackAttributeError](src/resources/device-profile-management.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.deviceProfileManagement.profileToSetFallbackAttribute(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;RequestResponse, DeviceProfileManagement.ProfileToSetFallbackAttributeError&gt;</code>, with `result.value` of type <code>[RequestResponse](src/models/request-response.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -3981,22 +5845,61 @@ Delete a local profile from eUICC devices. If the local profile is enabled, it w
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.eUiccDeviceProfileManagement.deleteLocalProfile({ body });
+  const response = await client.eUiccDeviceProfileManagement.deleteLocalProfile({
+    body: {
+      devices: [
+        {
+          deviceIds: [
+            { id: "678912789123453456784008666456", kind: "eid" },
+            { id: "78425989148000000840", kind: "iccid" },
+          ],
+        },
+      ],
+      accountName: "1223334444-00001",
+      smsrOid: "1.3.6.1.4.1.31746.1.500.200.101.5",
+    },
+  });
   // TODO: Handle 'response' of type RequestResponse
 } catch (err) {
-  if (
-    err instanceof EUiccDeviceProfileManagement.DeleteLocalProfileError &&
-      err.payload.kind === "restErrorResponse"
-  ) {
-    // TODO: Handle 'err.payload.body' of type RestErrorResponse
-  }
+  // TODO: Handle 'err' of type EUiccDeviceProfileManagement.DeleteLocalProfileError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.eUiccDeviceProfileManagement.deleteLocalProfile({
+  body: {
+    devices: [
+      {
+        deviceIds: [
+          { id: "678912789123453456784008666456", kind: "eid" },
+          { id: "78425989148000000840", kind: "iccid" },
+        ],
+      },
+    ],
+    accountName: "1223334444-00001",
+    smsrOid: "1.3.6.1.4.1.31746.1.500.200.101.5",
+  },
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type RequestResponse
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -4020,9 +5923,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[RequestResponse](src/models/request-response.ts)</code>
+**Direct**: `await client.eUiccDeviceProfileManagement.deleteLocalProfile(request)`
 
-**OnError**: <code>[EUiccDeviceProfileManagement.DeleteLocalProfileError](src/resources/euicc-device-profile-management.ts)</code>
+- **OnSuccess**: <code>[RequestResponse](src/models/request-response.ts)</code>
+- **OnError**: throws <code>[EUiccDeviceProfileManagement.DeleteLocalProfileError](src/resources/euicc-device-profile-management.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.eUiccDeviceProfileManagement.deleteLocalProfile(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;RequestResponse, EUiccDeviceProfileManagement.DeleteLocalProfileError&gt;</code>, with `result.value` of type <code>[RequestResponse](src/models/request-response.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -4048,22 +5959,61 @@ Disable a local profile on eUICC devices. The default or boot profile will becom
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.eUiccDeviceProfileManagement.disableLocalProfile({ body });
+  const response = await client.eUiccDeviceProfileManagement.disableLocalProfile({
+    body: {
+      devices: [
+        {
+          deviceIds: [
+            { id: "678912789123453456784008666456", kind: "eid" },
+            { id: "78425989148000000840", kind: "iccid" },
+          ],
+        },
+      ],
+      accountName: "1223334444-00001",
+      smsrOid: "1.3.6.1.4.1.31746.1.500.200.101.5",
+    },
+  });
   // TODO: Handle 'response' of type RequestResponse
 } catch (err) {
-  if (
-    err instanceof EUiccDeviceProfileManagement.DisableLocalProfileError &&
-      err.payload.kind === "restErrorResponse"
-  ) {
-    // TODO: Handle 'err.payload.body' of type RestErrorResponse
-  }
+  // TODO: Handle 'err' of type EUiccDeviceProfileManagement.DisableLocalProfileError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.eUiccDeviceProfileManagement.disableLocalProfile({
+  body: {
+    devices: [
+      {
+        deviceIds: [
+          { id: "678912789123453456784008666456", kind: "eid" },
+          { id: "78425989148000000840", kind: "iccid" },
+        ],
+      },
+    ],
+    accountName: "1223334444-00001",
+    smsrOid: "1.3.6.1.4.1.31746.1.500.200.101.5",
+  },
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type RequestResponse
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -4087,9 +6037,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[RequestResponse](src/models/request-response.ts)</code>
+**Direct**: `await client.eUiccDeviceProfileManagement.disableLocalProfile(request)`
 
-**OnError**: <code>[EUiccDeviceProfileManagement.DisableLocalProfileError](src/resources/euicc-device-profile-management.ts)</code>
+- **OnSuccess**: <code>[RequestResponse](src/models/request-response.ts)</code>
+- **OnError**: throws <code>[EUiccDeviceProfileManagement.DisableLocalProfileError](src/resources/euicc-device-profile-management.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.eUiccDeviceProfileManagement.disableLocalProfile(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;RequestResponse, EUiccDeviceProfileManagement.DisableLocalProfileError&gt;</code>, with `result.value` of type <code>[RequestResponse](src/models/request-response.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -4115,22 +6073,61 @@ Downloads an eUICC local profile to devices and leaves the profile disabled.
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.eUiccDeviceProfileManagement.downloadLocalProfileToDisable({ body });
+  const response = await client.eUiccDeviceProfileManagement.downloadLocalProfileToDisable({
+    body: {
+      devices: [
+        {
+          deviceIds: [
+            { id: "678912789123453456784008666456", kind: "eid" },
+            { id: "78425989148000000840", kind: "iccid" },
+          ],
+        },
+      ],
+      accountName: "1223334444-00001",
+      smsrOid: "1.3.6.1.4.1.31746.1.500.200.101.5",
+    },
+  });
   // TODO: Handle 'response' of type DeviceManagementResult
 } catch (err) {
-  if (
-    err instanceof EUiccDeviceProfileManagement.DownloadLocalProfileToDisableError &&
-      err.payload.kind === "connectivityManagementResult"
-  ) {
-    // TODO: Handle 'err.payload.body' of type ConnectivityManagementResult
-  }
+  // TODO: Handle 'err' of type EUiccDeviceProfileManagement.DownloadLocalProfileToDisableError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.eUiccDeviceProfileManagement.downloadLocalProfileToDisable({
+  body: {
+    devices: [
+      {
+        deviceIds: [
+          { id: "678912789123453456784008666456", kind: "eid" },
+          { id: "78425989148000000840", kind: "iccid" },
+        ],
+      },
+    ],
+    accountName: "1223334444-00001",
+    smsrOid: "1.3.6.1.4.1.31746.1.500.200.101.5",
+  },
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type DeviceManagementResult
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -4154,9 +6151,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[DeviceManagementResult](src/models/device-management-result.ts)</code>
+**Direct**: `await client.eUiccDeviceProfileManagement.downloadLocalProfileToDisable(request)`
 
-**OnError**: <code>[EUiccDeviceProfileManagement.DownloadLocalProfileToDisableError](src/resources/euicc-device-profile-management.ts)</code>
+- **OnSuccess**: <code>[DeviceManagementResult](src/models/device-management-result.ts)</code>
+- **OnError**: throws <code>[EUiccDeviceProfileManagement.DownloadLocalProfileToDisableError](src/resources/euicc-device-profile-management.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.eUiccDeviceProfileManagement.downloadLocalProfileToDisable(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;DeviceManagementResult, EUiccDeviceProfileManagement.DownloadLocalProfileToDisableError&gt;</code>, with `result.value` of type <code>[DeviceManagementResult](src/models/device-management-result.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -4182,22 +6187,61 @@ Downloads an eUICC local profile to devices and enables the profile.
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.eUiccDeviceProfileManagement.downloadLocalProfileToEnable({ body });
+  const response = await client.eUiccDeviceProfileManagement.downloadLocalProfileToEnable({
+    body: {
+      devices: [
+        {
+          deviceIds: [
+            { id: "678912789123453456784008666456", kind: "eid" },
+            { id: "78425989148000000840", kind: "iccid" },
+          ],
+        },
+      ],
+      accountName: "1223334444-00001",
+      smsrOid: "1.3.6.1.4.1.31746.1.500.200.101.5",
+    },
+  });
   // TODO: Handle 'response' of type DeviceManagementResult
 } catch (err) {
-  if (
-    err instanceof EUiccDeviceProfileManagement.DownloadLocalProfileToEnableError &&
-      err.payload.kind === "connectivityManagementResult"
-  ) {
-    // TODO: Handle 'err.payload.body' of type ConnectivityManagementResult
-  }
+  // TODO: Handle 'err' of type EUiccDeviceProfileManagement.DownloadLocalProfileToEnableError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.eUiccDeviceProfileManagement.downloadLocalProfileToEnable({
+  body: {
+    devices: [
+      {
+        deviceIds: [
+          { id: "678912789123453456784008666456", kind: "eid" },
+          { id: "78425989148000000840", kind: "iccid" },
+        ],
+      },
+    ],
+    accountName: "1223334444-00001",
+    smsrOid: "1.3.6.1.4.1.31746.1.500.200.101.5",
+  },
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type DeviceManagementResult
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -4221,9 +6265,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[DeviceManagementResult](src/models/device-management-result.ts)</code>
+**Direct**: `await client.eUiccDeviceProfileManagement.downloadLocalProfileToEnable(request)`
 
-**OnError**: <code>[EUiccDeviceProfileManagement.DownloadLocalProfileToEnableError](src/resources/euicc-device-profile-management.ts)</code>
+- **OnSuccess**: <code>[DeviceManagementResult](src/models/device-management-result.ts)</code>
+- **OnError**: throws <code>[EUiccDeviceProfileManagement.DownloadLocalProfileToEnableError](src/resources/euicc-device-profile-management.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.eUiccDeviceProfileManagement.downloadLocalProfileToEnable(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;DeviceManagementResult, EUiccDeviceProfileManagement.DownloadLocalProfileToEnableError&gt;</code>, with `result.value` of type <code>[DeviceManagementResult](src/models/device-management-result.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -4249,22 +6301,61 @@ Enable a local profile that has been downloaded to eUICC devices.
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.eUiccDeviceProfileManagement.enableLocalProfile({ body });
+  const response = await client.eUiccDeviceProfileManagement.enableLocalProfile({
+    body: {
+      devices: [
+        {
+          deviceIds: [
+            { id: "678912789123453456784008666456", kind: "eid" },
+            { id: "78425989148000000840", kind: "iccid" },
+          ],
+        },
+      ],
+      accountName: "1223334444-00001",
+      smsrOid: "1.3.6.1.4.1.31746.1.500.200.101.5",
+    },
+  });
   // TODO: Handle 'response' of type RequestResponse
 } catch (err) {
-  if (
-    err instanceof EUiccDeviceProfileManagement.EnableLocalProfileError &&
-      err.payload.kind === "restErrorResponse"
-  ) {
-    // TODO: Handle 'err.payload.body' of type RestErrorResponse
-  }
+  // TODO: Handle 'err' of type EUiccDeviceProfileManagement.EnableLocalProfileError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.eUiccDeviceProfileManagement.enableLocalProfile({
+  body: {
+    devices: [
+      {
+        deviceIds: [
+          { id: "678912789123453456784008666456", kind: "eid" },
+          { id: "78425989148000000840", kind: "iccid" },
+        ],
+      },
+    ],
+    accountName: "1223334444-00001",
+    smsrOid: "1.3.6.1.4.1.31746.1.500.200.101.5",
+  },
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type RequestResponse
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -4288,9 +6379,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[RequestResponse](src/models/request-response.ts)</code>
+**Direct**: `await client.eUiccDeviceProfileManagement.enableLocalProfile(request)`
 
-**OnError**: <code>[EUiccDeviceProfileManagement.EnableLocalProfileError](src/resources/euicc-device-profile-management.ts)</code>
+- **OnSuccess**: <code>[RequestResponse](src/models/request-response.ts)</code>
+- **OnError**: throws <code>[EUiccDeviceProfileManagement.EnableLocalProfileError](src/resources/euicc-device-profile-management.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.eUiccDeviceProfileManagement.enableLocalProfile(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;RequestResponse, EUiccDeviceProfileManagement.EnableLocalProfileError&gt;</code>, with `result.value` of type <code>[RequestResponse](src/models/request-response.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -4320,22 +6419,41 @@ Cancel a queued device location report.
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.devicesLocations.cancelQueuedLocationReportGeneration({ accountName, txid });
+  const response = await client.devicesLocations.cancelQueuedLocationReportGeneration({
+    accountName: "0252012345-00001",
+    txid: "2c90bd28-eeee-ffff-gggg-7e3bd4fbff33",
+  });
   // TODO: Handle 'response' of type TransactionId
 } catch (err) {
-  if (
-    err instanceof DevicesLocations.CancelQueuedLocationReportGenerationError &&
-      err.payload.kind === "deviceLocationResult"
-  ) {
-    // TODO: Handle 'err.payload.body' of type DeviceLocationResult
-  }
+  // TODO: Handle 'err' of type DevicesLocations.CancelQueuedLocationReportGenerationError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.devicesLocations.cancelQueuedLocationReportGeneration({
+  accountName: "0252012345-00001",
+  txid: "2c90bd28-eeee-ffff-gggg-7e3bd4fbff33",
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type TransactionId
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -4360,9 +6478,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[TransactionId](src/models/transaction-id.ts)</code>
+**Direct**: `await client.devicesLocations.cancelQueuedLocationReportGeneration(request)`
 
-**OnError**: <code>[DevicesLocations.CancelQueuedLocationReportGenerationError](src/resources/devices-locations.ts)</code>
+- **OnSuccess**: <code>[TransactionId](src/models/transaction-id.ts)</code>
+- **OnError**: throws <code>[DevicesLocations.CancelQueuedLocationReportGenerationError](src/resources/devices-locations.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.devicesLocations.cancelQueuedLocationReportGeneration(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;TransactionId, DevicesLocations.CancelQueuedLocationReportGenerationError&gt;</code>, with `result.value` of type <code>[TransactionId](src/models/transaction-id.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -4388,7 +6514,7 @@ Request an asynchronous device location report.
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
@@ -4398,11 +6524,25 @@ try {
   const response = await client.devicesLocations.createLocationReport();
   // TODO: Handle 'response' of type AsynchronousLocationRequestResult
 } catch (err) {
-  if (
-    err instanceof DevicesLocations.CreateLocationReportError && err.payload.kind === "deviceLocationResult"
-  ) {
-    // TODO: Handle 'err.payload.body' of type DeviceLocationResult
-  }
+  // TODO: Handle 'err' of type DevicesLocations.CreateLocationReportError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.devicesLocations.createLocationReport().asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type AsynchronousLocationRequestResult
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -4414,9 +6554,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[AsynchronousLocationRequestResult](src/models/asynchronous-location-request-result.ts)</code>
+**Direct**: `await client.devicesLocations.createLocationReport()`
 
-**OnError**: <code>[DevicesLocations.CreateLocationReportError](src/resources/devices-locations.ts)</code>
+- **OnSuccess**: <code>[AsynchronousLocationRequestResult](src/models/asynchronous-location-request-result.ts)</code>
+- **OnError**: throws <code>[DevicesLocations.CreateLocationReportError](src/resources/devices-locations.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.devicesLocations.createLocationReport().asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;AsynchronousLocationRequestResult, DevicesLocations.CreateLocationReportError&gt;</code>, with `result.value` of type <code>[AsynchronousLocationRequestResult](src/models/asynchronous-location-request-result.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -4442,22 +6590,41 @@ Returns the current status of a requested device location report.
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.devicesLocations.getLocationReportStatus({ accountName, txid });
+  const response = await client.devicesLocations.getLocationReportStatus({
+    accountName: "0252012345-00001",
+    txid: "2c90bd28-eeee-ffff-gggg-7e3bd4fbff33",
+  });
   // TODO: Handle 'response' of type LocationReportStatus
 } catch (err) {
-  if (
-    err instanceof DevicesLocations.GetLocationReportStatusError &&
-      err.payload.kind === "deviceLocationResult"
-  ) {
-    // TODO: Handle 'err.payload.body' of type DeviceLocationResult
-  }
+  // TODO: Handle 'err' of type DevicesLocations.GetLocationReportStatusError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.devicesLocations.getLocationReportStatus({
+  accountName: "0252012345-00001",
+  txid: "2c90bd28-eeee-ffff-gggg-7e3bd4fbff33",
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type LocationReportStatus
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -4482,9 +6649,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[LocationReportStatus](src/models/location-report-status.ts)</code>
+**Direct**: `await client.devicesLocations.getLocationReportStatus(request)`
 
-**OnError**: <code>[DevicesLocations.GetLocationReportStatusError](src/resources/devices-locations.ts)</code>
+- **OnSuccess**: <code>[LocationReportStatus](src/models/location-report-status.ts)</code>
+- **OnError**: throws <code>[DevicesLocations.GetLocationReportStatusError](src/resources/devices-locations.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.devicesLocations.getLocationReportStatus(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;LocationReportStatus, DevicesLocations.GetLocationReportStatusError&gt;</code>, with `result.value` of type <code>[LocationReportStatus](src/models/location-report-status.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -4510,7 +6685,7 @@ Requests the current or cached location of up to 10,000 IoT or consumer devices 
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
@@ -4520,12 +6695,25 @@ try {
   const response = await client.devicesLocations.listDevicesLocationsAsynchronous();
   // TODO: Handle 'response' of type SynchronousLocationRequestResult
 } catch (err) {
-  if (
-    err instanceof DevicesLocations.ListDevicesLocationsAsynchronousError &&
-      err.payload.kind === "deviceLocationResult"
-  ) {
-    // TODO: Handle 'err.payload.body' of type DeviceLocationResult
-  }
+  // TODO: Handle 'err' of type DevicesLocations.ListDevicesLocationsAsynchronousError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.devicesLocations.listDevicesLocationsAsynchronous().asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type SynchronousLocationRequestResult
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -4537,9 +6725,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[SynchronousLocationRequestResult](src/models/synchronous-location-request-result.ts)</code>
+**Direct**: `await client.devicesLocations.listDevicesLocationsAsynchronous()`
 
-**OnError**: <code>[DevicesLocations.ListDevicesLocationsAsynchronousError](src/resources/devices-locations.ts)</code>
+- **OnSuccess**: <code>[SynchronousLocationRequestResult](src/models/synchronous-location-request-result.ts)</code>
+- **OnError**: throws <code>[DevicesLocations.ListDevicesLocationsAsynchronousError](src/resources/devices-locations.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.devicesLocations.listDevicesLocationsAsynchronous().asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;SynchronousLocationRequestResult, DevicesLocations.ListDevicesLocationsAsynchronousError&gt;</code>, with `result.value` of type <code>[SynchronousLocationRequestResult](src/models/synchronous-location-request-result.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -4565,22 +6761,55 @@ This locations endpoint retrieves the locations for a list of devices.
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.devicesLocations.listDevicesLocationsSynchronous({ body });
+  const response = await client.devicesLocations.listDevicesLocationsSynchronous({
+    body: {
+      accountName: "1234567890-00001",
+      deviceList: [
+        { id: "980003420535573", kind: "imei", mdn: "7892345678" },
+        { id: "375535024300089", kind: "imei", mdn: "7897654321" },
+      ],
+      accuracyMode: AccuracyMode._0,
+      cacheMode: CacheMode._1,
+    },
+  });
   // TODO: Handle 'response' of type Location[]
 } catch (err) {
-  if (
-    err instanceof DevicesLocations.ListDevicesLocationsSynchronousError &&
-      err.payload.kind === "deviceLocationResult"
-  ) {
-    // TODO: Handle 'err.payload.body' of type DeviceLocationResult
-  }
+  // TODO: Handle 'err' of type DevicesLocations.ListDevicesLocationsSynchronousError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.devicesLocations.listDevicesLocationsSynchronous({
+  body: {
+    accountName: "1234567890-00001",
+    deviceList: [
+      { id: "980003420535573", kind: "imei", mdn: "7892345678" },
+      { id: "375535024300089", kind: "imei", mdn: "7897654321" },
+    ],
+    accuracyMode: AccuracyMode._0,
+    cacheMode: CacheMode._1,
+  },
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type Location[]
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -4604,9 +6833,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[Location](src/models/location.ts)[]</code>
+**Direct**: `await client.devicesLocations.listDevicesLocationsSynchronous(request)`
 
-**OnError**: <code>[DevicesLocations.ListDevicesLocationsSynchronousError](src/resources/devices-locations.ts)</code>
+- **OnSuccess**: <code>[Location](src/models/location.ts)[]</code>
+- **OnError**: throws <code>[DevicesLocations.ListDevicesLocationsSynchronousError](src/resources/devices-locations.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.devicesLocations.listDevicesLocationsSynchronous(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;Location[], DevicesLocations.ListDevicesLocationsSynchronousError&gt;</code>, with `result.value` of type <code>[Location](src/models/location.ts)[]</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -4632,21 +6869,43 @@ Download a completed asynchronous device location report.
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.devicesLocations.retrieveLocationReport({ accountName, txid, startindex });
+  const response = await client.devicesLocations.retrieveLocationReport({
+    accountName: "0000123456-00001",
+    txid: "2017-12-11Te8b47da2-eeee-ffff-gggg-61815e1e97e9",
+    startindex: 0,
+  });
   // TODO: Handle 'response' of type LocationReport
 } catch (err) {
-  if (
-    err instanceof DevicesLocations.RetrieveLocationReportError && err.payload.kind === "deviceLocationResult"
-  ) {
-    // TODO: Handle 'err.payload.body' of type DeviceLocationResult
-  }
+  // TODO: Handle 'err' of type DevicesLocations.RetrieveLocationReportError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.devicesLocations.retrieveLocationReport({
+  accountName: "0000123456-00001",
+  txid: "2017-12-11Te8b47da2-eeee-ffff-gggg-61815e1e97e9",
+  startindex: 0,
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type LocationReport
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -4672,9 +6931,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[LocationReport](src/models/location-report.ts)</code>
+**Direct**: `await client.devicesLocations.retrieveLocationReport(request)`
 
-**OnError**: <code>[DevicesLocations.RetrieveLocationReportError](src/resources/devices-locations.ts)</code>
+- **OnSuccess**: <code>[LocationReport](src/models/location-report.ts)</code>
+- **OnError**: throws <code>[DevicesLocations.RetrieveLocationReportError](src/resources/devices-locations.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.devicesLocations.retrieveLocationReport(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;LocationReport, DevicesLocations.RetrieveLocationReportError&gt;</code>, with `result.value` of type <code>[LocationReport](src/models/location-report.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -4704,22 +6971,41 @@ Get the consent settings for the entire account or device list in an account.
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.exclusions.devicesLocationGetConsentAsync({ accountName });
+  const response = await client.exclusions.devicesLocationGetConsentAsync({
+    accountName: "0000123456-00001",
+    deviceId: "900000000000009",
+  });
   // TODO: Handle 'response' of type GetAccountDeviceConsent
 } catch (err) {
-  if (
-    err instanceof Exclusions.DevicesLocationGetConsentAsyncError &&
-      err.payload.kind === "deviceLocationResult"
-  ) {
-    // TODO: Handle 'err.payload.body' of type DeviceLocationResult
-  }
+  // TODO: Handle 'err' of type Exclusions.DevicesLocationGetConsentAsyncError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.exclusions.devicesLocationGetConsentAsync({
+  accountName: "0000123456-00001",
+  deviceId: "900000000000009",
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type GetAccountDeviceConsent
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -4744,9 +7030,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[GetAccountDeviceConsent](src/models/get-account-device-consent.ts)</code>
+**Direct**: `await client.exclusions.devicesLocationGetConsentAsync(request)`
 
-**OnError**: <code>[Exclusions.DevicesLocationGetConsentAsyncError](src/resources/exclusions.ts)</code>
+- **OnSuccess**: <code>[GetAccountDeviceConsent](src/models/get-account-device-consent.ts)</code>
+- **OnError**: throws <code>[Exclusions.DevicesLocationGetConsentAsyncError](src/resources/exclusions.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.exclusions.devicesLocationGetConsentAsync(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;GetAccountDeviceConsent, Exclusions.DevicesLocationGetConsentAsyncError&gt;</code>, with `result.value` of type <code>[GetAccountDeviceConsent](src/models/get-account-device-consent.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -4772,7 +7066,7 @@ Create a consent record to use location services as an asynchronous request.
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
@@ -4782,12 +7076,25 @@ try {
   const response = await client.exclusions.devicesLocationGiveConsentAsync();
   // TODO: Handle 'response' of type ConsentTransactionId
 } catch (err) {
-  if (
-    err instanceof Exclusions.DevicesLocationGiveConsentAsyncError &&
-      err.payload.kind === "deviceLocationResult"
-  ) {
-    // TODO: Handle 'err.payload.body' of type DeviceLocationResult
-  }
+  // TODO: Handle 'err' of type Exclusions.DevicesLocationGiveConsentAsyncError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.exclusions.devicesLocationGiveConsentAsync().asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type ConsentTransactionId
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -4811,9 +7118,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[ConsentTransactionId](src/models/consent-transaction-id.ts)</code>
+**Direct**: `await client.exclusions.devicesLocationGiveConsentAsync(request)`
 
-**OnError**: <code>[Exclusions.DevicesLocationGiveConsentAsyncError](src/resources/exclusions.ts)</code>
+- **OnSuccess**: <code>[ConsentTransactionId](src/models/consent-transaction-id.ts)</code>
+- **OnError**: throws <code>[Exclusions.DevicesLocationGiveConsentAsyncError](src/resources/exclusions.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.exclusions.devicesLocationGiveConsentAsync(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;ConsentTransactionId, Exclusions.DevicesLocationGiveConsentAsyncError&gt;</code>, with `result.value` of type <code>[ConsentTransactionId](src/models/consent-transaction-id.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -4839,7 +7154,7 @@ Update the location services consent record for an entire account.
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
@@ -4849,11 +7164,25 @@ try {
   const response = await client.exclusions.devicesLocationUpdateConsent();
   // TODO: Handle 'response' of type ConsentTransactionId
 } catch (err) {
-  if (
-    err instanceof Exclusions.DevicesLocationUpdateConsentError && err.payload.kind === "deviceLocationResult"
-  ) {
-    // TODO: Handle 'err.payload.body' of type DeviceLocationResult
-  }
+  // TODO: Handle 'err' of type Exclusions.DevicesLocationUpdateConsentError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.exclusions.devicesLocationUpdateConsent().asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type ConsentTransactionId
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -4877,9 +7206,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[ConsentTransactionId](src/models/consent-transaction-id.ts)</code>
+**Direct**: `await client.exclusions.devicesLocationUpdateConsent(request)`
 
-**OnError**: <code>[Exclusions.DevicesLocationUpdateConsentError](src/resources/exclusions.ts)</code>
+- **OnSuccess**: <code>[ConsentTransactionId](src/models/consent-transaction-id.ts)</code>
+- **OnError**: throws <code>[Exclusions.DevicesLocationUpdateConsentError](src/resources/exclusions.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.exclusions.devicesLocationUpdateConsent(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;ConsentTransactionId, Exclusions.DevicesLocationUpdateConsentError&gt;</code>, with `result.value` of type <code>[ConsentTransactionId](src/models/consent-transaction-id.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -4905,7 +7242,7 @@ This consents endpoint sets a new exclusion list.
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
@@ -4915,9 +7252,25 @@ try {
   const response = await client.exclusions.excludeDevices();
   // TODO: Handle 'response' of type DeviceLocationSuccessResult
 } catch (err) {
-  if (err instanceof Exclusions.ExcludeDevicesError && err.payload.kind === "deviceLocationResult") {
-    // TODO: Handle 'err.payload.body' of type DeviceLocationResult
-  }
+  // TODO: Handle 'err' of type Exclusions.ExcludeDevicesError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.exclusions.excludeDevices().asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type DeviceLocationSuccessResult
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -4929,9 +7282,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[DeviceLocationSuccessResult](src/models/device-location-success-result.ts)</code>
+**Direct**: `await client.exclusions.excludeDevices()`
 
-**OnError**: <code>[Exclusions.ExcludeDevicesError](src/resources/exclusions.ts)</code>
+- **OnSuccess**: <code>[DeviceLocationSuccessResult](src/models/device-location-success-result.ts)</code>
+- **OnError**: throws <code>[Exclusions.ExcludeDevicesError](src/resources/exclusions.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.exclusions.excludeDevices().asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;DeviceLocationSuccessResult, Exclusions.ExcludeDevicesError&gt;</code>, with `result.value` of type <code>[DeviceLocationSuccessResult](src/models/device-location-success-result.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -4957,19 +7318,41 @@ This consents endpoint retrieves a list of excluded devices in an account.
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.exclusions.listExcludedDevices({ accountName, startIndex });
+  const response = await client.exclusions.listExcludedDevices({
+    accountName: "0252012345-00001",
+    startIndex: "0",
+  });
   // TODO: Handle 'response' of type DevicesConsentResult
 } catch (err) {
-  if (err instanceof Exclusions.ListExcludedDevicesError && err.payload.kind === "deviceLocationResult") {
-    // TODO: Handle 'err.payload.body' of type DeviceLocationResult
-  }
+  // TODO: Handle 'err' of type Exclusions.ListExcludedDevicesError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.exclusions.listExcludedDevices({
+  accountName: "0252012345-00001",
+  startIndex: "0",
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type DevicesConsentResult
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -4994,9 +7377,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[DevicesConsentResult](src/models/devices-consent-result.ts)</code>
+**Direct**: `await client.exclusions.listExcludedDevices(request)`
 
-**OnError**: <code>[Exclusions.ListExcludedDevicesError](src/resources/exclusions.ts)</code>
+- **OnSuccess**: <code>[DevicesConsentResult](src/models/devices-consent-result.ts)</code>
+- **OnError**: throws <code>[Exclusions.ListExcludedDevicesError](src/resources/exclusions.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.exclusions.listExcludedDevices(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;DevicesConsentResult, Exclusions.ListExcludedDevicesError&gt;</code>, with `result.value` of type <code>[DevicesConsentResult](src/models/devices-consent-result.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -5022,22 +7413,41 @@ Removes devices from the exclusion list so that they can be located with Device 
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.exclusions.removeDevicesFromExclusionList({ accountName, deviceList });
+  const response = await client.exclusions.removeDevicesFromExclusionList({
+    accountName: "0000123456-00001",
+    deviceList: "IMEI",
+  });
   // TODO: Handle 'response' of type DeviceLocationSuccessResult
 } catch (err) {
-  if (
-    err instanceof Exclusions.RemoveDevicesFromExclusionListError &&
-      err.payload.kind === "deviceLocationResult"
-  ) {
-    // TODO: Handle 'err.payload.body' of type DeviceLocationResult
-  }
+  // TODO: Handle 'err' of type Exclusions.RemoveDevicesFromExclusionListError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.exclusions.removeDevicesFromExclusionList({
+  accountName: "0000123456-00001",
+  deviceList: "IMEI",
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type DeviceLocationSuccessResult
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -5062,9 +7472,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[DeviceLocationSuccessResult](src/models/device-location-success-result.ts)</code>
+**Direct**: `await client.exclusions.removeDevicesFromExclusionList(request)`
 
-**OnError**: <code>[Exclusions.RemoveDevicesFromExclusionListError](src/resources/exclusions.ts)</code>
+- **OnSuccess**: <code>[DeviceLocationSuccessResult](src/models/device-location-success-result.ts)</code>
+- **OnError**: throws <code>[Exclusions.RemoveDevicesFromExclusionListError](src/resources/exclusions.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.exclusions.removeDevicesFromExclusionList(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;DeviceLocationSuccessResult, Exclusions.RemoveDevicesFromExclusionListError&gt;</code>, with `result.value` of type <code>[DeviceLocationSuccessResult](src/models/device-location-success-result.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -5094,7 +7512,7 @@ This subscriptions endpoint retrieves an account's current location subscription
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
@@ -5102,16 +7520,31 @@ This subscriptions endpoint retrieves an account's current location subscription
 ```ts
 try {
   const response = await client.devicesLocationSubscriptions.getLocationServiceSubscriptionStatus({
-    accountName,
+    accountName: "0000123456-00001",
   });
   // TODO: Handle 'response' of type DeviceLocationSubscription
 } catch (err) {
-  if (
-    err instanceof DevicesLocationSubscriptions.GetLocationServiceSubscriptionStatusError &&
-      err.payload.kind === "deviceLocationResult"
-  ) {
-    // TODO: Handle 'err.payload.body' of type DeviceLocationResult
-  }
+  // TODO: Handle 'err' of type DevicesLocationSubscriptions.GetLocationServiceSubscriptionStatusError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.devicesLocationSubscriptions.getLocationServiceSubscriptionStatus({
+  accountName: "0000123456-00001",
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type DeviceLocationSubscription
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -5135,9 +7568,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[DeviceLocationSubscription](src/models/device-location-subscription.ts)</code>
+**Direct**: `await client.devicesLocationSubscriptions.getLocationServiceSubscriptionStatus(request)`
 
-**OnError**: <code>[DevicesLocationSubscriptions.GetLocationServiceSubscriptionStatusError](src/resources/devices-location-subscriptions.ts)</code>
+- **OnSuccess**: <code>[DeviceLocationSubscription](src/models/device-location-subscription.ts)</code>
+- **OnError**: throws <code>[DevicesLocationSubscriptions.GetLocationServiceSubscriptionStatusError](src/resources/devices-location-subscriptions.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.devicesLocationSubscriptions.getLocationServiceSubscriptionStatus(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;DeviceLocationSubscription, DevicesLocationSubscriptions.GetLocationServiceSubscriptionStatusError&gt;</code>, with `result.value` of type <code>[DeviceLocationSubscription](src/models/device-location-subscription.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -5163,7 +7604,7 @@ This endpoint allows user to search for billable usage for accounts based on the
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
@@ -5173,12 +7614,25 @@ try {
   const response = await client.devicesLocationSubscriptions.getLocationServiceUsage();
   // TODO: Handle 'response' of type Record<string, unknown>
 } catch (err) {
-  if (
-    err instanceof DevicesLocationSubscriptions.GetLocationServiceUsageError &&
-      err.payload.kind === "deviceLocationResult"
-  ) {
-    // TODO: Handle 'err.payload.body' of type DeviceLocationResult
-  }
+  // TODO: Handle 'err' of type DevicesLocationSubscriptions.GetLocationServiceUsageError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.devicesLocationSubscriptions.getLocationServiceUsage().asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type Record<string, unknown>
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -5190,9 +7644,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>Record&lt;string, unknown&gt;</code>
+**Direct**: `await client.devicesLocationSubscriptions.getLocationServiceUsage()`
 
-**OnError**: <code>[DevicesLocationSubscriptions.GetLocationServiceUsageError](src/resources/devices-location-subscriptions.ts)</code>
+- **OnSuccess**: <code>Record&lt;string, unknown&gt;</code>
+- **OnError**: throws <code>[DevicesLocationSubscriptions.GetLocationServiceUsageError](src/resources/devices-location-subscriptions.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.devicesLocationSubscriptions.getLocationServiceUsage().asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;Record&lt;string, unknown&gt;, DevicesLocationSubscriptions.GetLocationServiceUsageError&gt;</code>, with `result.value` of type <code>Record&lt;string, unknown&gt;</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -5222,22 +7684,41 @@ Cancel an asynchronous report request.
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.deviceLocationCallbacks.cancelAsyncReport({ txid, accountName });
+  const response = await client.deviceLocationCallbacks.cancelAsyncReport({
+    txid: "2c90bd28-eeee-ffff-gggg-7e3bd4fbff33",
+    accountName: "0000123456-00001",
+  });
   // TODO: Handle 'response' of type TransactionId
 } catch (err) {
-  if (
-    err instanceof DeviceLocationCallbacks.CancelAsyncReportError &&
-      err.payload.kind === "deviceLocationResult"
-  ) {
-    // TODO: Handle 'err.payload.body' of type DeviceLocationResult
-  }
+  // TODO: Handle 'err' of type DeviceLocationCallbacks.CancelAsyncReportError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.deviceLocationCallbacks.cancelAsyncReport({
+  txid: "2c90bd28-eeee-ffff-gggg-7e3bd4fbff33",
+  accountName: "0000123456-00001",
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type TransactionId
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -5262,9 +7743,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[TransactionId](src/models/transaction-id.ts)</code>
+**Direct**: `await client.deviceLocationCallbacks.cancelAsyncReport(request)`
 
-**OnError**: <code>[DeviceLocationCallbacks.CancelAsyncReportError](src/resources/device-location-callbacks.ts)</code>
+- **OnSuccess**: <code>[TransactionId](src/models/transaction-id.ts)</code>
+- **OnError**: throws <code>[DeviceLocationCallbacks.CancelAsyncReportError](src/resources/device-location-callbacks.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.deviceLocationCallbacks.cancelAsyncReport(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;TransactionId, DeviceLocationCallbacks.CancelAsyncReportError&gt;</code>, with `result.value` of type <code>[TransactionId](src/models/transaction-id.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -5290,22 +7779,41 @@ Deregister a URL to stop receiving callback messages.
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.deviceLocationCallbacks.deregisterCallback2({ accountName, service });
+  const response = await client.deviceLocationCallbacks.deregisterCallback2({
+    accountName: "0000123456-00001",
+    service: CallbackServiceName.Location,
+  });
   // TODO: Handle 'response' of type DeviceLocationSuccessResult
 } catch (err) {
-  if (
-    err instanceof DeviceLocationCallbacks.DeregisterCallback2Error &&
-      err.payload.kind === "deviceLocationResult"
-  ) {
-    // TODO: Handle 'err.payload.body' of type DeviceLocationResult
-  }
+  // TODO: Handle 'err' of type DeviceLocationCallbacks.DeregisterCallback2Error, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.deviceLocationCallbacks.deregisterCallback2({
+  accountName: "0000123456-00001",
+  service: CallbackServiceName.Location,
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type DeviceLocationSuccessResult
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -5330,9 +7838,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[DeviceLocationSuccessResult](src/models/device-location-success-result.ts)</code>
+**Direct**: `await client.deviceLocationCallbacks.deregisterCallback2(request)`
 
-**OnError**: <code>[DeviceLocationCallbacks.DeregisterCallback2Error](src/resources/device-location-callbacks.ts)</code>
+- **OnSuccess**: <code>[DeviceLocationSuccessResult](src/models/device-location-success-result.ts)</code>
+- **OnError**: throws <code>[DeviceLocationCallbacks.DeregisterCallback2Error](src/resources/device-location-callbacks.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.deviceLocationCallbacks.deregisterCallback2(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;DeviceLocationSuccessResult, DeviceLocationCallbacks.DeregisterCallback2Error&gt;</code>, with `result.value` of type <code>[DeviceLocationSuccessResult](src/models/device-location-success-result.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -5358,22 +7874,39 @@ Returns a list of all registered callback URLs for the account.
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.deviceLocationCallbacks.listRegisteredCallbacks2({ accountName });
+  const response = await client.deviceLocationCallbacks.listRegisteredCallbacks2({
+    accountName: "0000123456-00001",
+  });
   // TODO: Handle 'response' of type DeviceLocationCallback[]
 } catch (err) {
-  if (
-    err instanceof DeviceLocationCallbacks.ListRegisteredCallbacks2Error &&
-      err.payload.kind === "deviceLocationResult"
-  ) {
-    // TODO: Handle 'err.payload.body' of type DeviceLocationResult
-  }
+  // TODO: Handle 'err' of type DeviceLocationCallbacks.ListRegisteredCallbacks2Error, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.deviceLocationCallbacks.listRegisteredCallbacks2({
+  accountName: "0000123456-00001",
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type DeviceLocationCallback[]
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -5397,9 +7930,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[DeviceLocationCallback](src/models/device-location-callback.ts)[]</code>
+**Direct**: `await client.deviceLocationCallbacks.listRegisteredCallbacks2(request)`
 
-**OnError**: <code>[DeviceLocationCallbacks.ListRegisteredCallbacks2Error](src/resources/device-location-callbacks.ts)</code>
+- **OnSuccess**: <code>[DeviceLocationCallback](src/models/device-location-callback.ts)[]</code>
+- **OnError**: throws <code>[DeviceLocationCallbacks.ListRegisteredCallbacks2Error](src/resources/device-location-callbacks.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.deviceLocationCallbacks.listRegisteredCallbacks2(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;DeviceLocationCallback[], DeviceLocationCallbacks.ListRegisteredCallbacks2Error&gt;</code>, with `result.value` of type <code>[DeviceLocationCallback](src/models/device-location-callback.ts)[]</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -5425,22 +7966,39 @@ Provide a URL to receive messages from a ThingSpace callback service.
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.deviceLocationCallbacks.registerCallback2({ accountName });
+  const response = await client.deviceLocationCallbacks.registerCallback2({
+    accountName: "0000123456-00001",
+  });
   // TODO: Handle 'response' of type CallbackRegistrationResult
 } catch (err) {
-  if (
-    err instanceof DeviceLocationCallbacks.RegisterCallback2Error &&
-      err.payload.kind === "deviceLocationResult"
-  ) {
-    // TODO: Handle 'err.payload.body' of type DeviceLocationResult
-  }
+  // TODO: Handle 'err' of type DeviceLocationCallbacks.RegisterCallback2Error, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.deviceLocationCallbacks.registerCallback2({
+  accountName: "0000123456-00001",
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type CallbackRegistrationResult
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -5464,9 +8022,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[CallbackRegistrationResult](src/models/callback-registration-result.ts)</code>
+**Direct**: `await client.deviceLocationCallbacks.registerCallback2(request)`
 
-**OnError**: <code>[DeviceLocationCallbacks.RegisterCallback2Error](src/resources/device-location-callbacks.ts)</code>
+- **OnSuccess**: <code>[CallbackRegistrationResult](src/models/callback-registration-result.ts)</code>
+- **OnError**: throws <code>[DeviceLocationCallbacks.RegisterCallback2Error](src/resources/device-location-callbacks.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.deviceLocationCallbacks.registerCallback2(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;CallbackRegistrationResult, DeviceLocationCallbacks.RegisterCallback2Error&gt;</code>, with `result.value` of type <code>[CallbackRegistrationResult](src/models/callback-registration-result.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -5497,21 +8063,59 @@ Create a new usage trigger, which will send an alert when the number of device l
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.usageTriggerManagement.createNewTrigger();
+  const response = await client.usageTriggerManagement.createNewTrigger({
+    body: {
+      triggerName: "95% usage alert",
+      accountName: "0212312345-00001",
+      serviceName: ServiceName.Location,
+      thresholdValue: "95",
+      allowExcess: true,
+      sendSmsNotification: true,
+      smsPhoneNumbers: "5551231234",
+      sendEmailNotification: true,
+      emailAddresses: "you@theinternet.com",
+    },
+  });
   // TODO: Handle 'response' of type UsageTriggerResponse
 } catch (err) {
-  if (
-    err instanceof UsageTriggerManagement.CreateNewTriggerError && err.payload.kind === "deviceLocationResult"
-  ) {
-    // TODO: Handle 'err.payload.body' of type DeviceLocationResult
-  }
+  // TODO: Handle 'err' of type UsageTriggerManagement.CreateNewTriggerError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.usageTriggerManagement.createNewTrigger({
+  body: {
+    triggerName: "95% usage alert",
+    accountName: "0212312345-00001",
+    serviceName: ServiceName.Location,
+    thresholdValue: "95",
+    allowExcess: true,
+    sendSmsNotification: true,
+    smsPhoneNumbers: "5551231234",
+    sendEmailNotification: true,
+    emailAddresses: "you@theinternet.com",
+  },
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type UsageTriggerResponse
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -5535,9 +8139,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[UsageTriggerResponse](src/models/usage-trigger-response.ts)</code>
+**Direct**: `await client.usageTriggerManagement.createNewTrigger(request)`
 
-**OnError**: <code>[UsageTriggerManagement.CreateNewTriggerError](src/resources/usage-trigger-management.ts)</code>
+- **OnSuccess**: <code>[UsageTriggerResponse](src/models/usage-trigger-response.ts)</code>
+- **OnError**: throws <code>[UsageTriggerManagement.CreateNewTriggerError](src/resources/usage-trigger-management.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.usageTriggerManagement.createNewTrigger(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;UsageTriggerResponse, UsageTriggerManagement.CreateNewTriggerError&gt;</code>, with `result.value` of type <code>[UsageTriggerResponse](src/models/usage-trigger-response.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -5563,21 +8175,41 @@ eletes the specified usage trigger from the given account
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.usageTriggerManagement.deleteTrigger({ accountName, triggerId });
+  const response = await client.usageTriggerManagement.deleteTrigger({
+    accountName: "0212312345-00001",
+    triggerId: "595f5c44-c31c-4552-8670-020a1545a84d",
+  });
   // TODO: Handle 'response' of type DeviceLocationSuccessResult
 } catch (err) {
-  if (
-    err instanceof UsageTriggerManagement.DeleteTriggerError && err.payload.kind === "deviceLocationResult"
-  ) {
-    // TODO: Handle 'err.payload.body' of type DeviceLocationResult
-  }
+  // TODO: Handle 'err' of type UsageTriggerManagement.DeleteTriggerError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.usageTriggerManagement.deleteTrigger({
+  accountName: "0212312345-00001",
+  triggerId: "595f5c44-c31c-4552-8670-020a1545a84d",
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type DeviceLocationSuccessResult
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -5602,9 +8234,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[DeviceLocationSuccessResult](src/models/device-location-success-result.ts)</code>
+**Direct**: `await client.usageTriggerManagement.deleteTrigger(request)`
 
-**OnError**: <code>[UsageTriggerManagement.DeleteTriggerError](src/resources/usage-trigger-management.ts)</code>
+- **OnSuccess**: <code>[DeviceLocationSuccessResult](src/models/device-location-success-result.ts)</code>
+- **OnError**: throws <code>[UsageTriggerManagement.DeleteTriggerError](src/resources/usage-trigger-management.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.usageTriggerManagement.deleteTrigger(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;DeviceLocationSuccessResult, UsageTriggerManagement.DeleteTriggerError&gt;</code>, with `result.value` of type <code>[DeviceLocationSuccessResult](src/models/device-location-success-result.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -5631,21 +8271,41 @@ Update an existing usage trigger
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.usageTriggerManagement.updateTrigger({ triggerId });
+  const response = await client.usageTriggerManagement.updateTrigger({
+    triggerId: "595f5c44-c31c-4552-8670-020a1545a84d",
+    body: { accountName: "1000012345-00001", thresholdValue: "95" },
+  });
   // TODO: Handle 'response' of type UsageTriggerResponse
 } catch (err) {
-  if (
-    err instanceof UsageTriggerManagement.UpdateTriggerError && err.payload.kind === "deviceLocationResult"
-  ) {
-    // TODO: Handle 'err.payload.body' of type DeviceLocationResult
-  }
+  // TODO: Handle 'err' of type UsageTriggerManagement.UpdateTriggerError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.usageTriggerManagement.updateTrigger({
+  triggerId: "595f5c44-c31c-4552-8670-020a1545a84d",
+  body: { accountName: "1000012345-00001", thresholdValue: "95" },
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type UsageTriggerResponse
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -5670,9 +8330,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[UsageTriggerResponse](src/models/usage-trigger-response.ts)</code>
+**Direct**: `await client.usageTriggerManagement.updateTrigger(request)`
 
-**OnError**: <code>[UsageTriggerManagement.UpdateTriggerError](src/resources/usage-trigger-management.ts)</code>
+- **OnSuccess**: <code>[UsageTriggerResponse](src/models/usage-trigger-response.ts)</code>
+- **OnError**: throws <code>[UsageTriggerManagement.UpdateTriggerError](src/resources/usage-trigger-management.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.usageTriggerManagement.updateTrigger(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;UsageTriggerResponse, UsageTriggerManagement.UpdateTriggerError&gt;</code>, with `result.value` of type <code>[UsageTriggerResponse](src/models/usage-trigger-response.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -5703,19 +8371,49 @@ This endpoint allows user to add managed accounts to a primary account.
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.billing.addAccount({ body });
+  const response = await client.billing.addAccount({
+    body: {
+      accountName: "1234567890-00001",
+      serviceName: ServiceName.Location,
+      type: "TS-LOC-COARSE-CellID-Aggr",
+      managedAccList: ["1223334444-00001", "2334445555-00001", "3445556666-00001"],
+    },
+  });
   // TODO: Handle 'response' of type ManagedAccountsAddResponse
 } catch (err) {
-  if (err instanceof Billing.AddAccountError && err.payload.kind === "deviceLocationResult") {
-    // TODO: Handle 'err.payload.body' of type DeviceLocationResult
-  }
+  // TODO: Handle 'err' of type Billing.AddAccountError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.billing.addAccount({
+  body: {
+    accountName: "1234567890-00001",
+    serviceName: ServiceName.Location,
+    type: "TS-LOC-COARSE-CellID-Aggr",
+    managedAccList: ["1223334444-00001", "2334445555-00001", "3445556666-00001"],
+  },
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type ManagedAccountsAddResponse
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -5739,9 +8437,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[ManagedAccountsAddResponse](src/models/managed-accounts-add-response.ts)</code>
+**Direct**: `await client.billing.addAccount(request)`
 
-**OnError**: <code>[Billing.AddAccountError](src/resources/billing.ts)</code>
+- **OnSuccess**: <code>[ManagedAccountsAddResponse](src/models/managed-accounts-add-response.ts)</code>
+- **OnError**: throws <code>[Billing.AddAccountError](src/resources/billing.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.billing.addAccount(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;ManagedAccountsAddResponse, Billing.AddAccountError&gt;</code>, with `result.value` of type <code>[ManagedAccountsAddResponse](src/models/managed-accounts-add-response.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -5767,19 +8473,51 @@ Deactivates a managed billing service relationship between a managed account and
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.billing.cancelManagedAccountAction({ body });
+  const response = await client.billing.cancelManagedAccountAction({
+    body: {
+      accountName: "1223334444-00001",
+      paccountName: "1234567890-00001",
+      serviceName: ServiceName.Location,
+      type: "TS-LOC-COARSE-CellID-5K",
+      txid: "d4fbff33-eeee-ffff-gggg-2c90bd287e3b",
+    },
+  });
   // TODO: Handle 'response' of type ManagedAccountCancelResponse
 } catch (err) {
-  if (err instanceof Billing.CancelManagedAccountActionError && err.payload.kind === "deviceLocationResult") {
-    // TODO: Handle 'err.payload.body' of type DeviceLocationResult
-  }
+  // TODO: Handle 'err' of type Billing.CancelManagedAccountActionError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.billing.cancelManagedAccountAction({
+  body: {
+    accountName: "1223334444-00001",
+    paccountName: "1234567890-00001",
+    serviceName: ServiceName.Location,
+    type: "TS-LOC-COARSE-CellID-5K",
+    txid: "d4fbff33-eeee-ffff-gggg-2c90bd287e3b",
+  },
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type ManagedAccountCancelResponse
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -5803,9 +8541,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[ManagedAccountCancelResponse](src/models/managed-account-cancel-response.ts)</code>
+**Direct**: `await client.billing.cancelManagedAccountAction(request)`
 
-**OnError**: <code>[Billing.CancelManagedAccountActionError](src/resources/billing.ts)</code>
+- **OnSuccess**: <code>[ManagedAccountCancelResponse](src/models/managed-account-cancel-response.ts)</code>
+- **OnError**: throws <code>[Billing.CancelManagedAccountActionError](src/resources/billing.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.billing.cancelManagedAccountAction(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;ManagedAccountCancelResponse, Billing.CancelManagedAccountActionError&gt;</code>, with `result.value` of type <code>[ManagedAccountCancelResponse](src/models/managed-account-cancel-response.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -5831,19 +8577,41 @@ This endpoint allows user to retrieve the list of all accounts managed by a prim
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.billing.listManagedAccount({ accountName, serviceName });
+  const response = await client.billing.listManagedAccount({
+    accountName: "1223334444-00001",
+    serviceName: "some example string",
+  });
   // TODO: Handle 'response' of type ManagedAccountsGetAllResponse
 } catch (err) {
-  if (err instanceof Billing.ListManagedAccountError && err.payload.kind === "deviceLocationResult") {
-    // TODO: Handle 'err.payload.body' of type DeviceLocationResult
-  }
+  // TODO: Handle 'err' of type Billing.ListManagedAccountError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.billing.listManagedAccount({
+  accountName: "1223334444-00001",
+  serviceName: "some example string",
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type ManagedAccountsGetAllResponse
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -5868,9 +8636,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[ManagedAccountsGetAllResponse](src/models/managed-accounts-get-all-response.ts)</code>
+**Direct**: `await client.billing.listManagedAccount(request)`
 
-**OnError**: <code>[Billing.ListManagedAccountError](src/resources/billing.ts)</code>
+- **OnSuccess**: <code>[ManagedAccountsGetAllResponse](src/models/managed-accounts-get-all-response.ts)</code>
+- **OnError**: throws <code>[Billing.ListManagedAccountError](src/resources/billing.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.billing.listManagedAccount(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;ManagedAccountsGetAllResponse, Billing.ListManagedAccountError&gt;</code>, with `result.value` of type <code>[ManagedAccountsGetAllResponse](src/models/managed-accounts-get-all-response.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -5896,19 +8672,51 @@ Activates a managed billing service relationship between a managed account and t
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.billing.managedAccountAction({ body });
+  const response = await client.billing.managedAccountAction({
+    body: {
+      accountName: "1223334444-00001",
+      paccountName: "1234567890-00001",
+      serviceName: ServiceName.Location,
+      type: "TS-LOC-COARSE-CellID-5K",
+      txid: "d4fbff33-eeee-ffff-gggg-2c90bd287e3b",
+    },
+  });
   // TODO: Handle 'response' of type ManagedAccountsProvisionResponse
 } catch (err) {
-  if (err instanceof Billing.ManagedAccountActionError && err.payload.kind === "deviceLocationResult") {
-    // TODO: Handle 'err.payload.body' of type DeviceLocationResult
-  }
+  // TODO: Handle 'err' of type Billing.ManagedAccountActionError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.billing.managedAccountAction({
+  body: {
+    accountName: "1223334444-00001",
+    paccountName: "1234567890-00001",
+    serviceName: ServiceName.Location,
+    type: "TS-LOC-COARSE-CellID-5K",
+    txid: "d4fbff33-eeee-ffff-gggg-2c90bd287e3b",
+  },
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type ManagedAccountsProvisionResponse
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -5932,9 +8740,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[ManagedAccountsProvisionResponse](src/models/managed-accounts-provision-response.ts)</code>
+**Direct**: `await client.billing.managedAccountAction(request)`
 
-**OnError**: <code>[Billing.ManagedAccountActionError](src/resources/billing.ts)</code>
+- **OnSuccess**: <code>[ManagedAccountsProvisionResponse](src/models/managed-accounts-provision-response.ts)</code>
+- **OnError**: throws <code>[Billing.ManagedAccountActionError](src/resources/billing.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.billing.managedAccountAction(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;ManagedAccountsProvisionResponse, Billing.ManagedAccountActionError&gt;</code>, with `result.value` of type <code>[ManagedAccountsProvisionResponse](src/models/managed-accounts-provision-response.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -5964,7 +8780,7 @@ Returns information about an account's Software Management Services licenses and
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
@@ -5972,17 +8788,33 @@ Returns information about an account's Software Management Services licenses and
 ```ts
 try {
   const response = await client.softwareManagementSubscriptionsV1.getAccountLicenseStatus({
-    account,
-    startIndex,
+    account: "0402196254-00001",
+    startIndex: "0",
   });
   // TODO: Handle 'response' of type AccountLicenseInfo
 } catch (err) {
-  if (
-    err instanceof SoftwareManagementSubscriptionsV1.GetAccountLicenseStatusError &&
-      err.payload.kind === "fotaV1Result"
-  ) {
-    // TODO: Handle 'err.payload.body' of type FotaV1Result
-  }
+  // TODO: Handle 'err' of type SoftwareManagementSubscriptionsV1.GetAccountLicenseStatusError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.softwareManagementSubscriptionsV1.getAccountLicenseStatus({
+  account: "0402196254-00001",
+  startIndex: "0",
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type AccountLicenseInfo
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -6007,9 +8839,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[AccountLicenseInfo](src/models/account-license-info.ts)</code>
+**Direct**: `await client.softwareManagementSubscriptionsV1.getAccountLicenseStatus(request)`
 
-**OnError**: <code>[SoftwareManagementSubscriptionsV1.GetAccountLicenseStatusError](src/resources/software-management-subscriptions-v1.ts)</code>
+- **OnSuccess**: <code>[AccountLicenseInfo](src/models/account-license-info.ts)</code>
+- **OnError**: throws <code>[SoftwareManagementSubscriptionsV1.GetAccountLicenseStatusError](src/resources/software-management-subscriptions-v1.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.softwareManagementSubscriptionsV1.getAccountLicenseStatus(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;AccountLicenseInfo, SoftwareManagementSubscriptionsV1.GetAccountLicenseStatusError&gt;</code>, with `result.value` of type <code>[AccountLicenseInfo](src/models/account-license-info.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -6035,22 +8875,39 @@ This subscriptions endpoint retrieves an account's current Software Management S
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.softwareManagementSubscriptionsV1.getAccountSubscriptionStatus({ account });
+  const response = await client.softwareManagementSubscriptionsV1.getAccountSubscriptionStatus({
+    account: "0402196254-00001",
+  });
   // TODO: Handle 'response' of type V1AccountSubscription
 } catch (err) {
-  if (
-    err instanceof SoftwareManagementSubscriptionsV1.GetAccountSubscriptionStatusError &&
-      err.payload.kind === "fotaV1Result"
-  ) {
-    // TODO: Handle 'err.payload.body' of type FotaV1Result
-  }
+  // TODO: Handle 'err' of type SoftwareManagementSubscriptionsV1.GetAccountSubscriptionStatusError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.softwareManagementSubscriptionsV1.getAccountSubscriptionStatus({
+  account: "0402196254-00001",
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type V1AccountSubscription
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -6074,9 +8931,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[V1AccountSubscription](src/models/v1-account-subscription.ts)</code>
+**Direct**: `await client.softwareManagementSubscriptionsV1.getAccountSubscriptionStatus(request)`
 
-**OnError**: <code>[SoftwareManagementSubscriptionsV1.GetAccountSubscriptionStatusError](src/resources/software-management-subscriptions-v1.ts)</code>
+- **OnSuccess**: <code>[V1AccountSubscription](src/models/v1-account-subscription.ts)</code>
+- **OnError**: throws <code>[SoftwareManagementSubscriptionsV1.GetAccountSubscriptionStatusError](src/resources/software-management-subscriptions-v1.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.softwareManagementSubscriptionsV1.getAccountSubscriptionStatus(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;V1AccountSubscription, SoftwareManagementSubscriptionsV1.GetAccountSubscriptionStatusError&gt;</code>, with `result.value` of type <code>[V1AccountSubscription](src/models/v1-account-subscription.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -6106,22 +8971,41 @@ Assigns licenses to a specified list of devices so that firmware upgrades can be
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.softwareManagementLicensesV1.assignLicensesToDevices({ account, body });
+  const response = await client.softwareManagementLicensesV1.assignLicensesToDevices({
+    account: "0242078689-00001",
+    body: { deviceList: ["990003425730535", "990000473475989"] },
+  });
   // TODO: Handle 'response' of type V1LicensesAssignedRemovedResult
 } catch (err) {
-  if (
-    err instanceof SoftwareManagementLicensesV1.AssignLicensesToDevicesError &&
-      err.payload.kind === "fotaV1Result"
-  ) {
-    // TODO: Handle 'err.payload.body' of type FotaV1Result
-  }
+  // TODO: Handle 'err' of type SoftwareManagementLicensesV1.AssignLicensesToDevicesError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.softwareManagementLicensesV1.assignLicensesToDevices({
+  account: "0242078689-00001",
+  body: { deviceList: ["990003425730535", "990000473475989"] },
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type V1LicensesAssignedRemovedResult
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -6146,9 +9030,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[V1LicensesAssignedRemovedResult](src/models/v1-licenses-assigned-removed-result.ts)</code>
+**Direct**: `await client.softwareManagementLicensesV1.assignLicensesToDevices(request)`
 
-**OnError**: <code>[SoftwareManagementLicensesV1.AssignLicensesToDevicesError](src/resources/software-management-licenses-v1.ts)</code>
+- **OnSuccess**: <code>[V1LicensesAssignedRemovedResult](src/models/v1-licenses-assigned-removed-result.ts)</code>
+- **OnError**: throws <code>[SoftwareManagementLicensesV1.AssignLicensesToDevicesError](src/resources/software-management-licenses-v1.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.softwareManagementLicensesV1.assignLicensesToDevices(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;V1LicensesAssignedRemovedResult, SoftwareManagementLicensesV1.AssignLicensesToDevicesError&gt;</code>, with `result.value` of type <code>[V1LicensesAssignedRemovedResult](src/models/v1-licenses-assigned-removed-result.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -6174,22 +9066,41 @@ Creates a list of devices from which licenses will be removed if the number of M
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.softwareManagementLicensesV1.createListOfLicensesToRemove({ account, body });
+  const response = await client.softwareManagementLicensesV1.createListOfLicensesToRemove({
+    account: "0242078689-00001",
+    body: { type: "append", deviceList: ["990003425730535", "990000473475989"] },
+  });
   // TODO: Handle 'response' of type V1ListOfLicensesToRemoveResult
 } catch (err) {
-  if (
-    err instanceof SoftwareManagementLicensesV1.CreateListOfLicensesToRemoveError &&
-      err.payload.kind === "fotaV1Result"
-  ) {
-    // TODO: Handle 'err.payload.body' of type FotaV1Result
-  }
+  // TODO: Handle 'err' of type SoftwareManagementLicensesV1.CreateListOfLicensesToRemoveError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.softwareManagementLicensesV1.createListOfLicensesToRemove({
+  account: "0242078689-00001",
+  body: { type: "append", deviceList: ["990003425730535", "990000473475989"] },
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type V1ListOfLicensesToRemoveResult
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -6214,9 +9125,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[V1ListOfLicensesToRemoveResult](src/models/v1-list-of-licenses-to-remove-result.ts)</code>
+**Direct**: `await client.softwareManagementLicensesV1.createListOfLicensesToRemove(request)`
 
-**OnError**: <code>[SoftwareManagementLicensesV1.CreateListOfLicensesToRemoveError](src/resources/software-management-licenses-v1.ts)</code>
+- **OnSuccess**: <code>[V1ListOfLicensesToRemoveResult](src/models/v1-list-of-licenses-to-remove-result.ts)</code>
+- **OnError**: throws <code>[SoftwareManagementLicensesV1.CreateListOfLicensesToRemoveError](src/resources/software-management-licenses-v1.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.softwareManagementLicensesV1.createListOfLicensesToRemove(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;V1ListOfLicensesToRemoveResult, SoftwareManagementLicensesV1.CreateListOfLicensesToRemoveError&gt;</code>, with `result.value` of type <code>[V1ListOfLicensesToRemoveResult](src/models/v1-list-of-licenses-to-remove-result.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -6242,21 +9161,36 @@ Deletes the entire list of cancellation candidate devices.
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  await client.softwareManagementLicensesV1.deleteListOfLicensesToRemove({ account });
+  await client.softwareManagementLicensesV1.deleteListOfLicensesToRemove({ account: "0242078689-00001" });
 } catch (err) {
-  if (
-    err instanceof SoftwareManagementLicensesV1.DeleteListOfLicensesToRemoveError &&
-      err.payload.kind === "error400"
-  ) {
-    // TODO: Handle 'err.payload' — the "error400" arm declares no body
-  }
+  // TODO: Handle 'err' of type SoftwareManagementLicensesV1.DeleteListOfLicensesToRemoveError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.softwareManagementLicensesV1.deleteListOfLicensesToRemove({
+  account: "0242078689-00001",
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: The call succeeded and resolves to no body
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -6280,9 +9214,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>undefined</code>
+**Direct**: `await client.softwareManagementLicensesV1.deleteListOfLicensesToRemove(request)`
 
-**OnError**: <code>[SoftwareManagementLicensesV1.DeleteListOfLicensesToRemoveError](src/resources/software-management-licenses-v1.ts)</code>
+- **OnSuccess**: <code>undefined</code>
+- **OnError**: throws <code>[SoftwareManagementLicensesV1.DeleteListOfLicensesToRemoveError](src/resources/software-management-licenses-v1.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.softwareManagementLicensesV1.deleteListOfLicensesToRemove(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;undefined, SoftwareManagementLicensesV1.DeleteListOfLicensesToRemoveError&gt;</code>, with `result.value` of type <code>undefined</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -6308,22 +9250,41 @@ Returns a list of devices from which licenses will be removed if the number of M
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.softwareManagementLicensesV1.listLicensesToRemove({ account, startIndex });
+  const response = await client.softwareManagementLicensesV1.listLicensesToRemove({
+    account: "0242078689-00001",
+    startIndex: "some example string",
+  });
   // TODO: Handle 'response' of type V1ListOfLicensesToRemove
 } catch (err) {
-  if (
-    err instanceof SoftwareManagementLicensesV1.ListLicensesToRemoveError &&
-      err.payload.kind === "fotaV1Result"
-  ) {
-    // TODO: Handle 'err.payload.body' of type FotaV1Result
-  }
+  // TODO: Handle 'err' of type SoftwareManagementLicensesV1.ListLicensesToRemoveError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.softwareManagementLicensesV1.listLicensesToRemove({
+  account: "0242078689-00001",
+  startIndex: "some example string",
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type V1ListOfLicensesToRemove
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -6348,9 +9309,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[V1ListOfLicensesToRemove](src/models/v1-list-of-licenses-to-remove.ts)</code>
+**Direct**: `await client.softwareManagementLicensesV1.listLicensesToRemove(request)`
 
-**OnError**: <code>[SoftwareManagementLicensesV1.ListLicensesToRemoveError](src/resources/software-management-licenses-v1.ts)</code>
+- **OnSuccess**: <code>[V1ListOfLicensesToRemove](src/models/v1-list-of-licenses-to-remove.ts)</code>
+- **OnError**: throws <code>[SoftwareManagementLicensesV1.ListLicensesToRemoveError](src/resources/software-management-licenses-v1.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.softwareManagementLicensesV1.listLicensesToRemove(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;V1ListOfLicensesToRemove, SoftwareManagementLicensesV1.ListLicensesToRemoveError&gt;</code>, with `result.value` of type <code>[V1ListOfLicensesToRemove](src/models/v1-list-of-licenses-to-remove.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -6376,22 +9345,41 @@ Remove unused licenses from device.
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.softwareManagementLicensesV1.removeLicensesFromDevices({ account, body });
+  const response = await client.softwareManagementLicensesV1.removeLicensesFromDevices({
+    account: "0242078689-00001",
+    body: { deviceList: ["900000000000001", "900000000000998", "900000000000999"] },
+  });
   // TODO: Handle 'response' of type V1LicensesAssignedRemovedResult
 } catch (err) {
-  if (
-    err instanceof SoftwareManagementLicensesV1.RemoveLicensesFromDevicesError &&
-      err.payload.kind === "fotaV1Result"
-  ) {
-    // TODO: Handle 'err.payload.body' of type FotaV1Result
-  }
+  // TODO: Handle 'err' of type SoftwareManagementLicensesV1.RemoveLicensesFromDevicesError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.softwareManagementLicensesV1.removeLicensesFromDevices({
+  account: "0242078689-00001",
+  body: { deviceList: ["900000000000001", "900000000000998", "900000000000999"] },
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type V1LicensesAssignedRemovedResult
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -6416,9 +9404,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[V1LicensesAssignedRemovedResult](src/models/v1-licenses-assigned-removed-result.ts)</code>
+**Direct**: `await client.softwareManagementLicensesV1.removeLicensesFromDevices(request)`
 
-**OnError**: <code>[SoftwareManagementLicensesV1.RemoveLicensesFromDevicesError](src/resources/software-management-licenses-v1.ts)</code>
+- **OnSuccess**: <code>[V1LicensesAssignedRemovedResult](src/models/v1-licenses-assigned-removed-result.ts)</code>
+- **OnError**: throws <code>[SoftwareManagementLicensesV1.RemoveLicensesFromDevicesError](src/resources/software-management-licenses-v1.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.softwareManagementLicensesV1.removeLicensesFromDevices(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;V1LicensesAssignedRemovedResult, SoftwareManagementLicensesV1.RemoveLicensesFromDevicesError&gt;</code>, with `result.value` of type <code>[V1LicensesAssignedRemovedResult](src/models/v1-licenses-assigned-removed-result.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -6448,19 +9444,41 @@ Cancel a scheduled firmware upgrade.
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.firmwareV1.cancelScheduledFirmwareUpgrade({ accountName, upgradeId });
+  const response = await client.firmwareV1.cancelScheduledFirmwareUpgrade({
+    accountName: "0242078689-00001",
+    upgradeId: "e3a8d88a-04c6-4ef3-b039-89b62f91e962",
+  });
   // TODO: Handle 'response' of type FotaV1SuccessResult
 } catch (err) {
-  if (err instanceof FirmwareV1.CancelScheduledFirmwareUpgradeError && err.payload.kind === "fotaV1Result") {
-    // TODO: Handle 'err.payload.body' of type FotaV1Result
-  }
+  // TODO: Handle 'err' of type FirmwareV1.CancelScheduledFirmwareUpgradeError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.firmwareV1.cancelScheduledFirmwareUpgrade({
+  accountName: "0242078689-00001",
+  upgradeId: "e3a8d88a-04c6-4ef3-b039-89b62f91e962",
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type FotaV1SuccessResult
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -6485,9 +9503,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[FotaV1SuccessResult](src/models/fota-v1-success-result.ts)</code>
+**Direct**: `await client.firmwareV1.cancelScheduledFirmwareUpgrade(request)`
 
-**OnError**: <code>[FirmwareV1.CancelScheduledFirmwareUpgradeError](src/resources/firmware-v1.ts)</code>
+- **OnSuccess**: <code>[FotaV1SuccessResult](src/models/fota-v1-success-result.ts)</code>
+- **OnError**: throws <code>[FirmwareV1.CancelScheduledFirmwareUpgradeError](src/resources/firmware-v1.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.firmwareV1.cancelScheduledFirmwareUpgrade(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;FotaV1SuccessResult, FirmwareV1.CancelScheduledFirmwareUpgradeError&gt;</code>, with `result.value` of type <code>[FotaV1SuccessResult](src/models/fota-v1-success-result.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -6513,19 +9539,35 @@ Lists all device firmware images available for an account, based on the devices 
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.firmwareV1.listAvailableFirmware({ account });
+  const response = await client.firmwareV1.listAvailableFirmware({ account: "0242078689-00001" });
   // TODO: Handle 'response' of type Firmware[]
 } catch (err) {
-  if (err instanceof FirmwareV1.ListAvailableFirmwareError && err.payload.kind === "fotaV1Result") {
-    // TODO: Handle 'err.payload.body' of type FotaV1Result
-  }
+  // TODO: Handle 'err' of type FirmwareV1.ListAvailableFirmwareError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.firmwareV1.listAvailableFirmware({ account: "0242078689-00001" }).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type Firmware[]
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -6549,9 +9591,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[Firmware](src/models/firmware.ts)[]</code>
+**Direct**: `await client.firmwareV1.listAvailableFirmware(request)`
 
-**OnError**: <code>[FirmwareV1.ListAvailableFirmwareError](src/resources/firmware-v1.ts)</code>
+- **OnSuccess**: <code>[Firmware](src/models/firmware.ts)[]</code>
+- **OnError**: throws <code>[FirmwareV1.ListAvailableFirmwareError](src/resources/firmware-v1.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.firmwareV1.listAvailableFirmware(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;Firmware[], FirmwareV1.ListAvailableFirmwareError&gt;</code>, with `result.value` of type <code>[Firmware](src/models/firmware.ts)[]</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -6577,19 +9627,41 @@ Returns information about a specified upgrade, include the target date of the up
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.firmwareV1.listFirmwareUpgradeDetails({ accountName, upgradeId });
+  const response = await client.firmwareV1.listFirmwareUpgradeDetails({
+    accountName: "0242078689-00001",
+    upgradeId: "e3a8d88a-04c6-4ef3-b039-89b62f91e962",
+  });
   // TODO: Handle 'response' of type FirmwareUpgrade
 } catch (err) {
-  if (err instanceof FirmwareV1.ListFirmwareUpgradeDetailsError && err.payload.kind === "fotaV1Result") {
-    // TODO: Handle 'err.payload.body' of type FotaV1Result
-  }
+  // TODO: Handle 'err' of type FirmwareV1.ListFirmwareUpgradeDetailsError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.firmwareV1.listFirmwareUpgradeDetails({
+  accountName: "0242078689-00001",
+  upgradeId: "e3a8d88a-04c6-4ef3-b039-89b62f91e962",
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type FirmwareUpgrade
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -6614,9 +9686,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[FirmwareUpgrade](src/models/firmware-upgrade.ts)</code>
+**Direct**: `await client.firmwareV1.listFirmwareUpgradeDetails(request)`
 
-**OnError**: <code>[FirmwareV1.ListFirmwareUpgradeDetailsError](src/resources/firmware-v1.ts)</code>
+- **OnSuccess**: <code>[FirmwareUpgrade](src/models/firmware-upgrade.ts)</code>
+- **OnError**: throws <code>[FirmwareV1.ListFirmwareUpgradeDetailsError](src/resources/firmware-v1.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.firmwareV1.listFirmwareUpgradeDetails(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;FirmwareUpgrade, FirmwareV1.ListFirmwareUpgradeDetailsError&gt;</code>, with `result.value` of type <code>[FirmwareUpgrade](src/models/firmware-upgrade.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -6642,19 +9722,53 @@ Schedules a firmware upgrade for devices.
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.firmwareV1.scheduleFirmwareUpgrade({ body });
+  const response = await client.firmwareV1.scheduleFirmwareUpgrade({
+    body: {
+      accountName: "0402196254-00001",
+      firmwareName: "FOTA_Verizon_Model-A_01To02_HF",
+      firmwareTo: "VerizonFirmwareVersion-02",
+      startDate: "2018-04-01",
+      endDate: "2018-04-05",
+      deviceList: ["990003425730535", "990000473475989"],
+    },
+  });
   // TODO: Handle 'response' of type FirmwareUpgrade
 } catch (err) {
-  if (err instanceof FirmwareV1.ScheduleFirmwareUpgradeError && err.payload.kind === "fotaV1Result") {
-    // TODO: Handle 'err.payload.body' of type FotaV1Result
-  }
+  // TODO: Handle 'err' of type FirmwareV1.ScheduleFirmwareUpgradeError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.firmwareV1.scheduleFirmwareUpgrade({
+  body: {
+    accountName: "0402196254-00001",
+    firmwareName: "FOTA_Verizon_Model-A_01To02_HF",
+    firmwareTo: "VerizonFirmwareVersion-02",
+    startDate: "2018-04-01",
+    endDate: "2018-04-05",
+    deviceList: ["990003425730535", "990000473475989"],
+  },
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type FirmwareUpgrade
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -6678,9 +9792,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[FirmwareUpgrade](src/models/firmware-upgrade.ts)</code>
+**Direct**: `await client.firmwareV1.scheduleFirmwareUpgrade(request)`
 
-**OnError**: <code>[FirmwareV1.ScheduleFirmwareUpgradeError](src/resources/firmware-v1.ts)</code>
+- **OnSuccess**: <code>[FirmwareUpgrade](src/models/firmware-upgrade.ts)</code>
+- **OnError**: throws <code>[FirmwareV1.ScheduleFirmwareUpgradeError](src/resources/firmware-v1.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.firmwareV1.scheduleFirmwareUpgrade(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;FirmwareUpgrade, FirmwareV1.ScheduleFirmwareUpgradeError&gt;</code>, with `result.value` of type <code>[FirmwareUpgrade](src/models/firmware-upgrade.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -6706,19 +9828,41 @@ Add or remove devices from a scheduled upgrade.
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.firmwareV1.updateFirmwareUpgradeDevices({ accountName, upgradeId });
+  const response = await client.firmwareV1.updateFirmwareUpgradeDevices({
+    accountName: "0242078689-00001",
+    upgradeId: "e3a8d88a-04c6-4ef3-b039-89b62f91e962",
+  });
   // TODO: Handle 'response' of type FirmwareUpgradeChangeResult
 } catch (err) {
-  if (err instanceof FirmwareV1.UpdateFirmwareUpgradeDevicesError && err.payload.kind === "fotaV1Result") {
-    // TODO: Handle 'err.payload.body' of type FotaV1Result
-  }
+  // TODO: Handle 'err' of type FirmwareV1.UpdateFirmwareUpgradeDevicesError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.firmwareV1.updateFirmwareUpgradeDevices({
+  accountName: "0242078689-00001",
+  upgradeId: "e3a8d88a-04c6-4ef3-b039-89b62f91e962",
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type FirmwareUpgradeChangeResult
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -6743,9 +9887,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[FirmwareUpgradeChangeResult](src/models/firmware-upgrade-change-result.ts)</code>
+**Direct**: `await client.firmwareV1.updateFirmwareUpgradeDevices(request)`
 
-**OnError**: <code>[FirmwareV1.UpdateFirmwareUpgradeDevicesError](src/resources/firmware-v1.ts)</code>
+- **OnSuccess**: <code>[FirmwareUpgradeChangeResult](src/models/firmware-upgrade-change-result.ts)</code>
+- **OnError**: throws <code>[FirmwareV1.UpdateFirmwareUpgradeDevicesError](src/resources/firmware-v1.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.firmwareV1.updateFirmwareUpgradeDevices(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;FirmwareUpgradeChangeResult, FirmwareV1.UpdateFirmwareUpgradeDevicesError&gt;</code>, with `result.value` of type <code>[FirmwareUpgradeChangeResult](src/models/firmware-upgrade-change-result.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -6775,20 +9927,40 @@ Deregisters the callback endpoint and stops ThingSpace from sending FOTA callbac
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  await client.softwareManagementCallbacksV1.deregisterCallback3({ account, service });
+  await client.softwareManagementCallbacksV1.deregisterCallback3({
+    account: "0242078689-00001",
+    service: CallbackService.Fota,
+  });
 } catch (err) {
-  if (
-    err instanceof SoftwareManagementCallbacksV1.DeregisterCallback3Error && err.payload.kind === "error400"
-  ) {
-    // TODO: Handle 'err.payload' — the "error400" arm declares no body
-  }
+  // TODO: Handle 'err' of type SoftwareManagementCallbacksV1.DeregisterCallback3Error, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.softwareManagementCallbacksV1.deregisterCallback3({
+  account: "0242078689-00001",
+  service: CallbackService.Fota,
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: The call succeeded and resolves to no body
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -6813,9 +9985,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>undefined</code>
+**Direct**: `await client.softwareManagementCallbacksV1.deregisterCallback3(request)`
 
-**OnError**: <code>[SoftwareManagementCallbacksV1.DeregisterCallback3Error](src/resources/software-management-callbacks-v1.ts)</code>
+- **OnSuccess**: <code>undefined</code>
+- **OnError**: throws <code>[SoftwareManagementCallbacksV1.DeregisterCallback3Error](src/resources/software-management-callbacks-v1.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.softwareManagementCallbacksV1.deregisterCallback3(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;undefined, SoftwareManagementCallbacksV1.DeregisterCallback3Error&gt;</code>, with `result.value` of type <code>undefined</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -6841,22 +10021,39 @@ Returns the name and endpoint URL of the callback listening services registered 
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.softwareManagementCallbacksV1.listRegisteredCallbacks3({ account });
+  const response = await client.softwareManagementCallbacksV1.listRegisteredCallbacks3({
+    account: "0242078689-00001",
+  });
   // TODO: Handle 'response' of type RegisteredCallbacks[]
 } catch (err) {
-  if (
-    err instanceof SoftwareManagementCallbacksV1.ListRegisteredCallbacks3Error &&
-      err.payload.kind === "fotaV1Result"
-  ) {
-    // TODO: Handle 'err.payload.body' of type FotaV1Result
-  }
+  // TODO: Handle 'err' of type SoftwareManagementCallbacksV1.ListRegisteredCallbacks3Error, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.softwareManagementCallbacksV1.listRegisteredCallbacks3({
+  account: "0242078689-00001",
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type RegisteredCallbacks[]
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -6880,9 +10077,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[RegisteredCallbacks](src/models/registered-callbacks.ts)[]</code>
+**Direct**: `await client.softwareManagementCallbacksV1.listRegisteredCallbacks3(request)`
 
-**OnError**: <code>[SoftwareManagementCallbacksV1.ListRegisteredCallbacks3Error](src/resources/software-management-callbacks-v1.ts)</code>
+- **OnSuccess**: <code>[RegisteredCallbacks](src/models/registered-callbacks.ts)[]</code>
+- **OnError**: throws <code>[SoftwareManagementCallbacksV1.ListRegisteredCallbacks3Error](src/resources/software-management-callbacks-v1.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.softwareManagementCallbacksV1.listRegisteredCallbacks3(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;RegisteredCallbacks[], SoftwareManagementCallbacksV1.ListRegisteredCallbacks3Error&gt;</code>, with `result.value` of type <code>[RegisteredCallbacks](src/models/registered-callbacks.ts)[]</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -6908,21 +10113,41 @@ Registers a URL to receive RESTful messages from a callback service when new fir
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.softwareManagementCallbacksV1.registerCallback3({ account, body });
+  const response = await client.softwareManagementCallbacksV1.registerCallback3({
+    account: "0242078689-00001",
+    body: { name: "Fota", url: "https://10.120.102.183:50559/CallbackListener/FirmwareServiceMessages.asmx" },
+  });
   // TODO: Handle 'response' of type FotaV1CallbackRegistrationResult
 } catch (err) {
-  if (
-    err instanceof SoftwareManagementCallbacksV1.RegisterCallback3Error && err.payload.kind === "fotaV1Result"
-  ) {
-    // TODO: Handle 'err.payload.body' of type FotaV1Result
-  }
+  // TODO: Handle 'err' of type SoftwareManagementCallbacksV1.RegisterCallback3Error, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.softwareManagementCallbacksV1.registerCallback3({
+  account: "0242078689-00001",
+  body: { name: "Fota", url: "https://10.120.102.183:50559/CallbackListener/FirmwareServiceMessages.asmx" },
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type FotaV1CallbackRegistrationResult
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -6947,9 +10172,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[FotaV1CallbackRegistrationResult](src/models/fota-v1-callback-registration-result.ts)</code>
+**Direct**: `await client.softwareManagementCallbacksV1.registerCallback3(request)`
 
-**OnError**: <code>[SoftwareManagementCallbacksV1.RegisterCallback3Error](src/resources/software-management-callbacks-v1.ts)</code>
+- **OnSuccess**: <code>[FotaV1CallbackRegistrationResult](src/models/fota-v1-callback-registration-result.ts)</code>
+- **OnError**: throws <code>[SoftwareManagementCallbacksV1.RegisterCallback3Error](src/resources/software-management-callbacks-v1.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.softwareManagementCallbacksV1.registerCallback3(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;FotaV1CallbackRegistrationResult, SoftwareManagementCallbacksV1.RegisterCallback3Error&gt;</code>, with `result.value` of type <code>[FotaV1CallbackRegistrationResult](src/models/fota-v1-callback-registration-result.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -6979,7 +10212,7 @@ Returns the upgrade history of the specified device from the previous six months
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
@@ -6987,17 +10220,33 @@ Returns the upgrade history of the specified device from the previous six months
 ```ts
 try {
   const response = await client.softwareManagementReportsV1.getDeviceFirmwareUpgradeHistory({
-    account,
-    deviceId,
+    account: "0242078689-00001",
+    deviceId: "900000000000001",
   });
   // TODO: Handle 'response' of type DeviceUpgradeHistory[]
 } catch (err) {
-  if (
-    err instanceof SoftwareManagementReportsV1.GetDeviceFirmwareUpgradeHistoryError &&
-      err.payload.kind === "fotaV1Result"
-  ) {
-    // TODO: Handle 'err.payload.body' of type FotaV1Result
-  }
+  // TODO: Handle 'err' of type SoftwareManagementReportsV1.GetDeviceFirmwareUpgradeHistoryError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.softwareManagementReportsV1.getDeviceFirmwareUpgradeHistory({
+  account: "0242078689-00001",
+  deviceId: "900000000000001",
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type DeviceUpgradeHistory[]
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -7022,9 +10271,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[DeviceUpgradeHistory](src/models/device-upgrade-history.ts)[]</code>
+**Direct**: `await client.softwareManagementReportsV1.getDeviceFirmwareUpgradeHistory(request)`
 
-**OnError**: <code>[SoftwareManagementReportsV1.GetDeviceFirmwareUpgradeHistoryError](src/resources/software-management-reports-v1.ts)</code>
+- **OnSuccess**: <code>[DeviceUpgradeHistory](src/models/device-upgrade-history.ts)[]</code>
+- **OnError**: throws <code>[SoftwareManagementReportsV1.GetDeviceFirmwareUpgradeHistoryError](src/resources/software-management-reports-v1.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.softwareManagementReportsV1.getDeviceFirmwareUpgradeHistory(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;DeviceUpgradeHistory[], SoftwareManagementReportsV1.GetDeviceFirmwareUpgradeHistoryError&gt;</code>, with `result.value` of type <code>[DeviceUpgradeHistory](src/models/device-upgrade-history.ts)[]</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -7050,21 +10307,41 @@ Returns an array of all devices in the specified account. Each device object inc
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.softwareManagementReportsV1.listAccountDevices({ account, startIndex });
+  const response = await client.softwareManagementReportsV1.listAccountDevices({
+    account: "0242078689-00001",
+    startIndex: "some example string",
+  });
   // TODO: Handle 'response' of type DeviceListQueryResult
 } catch (err) {
-  if (
-    err instanceof SoftwareManagementReportsV1.ListAccountDevicesError && err.payload.kind === "fotaV1Result"
-  ) {
-    // TODO: Handle 'err.payload.body' of type FotaV1Result
-  }
+  // TODO: Handle 'err' of type SoftwareManagementReportsV1.ListAccountDevicesError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.softwareManagementReportsV1.listAccountDevices({
+  account: "0242078689-00001",
+  startIndex: "some example string",
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type DeviceListQueryResult
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -7089,9 +10366,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[DeviceListQueryResult](src/models/device-list-query-result.ts)</code>
+**Direct**: `await client.softwareManagementReportsV1.listAccountDevices(request)`
 
-**OnError**: <code>[SoftwareManagementReportsV1.ListAccountDevicesError](src/resources/software-management-reports-v1.ts)</code>
+- **OnSuccess**: <code>[DeviceListQueryResult](src/models/device-list-query-result.ts)</code>
+- **OnError**: throws <code>[SoftwareManagementReportsV1.ListAccountDevicesError](src/resources/software-management-reports-v1.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.softwareManagementReportsV1.listAccountDevices(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;DeviceListQueryResult, SoftwareManagementReportsV1.ListAccountDevicesError&gt;</code>, with `result.value` of type <code>[DeviceListQueryResult](src/models/device-list-query-result.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -7117,7 +10402,7 @@ Returns a list of all upgrades with a specified status.
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
@@ -7125,18 +10410,35 @@ Returns a list of all upgrades with a specified status.
 ```ts
 try {
   const response = await client.softwareManagementReportsV1.listUpgradesForSpecifiedStatus({
-    account,
-    upgradeStatus,
-    startIndex,
+    account: "0242078689-00001",
+    upgradeStatus: UpgradeStatus.RequestPending,
+    startIndex: "some example string",
   });
   // TODO: Handle 'response' of type UpgradeListQueryResult
 } catch (err) {
-  if (
-    err instanceof SoftwareManagementReportsV1.ListUpgradesForSpecifiedStatusError &&
-      err.payload.kind === "fotaV1Result"
-  ) {
-    // TODO: Handle 'err.payload.body' of type FotaV1Result
-  }
+  // TODO: Handle 'err' of type SoftwareManagementReportsV1.ListUpgradesForSpecifiedStatusError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.softwareManagementReportsV1.listUpgradesForSpecifiedStatus({
+  account: "0242078689-00001",
+  upgradeStatus: UpgradeStatus.RequestPending,
+  startIndex: "some example string",
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type UpgradeListQueryResult
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -7162,9 +10464,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[UpgradeListQueryResult](src/models/upgrade-list-query-result.ts)</code>
+**Direct**: `await client.softwareManagementReportsV1.listUpgradesForSpecifiedStatus(request)`
 
-**OnError**: <code>[SoftwareManagementReportsV1.ListUpgradesForSpecifiedStatusError](src/resources/software-management-reports-v1.ts)</code>
+- **OnSuccess**: <code>[UpgradeListQueryResult](src/models/upgrade-list-query-result.ts)</code>
+- **OnError**: throws <code>[SoftwareManagementReportsV1.ListUpgradesForSpecifiedStatusError](src/resources/software-management-reports-v1.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.softwareManagementReportsV1.listUpgradesForSpecifiedStatus(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;UpgradeListQueryResult, SoftwareManagementReportsV1.ListUpgradesForSpecifiedStatusError&gt;</code>, with `result.value` of type <code>[UpgradeListQueryResult](src/models/upgrade-list-query-result.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -7194,22 +10504,39 @@ This endpoint retrieves a FOTA subscription by account.
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.softwareManagementSubscriptionsV2.getAccountSubscriptionStatus2({ account });
+  const response = await client.softwareManagementSubscriptionsV2.getAccountSubscriptionStatus2({
+    account: "0000123456-00001",
+  });
   // TODO: Handle 'response' of type FotaV2Subscription
 } catch (err) {
-  if (
-    err instanceof SoftwareManagementSubscriptionsV2.GetAccountSubscriptionStatus2Error &&
-      err.payload.kind === "fotaV2Result"
-  ) {
-    // TODO: Handle 'err.payload.body' of type FotaV2Result
-  }
+  // TODO: Handle 'err' of type SoftwareManagementSubscriptionsV2.GetAccountSubscriptionStatus2Error, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.softwareManagementSubscriptionsV2.getAccountSubscriptionStatus2({
+  account: "0000123456-00001",
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type FotaV2Subscription
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -7233,9 +10560,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[FotaV2Subscription](src/models/fota-v2-subscription.ts)</code>
+**Direct**: `await client.softwareManagementSubscriptionsV2.getAccountSubscriptionStatus2(request)`
 
-**OnError**: <code>[SoftwareManagementSubscriptionsV2.GetAccountSubscriptionStatus2Error](src/resources/software-management-subscriptions-v2.ts)</code>
+- **OnSuccess**: <code>[FotaV2Subscription](src/models/fota-v2-subscription.ts)</code>
+- **OnError**: throws <code>[SoftwareManagementSubscriptionsV2.GetAccountSubscriptionStatus2Error](src/resources/software-management-subscriptions-v2.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.softwareManagementSubscriptionsV2.getAccountSubscriptionStatus2(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;FotaV2Subscription, SoftwareManagementSubscriptionsV2.GetAccountSubscriptionStatus2Error&gt;</code>, with `result.value` of type <code>[FotaV2Subscription](src/models/fota-v2-subscription.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -7265,22 +10600,39 @@ This endpoint allows user to assign licenses to a list of devices.
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.softwareManagementLicensesV2.assignLicensesToDevices2({ account });
+  const response = await client.softwareManagementLicensesV2.assignLicensesToDevices2({
+    account: "0242078689-00001",
+  });
   // TODO: Handle 'response' of type V2LicensesAssignedRemovedResult
 } catch (err) {
-  if (
-    err instanceof SoftwareManagementLicensesV2.AssignLicensesToDevices2Error &&
-      err.payload.kind === "fotaV2Result"
-  ) {
-    // TODO: Handle 'err.payload.body' of type FotaV2Result
-  }
+  // TODO: Handle 'err' of type SoftwareManagementLicensesV2.AssignLicensesToDevices2Error, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.softwareManagementLicensesV2.assignLicensesToDevices2({
+  account: "0242078689-00001",
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type V2LicensesAssignedRemovedResult
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -7304,9 +10656,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[V2LicensesAssignedRemovedResult](src/models/v2-licenses-assigned-removed-result.ts)</code>
+**Direct**: `await client.softwareManagementLicensesV2.assignLicensesToDevices2(request)`
 
-**OnError**: <code>[SoftwareManagementLicensesV2.AssignLicensesToDevices2Error](src/resources/software-management-licenses-v2.ts)</code>
+- **OnSuccess**: <code>[V2LicensesAssignedRemovedResult](src/models/v2-licenses-assigned-removed-result.ts)</code>
+- **OnError**: throws <code>[SoftwareManagementLicensesV2.AssignLicensesToDevices2Error](src/resources/software-management-licenses-v2.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.softwareManagementLicensesV2.assignLicensesToDevices2(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;V2LicensesAssignedRemovedResult, SoftwareManagementLicensesV2.AssignLicensesToDevices2Error&gt;</code>, with `result.value` of type <code>[V2LicensesAssignedRemovedResult](src/models/v2-licenses-assigned-removed-result.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -7332,22 +10692,39 @@ The license cancel endpoint allows user to create a list of license cancellation
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.softwareManagementLicensesV2.createListOfLicensesToRemove2({ account });
+  const response = await client.softwareManagementLicensesV2.createListOfLicensesToRemove2({
+    account: "0242078689-00001",
+  });
   // TODO: Handle 'response' of type V2ListOfLicensesToRemoveResult
 } catch (err) {
-  if (
-    err instanceof SoftwareManagementLicensesV2.CreateListOfLicensesToRemove2Error &&
-      err.payload.kind === "fotaV2Result"
-  ) {
-    // TODO: Handle 'err.payload.body' of type FotaV2Result
-  }
+  // TODO: Handle 'err' of type SoftwareManagementLicensesV2.CreateListOfLicensesToRemove2Error, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.softwareManagementLicensesV2.createListOfLicensesToRemove2({
+  account: "0242078689-00001",
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type V2ListOfLicensesToRemoveResult
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -7371,9 +10748,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[V2ListOfLicensesToRemoveResult](src/models/v2-list-of-licenses-to-remove-result.ts)</code>
+**Direct**: `await client.softwareManagementLicensesV2.createListOfLicensesToRemove2(request)`
 
-**OnError**: <code>[SoftwareManagementLicensesV2.CreateListOfLicensesToRemove2Error](src/resources/software-management-licenses-v2.ts)</code>
+- **OnSuccess**: <code>[V2ListOfLicensesToRemoveResult](src/models/v2-list-of-licenses-to-remove-result.ts)</code>
+- **OnError**: throws <code>[SoftwareManagementLicensesV2.CreateListOfLicensesToRemove2Error](src/resources/software-management-licenses-v2.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.softwareManagementLicensesV2.createListOfLicensesToRemove2(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;V2ListOfLicensesToRemoveResult, SoftwareManagementLicensesV2.CreateListOfLicensesToRemove2Error&gt;</code>, with `result.value` of type <code>[V2ListOfLicensesToRemoveResult](src/models/v2-list-of-licenses-to-remove-result.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -7399,22 +10784,39 @@ This endpoint allows user to delete a created cancel candidate device list.
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.softwareManagementLicensesV2.deleteListOfLicensesToRemove2({ account });
+  const response = await client.softwareManagementLicensesV2.deleteListOfLicensesToRemove2({
+    account: "0242078689-00001",
+  });
   // TODO: Handle 'response' of type FotaV2SuccessResult
 } catch (err) {
-  if (
-    err instanceof SoftwareManagementLicensesV2.DeleteListOfLicensesToRemove2Error &&
-      err.payload.kind === "fotaV2Result"
-  ) {
-    // TODO: Handle 'err.payload.body' of type FotaV2Result
-  }
+  // TODO: Handle 'err' of type SoftwareManagementLicensesV2.DeleteListOfLicensesToRemove2Error, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.softwareManagementLicensesV2.deleteListOfLicensesToRemove2({
+  account: "0242078689-00001",
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type FotaV2SuccessResult
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -7438,9 +10840,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[FotaV2SuccessResult](src/models/fota-v2-success-result.ts)</code>
+**Direct**: `await client.softwareManagementLicensesV2.deleteListOfLicensesToRemove2(request)`
 
-**OnError**: <code>[SoftwareManagementLicensesV2.DeleteListOfLicensesToRemove2Error](src/resources/software-management-licenses-v2.ts)</code>
+- **OnSuccess**: <code>[FotaV2SuccessResult](src/models/fota-v2-success-result.ts)</code>
+- **OnError**: throws <code>[SoftwareManagementLicensesV2.DeleteListOfLicensesToRemove2Error](src/resources/software-management-licenses-v2.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.softwareManagementLicensesV2.deleteListOfLicensesToRemove2(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;FotaV2SuccessResult, SoftwareManagementLicensesV2.DeleteListOfLicensesToRemove2Error&gt;</code>, with `result.value` of type <code>[FotaV2SuccessResult](src/models/fota-v2-success-result.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -7466,22 +10876,41 @@ The endpoint allows user to list license usage.
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.softwareManagementLicensesV2.getAccountLicenseStatus2({ account });
+  const response = await client.softwareManagementLicensesV2.getAccountLicenseStatus2({
+    account: "0000123456-00001",
+    lastSeenDeviceId: "15-digit IMEI",
+  });
   // TODO: Handle 'response' of type V2LicenseSummary
 } catch (err) {
-  if (
-    err instanceof SoftwareManagementLicensesV2.GetAccountLicenseStatus2Error &&
-      err.payload.kind === "fotaV2Result"
-  ) {
-    // TODO: Handle 'err.payload.body' of type FotaV2Result
-  }
+  // TODO: Handle 'err' of type SoftwareManagementLicensesV2.GetAccountLicenseStatus2Error, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.softwareManagementLicensesV2.getAccountLicenseStatus2({
+  account: "0000123456-00001",
+  lastSeenDeviceId: "15-digit IMEI",
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type V2LicenseSummary
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -7506,9 +10935,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[V2LicenseSummary](src/models/v2-license-summary.ts)</code>
+**Direct**: `await client.softwareManagementLicensesV2.getAccountLicenseStatus2(request)`
 
-**OnError**: <code>[SoftwareManagementLicensesV2.GetAccountLicenseStatus2Error](src/resources/software-management-licenses-v2.ts)</code>
+- **OnSuccess**: <code>[V2LicenseSummary](src/models/v2-license-summary.ts)</code>
+- **OnError**: throws <code>[SoftwareManagementLicensesV2.GetAccountLicenseStatus2Error](src/resources/software-management-licenses-v2.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.softwareManagementLicensesV2.getAccountLicenseStatus2(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;V2LicenseSummary, SoftwareManagementLicensesV2.GetAccountLicenseStatus2Error&gt;</code>, with `result.value` of type <code>[V2LicenseSummary](src/models/v2-license-summary.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -7534,22 +10971,39 @@ The license cancel endpoint allows user to list registered license cancellation 
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.softwareManagementLicensesV2.listLicensesToRemove2({ account });
+  const response = await client.softwareManagementLicensesV2.listLicensesToRemove2({
+    account: "0242078689-00001",
+  });
   // TODO: Handle 'response' of type V2ListOfLicensesToRemove
 } catch (err) {
-  if (
-    err instanceof SoftwareManagementLicensesV2.ListLicensesToRemove2Error &&
-      err.payload.kind === "fotaV2Result"
-  ) {
-    // TODO: Handle 'err.payload.body' of type FotaV2Result
-  }
+  // TODO: Handle 'err' of type SoftwareManagementLicensesV2.ListLicensesToRemove2Error, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.softwareManagementLicensesV2.listLicensesToRemove2({
+  account: "0242078689-00001",
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type V2ListOfLicensesToRemove
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -7574,9 +11028,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[V2ListOfLicensesToRemove](src/models/v2-list-of-licenses-to-remove.ts)</code>
+**Direct**: `await client.softwareManagementLicensesV2.listLicensesToRemove2(request)`
 
-**OnError**: <code>[SoftwareManagementLicensesV2.ListLicensesToRemove2Error](src/resources/software-management-licenses-v2.ts)</code>
+- **OnSuccess**: <code>[V2ListOfLicensesToRemove](src/models/v2-list-of-licenses-to-remove.ts)</code>
+- **OnError**: throws <code>[SoftwareManagementLicensesV2.ListLicensesToRemove2Error](src/resources/software-management-licenses-v2.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.softwareManagementLicensesV2.listLicensesToRemove2(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;V2ListOfLicensesToRemove, SoftwareManagementLicensesV2.ListLicensesToRemove2Error&gt;</code>, with `result.value` of type <code>[V2ListOfLicensesToRemove](src/models/v2-list-of-licenses-to-remove.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -7602,22 +11064,39 @@ This endpoint allows user to remove licenses from a list of devices.
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.softwareManagementLicensesV2.removeLicensesFromDevices2({ account });
+  const response = await client.softwareManagementLicensesV2.removeLicensesFromDevices2({
+    account: "0242078689-00001",
+  });
   // TODO: Handle 'response' of type V2LicensesAssignedRemovedResult
 } catch (err) {
-  if (
-    err instanceof SoftwareManagementLicensesV2.RemoveLicensesFromDevices2Error &&
-      err.payload.kind === "fotaV2Result"
-  ) {
-    // TODO: Handle 'err.payload.body' of type FotaV2Result
-  }
+  // TODO: Handle 'err' of type SoftwareManagementLicensesV2.RemoveLicensesFromDevices2Error, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.softwareManagementLicensesV2.removeLicensesFromDevices2({
+  account: "0242078689-00001",
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type V2LicensesAssignedRemovedResult
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -7641,9 +11120,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[V2LicensesAssignedRemovedResult](src/models/v2-licenses-assigned-removed-result.ts)</code>
+**Direct**: `await client.softwareManagementLicensesV2.removeLicensesFromDevices2(request)`
 
-**OnError**: <code>[SoftwareManagementLicensesV2.RemoveLicensesFromDevices2Error](src/resources/software-management-licenses-v2.ts)</code>
+- **OnSuccess**: <code>[V2LicensesAssignedRemovedResult](src/models/v2-licenses-assigned-removed-result.ts)</code>
+- **OnError**: throws <code>[SoftwareManagementLicensesV2.RemoveLicensesFromDevices2Error](src/resources/software-management-licenses-v2.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.softwareManagementLicensesV2.removeLicensesFromDevices2(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;V2LicensesAssignedRemovedResult, SoftwareManagementLicensesV2.RemoveLicensesFromDevices2Error&gt;</code>, with `result.value` of type <code>[V2LicensesAssignedRemovedResult](src/models/v2-licenses-assigned-removed-result.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -7673,19 +11160,41 @@ This endpoint allows user to cancel software upgrade. A software upgrade already
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.campaignsV2.cancelCampaign({ account, campaignId });
+  const response = await client.campaignsV2.cancelCampaign({
+    account: "0000123456-00001",
+    campaignId: "60b5d639-ccdc-4db8-8824-069bd94c95bf",
+  });
   // TODO: Handle 'response' of type FotaV2SuccessResult
 } catch (err) {
-  if (err instanceof CampaignsV2.CancelCampaignError && err.payload.kind === "fotaV2Result") {
-    // TODO: Handle 'err.payload.body' of type FotaV2Result
-  }
+  // TODO: Handle 'err' of type CampaignsV2.CancelCampaignError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.campaignsV2.cancelCampaign({
+  account: "0000123456-00001",
+  campaignId: "60b5d639-ccdc-4db8-8824-069bd94c95bf",
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type FotaV2SuccessResult
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -7710,9 +11219,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[FotaV2SuccessResult](src/models/fota-v2-success-result.ts)</code>
+**Direct**: `await client.campaignsV2.cancelCampaign(request)`
 
-**OnError**: <code>[CampaignsV2.CancelCampaignError](src/resources/campaigns-v2.ts)</code>
+- **OnSuccess**: <code>[FotaV2SuccessResult](src/models/fota-v2-success-result.ts)</code>
+- **OnError**: throws <code>[CampaignsV2.CancelCampaignError](src/resources/campaigns-v2.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.campaignsV2.cancelCampaign(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;FotaV2SuccessResult, CampaignsV2.CancelCampaignError&gt;</code>, with `result.value` of type <code>[FotaV2SuccessResult](src/models/fota-v2-success-result.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -7738,19 +11255,41 @@ This endpoint allows user to get information of a software upgrade.
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.campaignsV2.getCampaignInformation({ account, campaignId });
+  const response = await client.campaignsV2.getCampaignInformation({
+    account: "0000123456-00001",
+    campaignId: "60b5d639-ccdc-4db8-8824-069bd94c95bf",
+  });
   // TODO: Handle 'response' of type CampaignSoftware
 } catch (err) {
-  if (err instanceof CampaignsV2.GetCampaignInformationError && err.payload.kind === "fotaV2Result") {
-    // TODO: Handle 'err.payload.body' of type FotaV2Result
-  }
+  // TODO: Handle 'err' of type CampaignsV2.GetCampaignInformationError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.campaignsV2.getCampaignInformation({
+  account: "0000123456-00001",
+  campaignId: "60b5d639-ccdc-4db8-8824-069bd94c95bf",
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type CampaignSoftware
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -7775,9 +11314,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[CampaignSoftware](src/models/campaign-software.ts)</code>
+**Direct**: `await client.campaignsV2.getCampaignInformation(request)`
 
-**OnError**: <code>[CampaignsV2.GetCampaignInformationError](src/resources/campaigns-v2.ts)</code>
+- **OnSuccess**: <code>[CampaignSoftware](src/models/campaign-software.ts)</code>
+- **OnError**: throws <code>[CampaignsV2.GetCampaignInformationError](src/resources/campaigns-v2.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.campaignsV2.getCampaignInformation(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;CampaignSoftware, CampaignsV2.GetCampaignInformationError&gt;</code>, with `result.value` of type <code>[CampaignSoftware](src/models/campaign-software.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -7803,21 +11350,37 @@ This endpoint allows user to schedule a software upgrade.
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.campaignsV2.scheduleCampaignFirmwareUpgrade({ account });
+  const response = await client.campaignsV2.scheduleCampaignFirmwareUpgrade({ account: "0000123456-00001" });
   // TODO: Handle 'response' of type CampaignSoftware
 } catch (err) {
-  if (
-    err instanceof CampaignsV2.ScheduleCampaignFirmwareUpgradeError && err.payload.kind === "fotaV2Result"
-  ) {
-    // TODO: Handle 'err.payload.body' of type FotaV2Result
-  }
+  // TODO: Handle 'err' of type CampaignsV2.ScheduleCampaignFirmwareUpgradeError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.campaignsV2.scheduleCampaignFirmwareUpgrade({
+  account: "0000123456-00001",
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type CampaignSoftware
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -7841,9 +11404,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[CampaignSoftware](src/models/campaign-software.ts)</code>
+**Direct**: `await client.campaignsV2.scheduleCampaignFirmwareUpgrade(request)`
 
-**OnError**: <code>[CampaignsV2.ScheduleCampaignFirmwareUpgradeError](src/resources/campaigns-v2.ts)</code>
+- **OnSuccess**: <code>[CampaignSoftware](src/models/campaign-software.ts)</code>
+- **OnError**: throws <code>[CampaignsV2.ScheduleCampaignFirmwareUpgradeError](src/resources/campaigns-v2.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.campaignsV2.scheduleCampaignFirmwareUpgrade(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;CampaignSoftware, CampaignsV2.ScheduleCampaignFirmwareUpgradeError&gt;</code>, with `result.value` of type <code>[CampaignSoftware](src/models/campaign-software.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -7869,19 +11440,38 @@ You can upload configuration files and schedule them in a campaign to devices.
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.campaignsV2.scheduleFileUpgrade({ acc, body });
+  const response = await client.campaignsV2.scheduleFileUpgrade({ acc: "0402196254-00001", body: {} });
   // TODO: Handle 'response' of type UploadAndScheduleFileResponse
 } catch (err) {
-  if (err instanceof CampaignsV2.ScheduleFileUpgradeError && err.payload.kind === "fotaV2Result") {
-    // TODO: Handle 'err.payload.body' of type FotaV2Result
-  }
+  // TODO: Handle 'err' of type CampaignsV2.ScheduleFileUpgradeError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.campaignsV2.scheduleFileUpgrade({
+  acc: "0402196254-00001",
+  body: {},
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type UploadAndScheduleFileResponse
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -7906,9 +11496,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[UploadAndScheduleFileResponse](src/models/upload-and-schedule-file-response.ts)</code>
+**Direct**: `await client.campaignsV2.scheduleFileUpgrade(request)`
 
-**OnError**: <code>[CampaignsV2.ScheduleFileUpgradeError](src/resources/campaigns-v2.ts)</code>
+- **OnSuccess**: <code>[UploadAndScheduleFileResponse](src/models/upload-and-schedule-file-response.ts)</code>
+- **OnError**: throws <code>[CampaignsV2.ScheduleFileUpgradeError](src/resources/campaigns-v2.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.campaignsV2.scheduleFileUpgrade(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;UploadAndScheduleFileResponse, CampaignsV2.ScheduleFileUpgradeError&gt;</code>, with `result.value` of type <code>[UploadAndScheduleFileResponse](src/models/upload-and-schedule-file-response.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -7934,19 +11532,67 @@ Campaign time windows for downloading and installing software are available as l
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.campaignsV2.scheduleSwUpgradeHttpDevices({ acc, body });
+  const response = await client.campaignsV2.scheduleSwUpgradeHttpDevices({
+    acc: "0402196254-00001",
+    body: {
+      campaignName: "FOTA_Verizon_Upgrade",
+      softwareName: "FOTA_Verizon_Model-A_02To03_HF",
+      softwareFrom: "FOTA_Verizon_Model-A_00To01_HF",
+      softwareTo: "FOTA_Verizon_Model-A_02To03_HF",
+      distributionType: "HTTP",
+      startDate: "2020-08-21",
+      endDate: "2020-08-22",
+      downloadAfterDate: "2020-08-21",
+      downloadTimeWindowList: [{ startTime: "20", endTime: "21" }],
+      installAfterDate: "2020-08-21",
+      installTimeWindowList: [{ startTime: "22", endTime: "23" }],
+      deviceList: ["990013907835573", "990013907884259"],
+    },
+  });
   // TODO: Handle 'response' of type UploadAndScheduleFileResponse
 } catch (err) {
-  if (err instanceof CampaignsV2.ScheduleSwUpgradeHttpDevicesError && err.payload.kind === "fotaV2Result") {
-    // TODO: Handle 'err.payload.body' of type FotaV2Result
-  }
+  // TODO: Handle 'err' of type CampaignsV2.ScheduleSwUpgradeHttpDevicesError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.campaignsV2.scheduleSwUpgradeHttpDevices({
+  acc: "0402196254-00001",
+  body: {
+    campaignName: "FOTA_Verizon_Upgrade",
+    softwareName: "FOTA_Verizon_Model-A_02To03_HF",
+    softwareFrom: "FOTA_Verizon_Model-A_00To01_HF",
+    softwareTo: "FOTA_Verizon_Model-A_02To03_HF",
+    distributionType: "HTTP",
+    startDate: "2020-08-21",
+    endDate: "2020-08-22",
+    downloadAfterDate: "2020-08-21",
+    downloadTimeWindowList: [{ startTime: "20", endTime: "21" }],
+    installAfterDate: "2020-08-21",
+    installTimeWindowList: [{ startTime: "22", endTime: "23" }],
+    deviceList: ["990013907835573", "990013907884259"],
+  },
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type UploadAndScheduleFileResponse
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -7971,9 +11617,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[UploadAndScheduleFileResponse](src/models/upload-and-schedule-file-response.ts)</code>
+**Direct**: `await client.campaignsV2.scheduleSwUpgradeHttpDevices(request)`
 
-**OnError**: <code>[CampaignsV2.ScheduleSwUpgradeHttpDevicesError](src/resources/campaigns-v2.ts)</code>
+- **OnSuccess**: <code>[UploadAndScheduleFileResponse](src/models/upload-and-schedule-file-response.ts)</code>
+- **OnError**: throws <code>[CampaignsV2.ScheduleSwUpgradeHttpDevicesError](src/resources/campaigns-v2.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.campaignsV2.scheduleSwUpgradeHttpDevices(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;UploadAndScheduleFileResponse, CampaignsV2.ScheduleSwUpgradeHttpDevicesError&gt;</code>, with `result.value` of type <code>[UploadAndScheduleFileResponse](src/models/upload-and-schedule-file-response.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -7999,19 +11653,41 @@ This endpoint allows user to change campaign dates and time windows. Fields whic
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.campaignsV2.updateCampaignDates({ account, campaignId });
+  const response = await client.campaignsV2.updateCampaignDates({
+    account: "0000123456-00001",
+    campaignId: "60b5d639-ccdc-4db8-8824-069bd94c95bf",
+  });
   // TODO: Handle 'response' of type CampaignSoftware
 } catch (err) {
-  if (err instanceof CampaignsV2.UpdateCampaignDatesError && err.payload.kind === "fotaV2Result") {
-    // TODO: Handle 'err.payload.body' of type FotaV2Result
-  }
+  // TODO: Handle 'err' of type CampaignsV2.UpdateCampaignDatesError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.campaignsV2.updateCampaignDates({
+  account: "0000123456-00001",
+  campaignId: "60b5d639-ccdc-4db8-8824-069bd94c95bf",
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type CampaignSoftware
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -8036,9 +11712,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[CampaignSoftware](src/models/campaign-software.ts)</code>
+**Direct**: `await client.campaignsV2.updateCampaignDates(request)`
 
-**OnError**: <code>[CampaignsV2.UpdateCampaignDatesError](src/resources/campaigns-v2.ts)</code>
+- **OnSuccess**: <code>[CampaignSoftware](src/models/campaign-software.ts)</code>
+- **OnError**: throws <code>[CampaignsV2.UpdateCampaignDatesError](src/resources/campaigns-v2.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.campaignsV2.updateCampaignDates(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;CampaignSoftware, CampaignsV2.UpdateCampaignDatesError&gt;</code>, with `result.value` of type <code>[CampaignSoftware](src/models/campaign-software.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -8064,19 +11748,41 @@ This endpoint allows user to Add or Remove devices to an existing software upgra
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.campaignsV2.updateCampaignFirmwareDevices({ account, campaignId });
+  const response = await client.campaignsV2.updateCampaignFirmwareDevices({
+    account: "0000123456-00001",
+    campaignId: "60b5d639-ccdc-4db8-8824-069bd94c95bf",
+  });
   // TODO: Handle 'response' of type V2AddOrRemoveDeviceResult
 } catch (err) {
-  if (err instanceof CampaignsV2.UpdateCampaignFirmwareDevicesError && err.payload.kind === "fotaV2Result") {
-    // TODO: Handle 'err.payload.body' of type FotaV2Result
-  }
+  // TODO: Handle 'err' of type CampaignsV2.UpdateCampaignFirmwareDevicesError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.campaignsV2.updateCampaignFirmwareDevices({
+  account: "0000123456-00001",
+  campaignId: "60b5d639-ccdc-4db8-8824-069bd94c95bf",
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type V2AddOrRemoveDeviceResult
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -8101,9 +11807,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[V2AddOrRemoveDeviceResult](src/models/v2-add-or-remove-device-result.ts)</code>
+**Direct**: `await client.campaignsV2.updateCampaignFirmwareDevices(request)`
 
-**OnError**: <code>[CampaignsV2.UpdateCampaignFirmwareDevicesError](src/resources/campaigns-v2.ts)</code>
+- **OnSuccess**: <code>[V2AddOrRemoveDeviceResult](src/models/v2-add-or-remove-device-result.ts)</code>
+- **OnError**: throws <code>[CampaignsV2.UpdateCampaignFirmwareDevicesError](src/resources/campaigns-v2.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.campaignsV2.updateCampaignFirmwareDevices(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;V2AddOrRemoveDeviceResult, CampaignsV2.UpdateCampaignFirmwareDevicesError&gt;</code>, with `result.value` of type <code>[V2AddOrRemoveDeviceResult](src/models/v2-add-or-remove-device-result.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -8133,22 +11847,39 @@ This endpoint allows user to delete a previously registered callback URL.
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.softwareManagementCallbacksV2.deregisterCallback4({ account });
+  const response = await client.softwareManagementCallbacksV2.deregisterCallback4({
+    account: "0000123456-00001",
+  });
   // TODO: Handle 'response' of type FotaV2SuccessResult
 } catch (err) {
-  if (
-    err instanceof SoftwareManagementCallbacksV2.DeregisterCallback4Error &&
-      err.payload.kind === "fotaV2Result"
-  ) {
-    // TODO: Handle 'err.payload.body' of type FotaV2Result
-  }
+  // TODO: Handle 'err' of type SoftwareManagementCallbacksV2.DeregisterCallback4Error, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.softwareManagementCallbacksV2.deregisterCallback4({
+  account: "0000123456-00001",
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type FotaV2SuccessResult
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -8172,9 +11903,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[FotaV2SuccessResult](src/models/fota-v2-success-result.ts)</code>
+**Direct**: `await client.softwareManagementCallbacksV2.deregisterCallback4(request)`
 
-**OnError**: <code>[SoftwareManagementCallbacksV2.DeregisterCallback4Error](src/resources/software-management-callbacks-v2.ts)</code>
+- **OnSuccess**: <code>[FotaV2SuccessResult](src/models/fota-v2-success-result.ts)</code>
+- **OnError**: throws <code>[SoftwareManagementCallbacksV2.DeregisterCallback4Error](src/resources/software-management-callbacks-v2.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.softwareManagementCallbacksV2.deregisterCallback4(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;FotaV2SuccessResult, SoftwareManagementCallbacksV2.DeregisterCallback4Error&gt;</code>, with `result.value` of type <code>[FotaV2SuccessResult](src/models/fota-v2-success-result.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -8200,22 +11939,39 @@ This endpoint allows user to get the registered callback information.
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.softwareManagementCallbacksV2.listRegisteredCallbacks4({ account });
+  const response = await client.softwareManagementCallbacksV2.listRegisteredCallbacks4({
+    account: "0000123456-00001",
+  });
   // TODO: Handle 'response' of type CallbackSummary
 } catch (err) {
-  if (
-    err instanceof SoftwareManagementCallbacksV2.ListRegisteredCallbacks4Error &&
-      err.payload.kind === "fotaV2Result"
-  ) {
-    // TODO: Handle 'err.payload.body' of type FotaV2Result
-  }
+  // TODO: Handle 'err' of type SoftwareManagementCallbacksV2.ListRegisteredCallbacks4Error, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.softwareManagementCallbacksV2.listRegisteredCallbacks4({
+  account: "0000123456-00001",
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type CallbackSummary
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -8239,9 +11995,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[CallbackSummary](src/models/callback-summary.ts)</code>
+**Direct**: `await client.softwareManagementCallbacksV2.listRegisteredCallbacks4(request)`
 
-**OnError**: <code>[SoftwareManagementCallbacksV2.ListRegisteredCallbacks4Error](src/resources/software-management-callbacks-v2.ts)</code>
+- **OnSuccess**: <code>[CallbackSummary](src/models/callback-summary.ts)</code>
+- **OnError**: throws <code>[SoftwareManagementCallbacksV2.ListRegisteredCallbacks4Error](src/resources/software-management-callbacks-v2.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.softwareManagementCallbacksV2.listRegisteredCallbacks4(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;CallbackSummary, SoftwareManagementCallbacksV2.ListRegisteredCallbacks4Error&gt;</code>, with `result.value` of type <code>[CallbackSummary](src/models/callback-summary.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -8267,21 +12031,39 @@ This endpoint allows user to create the HTTPS callback address.
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.softwareManagementCallbacksV2.registerCallback4({ account });
+  const response = await client.softwareManagementCallbacksV2.registerCallback4({
+    account: "0000123456-00001",
+  });
   // TODO: Handle 'response' of type FotaV2CallbackRegistrationResult
 } catch (err) {
-  if (
-    err instanceof SoftwareManagementCallbacksV2.RegisterCallback4Error && err.payload.kind === "fotaV2Result"
-  ) {
-    // TODO: Handle 'err.payload.body' of type FotaV2Result
-  }
+  // TODO: Handle 'err' of type SoftwareManagementCallbacksV2.RegisterCallback4Error, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.softwareManagementCallbacksV2.registerCallback4({
+  account: "0000123456-00001",
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type FotaV2CallbackRegistrationResult
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -8305,9 +12087,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[FotaV2CallbackRegistrationResult](src/models/fota-v2-callback-registration-result.ts)</code>
+**Direct**: `await client.softwareManagementCallbacksV2.registerCallback4(request)`
 
-**OnError**: <code>[SoftwareManagementCallbacksV2.RegisterCallback4Error](src/resources/software-management-callbacks-v2.ts)</code>
+- **OnSuccess**: <code>[FotaV2CallbackRegistrationResult](src/models/fota-v2-callback-registration-result.ts)</code>
+- **OnError**: throws <code>[SoftwareManagementCallbacksV2.RegisterCallback4Error](src/resources/software-management-callbacks-v2.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.softwareManagementCallbacksV2.registerCallback4(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;FotaV2CallbackRegistrationResult, SoftwareManagementCallbacksV2.RegisterCallback4Error&gt;</code>, with `result.value` of type <code>[FotaV2CallbackRegistrationResult](src/models/fota-v2-callback-registration-result.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -8333,21 +12123,37 @@ This endpoint allows user to update the HTTPS callback address.
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.softwareManagementCallbacksV2.updateCallback({ account });
+  const response = await client.softwareManagementCallbacksV2.updateCallback({ account: "0000123456-00001" });
   // TODO: Handle 'response' of type FotaV2CallbackRegistrationResult
 } catch (err) {
-  if (
-    err instanceof SoftwareManagementCallbacksV2.UpdateCallbackError && err.payload.kind === "fotaV2Result"
-  ) {
-    // TODO: Handle 'err.payload.body' of type FotaV2Result
-  }
+  // TODO: Handle 'err' of type SoftwareManagementCallbacksV2.UpdateCallbackError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.softwareManagementCallbacksV2.updateCallback({
+  account: "0000123456-00001",
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type FotaV2CallbackRegistrationResult
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -8371,9 +12177,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[FotaV2CallbackRegistrationResult](src/models/fota-v2-callback-registration-result.ts)</code>
+**Direct**: `await client.softwareManagementCallbacksV2.updateCallback(request)`
 
-**OnError**: <code>[SoftwareManagementCallbacksV2.UpdateCallbackError](src/resources/software-management-callbacks-v2.ts)</code>
+- **OnSuccess**: <code>[FotaV2CallbackRegistrationResult](src/models/fota-v2-callback-registration-result.ts)</code>
+- **OnError**: throws <code>[SoftwareManagementCallbacksV2.UpdateCallbackError](src/resources/software-management-callbacks-v2.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.softwareManagementCallbacksV2.updateCallback(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;FotaV2CallbackRegistrationResult, SoftwareManagementCallbacksV2.UpdateCallbackError&gt;</code>, with `result.value` of type <code>[FotaV2CallbackRegistrationResult](src/models/fota-v2-callback-registration-result.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -8403,22 +12217,43 @@ The report endpoint allows user to get the full list of device of a campaign.
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.softwareManagementReportsV2.getCampaignDeviceStatus({ account, campaignId });
+  const response = await client.softwareManagementReportsV2.getCampaignDeviceStatus({
+    account: "0000123456-00001",
+    campaignId: "60b5d639-ccdc-4db8-8824-069bd94c95bf",
+    lastSeenDeviceId: "15-digit IMEI",
+  });
   // TODO: Handle 'response' of type V2CampaignDevice
 } catch (err) {
-  if (
-    err instanceof SoftwareManagementReportsV2.GetCampaignDeviceStatusError &&
-      err.payload.kind === "fotaV2Result"
-  ) {
-    // TODO: Handle 'err.payload.body' of type FotaV2Result
-  }
+  // TODO: Handle 'err' of type SoftwareManagementReportsV2.GetCampaignDeviceStatusError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.softwareManagementReportsV2.getCampaignDeviceStatus({
+  account: "0000123456-00001",
+  campaignId: "60b5d639-ccdc-4db8-8824-069bd94c95bf",
+  lastSeenDeviceId: "15-digit IMEI",
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type V2CampaignDevice
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -8444,9 +12279,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[V2CampaignDevice](src/models/v2-campaign-device.ts)</code>
+**Direct**: `await client.softwareManagementReportsV2.getCampaignDeviceStatus(request)`
 
-**OnError**: <code>[SoftwareManagementReportsV2.GetCampaignDeviceStatusError](src/resources/software-management-reports-v2.ts)</code>
+- **OnSuccess**: <code>[V2CampaignDevice](src/models/v2-campaign-device.ts)</code>
+- **OnError**: throws <code>[SoftwareManagementReportsV2.GetCampaignDeviceStatusError](src/resources/software-management-reports-v2.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.softwareManagementReportsV2.getCampaignDeviceStatus(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;V2CampaignDevice, SoftwareManagementReportsV2.GetCampaignDeviceStatusError&gt;</code>, with `result.value` of type <code>[V2CampaignDevice](src/models/v2-campaign-device.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -8472,7 +12315,7 @@ The report endpoint allows user to get campaign history of an account for specif
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
@@ -8480,17 +12323,35 @@ The report endpoint allows user to get campaign history of an account for specif
 ```ts
 try {
   const response = await client.softwareManagementReportsV2.getCampaignHistoryByStatus({
-    account,
-    campaignStatus,
+    account: "0000123456-00001",
+    campaignStatus: "some example string",
+    lastSeenCampaignId: "60b5d639-ccdc-4db8-8824-069bd94c95bf",
   });
   // TODO: Handle 'response' of type V2CampaignHistory
 } catch (err) {
-  if (
-    err instanceof SoftwareManagementReportsV2.GetCampaignHistoryByStatusError &&
-      err.payload.kind === "fotaV2Result"
-  ) {
-    // TODO: Handle 'err.payload.body' of type FotaV2Result
-  }
+  // TODO: Handle 'err' of type SoftwareManagementReportsV2.GetCampaignHistoryByStatusError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.softwareManagementReportsV2.getCampaignHistoryByStatus({
+  account: "0000123456-00001",
+  campaignStatus: "some example string",
+  lastSeenCampaignId: "60b5d639-ccdc-4db8-8824-069bd94c95bf",
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type V2CampaignHistory
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -8516,9 +12377,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[V2CampaignHistory](src/models/v2-campaign-history.ts)</code>
+**Direct**: `await client.softwareManagementReportsV2.getCampaignHistoryByStatus(request)`
 
-**OnError**: <code>[SoftwareManagementReportsV2.GetCampaignHistoryByStatusError](src/resources/software-management-reports-v2.ts)</code>
+- **OnSuccess**: <code>[V2CampaignHistory](src/models/v2-campaign-history.ts)</code>
+- **OnError**: throws <code>[SoftwareManagementReportsV2.GetCampaignHistoryByStatusError](src/resources/software-management-reports-v2.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.softwareManagementReportsV2.getCampaignHistoryByStatus(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;V2CampaignHistory, SoftwareManagementReportsV2.GetCampaignHistoryByStatusError&gt;</code>, with `result.value` of type <code>[V2CampaignHistory](src/models/v2-campaign-history.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -8544,7 +12413,7 @@ The endpoint allows user to get software upgrade history of a device based on de
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
@@ -8552,17 +12421,33 @@ The endpoint allows user to get software upgrade history of a device based on de
 ```ts
 try {
   const response = await client.softwareManagementReportsV2.getDeviceFirmwareUpgradeHistory2({
-    account,
-    deviceId,
+    account: "0000123456-00001",
+    deviceId: "990013907835573",
   });
   // TODO: Handle 'response' of type DeviceSoftwareUpgrade[]
 } catch (err) {
-  if (
-    err instanceof SoftwareManagementReportsV2.GetDeviceFirmwareUpgradeHistory2Error &&
-      err.payload.kind === "fotaV2Result"
-  ) {
-    // TODO: Handle 'err.payload.body' of type FotaV2Result
-  }
+  // TODO: Handle 'err' of type SoftwareManagementReportsV2.GetDeviceFirmwareUpgradeHistory2Error, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.softwareManagementReportsV2.getDeviceFirmwareUpgradeHistory2({
+  account: "0000123456-00001",
+  deviceId: "990013907835573",
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type DeviceSoftwareUpgrade[]
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -8587,9 +12472,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[DeviceSoftwareUpgrade](src/models/device-software-upgrade.ts)[]</code>
+**Direct**: `await client.softwareManagementReportsV2.getDeviceFirmwareUpgradeHistory2(request)`
 
-**OnError**: <code>[SoftwareManagementReportsV2.GetDeviceFirmwareUpgradeHistory2Error](src/resources/software-management-reports-v2.ts)</code>
+- **OnSuccess**: <code>[DeviceSoftwareUpgrade](src/models/device-software-upgrade.ts)[]</code>
+- **OnError**: throws <code>[SoftwareManagementReportsV2.GetDeviceFirmwareUpgradeHistory2Error](src/resources/software-management-reports-v2.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.softwareManagementReportsV2.getDeviceFirmwareUpgradeHistory2(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;DeviceSoftwareUpgrade[], SoftwareManagementReportsV2.GetDeviceFirmwareUpgradeHistory2Error&gt;</code>, with `result.value` of type <code>[DeviceSoftwareUpgrade](src/models/device-software-upgrade.ts)[]</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -8615,21 +12508,43 @@ The device endpoint gets devices information of an account.
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.softwareManagementReportsV2.listAccountDevices2({ account });
+  const response = await client.softwareManagementReportsV2.listAccountDevices2({
+    account: "0000123456-00001",
+    lastSeenDeviceId: "15-digit IMEI",
+    distributionType: "HTTP",
+  });
   // TODO: Handle 'response' of type V2AccountDeviceList
 } catch (err) {
-  if (
-    err instanceof SoftwareManagementReportsV2.ListAccountDevices2Error && err.payload.kind === "fotaV2Result"
-  ) {
-    // TODO: Handle 'err.payload.body' of type FotaV2Result
-  }
+  // TODO: Handle 'err' of type SoftwareManagementReportsV2.ListAccountDevices2Error, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.softwareManagementReportsV2.listAccountDevices2({
+  account: "0000123456-00001",
+  lastSeenDeviceId: "15-digit IMEI",
+  distributionType: "HTTP",
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type V2AccountDeviceList
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -8655,9 +12570,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[V2AccountDeviceList](src/models/v2-account-device-list.ts)</code>
+**Direct**: `await client.softwareManagementReportsV2.listAccountDevices2(request)`
 
-**OnError**: <code>[SoftwareManagementReportsV2.ListAccountDevices2Error](src/resources/software-management-reports-v2.ts)</code>
+- **OnSuccess**: <code>[V2AccountDeviceList](src/models/v2-account-device-list.ts)</code>
+- **OnError**: throws <code>[SoftwareManagementReportsV2.ListAccountDevices2Error](src/resources/software-management-reports-v2.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.softwareManagementReportsV2.listAccountDevices2(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;V2AccountDeviceList, SoftwareManagementReportsV2.ListAccountDevices2Error&gt;</code>, with `result.value` of type <code>[V2AccountDeviceList](src/models/v2-account-device-list.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -8683,22 +12606,41 @@ This endpoint allows user to list a certain type of software of an account.
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.softwareManagementReportsV2.listAvailableSoftware({ account });
+  const response = await client.softwareManagementReportsV2.listAvailableSoftware({
+    account: "0000123456-00001",
+    distributionType: "HTTP",
+  });
   // TODO: Handle 'response' of type SoftwarePackage[]
 } catch (err) {
-  if (
-    err instanceof SoftwareManagementReportsV2.ListAvailableSoftwareError &&
-      err.payload.kind === "fotaV2Result"
-  ) {
-    // TODO: Handle 'err.payload.body' of type FotaV2Result
-  }
+  // TODO: Handle 'err' of type SoftwareManagementReportsV2.ListAvailableSoftwareError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.softwareManagementReportsV2.listAvailableSoftware({
+  account: "0000123456-00001",
+  distributionType: "HTTP",
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type SoftwarePackage[]
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -8723,9 +12665,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[SoftwarePackage](src/models/software-package.ts)[]</code>
+**Direct**: `await client.softwareManagementReportsV2.listAvailableSoftware(request)`
 
-**OnError**: <code>[SoftwareManagementReportsV2.ListAvailableSoftwareError](src/resources/software-management-reports-v2.ts)</code>
+- **OnSuccess**: <code>[SoftwarePackage](src/models/software-package.ts)[]</code>
+- **OnError**: throws <code>[SoftwareManagementReportsV2.ListAvailableSoftwareError](src/resources/software-management-reports-v2.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.softwareManagementReportsV2.listAvailableSoftware(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;SoftwarePackage[], SoftwareManagementReportsV2.ListAvailableSoftwareError&gt;</code>, with `result.value` of type <code>[SoftwarePackage](src/models/software-package.ts)[]</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -8755,18 +12705,40 @@ Disables logging for a specific device.
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  await client.clientLogging.disableDeviceLogging({ account, deviceId });
+  await client.clientLogging.disableDeviceLogging({
+    account: "0000123456-00001",
+    deviceId: "990013907835573",
+  });
 } catch (err) {
-  if (err instanceof ClientLogging.DisableDeviceLoggingError && err.payload.kind === "fotaV2Result") {
-    // TODO: Handle 'err.payload.body' of type FotaV2Result
-  }
+  // TODO: Handle 'err' of type ClientLogging.DisableDeviceLoggingError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.clientLogging.disableDeviceLogging({
+  account: "0000123456-00001",
+  deviceId: "990013907835573",
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: The call succeeded and resolves to no body
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -8791,9 +12763,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>undefined</code>
+**Direct**: `await client.clientLogging.disableDeviceLogging(request)`
 
-**OnError**: <code>[ClientLogging.DisableDeviceLoggingError](src/resources/client-logging.ts)</code>
+- **OnSuccess**: <code>undefined</code>
+- **OnError**: throws <code>[ClientLogging.DisableDeviceLoggingError](src/resources/client-logging.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.clientLogging.disableDeviceLogging(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;undefined, ClientLogging.DisableDeviceLoggingError&gt;</code>, with `result.value` of type <code>undefined</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -8819,18 +12799,40 @@ Turn logging off for a list of devices.
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  await client.clientLogging.disableLoggingForDevices({ account, deviceIds });
+  await client.clientLogging.disableLoggingForDevices({
+    account: "0000123456-00001",
+    deviceIds: "990013907835573",
+  });
 } catch (err) {
-  if (err instanceof ClientLogging.DisableLoggingForDevicesError && err.payload.kind === "fotaV2Result") {
-    // TODO: Handle 'err.payload.body' of type FotaV2Result
-  }
+  // TODO: Handle 'err' of type ClientLogging.DisableLoggingForDevicesError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.clientLogging.disableLoggingForDevices({
+  account: "0000123456-00001",
+  deviceIds: "990013907835573",
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: The call succeeded and resolves to no body
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -8855,9 +12857,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>undefined</code>
+**Direct**: `await client.clientLogging.disableLoggingForDevices(request)`
 
-**OnError**: <code>[ClientLogging.DisableLoggingForDevicesError](src/resources/client-logging.ts)</code>
+- **OnSuccess**: <code>undefined</code>
+- **OnError**: throws <code>[ClientLogging.DisableLoggingForDevicesError](src/resources/client-logging.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.clientLogging.disableLoggingForDevices(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;undefined, ClientLogging.DisableLoggingForDevicesError&gt;</code>, with `result.value` of type <code>undefined</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -8883,19 +12893,41 @@ Enables logging for a specific device.
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.clientLogging.enableDeviceLogging({ account, deviceId });
+  const response = await client.clientLogging.enableDeviceLogging({
+    account: "0000123456-00001",
+    deviceId: "990013907835573",
+  });
   // TODO: Handle 'response' of type DeviceLoggingStatus
 } catch (err) {
-  if (err instanceof ClientLogging.EnableDeviceLoggingError && err.payload.kind === "fotaV2Result") {
-    // TODO: Handle 'err.payload.body' of type FotaV2Result
-  }
+  // TODO: Handle 'err' of type ClientLogging.EnableDeviceLoggingError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.clientLogging.enableDeviceLogging({
+  account: "0000123456-00001",
+  deviceId: "990013907835573",
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type DeviceLoggingStatus
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -8920,9 +12952,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[DeviceLoggingStatus](src/models/device-logging-status.ts)</code>
+**Direct**: `await client.clientLogging.enableDeviceLogging(request)`
 
-**OnError**: <code>[ClientLogging.EnableDeviceLoggingError](src/resources/client-logging.ts)</code>
+- **OnSuccess**: <code>[DeviceLoggingStatus](src/models/device-logging-status.ts)</code>
+- **OnError**: throws <code>[ClientLogging.EnableDeviceLoggingError](src/resources/client-logging.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.clientLogging.enableDeviceLogging(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;DeviceLoggingStatus, ClientLogging.EnableDeviceLoggingError&gt;</code>, with `result.value` of type <code>[DeviceLoggingStatus](src/models/device-logging-status.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -8948,19 +12988,37 @@ Each customer may have a maximum of 20 devices enabled for logging.
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.clientLogging.enableLoggingForDevices({ account });
+  const response = await client.clientLogging.enableLoggingForDevices({ account: "0000123456-00001" });
   // TODO: Handle 'response' of type DeviceLoggingStatus[]
 } catch (err) {
-  if (err instanceof ClientLogging.EnableLoggingForDevicesError && err.payload.kind === "fotaV2Result") {
-    // TODO: Handle 'err.payload.body' of type FotaV2Result
-  }
+  // TODO: Handle 'err' of type ClientLogging.EnableLoggingForDevicesError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.clientLogging.enableLoggingForDevices({
+  account: "0000123456-00001",
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type DeviceLoggingStatus[]
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -8984,9 +13042,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[DeviceLoggingStatus](src/models/device-logging-status.ts)[]</code>
+**Direct**: `await client.clientLogging.enableLoggingForDevices(request)`
 
-**OnError**: <code>[ClientLogging.EnableLoggingForDevicesError](src/resources/client-logging.ts)</code>
+- **OnSuccess**: <code>[DeviceLoggingStatus](src/models/device-logging-status.ts)[]</code>
+- **OnError**: throws <code>[ClientLogging.EnableLoggingForDevicesError](src/resources/client-logging.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.clientLogging.enableLoggingForDevices(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;DeviceLoggingStatus[], ClientLogging.EnableLoggingForDevicesError&gt;</code>, with `result.value` of type <code>[DeviceLoggingStatus](src/models/device-logging-status.ts)[]</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -9012,19 +13078,41 @@ Gets logs for a specific device.
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.clientLogging.listDeviceLogs({ account, deviceId });
+  const response = await client.clientLogging.listDeviceLogs({
+    account: "0000123456-00001",
+    deviceId: "990013907835573",
+  });
   // TODO: Handle 'response' of type DeviceLog[]
 } catch (err) {
-  if (err instanceof ClientLogging.ListDeviceLogsError && err.payload.kind === "fotaV2Result") {
-    // TODO: Handle 'err.payload.body' of type FotaV2Result
-  }
+  // TODO: Handle 'err' of type ClientLogging.ListDeviceLogsError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.clientLogging.listDeviceLogs({
+  account: "0000123456-00001",
+  deviceId: "990013907835573",
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type DeviceLog[]
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -9049,9 +13137,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[DeviceLog](src/models/device-log.ts)[]</code>
+**Direct**: `await client.clientLogging.listDeviceLogs(request)`
 
-**OnError**: <code>[ClientLogging.ListDeviceLogsError](src/resources/client-logging.ts)</code>
+- **OnSuccess**: <code>[DeviceLog](src/models/device-log.ts)[]</code>
+- **OnError**: throws <code>[ClientLogging.ListDeviceLogsError](src/resources/client-logging.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.clientLogging.listDeviceLogs(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;DeviceLog[], ClientLogging.ListDeviceLogsError&gt;</code>, with `result.value` of type <code>[DeviceLog](src/models/device-log.ts)[]</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -9077,21 +13173,37 @@ Returns an array of all devices in the specified account for which logging is en
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.clientLogging.listDevicesWithLoggingEnabled({ account });
+  const response = await client.clientLogging.listDevicesWithLoggingEnabled({ account: "0000123456-00001" });
   // TODO: Handle 'response' of type DeviceLoggingStatus[]
 } catch (err) {
-  if (
-    err instanceof ClientLogging.ListDevicesWithLoggingEnabledError && err.payload.kind === "fotaV2Result"
-  ) {
-    // TODO: Handle 'err.payload.body' of type FotaV2Result
-  }
+  // TODO: Handle 'err' of type ClientLogging.ListDevicesWithLoggingEnabledError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.clientLogging.listDevicesWithLoggingEnabled({
+  account: "0000123456-00001",
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type DeviceLoggingStatus[]
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -9115,9 +13227,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[DeviceLoggingStatus](src/models/device-logging-status.ts)[]</code>
+**Direct**: `await client.clientLogging.listDevicesWithLoggingEnabled(request)`
 
-**OnError**: <code>[ClientLogging.ListDevicesWithLoggingEnabledError](src/resources/client-logging.ts)</code>
+- **OnSuccess**: <code>[DeviceLoggingStatus](src/models/device-logging-status.ts)[]</code>
+- **OnError**: throws <code>[ClientLogging.ListDevicesWithLoggingEnabledError](src/resources/client-logging.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.clientLogging.listDevicesWithLoggingEnabled(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;DeviceLoggingStatus[], ClientLogging.ListDevicesWithLoggingEnabledError&gt;</code>, with `result.value` of type <code>[DeviceLoggingStatus](src/models/device-logging-status.ts)[]</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -9147,19 +13267,41 @@ Check-in history can be retrieved for any device belonging to the account, not n
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.serverLogging.getDeviceCheckInHistory({ account, deviceId });
+  const response = await client.serverLogging.getDeviceCheckInHistory({
+    account: "0000123456-00001",
+    deviceId: "990013907835573",
+  });
   // TODO: Handle 'response' of type CheckInHistoryItem[]
 } catch (err) {
-  if (err instanceof ServerLogging.GetDeviceCheckInHistoryError && err.payload.kind === "fotaV2Result") {
-    // TODO: Handle 'err.payload.body' of type FotaV2Result
-  }
+  // TODO: Handle 'err' of type ServerLogging.GetDeviceCheckInHistoryError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.serverLogging.getDeviceCheckInHistory({
+  account: "0000123456-00001",
+  deviceId: "990013907835573",
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type CheckInHistoryItem[]
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -9184,9 +13326,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[CheckInHistoryItem](src/models/check-in-history-item.ts)[]</code>
+**Direct**: `await client.serverLogging.getDeviceCheckInHistory(request)`
 
-**OnError**: <code>[ServerLogging.GetDeviceCheckInHistoryError](src/resources/server-logging.ts)</code>
+- **OnSuccess**: <code>[CheckInHistoryItem](src/models/check-in-history-item.ts)[]</code>
+- **OnError**: throws <code>[ServerLogging.GetDeviceCheckInHistoryError](src/resources/server-logging.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.serverLogging.getDeviceCheckInHistory(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;CheckInHistoryItem[], ServerLogging.GetDeviceCheckInHistoryError&gt;</code>, with `result.value` of type <code>[CheckInHistoryItem](src/models/check-in-history-item.ts)[]</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -9216,19 +13366,41 @@ You can retrieve a list of configuration or supplementary of files for an accoun
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.configurationFiles.getListOfFiles({ acc, distributionType });
+  const response = await client.configurationFiles.getListOfFiles({
+    acc: "0402196254-00001",
+    distributionType: "HTTP",
+  });
   // TODO: Handle 'response' of type RetrievesAvailableFilesResponseList
 } catch (err) {
-  if (err instanceof ConfigurationFiles.GetListOfFilesError && err.payload.kind === "fotaV2Result") {
-    // TODO: Handle 'err.payload.body' of type FotaV2Result
-  }
+  // TODO: Handle 'err' of type ConfigurationFiles.GetListOfFilesError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.configurationFiles.getListOfFiles({
+  acc: "0402196254-00001",
+  distributionType: "HTTP",
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type RetrievesAvailableFilesResponseList
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -9253,9 +13425,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[RetrievesAvailableFilesResponseList](src/models/retrieves-available-files-response-list.ts)</code>
+**Direct**: `await client.configurationFiles.getListOfFiles(request)`
 
-**OnError**: <code>[ConfigurationFiles.GetListOfFilesError](src/resources/configuration-files.ts)</code>
+- **OnSuccess**: <code>[RetrievesAvailableFilesResponseList](src/models/retrieves-available-files-response-list.ts)</code>
+- **OnError**: throws <code>[ConfigurationFiles.GetListOfFilesError](src/resources/configuration-files.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.configurationFiles.getListOfFiles(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;RetrievesAvailableFilesResponseList, ConfigurationFiles.GetListOfFilesError&gt;</code>, with `result.value` of type <code>[RetrievesAvailableFilesResponseList](src/models/retrieves-available-files-response-list.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -9281,19 +13461,47 @@ Uploads a configuration/supplementary file for an account. ThingSpace generates 
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.configurationFiles.uploadConfigFile({ acc });
+  const response = await client.configurationFiles.uploadConfigFile({
+    acc: "0402196254-00001",
+    fileVersion: "1.0",
+    make: "Verizon",
+    model: "VZW1",
+    localTargetPath: "/VZWFOTA/hello-world.txt",
+  });
   // TODO: Handle 'response' of type UploadConfigurationFilesResponse
 } catch (err) {
-  if (err instanceof ConfigurationFiles.UploadConfigFileError && err.payload.kind === "fotaV2Result") {
-    // TODO: Handle 'err.payload.body' of type FotaV2Result
-  }
+  // TODO: Handle 'err' of type ConfigurationFiles.UploadConfigFileError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.configurationFiles.uploadConfigFile({
+  acc: "0402196254-00001",
+  fileVersion: "1.0",
+  make: "Verizon",
+  model: "VZW1",
+  localTargetPath: "/VZWFOTA/hello-world.txt",
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type UploadConfigurationFilesResponse
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -9308,6 +13516,11 @@ try {
 | Name | Type | Description |
 | --- | --- | --- |
 | <code>acc</code> | <code>string</code> | Account identifier. |
+| <code>fileupload?</code> | <code>FileInput</code> | The file to upload. |
+| <code>fileVersion?</code> | <code>string</code> | Version of the file. |
+| <code>make?</code> | <code>string</code> | The software-applicable device make. |
+| <code>model?</code> | <code>string</code> | The software-applicable device model. |
+| <code>localTargetPath?</code> | <code>string</code> | Local target path on the device. |
 
 </dd>
 </dl>
@@ -9317,9 +13530,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[UploadConfigurationFilesResponse](src/models/upload-configuration-files-response.ts)</code>
+**Direct**: `await client.configurationFiles.uploadConfigFile(request)`
 
-**OnError**: <code>[ConfigurationFiles.UploadConfigFileError](src/resources/configuration-files.ts)</code>
+- **OnSuccess**: <code>[UploadConfigurationFilesResponse](src/models/upload-configuration-files-response.ts)</code>
+- **OnError**: throws <code>[ConfigurationFiles.UploadConfigFileError](src/resources/configuration-files.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.configurationFiles.uploadConfigFile(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;UploadConfigurationFilesResponse, ConfigurationFiles.UploadConfigFileError&gt;</code>, with `result.value` of type <code>[UploadConfigurationFilesResponse](src/models/upload-configuration-files-response.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -9349,22 +13570,39 @@ This endpoint retrieves a FOTA subscription by account.
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.softwareManagementSubscriptionsV3.getAccountSubscriptionStatus3({ acc });
+  const response = await client.softwareManagementSubscriptionsV3.getAccountSubscriptionStatus3({
+    acc: "0000123456-00001",
+  });
   // TODO: Handle 'response' of type FotaV3Subscription
 } catch (err) {
-  if (
-    err instanceof SoftwareManagementSubscriptionsV3.GetAccountSubscriptionStatus3Error &&
-      err.payload.kind === "fotaV3Result"
-  ) {
-    // TODO: Handle 'err.payload.body' of type FotaV3Result
-  }
+  // TODO: Handle 'err' of type SoftwareManagementSubscriptionsV3.GetAccountSubscriptionStatus3Error, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.softwareManagementSubscriptionsV3.getAccountSubscriptionStatus3({
+  acc: "0000123456-00001",
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type FotaV3Subscription
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -9388,9 +13626,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[FotaV3Subscription](src/models/fota-v3-subscription.ts)</code>
+**Direct**: `await client.softwareManagementSubscriptionsV3.getAccountSubscriptionStatus3(request)`
 
-**OnError**: <code>[SoftwareManagementSubscriptionsV3.GetAccountSubscriptionStatus3Error](src/resources/software-management-subscriptions-v3.ts)</code>
+- **OnSuccess**: <code>[FotaV3Subscription](src/models/fota-v3-subscription.ts)</code>
+- **OnError**: throws <code>[SoftwareManagementSubscriptionsV3.GetAccountSubscriptionStatus3Error](src/resources/software-management-subscriptions-v3.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.softwareManagementSubscriptionsV3.getAccountSubscriptionStatus3(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;FotaV3Subscription, SoftwareManagementSubscriptionsV3.GetAccountSubscriptionStatus3Error&gt;</code>, with `result.value` of type <code>[FotaV3Subscription](src/models/fota-v3-subscription.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -9420,22 +13666,41 @@ This endpoint allows user to assign licenses to a list of devices.
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.softwareManagementLicensesV3.assignLicensesToDevices3({ acc, body });
+  const response = await client.softwareManagementLicensesV3.assignLicensesToDevices3({
+    acc: "0000123456-00001",
+    body: { deviceList: ["15-digit IMEI", "15-digit IMEI"] },
+  });
   // TODO: Handle 'response' of type V3LicenseAssignedRemovedResult
 } catch (err) {
-  if (
-    err instanceof SoftwareManagementLicensesV3.AssignLicensesToDevices3Error &&
-      err.payload.kind === "fotaV3Result"
-  ) {
-    // TODO: Handle 'err.payload.body' of type FotaV3Result
-  }
+  // TODO: Handle 'err' of type SoftwareManagementLicensesV3.AssignLicensesToDevices3Error, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.softwareManagementLicensesV3.assignLicensesToDevices3({
+  acc: "0000123456-00001",
+  body: { deviceList: ["15-digit IMEI", "15-digit IMEI"] },
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type V3LicenseAssignedRemovedResult
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -9460,9 +13725,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[V3LicenseAssignedRemovedResult](src/models/v3-license-assigned-removed-result.ts)</code>
+**Direct**: `await client.softwareManagementLicensesV3.assignLicensesToDevices3(request)`
 
-**OnError**: <code>[SoftwareManagementLicensesV3.AssignLicensesToDevices3Error](src/resources/software-management-licenses-v3.ts)</code>
+- **OnSuccess**: <code>[V3LicenseAssignedRemovedResult](src/models/v3-license-assigned-removed-result.ts)</code>
+- **OnError**: throws <code>[SoftwareManagementLicensesV3.AssignLicensesToDevices3Error](src/resources/software-management-licenses-v3.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.softwareManagementLicensesV3.assignLicensesToDevices3(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;V3LicenseAssignedRemovedResult, SoftwareManagementLicensesV3.AssignLicensesToDevices3Error&gt;</code>, with `result.value` of type <code>[V3LicenseAssignedRemovedResult](src/models/v3-license-assigned-removed-result.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -9488,22 +13761,41 @@ The endpoint allows user to list license usage.
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.softwareManagementLicensesV3.getAccountLicensesStatus({ acc });
+  const response = await client.softwareManagementLicensesV3.getAccountLicensesStatus({
+    acc: "0000123456-00001",
+    lastSeenDeviceId: "0",
+  });
   // TODO: Handle 'response' of type V3LicenseSummary
 } catch (err) {
-  if (
-    err instanceof SoftwareManagementLicensesV3.GetAccountLicensesStatusError &&
-      err.payload.kind === "fotaV3Result"
-  ) {
-    // TODO: Handle 'err.payload.body' of type FotaV3Result
-  }
+  // TODO: Handle 'err' of type SoftwareManagementLicensesV3.GetAccountLicensesStatusError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.softwareManagementLicensesV3.getAccountLicensesStatus({
+  acc: "0000123456-00001",
+  lastSeenDeviceId: "0",
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type V3LicenseSummary
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -9528,9 +13820,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[V3LicenseSummary](src/models/v3-license-summary.ts)</code>
+**Direct**: `await client.softwareManagementLicensesV3.getAccountLicensesStatus(request)`
 
-**OnError**: <code>[SoftwareManagementLicensesV3.GetAccountLicensesStatusError](src/resources/software-management-licenses-v3.ts)</code>
+- **OnSuccess**: <code>[V3LicenseSummary](src/models/v3-license-summary.ts)</code>
+- **OnError**: throws <code>[SoftwareManagementLicensesV3.GetAccountLicensesStatusError](src/resources/software-management-licenses-v3.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.softwareManagementLicensesV3.getAccountLicensesStatus(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;V3LicenseSummary, SoftwareManagementLicensesV3.GetAccountLicensesStatusError&gt;</code>, with `result.value` of type <code>[V3LicenseSummary](src/models/v3-license-summary.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -9556,22 +13856,41 @@ This endpoint allows user to remove licenses from a list of devices.
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.softwareManagementLicensesV3.removeLicensesFromDevices3({ acc, body });
+  const response = await client.softwareManagementLicensesV3.removeLicensesFromDevices3({
+    acc: "0000123456-00001",
+    body: { deviceList: ["15-digit IMEI", "15-digit IMEI", "15-digit IMEI"] },
+  });
   // TODO: Handle 'response' of type V3LicenseAssignedRemovedResult
 } catch (err) {
-  if (
-    err instanceof SoftwareManagementLicensesV3.RemoveLicensesFromDevices3Error &&
-      err.payload.kind === "fotaV3Result"
-  ) {
-    // TODO: Handle 'err.payload.body' of type FotaV3Result
-  }
+  // TODO: Handle 'err' of type SoftwareManagementLicensesV3.RemoveLicensesFromDevices3Error, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.softwareManagementLicensesV3.removeLicensesFromDevices3({
+  acc: "0000123456-00001",
+  body: { deviceList: ["15-digit IMEI", "15-digit IMEI", "15-digit IMEI"] },
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type V3LicenseAssignedRemovedResult
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -9596,9 +13915,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[V3LicenseAssignedRemovedResult](src/models/v3-license-assigned-removed-result.ts)</code>
+**Direct**: `await client.softwareManagementLicensesV3.removeLicensesFromDevices3(request)`
 
-**OnError**: <code>[SoftwareManagementLicensesV3.RemoveLicensesFromDevices3Error](src/resources/software-management-licenses-v3.ts)</code>
+- **OnSuccess**: <code>[V3LicenseAssignedRemovedResult](src/models/v3-license-assigned-removed-result.ts)</code>
+- **OnError**: throws <code>[SoftwareManagementLicensesV3.RemoveLicensesFromDevices3Error](src/resources/software-management-licenses-v3.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.softwareManagementLicensesV3.removeLicensesFromDevices3(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;V3LicenseAssignedRemovedResult, SoftwareManagementLicensesV3.RemoveLicensesFromDevices3Error&gt;</code>, with `result.value` of type <code>[V3LicenseAssignedRemovedResult](src/models/v3-license-assigned-removed-result.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -9628,19 +13955,41 @@ This endpoint allows user to cancel a firmware campaign. A firmware campaign alr
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.campaignsV3.cancelCampaign2({ accountName, campaignId });
+  const response = await client.campaignsV3.cancelCampaign2({
+    accountName: "0000123456-00001",
+    campaignId: "f858b8c4-2153-11ec-8c44-aeb16d1aa652",
+  });
   // TODO: Handle 'response' of type FotaV3SuccessResult
 } catch (err) {
-  if (err instanceof CampaignsV3.CancelCampaign2Error && err.payload.kind === "fotaV3Result") {
-    // TODO: Handle 'err.payload.body' of type FotaV3Result
-  }
+  // TODO: Handle 'err' of type CampaignsV3.CancelCampaign2Error, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.campaignsV3.cancelCampaign2({
+  accountName: "0000123456-00001",
+  campaignId: "f858b8c4-2153-11ec-8c44-aeb16d1aa652",
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type FotaV3SuccessResult
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -9665,9 +14014,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[FotaV3SuccessResult](src/models/fota-v3-success-result.ts)</code>
+**Direct**: `await client.campaignsV3.cancelCampaign2(request)`
 
-**OnError**: <code>[CampaignsV3.CancelCampaign2Error](src/resources/campaigns-v3.ts)</code>
+- **OnSuccess**: <code>[FotaV3SuccessResult](src/models/fota-v3-success-result.ts)</code>
+- **OnError**: throws <code>[CampaignsV3.CancelCampaign2Error](src/resources/campaigns-v3.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.campaignsV3.cancelCampaign2(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;FotaV3SuccessResult, CampaignsV3.CancelCampaign2Error&gt;</code>, with `result.value` of type <code>[FotaV3SuccessResult](src/models/fota-v3-success-result.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -9693,19 +14050,41 @@ This endpoint allows the user to retrieve campaign level information for a speci
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.campaignsV3.getCampaignInformation2({ accountName, campaignId });
+  const response = await client.campaignsV3.getCampaignInformation2({
+    accountName: "0000123456-00001",
+    campaignId: "f858b8c4-2153-11ec-8c44-aeb16d1aa652",
+  });
   // TODO: Handle 'response' of type Campaign
 } catch (err) {
-  if (err instanceof CampaignsV3.GetCampaignInformation2Error && err.payload.kind === "fotaV3Result") {
-    // TODO: Handle 'err.payload.body' of type FotaV3Result
-  }
+  // TODO: Handle 'err' of type CampaignsV3.GetCampaignInformation2Error, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.campaignsV3.getCampaignInformation2({
+  accountName: "0000123456-00001",
+  campaignId: "f858b8c4-2153-11ec-8c44-aeb16d1aa652",
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type Campaign
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -9730,9 +14109,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[Campaign](src/models/campaign.ts)</code>
+**Direct**: `await client.campaignsV3.getCampaignInformation2(request)`
 
-**OnError**: <code>[CampaignsV3.GetCampaignInformation2Error](src/resources/campaigns-v3.ts)</code>
+- **OnSuccess**: <code>[Campaign](src/models/campaign.ts)</code>
+- **OnError**: throws <code>[CampaignsV3.GetCampaignInformation2Error](src/resources/campaigns-v3.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.campaignsV3.getCampaignInformation2(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;Campaign, CampaignsV3.GetCampaignInformation2Error&gt;</code>, with `result.value` of type <code>[Campaign](src/models/campaign.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -9758,21 +14145,65 @@ This endpoint allows a user to schedule a firmware upgrade for a list of devices
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.campaignsV3.scheduleCampaignFirmwareUpgrade2({ accountName, body });
+  const response = await client.campaignsV3.scheduleCampaignFirmwareUpgrade2({
+    accountName: "0000123456-00001",
+    body: {
+      campaignName: "Smart FOTA - test 4",
+      firmwareName: "SEQUANSCommunications_GM01Q_SR1.2.0.0-10512_SR1.2.0.0-10657",
+      firmwareFrom: "SR1.2.0.0-10512",
+      firmwareTo: "SR1.2.0.0-10657",
+      protocol: "LWM2M",
+      startDate: "2021-09-29",
+      endDate: "2021-10-01",
+      campaignTimeWindowList: [{ startTime: 18, endTime: 22 }],
+      deviceList: ["15-digit IMEI"],
+      autoAssignLicenseFlag: false,
+      autoAddDevicesFlag: false,
+    },
+  });
   // TODO: Handle 'response' of type FirmwareCampaign
 } catch (err) {
-  if (
-    err instanceof CampaignsV3.ScheduleCampaignFirmwareUpgrade2Error && err.payload.kind === "fotaV3Result"
-  ) {
-    // TODO: Handle 'err.payload.body' of type FotaV3Result
-  }
+  // TODO: Handle 'err' of type CampaignsV3.ScheduleCampaignFirmwareUpgrade2Error, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.campaignsV3.scheduleCampaignFirmwareUpgrade2({
+  accountName: "0000123456-00001",
+  body: {
+    campaignName: "Smart FOTA - test 4",
+    firmwareName: "SEQUANSCommunications_GM01Q_SR1.2.0.0-10512_SR1.2.0.0-10657",
+    firmwareFrom: "SR1.2.0.0-10512",
+    firmwareTo: "SR1.2.0.0-10657",
+    protocol: "LWM2M",
+    startDate: "2021-09-29",
+    endDate: "2021-10-01",
+    campaignTimeWindowList: [{ startTime: 18, endTime: 22 }],
+    deviceList: ["15-digit IMEI"],
+    autoAssignLicenseFlag: false,
+    autoAddDevicesFlag: false,
+  },
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type FirmwareCampaign
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -9797,9 +14228,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[FirmwareCampaign](src/models/firmware-campaign.ts)</code>
+**Direct**: `await client.campaignsV3.scheduleCampaignFirmwareUpgrade2(request)`
 
-**OnError**: <code>[CampaignsV3.ScheduleCampaignFirmwareUpgrade2Error](src/resources/campaigns-v3.ts)</code>
+- **OnSuccess**: <code>[FirmwareCampaign](src/models/firmware-campaign.ts)</code>
+- **OnError**: throws <code>[CampaignsV3.ScheduleCampaignFirmwareUpgrade2Error](src/resources/campaigns-v3.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.campaignsV3.scheduleCampaignFirmwareUpgrade2(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;FirmwareCampaign, CampaignsV3.ScheduleCampaignFirmwareUpgrade2Error&gt;</code>, with `result.value` of type <code>[FirmwareCampaign](src/models/firmware-campaign.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -9825,19 +14264,51 @@ This endpoint allows user to change campaign dates and time windows. Fields whic
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.campaignsV3.updateCampaignDates2({ acc, campaignId, body });
+  const response = await client.campaignsV3.updateCampaignDates2({
+    acc: "0000123456-00001",
+    campaignId: "f858b8c4-2153-11ec-8c44-aeb16d1aa652",
+    body: {
+      startDate: "2022-02-23",
+      endDate: "2022-02-24",
+      campaignTimeWindowList: [{ startTime: 14, endTime: 18 }],
+    },
+  });
   // TODO: Handle 'response' of type FirmwareCampaign
 } catch (err) {
-  if (err instanceof CampaignsV3.UpdateCampaignDates2Error && err.payload.kind === "fotaV3Result") {
-    // TODO: Handle 'err.payload.body' of type FotaV3Result
-  }
+  // TODO: Handle 'err' of type CampaignsV3.UpdateCampaignDates2Error, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.campaignsV3.updateCampaignDates2({
+  acc: "0000123456-00001",
+  campaignId: "f858b8c4-2153-11ec-8c44-aeb16d1aa652",
+  body: {
+    startDate: "2022-02-23",
+    endDate: "2022-02-24",
+    campaignTimeWindowList: [{ startTime: 14, endTime: 18 }],
+  },
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type FirmwareCampaign
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -9863,9 +14334,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[FirmwareCampaign](src/models/firmware-campaign.ts)</code>
+**Direct**: `await client.campaignsV3.updateCampaignDates2(request)`
 
-**OnError**: <code>[CampaignsV3.UpdateCampaignDates2Error](src/resources/campaigns-v3.ts)</code>
+- **OnSuccess**: <code>[FirmwareCampaign](src/models/firmware-campaign.ts)</code>
+- **OnError**: throws <code>[CampaignsV3.UpdateCampaignDates2Error](src/resources/campaigns-v3.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.campaignsV3.updateCampaignDates2(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;FirmwareCampaign, CampaignsV3.UpdateCampaignDates2Error&gt;</code>, with `result.value` of type <code>[FirmwareCampaign](src/models/firmware-campaign.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -9891,19 +14370,43 @@ This endpoint allows user to Add or Remove devices to an existing campaign.
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.campaignsV3.updateCampaignFirmwareDevices2({ acc, campaignId, body });
+  const response = await client.campaignsV3.updateCampaignFirmwareDevices2({
+    acc: "0000123456-00001",
+    campaignId: "f858b8c4-2153-11ec-8c44-aeb16d1aa652",
+    body: { type: "remove", deviceList: ["15-digit IMEI"] },
+  });
   // TODO: Handle 'response' of type V3AddOrRemoveDeviceResult
 } catch (err) {
-  if (err instanceof CampaignsV3.UpdateCampaignFirmwareDevices2Error && err.payload.kind === "fotaV3Result") {
-    // TODO: Handle 'err.payload.body' of type FotaV3Result
-  }
+  // TODO: Handle 'err' of type CampaignsV3.UpdateCampaignFirmwareDevices2Error, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.campaignsV3.updateCampaignFirmwareDevices2({
+  acc: "0000123456-00001",
+  campaignId: "f858b8c4-2153-11ec-8c44-aeb16d1aa652",
+  body: { type: "remove", deviceList: ["15-digit IMEI"] },
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type V3AddOrRemoveDeviceResult
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -9929,9 +14432,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[V3AddOrRemoveDeviceResult](src/models/v3-add-or-remove-device-result.ts)</code>
+**Direct**: `await client.campaignsV3.updateCampaignFirmwareDevices2(request)`
 
-**OnError**: <code>[CampaignsV3.UpdateCampaignFirmwareDevices2Error](src/resources/campaigns-v3.ts)</code>
+- **OnSuccess**: <code>[V3AddOrRemoveDeviceResult](src/models/v3-add-or-remove-device-result.ts)</code>
+- **OnError**: throws <code>[CampaignsV3.UpdateCampaignFirmwareDevices2Error](src/resources/campaigns-v3.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.campaignsV3.updateCampaignFirmwareDevices2(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;V3AddOrRemoveDeviceResult, CampaignsV3.UpdateCampaignFirmwareDevices2Error&gt;</code>, with `result.value` of type <code>[V3AddOrRemoveDeviceResult](src/models/v3-add-or-remove-device-result.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -9961,22 +14472,43 @@ Retrieve a list of all devices in a campaign and the status of each device.
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.softwareManagementReportsV3.getCampaignDeviceStatus2({ acc, campaignId });
+  const response = await client.softwareManagementReportsV3.getCampaignDeviceStatus2({
+    acc: "0000123456-00001",
+    campaignId: "f858b8c4-2153-11ec-8c44-aeb16d1aa652",
+    lastSeenDeviceId: "15-digit IMEI",
+  });
   // TODO: Handle 'response' of type V3CampaignDevice
 } catch (err) {
-  if (
-    err instanceof SoftwareManagementReportsV3.GetCampaignDeviceStatus2Error &&
-      err.payload.kind === "fotaV3Result"
-  ) {
-    // TODO: Handle 'err.payload.body' of type FotaV3Result
-  }
+  // TODO: Handle 'err' of type SoftwareManagementReportsV3.GetCampaignDeviceStatus2Error, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.softwareManagementReportsV3.getCampaignDeviceStatus2({
+  acc: "0000123456-00001",
+  campaignId: "f858b8c4-2153-11ec-8c44-aeb16d1aa652",
+  lastSeenDeviceId: "15-digit IMEI",
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type V3CampaignDevice
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -10002,9 +14534,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[V3CampaignDevice](src/models/v3-campaign-device.ts)</code>
+**Direct**: `await client.softwareManagementReportsV3.getCampaignDeviceStatus2(request)`
 
-**OnError**: <code>[SoftwareManagementReportsV3.GetCampaignDeviceStatus2Error](src/resources/software-management-reports-v3.ts)</code>
+- **OnSuccess**: <code>[V3CampaignDevice](src/models/v3-campaign-device.ts)</code>
+- **OnError**: throws <code>[SoftwareManagementReportsV3.GetCampaignDeviceStatus2Error](src/resources/software-management-reports-v3.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.softwareManagementReportsV3.getCampaignDeviceStatus2(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;V3CampaignDevice, SoftwareManagementReportsV3.GetCampaignDeviceStatus2Error&gt;</code>, with `result.value` of type <code>[V3CampaignDevice](src/models/v3-campaign-device.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -10030,7 +14570,7 @@ Retrieve a list of campaigns for an account that have a specified campaign statu
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
@@ -10038,17 +14578,35 @@ Retrieve a list of campaigns for an account that have a specified campaign statu
 ```ts
 try {
   const response = await client.softwareManagementReportsV3.getCampaignHistoryByStatus2({
-    acc,
-    campaignStatus,
+    acc: "0000123456-00001",
+    campaignStatus: CampaignStatus.CampaignRequestPending,
+    lastSeenCampaignId: "60b5d639-ccdc-4db8-8824-069bd94c95bf",
   });
   // TODO: Handle 'response' of type V3CampaignHistory
 } catch (err) {
-  if (
-    err instanceof SoftwareManagementReportsV3.GetCampaignHistoryByStatus2Error &&
-      err.payload.kind === "fotaV3Result"
-  ) {
-    // TODO: Handle 'err.payload.body' of type FotaV3Result
-  }
+  // TODO: Handle 'err' of type SoftwareManagementReportsV3.GetCampaignHistoryByStatus2Error, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.softwareManagementReportsV3.getCampaignHistoryByStatus2({
+  acc: "0000123456-00001",
+  campaignStatus: CampaignStatus.CampaignRequestPending,
+  lastSeenCampaignId: "60b5d639-ccdc-4db8-8824-069bd94c95bf",
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type V3CampaignHistory
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -10074,9 +14632,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[V3CampaignHistory](src/models/v3-campaign-history.ts)</code>
+**Direct**: `await client.softwareManagementReportsV3.getCampaignHistoryByStatus2(request)`
 
-**OnError**: <code>[SoftwareManagementReportsV3.GetCampaignHistoryByStatus2Error](src/resources/software-management-reports-v3.ts)</code>
+- **OnSuccess**: <code>[V3CampaignHistory](src/models/v3-campaign-history.ts)</code>
+- **OnError**: throws <code>[SoftwareManagementReportsV3.GetCampaignHistoryByStatus2Error](src/resources/software-management-reports-v3.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.softwareManagementReportsV3.getCampaignHistoryByStatus2(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;V3CampaignHistory, SoftwareManagementReportsV3.GetCampaignHistoryByStatus2Error&gt;</code>, with `result.value` of type <code>[V3CampaignHistory](src/models/v3-campaign-history.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -10102,7 +14668,7 @@ Retrieve campaign history for a specific device.
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
@@ -10110,17 +14676,33 @@ Retrieve campaign history for a specific device.
 ```ts
 try {
   const response = await client.softwareManagementReportsV3.getDeviceFirmwareUpgradeHistory3({
-    acc,
-    deviceId,
+    acc: "0000123456-00001",
+    deviceId: "15-digit IMEI",
   });
   // TODO: Handle 'response' of type DeviceFirmwareUpgrade[]
 } catch (err) {
-  if (
-    err instanceof SoftwareManagementReportsV3.GetDeviceFirmwareUpgradeHistory3Error &&
-      err.payload.kind === "fotaV3Result"
-  ) {
-    // TODO: Handle 'err.payload.body' of type FotaV3Result
-  }
+  // TODO: Handle 'err' of type SoftwareManagementReportsV3.GetDeviceFirmwareUpgradeHistory3Error, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.softwareManagementReportsV3.getDeviceFirmwareUpgradeHistory3({
+  acc: "0000123456-00001",
+  deviceId: "15-digit IMEI",
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type DeviceFirmwareUpgrade[]
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -10145,9 +14727,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[DeviceFirmwareUpgrade](src/models/device-firmware-upgrade.ts)[]</code>
+**Direct**: `await client.softwareManagementReportsV3.getDeviceFirmwareUpgradeHistory3(request)`
 
-**OnError**: <code>[SoftwareManagementReportsV3.GetDeviceFirmwareUpgradeHistory3Error](src/resources/software-management-reports-v3.ts)</code>
+- **OnSuccess**: <code>[DeviceFirmwareUpgrade](src/models/device-firmware-upgrade.ts)[]</code>
+- **OnError**: throws <code>[SoftwareManagementReportsV3.GetDeviceFirmwareUpgradeHistory3Error](src/resources/software-management-reports-v3.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.softwareManagementReportsV3.getDeviceFirmwareUpgradeHistory3(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;DeviceFirmwareUpgrade[], SoftwareManagementReportsV3.GetDeviceFirmwareUpgradeHistory3Error&gt;</code>, with `result.value` of type <code>[DeviceFirmwareUpgrade](src/models/device-firmware-upgrade.ts)[]</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -10177,19 +14767,41 @@ This endpoint allows user to list the firmware of an account.
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.firmwareV3.listAvailableFirmware2({ acc });
+  const response = await client.firmwareV3.listAvailableFirmware2({
+    acc: "0000123456-00001",
+    protocol: FirmwareProtocol.Lwm2M,
+  });
   // TODO: Handle 'response' of type FirmwarePackage[]
 } catch (err) {
-  if (err instanceof FirmwareV3.ListAvailableFirmware2Error && err.payload.kind === "fotaV3Result") {
-    // TODO: Handle 'err.payload.body' of type FotaV3Result
-  }
+  // TODO: Handle 'err' of type FirmwareV3.ListAvailableFirmware2Error, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.firmwareV3.listAvailableFirmware2({
+  acc: "0000123456-00001",
+  protocol: FirmwareProtocol.Lwm2M,
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type FirmwarePackage[]
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -10204,7 +14816,7 @@ try {
 | Name | Type | Description |
 | --- | --- | --- |
 | <code>acc</code> | <code>string</code> | Account identifier. |
-| <code>protocol?</code> | <code>[FirmwareProtocol](src/models/firmware-protocol.ts)</code> | Filter to retrieve a specific protocol type used. |
+| <code>protocol?</code> | <code>[FirmwareProtocol](src/models/firmware-protocol.ts)</code> | Filter to retrieve a specific protocol type used.<br>**Default**: "LWM2M" |
 
 </dd>
 </dl>
@@ -10214,9 +14826,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[FirmwarePackage](src/models/firmware-package.ts)[]</code>
+**Direct**: `await client.firmwareV3.listAvailableFirmware2(request)`
 
-**OnError**: <code>[FirmwareV3.ListAvailableFirmware2Error](src/resources/firmware-v3.ts)</code>
+- **OnSuccess**: <code>[FirmwarePackage](src/models/firmware-package.ts)[]</code>
+- **OnError**: throws <code>[FirmwareV3.ListAvailableFirmware2Error](src/resources/firmware-v3.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.firmwareV3.listAvailableFirmware2(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;FirmwarePackage[], FirmwareV3.ListAvailableFirmware2Error&gt;</code>, with `result.value` of type <code>[FirmwarePackage](src/models/firmware-package.ts)[]</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -10242,19 +14862,41 @@ Ask a device to report its firmware version asynchronously.
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.firmwareV3.reportDeviceFirmware({ acc, deviceId });
+  const response = await client.firmwareV3.reportDeviceFirmware({
+    acc: "0000123456-00001",
+    deviceId: "15-digit IMEI",
+  });
   // TODO: Handle 'response' of type DeviceFirmwareVersionUpdateResult
 } catch (err) {
-  if (err instanceof FirmwareV3.ReportDeviceFirmwareError && err.payload.kind === "fotaV3Result") {
-    // TODO: Handle 'err.payload.body' of type FotaV3Result
-  }
+  // TODO: Handle 'err' of type FirmwareV3.ReportDeviceFirmwareError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.firmwareV3.reportDeviceFirmware({
+  acc: "0000123456-00001",
+  deviceId: "15-digit IMEI",
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type DeviceFirmwareVersionUpdateResult
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -10279,9 +14921,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[DeviceFirmwareVersionUpdateResult](src/models/device-firmware-version-update-result.ts)</code>
+**Direct**: `await client.firmwareV3.reportDeviceFirmware(request)`
 
-**OnError**: <code>[FirmwareV3.ReportDeviceFirmwareError](src/resources/firmware-v3.ts)</code>
+- **OnSuccess**: <code>[DeviceFirmwareVersionUpdateResult](src/models/device-firmware-version-update-result.ts)</code>
+- **OnError**: throws <code>[FirmwareV3.ReportDeviceFirmwareError](src/resources/firmware-v3.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.firmwareV3.reportDeviceFirmware(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;DeviceFirmwareVersionUpdateResult, FirmwareV3.ReportDeviceFirmwareError&gt;</code>, with `result.value` of type <code>[DeviceFirmwareVersionUpdateResult](src/models/device-firmware-version-update-result.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -10307,19 +14957,41 @@ Synchronize ThingSpace with the FOTA server for up to 100 devices.
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.firmwareV3.synchronizeDeviceFirmware({ acc, body });
+  const response = await client.firmwareV3.synchronizeDeviceFirmware({
+    acc: "0000123456-00001",
+    body: { deviceList: ["15-digit IMEI"] },
+  });
   // TODO: Handle 'response' of type DeviceFirmwareList
 } catch (err) {
-  if (err instanceof FirmwareV3.SynchronizeDeviceFirmwareError && err.payload.kind === "fotaV3Result") {
-    // TODO: Handle 'err.payload.body' of type FotaV3Result
-  }
+  // TODO: Handle 'err' of type FirmwareV3.SynchronizeDeviceFirmwareError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.firmwareV3.synchronizeDeviceFirmware({
+  acc: "0000123456-00001",
+  body: { deviceList: ["15-digit IMEI"] },
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type DeviceFirmwareList
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -10344,9 +15016,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[DeviceFirmwareList](src/models/device-firmware-list.ts)</code>
+**Direct**: `await client.firmwareV3.synchronizeDeviceFirmware(request)`
 
-**OnError**: <code>[FirmwareV3.SynchronizeDeviceFirmwareError](src/resources/firmware-v3.ts)</code>
+- **OnSuccess**: <code>[DeviceFirmwareList](src/models/device-firmware-list.ts)</code>
+- **OnError**: throws <code>[FirmwareV3.SynchronizeDeviceFirmwareError](src/resources/firmware-v3.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.firmwareV3.synchronizeDeviceFirmware(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;DeviceFirmwareList, FirmwareV3.SynchronizeDeviceFirmwareError&gt;</code>, with `result.value` of type <code>[DeviceFirmwareList](src/models/device-firmware-list.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -10376,19 +15056,43 @@ Retrieve account device information such as reported firmware on the devices.
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.accountDevices.getAccountDeviceInformation({ acc });
+  const response = await client.accountDevices.getAccountDeviceInformation({
+    acc: "0000123456-00001",
+    lastSeenDeviceId: "0",
+    protocol: DevicesProtocol.Lwm2M,
+  });
   // TODO: Handle 'response' of type V3AccountDeviceList
 } catch (err) {
-  if (err instanceof AccountDevices.GetAccountDeviceInformationError && err.payload.kind === "fotaV3Result") {
-    // TODO: Handle 'err.payload.body' of type FotaV3Result
-  }
+  // TODO: Handle 'err' of type AccountDevices.GetAccountDeviceInformationError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.accountDevices.getAccountDeviceInformation({
+  acc: "0000123456-00001",
+  lastSeenDeviceId: "0",
+  protocol: DevicesProtocol.Lwm2M,
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type V3AccountDeviceList
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -10404,7 +15108,7 @@ try {
 | --- | --- | --- |
 | <code>acc</code> | <code>string</code> | Account identifier. |
 | <code>lastSeenDeviceId?</code> | <code>string</code> | Last seen device identifier. |
-| <code>protocol?</code> | <code>[DevicesProtocol](src/models/devices-protocol.ts)</code> | Filter to retrieve a specific protocol type used. |
+| <code>protocol?</code> | <code>[DevicesProtocol](src/models/devices-protocol.ts)</code> | Filter to retrieve a specific protocol type used.<br>**Default**: "LWM2M" |
 
 </dd>
 </dl>
@@ -10414,9 +15118,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[V3AccountDeviceList](src/models/v3-account-device-list.ts)</code>
+**Direct**: `await client.accountDevices.getAccountDeviceInformation(request)`
 
-**OnError**: <code>[AccountDevices.GetAccountDeviceInformationError](src/resources/account-devices.ts)</code>
+- **OnSuccess**: <code>[V3AccountDeviceList](src/models/v3-account-device-list.ts)</code>
+- **OnError**: throws <code>[AccountDevices.GetAccountDeviceInformationError](src/resources/account-devices.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.accountDevices.getAccountDeviceInformation(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;V3AccountDeviceList, AccountDevices.GetAccountDeviceInformationError&gt;</code>, with `result.value` of type <code>[V3AccountDeviceList](src/models/v3-account-device-list.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -10442,21 +15154,41 @@ Retrieve device information for a list of devices on an account.
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.accountDevices.listAccountDevicesInformation({ acc, body });
+  const response = await client.accountDevices.listAccountDevicesInformation({
+    acc: "0000123456-00001",
+    body: { deviceList: ["15-digit IMEI"] },
+  });
   // TODO: Handle 'response' of type DeviceListResult
 } catch (err) {
-  if (
-    err instanceof AccountDevices.ListAccountDevicesInformationError && err.payload.kind === "fotaV3Result"
-  ) {
-    // TODO: Handle 'err.payload.body' of type FotaV3Result
-  }
+  // TODO: Handle 'err' of type AccountDevices.ListAccountDevicesInformationError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.accountDevices.listAccountDevicesInformation({
+  acc: "0000123456-00001",
+  body: { deviceList: ["15-digit IMEI"] },
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type DeviceListResult
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -10481,9 +15213,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[DeviceListResult](src/models/device-list-result.ts)</code>
+**Direct**: `await client.accountDevices.listAccountDevicesInformation(request)`
 
-**OnError**: <code>[AccountDevices.ListAccountDevicesInformationError](src/resources/account-devices.ts)</code>
+- **OnSuccess**: <code>[DeviceListResult](src/models/device-list-result.ts)</code>
+- **OnError**: throws <code>[AccountDevices.ListAccountDevicesInformationError](src/resources/account-devices.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.accountDevices.listAccountDevicesInformation(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;DeviceListResult, AccountDevices.ListAccountDevicesInformationError&gt;</code>, with `result.value` of type <code>[DeviceListResult](src/models/device-list-result.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -10513,22 +15253,39 @@ This endpoint allows user to delete a previously registered callback URL.
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.softwareManagementCallbacksV3.deregisterCallback5({ acc });
+  const response = await client.softwareManagementCallbacksV3.deregisterCallback5({
+    acc: "0000123456-00001",
+  });
   // TODO: Handle 'response' of type FotaV3SuccessResult
 } catch (err) {
-  if (
-    err instanceof SoftwareManagementCallbacksV3.DeregisterCallback5Error &&
-      err.payload.kind === "fotaV3Result"
-  ) {
-    // TODO: Handle 'err.payload.body' of type FotaV3Result
-  }
+  // TODO: Handle 'err' of type SoftwareManagementCallbacksV3.DeregisterCallback5Error, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.softwareManagementCallbacksV3.deregisterCallback5({
+  acc: "0000123456-00001",
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type FotaV3SuccessResult
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -10552,9 +15309,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[FotaV3SuccessResult](src/models/fota-v3-success-result.ts)</code>
+**Direct**: `await client.softwareManagementCallbacksV3.deregisterCallback5(request)`
 
-**OnError**: <code>[SoftwareManagementCallbacksV3.DeregisterCallback5Error](src/resources/software-management-callbacks-v3.ts)</code>
+- **OnSuccess**: <code>[FotaV3SuccessResult](src/models/fota-v3-success-result.ts)</code>
+- **OnError**: throws <code>[SoftwareManagementCallbacksV3.DeregisterCallback5Error](src/resources/software-management-callbacks-v3.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.softwareManagementCallbacksV3.deregisterCallback5(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;FotaV3SuccessResult, SoftwareManagementCallbacksV3.DeregisterCallback5Error&gt;</code>, with `result.value` of type <code>[FotaV3SuccessResult](src/models/fota-v3-success-result.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -10580,22 +15345,39 @@ This endpoint allows user to get the registered callback information.
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.softwareManagementCallbacksV3.listRegisteredCallbacks5({ acc });
+  const response = await client.softwareManagementCallbacksV3.listRegisteredCallbacks5({
+    acc: "0000123456-00001",
+  });
   // TODO: Handle 'response' of type FotaV3CallbackSummary
 } catch (err) {
-  if (
-    err instanceof SoftwareManagementCallbacksV3.ListRegisteredCallbacks5Error &&
-      err.payload.kind === "fotaV3Result"
-  ) {
-    // TODO: Handle 'err.payload.body' of type FotaV3Result
-  }
+  // TODO: Handle 'err' of type SoftwareManagementCallbacksV3.ListRegisteredCallbacks5Error, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.softwareManagementCallbacksV3.listRegisteredCallbacks5({
+  acc: "0000123456-00001",
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type FotaV3CallbackSummary
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -10619,9 +15401,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[FotaV3CallbackSummary](src/models/fota-v3-callback-summary.ts)</code>
+**Direct**: `await client.softwareManagementCallbacksV3.listRegisteredCallbacks5(request)`
 
-**OnError**: <code>[SoftwareManagementCallbacksV3.ListRegisteredCallbacks5Error](src/resources/software-management-callbacks-v3.ts)</code>
+- **OnSuccess**: <code>[FotaV3CallbackSummary](src/models/fota-v3-callback-summary.ts)</code>
+- **OnError**: throws <code>[SoftwareManagementCallbacksV3.ListRegisteredCallbacks5Error](src/resources/software-management-callbacks-v3.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.softwareManagementCallbacksV3.listRegisteredCallbacks5(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;FotaV3CallbackSummary, SoftwareManagementCallbacksV3.ListRegisteredCallbacks5Error&gt;</code>, with `result.value` of type <code>[FotaV3CallbackSummary](src/models/fota-v3-callback-summary.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -10647,21 +15437,41 @@ This endpoint allows the user to create the HTTPS callback address.
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.softwareManagementCallbacksV3.registerCallback5({ acc, body });
+  const response = await client.softwareManagementCallbacksV3.registerCallback5({
+    acc: "0000123456-00001",
+    body: { url: "https://255.255.11.135:50559/CallbackListener/FirmwareServiceMessages.asmx" },
+  });
   // TODO: Handle 'response' of type FotaV3CallbackRegistrationResult
 } catch (err) {
-  if (
-    err instanceof SoftwareManagementCallbacksV3.RegisterCallback5Error && err.payload.kind === "fotaV3Result"
-  ) {
-    // TODO: Handle 'err.payload.body' of type FotaV3Result
-  }
+  // TODO: Handle 'err' of type SoftwareManagementCallbacksV3.RegisterCallback5Error, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.softwareManagementCallbacksV3.registerCallback5({
+  acc: "0000123456-00001",
+  body: { url: "https://255.255.11.135:50559/CallbackListener/FirmwareServiceMessages.asmx" },
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type FotaV3CallbackRegistrationResult
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -10686,9 +15496,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[FotaV3CallbackRegistrationResult](src/models/fota-v3-callback-registration-result.ts)</code>
+**Direct**: `await client.softwareManagementCallbacksV3.registerCallback5(request)`
 
-**OnError**: <code>[SoftwareManagementCallbacksV3.RegisterCallback5Error](src/resources/software-management-callbacks-v3.ts)</code>
+- **OnSuccess**: <code>[FotaV3CallbackRegistrationResult](src/models/fota-v3-callback-registration-result.ts)</code>
+- **OnError**: throws <code>[SoftwareManagementCallbacksV3.RegisterCallback5Error](src/resources/software-management-callbacks-v3.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.softwareManagementCallbacksV3.registerCallback5(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;FotaV3CallbackRegistrationResult, SoftwareManagementCallbacksV3.RegisterCallback5Error&gt;</code>, with `result.value` of type <code>[FotaV3CallbackRegistrationResult](src/models/fota-v3-callback-registration-result.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -10714,21 +15532,41 @@ This endpoint allows the user to update the HTTPS callback address.
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.softwareManagementCallbacksV3.updateCallback2({ acc, body });
+  const response = await client.softwareManagementCallbacksV3.updateCallback2({
+    acc: "0000123456-00001",
+    body: { url: "https://255.255.11.135:50559/CallbackListener/FirmwareServiceMessages.asmx" },
+  });
   // TODO: Handle 'response' of type FotaV3CallbackRegistrationResult
 } catch (err) {
-  if (
-    err instanceof SoftwareManagementCallbacksV3.UpdateCallback2Error && err.payload.kind === "fotaV3Result"
-  ) {
-    // TODO: Handle 'err.payload.body' of type FotaV3Result
-  }
+  // TODO: Handle 'err' of type SoftwareManagementCallbacksV3.UpdateCallback2Error, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.softwareManagementCallbacksV3.updateCallback2({
+  acc: "0000123456-00001",
+  body: { url: "https://255.255.11.135:50559/CallbackListener/FirmwareServiceMessages.asmx" },
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type FotaV3CallbackRegistrationResult
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -10753,9 +15591,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[FotaV3CallbackRegistrationResult](src/models/fota-v3-callback-registration-result.ts)</code>
+**Direct**: `await client.softwareManagementCallbacksV3.updateCallback2(request)`
 
-**OnError**: <code>[SoftwareManagementCallbacksV3.UpdateCallback2Error](src/resources/software-management-callbacks-v3.ts)</code>
+- **OnSuccess**: <code>[FotaV3CallbackRegistrationResult](src/models/fota-v3-callback-registration-result.ts)</code>
+- **OnError**: throws <code>[SoftwareManagementCallbacksV3.UpdateCallback2Error](src/resources/software-management-callbacks-v3.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.softwareManagementCallbacksV3.updateCallback2(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;FotaV3CallbackRegistrationResult, SoftwareManagementCallbacksV3.UpdateCallback2Error&gt;</code>, with `result.value` of type <code>[FotaV3CallbackRegistrationResult](src/models/fota-v3-callback-registration-result.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -10785,22 +15631,47 @@ Assigns SIM-Secure for IoT licenses to SIMs.
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.simSecureForIoTLicenses.assignLicenseToDevices({ body });
+  const response = await client.simSecureForIoTLicenses.assignLicenseToDevices({
+    body: {
+      accountName: "0000123456-00001",
+      devices: [{ deviceIds: [{ id: "864508030109877", kind: "IMEI" }] }],
+      skuNumber: "SIMSec-IoT-Lt",
+    },
+  });
   // TODO: Handle 'response' of type SecuritySuccessResult
 } catch (err) {
-  if (
-    err instanceof SimSecureForIoTLicenses.AssignLicenseToDevicesError &&
-      err.payload.kind === "securityResult"
-  ) {
-    // TODO: Handle 'err.payload.body' of type SecurityResult
-  }
+  // TODO: Handle 'err' of type SimSecureForIoTLicenses.AssignLicenseToDevicesError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.simSecureForIoTLicenses.assignLicenseToDevices({
+  body: {
+    accountName: "0000123456-00001",
+    devices: [{ deviceIds: [{ id: "864508030109877", kind: "IMEI" }] }],
+    skuNumber: "SIMSec-IoT-Lt",
+  },
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type SecuritySuccessResult
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -10825,9 +15696,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[SecuritySuccessResult](src/models/security-success-result.ts)</code>
+**Direct**: `await client.simSecureForIoTLicenses.assignLicenseToDevices(request)`
 
-**OnError**: <code>[SimSecureForIoTLicenses.AssignLicenseToDevicesError](src/resources/sim-secure-for-io-tlicenses.ts)</code>
+- **OnSuccess**: <code>[SecuritySuccessResult](src/models/security-success-result.ts)</code>
+- **OnError**: throws <code>[SimSecureForIoTLicenses.AssignLicenseToDevicesError](src/resources/sim-secure-for-io-tlicenses.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.simSecureForIoTLicenses.assignLicenseToDevices(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;SecuritySuccessResult, SimSecureForIoTLicenses.AssignLicenseToDevicesError&gt;</code>, with `result.value` of type <code>[SecuritySuccessResult](src/models/security-success-result.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -10853,22 +15732,39 @@ Unassigns SIM-Secure for IoT Flexible and Flexible Bundle license from SIMs.
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.simSecureForIoTLicenses.unassignLicenseToDevices({ xRequestId });
+  const response = await client.simSecureForIoTLicenses.unassignLicenseToDevices({
+    xRequestId: "some example string",
+  });
   // TODO: Handle 'response' of type SecuritySuccessResult
 } catch (err) {
-  if (
-    err instanceof SimSecureForIoTLicenses.UnassignLicenseToDevicesError &&
-      err.payload.kind === "securityResult"
-  ) {
-    // TODO: Handle 'err.payload.body' of type SecurityResult
-  }
+  // TODO: Handle 'err' of type SimSecureForIoTLicenses.UnassignLicenseToDevicesError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.simSecureForIoTLicenses.unassignLicenseToDevices({
+  xRequestId: "some example string",
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type SecuritySuccessResult
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -10892,9 +15788,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[SecuritySuccessResult](src/models/security-success-result.ts)</code>
+**Direct**: `await client.simSecureForIoTLicenses.unassignLicenseToDevices(request)`
 
-**OnError**: <code>[SimSecureForIoTLicenses.UnassignLicenseToDevicesError](src/resources/sim-secure-for-io-tlicenses.ts)</code>
+- **OnSuccess**: <code>[SecuritySuccessResult](src/models/security-success-result.ts)</code>
+- **OnError**: throws <code>[SimSecureForIoTLicenses.UnassignLicenseToDevicesError](src/resources/sim-secure-for-io-tlicenses.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.simSecureForIoTLicenses.unassignLicenseToDevices(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;SecuritySuccessResult, SimSecureForIoTLicenses.UnassignLicenseToDevicesError&gt;</code>, with `result.value` of type <code>[SecuritySuccessResult](src/models/security-success-result.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -10924,21 +15828,39 @@ Retrieves the total number of SIM-Secure for IoT subscription licenses purchased
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.accountSubscriptions.listAccountSubscriptions({ body });
+  const response = await client.accountSubscriptions.listAccountSubscriptions({
+    body: { accountName: "000012345600001", skuNumber: "SIMSec-IoT-Lt" },
+  });
   // TODO: Handle 'response' of type SecuritySubscriptionResult
 } catch (err) {
-  if (
-    err instanceof AccountSubscriptions.ListAccountSubscriptionsError && err.payload.kind === "securityResult"
-  ) {
-    // TODO: Handle 'err.payload.body' of type SecurityResult
-  }
+  // TODO: Handle 'err' of type AccountSubscriptions.ListAccountSubscriptionsError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.accountSubscriptions.listAccountSubscriptions({
+  body: { accountName: "000012345600001", skuNumber: "SIMSec-IoT-Lt" },
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type SecuritySubscriptionResult
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -10963,9 +15885,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[SecuritySubscriptionResult](src/models/security-subscription-result.ts)</code>
+**Direct**: `await client.accountSubscriptions.listAccountSubscriptions(request)`
 
-**OnError**: <code>[AccountSubscriptions.ListAccountSubscriptionsError](src/resources/account-subscriptions.ts)</code>
+- **OnSuccess**: <code>[SecuritySubscriptionResult](src/models/security-subscription-result.ts)</code>
+- **OnError**: throws <code>[AccountSubscriptions.ListAccountSubscriptionsError](src/resources/account-subscriptions.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.accountSubscriptions.listAccountSubscriptions(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;SecuritySubscriptionResult, AccountSubscriptions.ListAccountSubscriptionsError&gt;</code>, with `result.value` of type <code>[SecuritySubscriptionResult](src/models/security-subscription-result.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -10995,22 +15925,39 @@ This endpoint retrieves a diagnostics subscription by account.
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.diagnosticsSubscriptions.getDiagnosticsSubscription({ accountName });
+  const response = await client.diagnosticsSubscriptions.getDiagnosticsSubscription({
+    accountName: "0000123456-00001",
+  });
   // TODO: Handle 'response' of type DiagnosticsSubscription
 } catch (err) {
-  if (
-    err instanceof DiagnosticsSubscriptions.GetDiagnosticsSubscriptionError &&
-      err.payload.kind === "deviceDiagnosticsResult"
-  ) {
-    // TODO: Handle 'err.payload.body' of type DeviceDiagnosticsResult
-  }
+  // TODO: Handle 'err' of type DiagnosticsSubscriptions.GetDiagnosticsSubscriptionError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.diagnosticsSubscriptions.getDiagnosticsSubscription({
+  accountName: "0000123456-00001",
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type DiagnosticsSubscription
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -11034,9 +15981,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[DiagnosticsSubscription](src/models/diagnostics-subscription.ts)</code>
+**Direct**: `await client.diagnosticsSubscriptions.getDiagnosticsSubscription(request)`
 
-**OnError**: <code>[DiagnosticsSubscriptions.GetDiagnosticsSubscriptionError](src/resources/diagnostics-subscriptions.ts)</code>
+- **OnSuccess**: <code>[DiagnosticsSubscription](src/models/diagnostics-subscription.ts)</code>
+- **OnError**: throws <code>[DiagnosticsSubscriptions.GetDiagnosticsSubscriptionError](src/resources/diagnostics-subscriptions.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.diagnosticsSubscriptions.getDiagnosticsSubscription(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;DiagnosticsSubscription, DiagnosticsSubscriptions.GetDiagnosticsSubscriptionError&gt;</code>, with `result.value` of type <code>[DiagnosticsSubscription](src/models/diagnostics-subscription.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -11066,7 +16021,7 @@ This endpoint allows the user to start or change observe diagnostics.
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
@@ -11076,12 +16031,25 @@ try {
   const response = await client.diagnosticsObservations.startDiagnosticsObservation();
   // TODO: Handle 'response' of type DiagnosticsObservationResult
 } catch (err) {
-  if (
-    err instanceof DiagnosticsObservations.StartDiagnosticsObservationError &&
-      err.payload.kind === "deviceDiagnosticsResult"
-  ) {
-    // TODO: Handle 'err.payload.body' of type DeviceDiagnosticsResult
-  }
+  // TODO: Handle 'err' of type DiagnosticsObservations.StartDiagnosticsObservationError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.diagnosticsObservations.startDiagnosticsObservation().asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type DiagnosticsObservationResult
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -11093,9 +16061,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[DiagnosticsObservationResult](src/models/diagnostics-observation-result.ts)</code>
+**Direct**: `await client.diagnosticsObservations.startDiagnosticsObservation()`
 
-**OnError**: <code>[DiagnosticsObservations.StartDiagnosticsObservationError](src/resources/diagnostics-observations.ts)</code>
+- **OnSuccess**: <code>[DiagnosticsObservationResult](src/models/diagnostics-observation-result.ts)</code>
+- **OnError**: throws <code>[DiagnosticsObservations.StartDiagnosticsObservationError](src/resources/diagnostics-observations.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.diagnosticsObservations.startDiagnosticsObservation().asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;DiagnosticsObservationResult, DiagnosticsObservations.StartDiagnosticsObservationError&gt;</code>, with `result.value` of type <code>[DiagnosticsObservationResult](src/models/diagnostics-observation-result.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -11121,7 +16097,7 @@ This endpoint allows the user to stop or reset observe diagnostics.
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
@@ -11129,17 +16105,33 @@ This endpoint allows the user to stop or reset observe diagnostics.
 ```ts
 try {
   const response = await client.diagnosticsObservations.stopDiagnosticsObservation({
-    transactionId,
-    accountName,
+    transactionId: "5f4bd2ff-5d7f-444d-af17-3f6a80bb2a94",
+    accountName: "0000123456-00001",
   });
   // TODO: Handle 'response' of type DiagnosticsObservationResult
 } catch (err) {
-  if (
-    err instanceof DiagnosticsObservations.StopDiagnosticsObservationError &&
-      err.payload.kind === "deviceDiagnosticsResult"
-  ) {
-    // TODO: Handle 'err.payload.body' of type DeviceDiagnosticsResult
-  }
+  // TODO: Handle 'err' of type DiagnosticsObservations.StopDiagnosticsObservationError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.diagnosticsObservations.stopDiagnosticsObservation({
+  transactionId: "5f4bd2ff-5d7f-444d-af17-3f6a80bb2a94",
+  accountName: "0000123456-00001",
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type DiagnosticsObservationResult
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -11164,9 +16156,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[DiagnosticsObservationResult](src/models/diagnostics-observation-result.ts)</code>
+**Direct**: `await client.diagnosticsObservations.stopDiagnosticsObservation(request)`
 
-**OnError**: <code>[DiagnosticsObservations.StopDiagnosticsObservationError](src/resources/diagnostics-observations.ts)</code>
+- **OnSuccess**: <code>[DiagnosticsObservationResult](src/models/diagnostics-observation-result.ts)</code>
+- **OnError**: throws <code>[DiagnosticsObservations.StopDiagnosticsObservationError](src/resources/diagnostics-observations.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.diagnosticsObservations.stopDiagnosticsObservation(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;DiagnosticsObservationResult, DiagnosticsObservations.StopDiagnosticsObservationError&gt;</code>, with `result.value` of type <code>[DiagnosticsObservationResult](src/models/diagnostics-observation-result.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -11196,7 +16196,7 @@ This endpoint allows the user to get the history data.
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
@@ -11206,12 +16206,25 @@ try {
   const response = await client.diagnosticsHistory.getDiagnosticsHistory();
   // TODO: Handle 'response' of type History[]
 } catch (err) {
-  if (
-    err instanceof DiagnosticsHistory.GetDiagnosticsHistoryError &&
-      err.payload.kind === "deviceDiagnosticsResult"
-  ) {
-    // TODO: Handle 'err.payload.body' of type DeviceDiagnosticsResult
-  }
+  // TODO: Handle 'err' of type DiagnosticsHistory.GetDiagnosticsHistoryError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.diagnosticsHistory.getDiagnosticsHistory().asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type History[]
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -11223,9 +16236,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[History](src/models/history.ts)[]</code>
+**Direct**: `await client.diagnosticsHistory.getDiagnosticsHistory()`
 
-**OnError**: <code>[DiagnosticsHistory.GetDiagnosticsHistoryError](src/resources/diagnostics-history.ts)</code>
+- **OnSuccess**: <code>[History](src/models/history.ts)[]</code>
+- **OnError**: throws <code>[DiagnosticsHistory.GetDiagnosticsHistoryError](src/resources/diagnostics-history.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.diagnosticsHistory.getDiagnosticsHistory().asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;History[], DiagnosticsHistory.GetDiagnosticsHistoryError&gt;</code>, with `result.value` of type <code>[History](src/models/history.ts)[]</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -11255,22 +16276,41 @@ This endpoint retrieves diagnostics settings synchronously.
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.diagnosticsSettings.listDiagnosticsSettings({ accountName, devices });
+  const response = await client.diagnosticsSettings.listDiagnosticsSettings({
+    accountName: "0000123456-00001",
+    devices: "864508030026238,IMEI",
+  });
   // TODO: Handle 'response' of type DiagnosticObservationSetting[]
 } catch (err) {
-  if (
-    err instanceof DiagnosticsSettings.ListDiagnosticsSettingsError &&
-      err.payload.kind === "deviceDiagnosticsResult"
-  ) {
-    // TODO: Handle 'err.payload.body' of type DeviceDiagnosticsResult
-  }
+  // TODO: Handle 'err' of type DiagnosticsSettings.ListDiagnosticsSettingsError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.diagnosticsSettings.listDiagnosticsSettings({
+  accountName: "0000123456-00001",
+  devices: "864508030026238,IMEI",
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type DiagnosticObservationSetting[]
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -11295,9 +16335,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[DiagnosticObservationSetting](src/models/diagnostic-observation-setting.ts)[]</code>
+**Direct**: `await client.diagnosticsSettings.listDiagnosticsSettings(request)`
 
-**OnError**: <code>[DiagnosticsSettings.ListDiagnosticsSettingsError](src/resources/diagnostics-settings.ts)</code>
+- **OnSuccess**: <code>[DiagnosticObservationSetting](src/models/diagnostic-observation-setting.ts)[]</code>
+- **OnError**: throws <code>[DiagnosticsSettings.ListDiagnosticsSettingsError](src/resources/diagnostics-settings.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.diagnosticsSettings.listDiagnosticsSettings(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;DiagnosticObservationSetting[], DiagnosticsSettings.ListDiagnosticsSettingsError&gt;</code>, with `result.value` of type <code>[DiagnosticObservationSetting](src/models/diagnostic-observation-setting.ts)[]</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -11327,22 +16375,39 @@ This endpoint allows user to get the registered callback information of an exist
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.diagnosticsCallbacks.getDiagnosticsSubscriptionCallbackInfo({ accountName });
+  const response = await client.diagnosticsCallbacks.getDiagnosticsSubscriptionCallbackInfo({
+    accountName: "0000123456-00001",
+  });
   // TODO: Handle 'response' of type DeviceDiagnosticsCallback[]
 } catch (err) {
-  if (
-    err instanceof DiagnosticsCallbacks.GetDiagnosticsSubscriptionCallbackInfoError &&
-      err.payload.kind === "deviceDiagnosticsResult"
-  ) {
-    // TODO: Handle 'err.payload.body' of type DeviceDiagnosticsResult
-  }
+  // TODO: Handle 'err' of type DiagnosticsCallbacks.GetDiagnosticsSubscriptionCallbackInfoError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.diagnosticsCallbacks.getDiagnosticsSubscriptionCallbackInfo({
+  accountName: "0000123456-00001",
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type DeviceDiagnosticsCallback[]
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -11366,9 +16431,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[DeviceDiagnosticsCallback](src/models/device-diagnostics-callback.ts)[]</code>
+**Direct**: `await client.diagnosticsCallbacks.getDiagnosticsSubscriptionCallbackInfo(request)`
 
-**OnError**: <code>[DiagnosticsCallbacks.GetDiagnosticsSubscriptionCallbackInfoError](src/resources/diagnostics-callbacks.ts)</code>
+- **OnSuccess**: <code>[DeviceDiagnosticsCallback](src/models/device-diagnostics-callback.ts)[]</code>
+- **OnError**: throws <code>[DiagnosticsCallbacks.GetDiagnosticsSubscriptionCallbackInfoError](src/resources/diagnostics-callbacks.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.diagnosticsCallbacks.getDiagnosticsSubscriptionCallbackInfo(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;DeviceDiagnosticsCallback[], DiagnosticsCallbacks.GetDiagnosticsSubscriptionCallbackInfoError&gt;</code>, with `result.value` of type <code>[DeviceDiagnosticsCallback](src/models/device-diagnostics-callback.ts)[]</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -11394,7 +16467,7 @@ This endpoint allows user update the callback HTTPS address of an existing diagn
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
@@ -11404,12 +16477,25 @@ try {
   const response = await client.diagnosticsCallbacks.registerDiagnosticsCallbackUrl();
   // TODO: Handle 'response' of type DeviceDiagnosticsCallback
 } catch (err) {
-  if (
-    err instanceof DiagnosticsCallbacks.RegisterDiagnosticsCallbackUrlError &&
-      err.payload.kind === "deviceDiagnosticsResult"
-  ) {
-    // TODO: Handle 'err.payload.body' of type DeviceDiagnosticsResult
-  }
+  // TODO: Handle 'err' of type DiagnosticsCallbacks.RegisterDiagnosticsCallbackUrlError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.diagnosticsCallbacks.registerDiagnosticsCallbackUrl().asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type DeviceDiagnosticsCallback
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -11421,9 +16507,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[DeviceDiagnosticsCallback](src/models/device-diagnostics-callback.ts)</code>
+**Direct**: `await client.diagnosticsCallbacks.registerDiagnosticsCallbackUrl()`
 
-**OnError**: <code>[DiagnosticsCallbacks.RegisterDiagnosticsCallbackUrlError](src/resources/diagnostics-callbacks.ts)</code>
+- **OnSuccess**: <code>[DeviceDiagnosticsCallback](src/models/device-diagnostics-callback.ts)</code>
+- **OnError**: throws <code>[DiagnosticsCallbacks.RegisterDiagnosticsCallbackUrlError](src/resources/diagnostics-callbacks.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.diagnosticsCallbacks.registerDiagnosticsCallbackUrl().asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;DeviceDiagnosticsCallback, DiagnosticsCallbacks.RegisterDiagnosticsCallbackUrlError&gt;</code>, with `result.value` of type <code>[DeviceDiagnosticsCallback](src/models/device-diagnostics-callback.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -11449,7 +16543,7 @@ This endpoint allows user to delete a registered callback URL and credential.
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
@@ -11457,17 +16551,33 @@ This endpoint allows user to delete a registered callback URL and credential.
 ```ts
 try {
   const response = await client.diagnosticsCallbacks.unregisterDiagnosticsCallback({
-    accountName,
-    serviceName,
+    accountName: "0000123456-00001",
+    serviceName: "string",
   });
   // TODO: Handle 'response' of type DeviceDiagnosticsCallback
 } catch (err) {
-  if (
-    err instanceof DiagnosticsCallbacks.UnregisterDiagnosticsCallbackError &&
-      err.payload.kind === "deviceDiagnosticsResult"
-  ) {
-    // TODO: Handle 'err.payload.body' of type DeviceDiagnosticsResult
-  }
+  // TODO: Handle 'err' of type DiagnosticsCallbacks.UnregisterDiagnosticsCallbackError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.diagnosticsCallbacks.unregisterDiagnosticsCallback({
+  accountName: "0000123456-00001",
+  serviceName: "string",
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type DeviceDiagnosticsCallback
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -11492,9 +16602,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[DeviceDiagnosticsCallback](src/models/device-diagnostics-callback.ts)</code>
+**Direct**: `await client.diagnosticsCallbacks.unregisterDiagnosticsCallback(request)`
 
-**OnError**: <code>[DiagnosticsCallbacks.UnregisterDiagnosticsCallbackError](src/resources/diagnostics-callbacks.ts)</code>
+- **OnSuccess**: <code>[DeviceDiagnosticsCallback](src/models/device-diagnostics-callback.ts)</code>
+- **OnError**: throws <code>[DiagnosticsCallbacks.UnregisterDiagnosticsCallbackError](src/resources/diagnostics-callbacks.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.diagnosticsCallbacks.unregisterDiagnosticsCallback(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;DeviceDiagnosticsCallback, DiagnosticsCallbacks.UnregisterDiagnosticsCallbackError&gt;</code>, with `result.value` of type <code>[DeviceDiagnosticsCallback](src/models/device-diagnostics-callback.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -11524,22 +16642,47 @@ Performs a device reboot or a factory reset on the modem portion of the device.
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.diagnosticsFactoryReset.decivesRestart({ body });
+  const response = await client.diagnosticsFactoryReset.decivesRestart({
+    body: {
+      accountName: "0642233522-00003",
+      action: "reboot",
+      devices: [{ id: "355154080648401", kind: "IMEI" }],
+    },
+  });
   // TODO: Handle 'response' of type DiagnosticsObservationResult
 } catch (err) {
-  if (
-    err instanceof DiagnosticsFactoryReset.DecivesRestartError &&
-      err.payload.kind === "deviceDiagnosticsResult"
-  ) {
-    // TODO: Handle 'err.payload.body' of type DeviceDiagnosticsResult
-  }
+  // TODO: Handle 'err' of type DiagnosticsFactoryReset.DecivesRestartError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.diagnosticsFactoryReset.decivesRestart({
+  body: {
+    accountName: "0642233522-00003",
+    action: "reboot",
+    devices: [{ id: "355154080648401", kind: "IMEI" }],
+  },
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type DiagnosticsObservationResult
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -11563,9 +16706,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[DiagnosticsObservationResult](src/models/diagnostics-observation-result.ts)</code>
+**Direct**: `await client.diagnosticsFactoryReset.decivesRestart(request)`
 
-**OnError**: <code>[DiagnosticsFactoryReset.DecivesRestartError](src/resources/diagnostics-factory-reset.ts)</code>
+- **OnSuccess**: <code>[DiagnosticsObservationResult](src/models/diagnostics-observation-result.ts)</code>
+- **OnError**: throws <code>[DiagnosticsFactoryReset.DecivesRestartError](src/resources/diagnostics-factory-reset.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.diagnosticsFactoryReset.decivesRestart(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;DiagnosticsObservationResult, DiagnosticsFactoryReset.DecivesRestartError&gt;</code>, with `result.value` of type <code>[DiagnosticsObservationResult](src/models/diagnostics-observation-result.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -11580,7 +16731,7 @@ try {
 > Source: [Targets](src/resources/targets.ts)
 
 <details>
-<summary><code>createAzureCentralIoTApplication(request: Targets.CreateAzureCentralIoTApplicationRequest, options?: RequestOptions): ApiPromise&lt;CreateIoTApplicationResponse, ResponseError&gt;</code></summary>
+<summary><code>createAzureCentralIoTApplication(request: Targets.CreateAzureCentralIoTApplicationRequest, options?: RequestOptions): ApiPromise&lt;CreateIoTApplicationResponse, ApiError&gt;</code></summary>
 
 <dl>
 <dd>
@@ -11595,17 +16746,61 @@ Deploy a new Azure IoT Central application based on the Verizon ARM template wit
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.targets.createAzureCentralIoTApplication({ billingaccountId, body });
+  const response = await client.targets.createAzureCentralIoTApplication({
+    billingaccountId: "some example string",
+    body: {
+      appName: "newarmapp1",
+      billingAccountId: "0000123456-00001",
+      clientId: "UUID",
+      clientSecret: "client secret",
+      emailIDs: "email@domain.com",
+      resourcegroup: "Myresourcegroup",
+      sampleIoTcApp: "{app ID}",
+      subscriptionId: "{subscription ID}",
+      tenantId: "{tenant ID}",
+    },
+  });
   // TODO: Handle 'response' of type CreateIoTApplicationResponse
 } catch (err) {
-  // TODO: Handle 'err' of type ResponseError
+  // TODO: Handle 'err' of type ApiError, where 'err.payload' is always the Undeclared arm
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.targets.createAzureCentralIoTApplication({
+  billingaccountId: "some example string",
+  body: {
+    appName: "newarmapp1",
+    billingAccountId: "0000123456-00001",
+    clientId: "UUID",
+    clientSecret: "client secret",
+    emailIDs: "email@domain.com",
+    resourcegroup: "Myresourcegroup",
+    sampleIoTcApp: "{app ID}",
+    subscriptionId: "{subscription ID}",
+    tenantId: "{tenant ID}",
+  },
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type CreateIoTApplicationResponse
+} else {
+  // TODO: Handle 'result', where 'result.payload' is always the Undeclared arm
 }
 ```
 
@@ -11630,9 +16825,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[CreateIoTApplicationResponse](src/models/create-io-tapplication-response.ts)</code>
+**Direct**: `await client.targets.createAzureCentralIoTApplication(request)`
 
-**OnError**: <code>[ResponseError](src/core/response-error.ts)</code>
+- **OnSuccess**: <code>[CreateIoTApplicationResponse](src/models/create-io-tapplication-response.ts)</code>
+- **OnError**: throws <code>[ApiError](src/core/api-error.ts)</code>, with `err.payload` always the <code>[Undeclared](src/core/api-error.ts)</code> arm
+
+**As ApiResult**: `await client.targets.createAzureCentralIoTApplication(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;CreateIoTApplicationResponse, ApiError&gt;</code>, with `result.value` of type <code>[CreateIoTApplicationResponse](src/models/create-io-tapplication-response.ts)</code>
+- **OnError**: `result.payload` always the <code>[Undeclared](src/core/api-error.ts)</code> arm, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -11643,7 +16846,7 @@ try {
 </details>
 
 <details>
-<summary><code>createTarget(request: Targets.CreateTargetRequestParams, options?: RequestOptions): ApiPromise&lt;Target, ResponseError&gt;</code></summary>
+<summary><code>createTarget(request: Targets.CreateTargetRequestParams, options?: RequestOptions): ApiPromise&lt;Target, ApiError&gt;</code></summary>
 
 <dl>
 <dd>
@@ -11658,17 +16861,65 @@ Define a target to receive data streams, alerts, or callbacks. After creating th
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.targets.createTarget({ body });
+  const response = await client.targets.createTarget({
+    body: {
+      accountidentifier: { billingaccountid: "0000000000-00001" },
+      billingaccountid: "0000000000-00001",
+      kind: "ts.target",
+      address: "https://your_IoT_Central_Application.azureiotcentral.com",
+      addressscheme: "streamazureiot",
+      fields: {
+        httpheaders: {
+          authorization:
+            "SharedAccessSignature sr=d1f9b6bf-1380-41f6-b757-d9805e48392b&sig=EF5tnXClw3MWkb84OkIOUhMH%2FaS1DRD2nXT69QR8RD8%3D&skn=TSCCtoken&se=1648827260410",
+        },
+        devicetypes: ["cHeAssetTracker", "cHeAssetTrackerV2", "tgAssetTracker", "tgAssetTrackerV2"],
+      },
+    },
+  });
   // TODO: Handle 'response' of type Target
 } catch (err) {
-  // TODO: Handle 'err' of type ResponseError
+  // TODO: Handle 'err' of type ApiError, where 'err.payload' is always the Undeclared arm
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.targets.createTarget({
+  body: {
+    accountidentifier: { billingaccountid: "0000000000-00001" },
+    billingaccountid: "0000000000-00001",
+    kind: "ts.target",
+    address: "https://your_IoT_Central_Application.azureiotcentral.com",
+    addressscheme: "streamazureiot",
+    fields: {
+      httpheaders: {
+        authorization:
+          "SharedAccessSignature sr=d1f9b6bf-1380-41f6-b757-d9805e48392b&sig=EF5tnXClw3MWkb84OkIOUhMH%2FaS1DRD2nXT69QR8RD8%3D&skn=TSCCtoken&se=1648827260410",
+      },
+      devicetypes: ["cHeAssetTracker", "cHeAssetTrackerV2", "tgAssetTracker", "tgAssetTrackerV2"],
+    },
+  },
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type Target
+} else {
+  // TODO: Handle 'result', where 'result.payload' is always the Undeclared arm
 }
 ```
 
@@ -11692,9 +16943,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[Target](src/models/target.ts)</code>
+**Direct**: `await client.targets.createTarget(request)`
 
-**OnError**: <code>[ResponseError](src/core/response-error.ts)</code>
+- **OnSuccess**: <code>[Target](src/models/target.ts)</code>
+- **OnError**: throws <code>[ApiError](src/core/api-error.ts)</code>, with `err.payload` always the <code>[Undeclared](src/core/api-error.ts)</code> arm
+
+**As ApiResult**: `await client.targets.createTarget(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;Target, ApiError&gt;</code>, with `result.value` of type <code>[Target](src/models/target.ts)</code>
+- **OnError**: `result.payload` always the <code>[Undeclared](src/core/api-error.ts)</code> arm, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -11705,7 +16964,7 @@ try {
 </details>
 
 <details>
-<summary><code>deleteTarget(request: Targets.DeleteTargetRequestParams, options?: RequestOptions): ApiPromise&lt;undefined, ResponseError&gt;</code></summary>
+<summary><code>deleteTarget(request: Targets.DeleteTargetRequestParams, options?: RequestOptions): ApiPromise&lt;undefined, ApiError&gt;</code></summary>
 
 <dl>
 <dd>
@@ -11720,16 +16979,44 @@ Remove a target from a ThingSpace account.
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  await client.targets.deleteTarget({ body });
+  await client.targets.deleteTarget({
+    body: {
+      accountidentifier: { billingaccountid: "0000000000-00001" },
+      resourceidentifier: { id: "2e61a17d-8fd1-6816-e995-e4c2528bf535" },
+    },
+  });
 } catch (err) {
-  // TODO: Handle 'err' of type ResponseError
+  // TODO: Handle 'err' of type ApiError, where 'err.payload' is always the Undeclared arm
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.targets.deleteTarget({
+  body: {
+    accountidentifier: { billingaccountid: "0000000000-00001" },
+    resourceidentifier: { id: "2e61a17d-8fd1-6816-e995-e4c2528bf535" },
+  },
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: The call succeeded and resolves to no body
+} else {
+  // TODO: Handle 'result', where 'result.payload' is always the Undeclared arm
 }
 ```
 
@@ -11753,9 +17040,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>undefined</code>
+**Direct**: `await client.targets.deleteTarget(request)`
 
-**OnError**: <code>[ResponseError](src/core/response-error.ts)</code>
+- **OnSuccess**: <code>undefined</code>
+- **OnError**: throws <code>[ApiError](src/core/api-error.ts)</code>, with `err.payload` always the <code>[Undeclared](src/core/api-error.ts)</code> arm
+
+**As ApiResult**: `await client.targets.deleteTarget(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;undefined, ApiError&gt;</code>, with `result.value` of type <code>undefined</code>
+- **OnError**: `result.payload` always the <code>[Undeclared](src/core/api-error.ts)</code> arm, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -11766,7 +17061,7 @@ try {
 </details>
 
 <details>
-<summary><code>generateTargetExternalId(request: Targets.GenerateTargetExternalIdRequest, options?: RequestOptions): ApiPromise&lt;GenerateExternalIdResult, ResponseError&gt;</code></summary>
+<summary><code>generateTargetExternalId(request: Targets.GenerateTargetExternalIdRequest, options?: RequestOptions): ApiPromise&lt;GenerateExternalIdResult, ApiError&gt;</code></summary>
 
 <dl>
 <dd>
@@ -11781,17 +17076,39 @@ Create a unique string that ThingSpace will pass to AWS for increased security.
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.targets.generateTargetExternalId({ body });
+  const response = await client.targets.generateTargetExternalId({
+    body: { accountidentifier: { billingaccountid: "0000000000-00001" } },
+  });
   // TODO: Handle 'response' of type GenerateExternalIdResult
 } catch (err) {
-  // TODO: Handle 'err' of type ResponseError
+  // TODO: Handle 'err' of type ApiError, where 'err.payload' is always the Undeclared arm
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.targets.generateTargetExternalId({
+  body: { accountidentifier: { billingaccountid: "0000000000-00001" } },
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type GenerateExternalIdResult
+} else {
+  // TODO: Handle 'result', where 'result.payload' is always the Undeclared arm
 }
 ```
 
@@ -11815,9 +17132,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[GenerateExternalIdResult](src/models/generate-external-id-result.ts)</code>
+**Direct**: `await client.targets.generateTargetExternalId(request)`
 
-**OnError**: <code>[ResponseError](src/core/response-error.ts)</code>
+- **OnSuccess**: <code>[GenerateExternalIdResult](src/models/generate-external-id-result.ts)</code>
+- **OnError**: throws <code>[ApiError](src/core/api-error.ts)</code>, with `err.payload` always the <code>[Undeclared](src/core/api-error.ts)</code> arm
+
+**As ApiResult**: `await client.targets.generateTargetExternalId(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;GenerateExternalIdResult, ApiError&gt;</code>, with `result.value` of type <code>[GenerateExternalIdResult](src/models/generate-external-id-result.ts)</code>
+- **OnError**: `result.payload` always the <code>[Undeclared](src/core/api-error.ts)</code> arm, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -11828,7 +17153,7 @@ try {
 </details>
 
 <details>
-<summary><code>queryTarget(request: Targets.QueryTargetRequestParams, options?: RequestOptions): ApiPromise&lt;Target[], ResponseError&gt;</code></summary>
+<summary><code>queryTarget(request: Targets.QueryTargetRequestParams, options?: RequestOptions): ApiPromise&lt;Target[], ApiError&gt;</code></summary>
 
 <dl>
 <dd>
@@ -11843,17 +17168,45 @@ Search for targets by property values. Returns an array of all matching target r
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.targets.queryTarget({ body });
+  const response = await client.targets.queryTarget({
+    body: {
+      accountidentifier: { billingaccountid: "1223334444-00001" },
+      resourceidentifier: { id: "dd1682d3-2d80-cefc-f3ee-25154800beff" },
+    },
+  });
   // TODO: Handle 'response' of type Target[]
 } catch (err) {
-  // TODO: Handle 'err' of type ResponseError
+  // TODO: Handle 'err' of type ApiError, where 'err.payload' is always the Undeclared arm
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.targets.queryTarget({
+  body: {
+    accountidentifier: { billingaccountid: "1223334444-00001" },
+    resourceidentifier: { id: "dd1682d3-2d80-cefc-f3ee-25154800beff" },
+  },
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type Target[]
+} else {
+  // TODO: Handle 'result', where 'result.payload' is always the Undeclared arm
 }
 ```
 
@@ -11877,9 +17230,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[Target](src/models/target.ts)[]</code>
+**Direct**: `await client.targets.queryTarget(request)`
 
-**OnError**: <code>[ResponseError](src/core/response-error.ts)</code>
+- **OnSuccess**: <code>[Target](src/models/target.ts)[]</code>
+- **OnError**: throws <code>[ApiError](src/core/api-error.ts)</code>, with `err.payload` always the <code>[Undeclared](src/core/api-error.ts)</code> arm
+
+**As ApiResult**: `await client.targets.queryTarget(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;Target[], ApiError&gt;</code>, with `result.value` of type <code>[Target](src/models/target.ts)[]</code>
+- **OnError**: `result.payload` always the <code>[Undeclared](src/core/api-error.ts)</code> arm, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -11894,7 +17255,7 @@ try {
 > Source: [CloudConnectorSubscriptions](src/resources/cloud-connector-subscriptions.ts)
 
 <details>
-<summary><code>createSubscription(request: CloudConnectorSubscriptions.CreateSubscriptionRequestParams, options?: RequestOptions): ApiPromise&lt;Subscription, ResponseError&gt;</code></summary>
+<summary><code>createSubscription(request: CloudConnectorSubscriptions.CreateSubscriptionRequestParams, options?: RequestOptions): ApiPromise&lt;Subscription, ApiError&gt;</code></summary>
 
 <dl>
 <dd>
@@ -11909,17 +17270,55 @@ Create a subscription to define a streaming channel that sends data from devices
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.cloudConnectorSubscriptions.createSubscription({ body });
+  const response = await client.cloudConnectorSubscriptions.createSubscription({
+    body: {
+      accountidentifier: { billingaccountid: "1223334444-00001" },
+      email: "me@mycompany.com",
+      billingaccountid: "1223334444-00001",
+      streamkind: "ts.event",
+      targetid: "{target ID}",
+      name: "Account subscription 1",
+      allowaggregation: false,
+    },
+  });
   // TODO: Handle 'response' of type Subscription
 } catch (err) {
-  // TODO: Handle 'err' of type ResponseError
+  // TODO: Handle 'err' of type ApiError, where 'err.payload' is always the Undeclared arm
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.cloudConnectorSubscriptions.createSubscription({
+  body: {
+    accountidentifier: { billingaccountid: "1223334444-00001" },
+    email: "me@mycompany.com",
+    billingaccountid: "1223334444-00001",
+    streamkind: "ts.event",
+    targetid: "{target ID}",
+    name: "Account subscription 1",
+    allowaggregation: false,
+  },
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type Subscription
+} else {
+  // TODO: Handle 'result', where 'result.payload' is always the Undeclared arm
 }
 ```
 
@@ -11943,9 +17342,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[Subscription](src/models/subscription.ts)</code>
+**Direct**: `await client.cloudConnectorSubscriptions.createSubscription(request)`
 
-**OnError**: <code>[ResponseError](src/core/response-error.ts)</code>
+- **OnSuccess**: <code>[Subscription](src/models/subscription.ts)</code>
+- **OnError**: throws <code>[ApiError](src/core/api-error.ts)</code>, with `err.payload` always the <code>[Undeclared](src/core/api-error.ts)</code> arm
+
+**As ApiResult**: `await client.cloudConnectorSubscriptions.createSubscription(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;Subscription, ApiError&gt;</code>, with `result.value` of type <code>[Subscription](src/models/subscription.ts)</code>
+- **OnError**: `result.payload` always the <code>[Undeclared](src/core/api-error.ts)</code> arm, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -11956,7 +17363,7 @@ try {
 </details>
 
 <details>
-<summary><code>deleteSubscription(request: CloudConnectorSubscriptions.DeleteSubscriptionRequestParams, options?: RequestOptions): ApiPromise&lt;undefined, ResponseError&gt;</code></summary>
+<summary><code>deleteSubscription(request: CloudConnectorSubscriptions.DeleteSubscriptionRequestParams, options?: RequestOptions): ApiPromise&lt;undefined, ApiError&gt;</code></summary>
 
 <dl>
 <dd>
@@ -11971,16 +17378,44 @@ Remove a subscription from a ThingSpace account.
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  await client.cloudConnectorSubscriptions.deleteSubscription({ body });
+  await client.cloudConnectorSubscriptions.deleteSubscription({
+    body: {
+      accountidentifier: { billingaccountid: "1223334444-00001" },
+      resourceidentifier: { id: "f8b112df-739c-6236-f059-106c67bafd99" },
+    },
+  });
 } catch (err) {
-  // TODO: Handle 'err' of type ResponseError
+  // TODO: Handle 'err' of type ApiError, where 'err.payload' is always the Undeclared arm
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.cloudConnectorSubscriptions.deleteSubscription({
+  body: {
+    accountidentifier: { billingaccountid: "1223334444-00001" },
+    resourceidentifier: { id: "f8b112df-739c-6236-f059-106c67bafd99" },
+  },
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: The call succeeded and resolves to no body
+} else {
+  // TODO: Handle 'result', where 'result.payload' is always the Undeclared arm
 }
 ```
 
@@ -12004,9 +17439,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>undefined</code>
+**Direct**: `await client.cloudConnectorSubscriptions.deleteSubscription(request)`
 
-**OnError**: <code>[ResponseError](src/core/response-error.ts)</code>
+- **OnSuccess**: <code>undefined</code>
+- **OnError**: throws <code>[ApiError](src/core/api-error.ts)</code>, with `err.payload` always the <code>[Undeclared](src/core/api-error.ts)</code> arm
+
+**As ApiResult**: `await client.cloudConnectorSubscriptions.deleteSubscription(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;undefined, ApiError&gt;</code>, with `result.value` of type <code>undefined</code>
+- **OnError**: `result.payload` always the <code>[Undeclared](src/core/api-error.ts)</code> arm, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -12017,7 +17460,7 @@ try {
 </details>
 
 <details>
-<summary><code>querySubscription(request: CloudConnectorSubscriptions.QuerySubscriptionRequestParams, options?: RequestOptions): ApiPromise&lt;Subscription[], ResponseError&gt;</code></summary>
+<summary><code>querySubscription(request: CloudConnectorSubscriptions.QuerySubscriptionRequestParams, options?: RequestOptions): ApiPromise&lt;Subscription[], ApiError&gt;</code></summary>
 
 <dl>
 <dd>
@@ -12032,17 +17475,45 @@ Search for subscriptions by property values. Returns an array of all matching su
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.cloudConnectorSubscriptions.querySubscription({ body });
+  const response = await client.cloudConnectorSubscriptions.querySubscription({
+    body: {
+      accountidentifier: { billingaccountid: "1223334444-00001" },
+      resourceidentifier: { id: "dd1682d3-2d80-cefc-f3ee-25154800beff" },
+    },
+  });
   // TODO: Handle 'response' of type Subscription[]
 } catch (err) {
-  // TODO: Handle 'err' of type ResponseError
+  // TODO: Handle 'err' of type ApiError, where 'err.payload' is always the Undeclared arm
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.cloudConnectorSubscriptions.querySubscription({
+  body: {
+    accountidentifier: { billingaccountid: "1223334444-00001" },
+    resourceidentifier: { id: "dd1682d3-2d80-cefc-f3ee-25154800beff" },
+  },
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type Subscription[]
+} else {
+  // TODO: Handle 'result', where 'result.payload' is always the Undeclared arm
 }
 ```
 
@@ -12066,9 +17537,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[Subscription](src/models/subscription.ts)[]</code>
+**Direct**: `await client.cloudConnectorSubscriptions.querySubscription(request)`
 
-**OnError**: <code>[ResponseError](src/core/response-error.ts)</code>
+- **OnSuccess**: <code>[Subscription](src/models/subscription.ts)[]</code>
+- **OnError**: throws <code>[ApiError](src/core/api-error.ts)</code>, with `err.payload` always the <code>[Undeclared](src/core/api-error.ts)</code> arm
+
+**As ApiResult**: `await client.cloudConnectorSubscriptions.querySubscription(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;Subscription[], ApiError&gt;</code>, with `result.value` of type <code>[Subscription](src/models/subscription.ts)[]</code>
+- **OnError**: `result.payload` always the <code>[Undeclared](src/core/api-error.ts)</code> arm, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -12083,7 +17562,7 @@ try {
 > Source: [CloudConnectorDevices](src/resources/cloud-connector-devices.ts)
 
 <details>
-<summary><code>deleteDeviceFromAccount(request: CloudConnectorDevices.DeleteDeviceFromAccountRequest, options?: RequestOptions): ApiPromise&lt;undefined, ResponseError&gt;</code></summary>
+<summary><code>deleteDeviceFromAccount(request: CloudConnectorDevices.DeleteDeviceFromAccountRequest, options?: RequestOptions): ApiPromise&lt;undefined, ApiError&gt;</code></summary>
 
 <dl>
 <dd>
@@ -12098,16 +17577,44 @@ Remove a device from a ThingSpace account.
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  await client.cloudConnectorDevices.deleteDeviceFromAccount({ body });
+  await client.cloudConnectorDevices.deleteDeviceFromAccount({
+    body: {
+      accountidentifier: { billingaccountid: "1223334444-00001" },
+      resourceidentifier: { imei: "864508030084997" },
+    },
+  });
 } catch (err) {
-  // TODO: Handle 'err' of type ResponseError
+  // TODO: Handle 'err' of type ApiError, where 'err.payload' is always the Undeclared arm
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.cloudConnectorDevices.deleteDeviceFromAccount({
+  body: {
+    accountidentifier: { billingaccountid: "1223334444-00001" },
+    resourceidentifier: { imei: "864508030084997" },
+  },
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: The call succeeded and resolves to no body
+} else {
+  // TODO: Handle 'result', where 'result.payload' is always the Undeclared arm
 }
 ```
 
@@ -12131,9 +17638,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>undefined</code>
+**Direct**: `await client.cloudConnectorDevices.deleteDeviceFromAccount(request)`
 
-**OnError**: <code>[ResponseError](src/core/response-error.ts)</code>
+- **OnSuccess**: <code>undefined</code>
+- **OnError**: throws <code>[ApiError](src/core/api-error.ts)</code>, with `err.payload` always the <code>[Undeclared](src/core/api-error.ts)</code> arm
+
+**As ApiResult**: `await client.cloudConnectorDevices.deleteDeviceFromAccount(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;undefined, ApiError&gt;</code>, with `result.value` of type <code>undefined</code>
+- **OnError**: `result.payload` always the <code>[Undeclared](src/core/api-error.ts)</code> arm, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -12144,7 +17659,7 @@ try {
 </details>
 
 <details>
-<summary><code>findDeviceByPropertyValues(request: CloudConnectorDevices.FindDeviceByPropertyValuesRequest, options?: RequestOptions): ApiPromise&lt;FindDeviceByPropertyResponseList, ResponseError&gt;</code></summary>
+<summary><code>findDeviceByPropertyValues(request: CloudConnectorDevices.FindDeviceByPropertyValuesRequest, options?: RequestOptions): ApiPromise&lt;FindDeviceByPropertyResponseList, ApiError&gt;</code></summary>
 
 <dl>
 <dd>
@@ -12159,17 +17674,45 @@ Find devices by property values. Returns an array of all matching device resourc
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.cloudConnectorDevices.findDeviceByPropertyValues({ body });
+  const response = await client.cloudConnectorDevices.findDeviceByPropertyValues({
+    body: {
+      accountidentifier: { billingaccountid: "1223334444-00001" },
+      resourceidentifier: { imei: "159495694333703" },
+    },
+  });
   // TODO: Handle 'response' of type FindDeviceByPropertyResponseList
 } catch (err) {
-  // TODO: Handle 'err' of type ResponseError
+  // TODO: Handle 'err' of type ApiError, where 'err.payload' is always the Undeclared arm
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.cloudConnectorDevices.findDeviceByPropertyValues({
+  body: {
+    accountidentifier: { billingaccountid: "1223334444-00001" },
+    resourceidentifier: { imei: "159495694333703" },
+  },
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type FindDeviceByPropertyResponseList
+} else {
+  // TODO: Handle 'result', where 'result.payload' is always the Undeclared arm
 }
 ```
 
@@ -12193,9 +17736,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[FindDeviceByPropertyResponseList](src/models/find-device-by-property-response-list.ts)</code>
+**Direct**: `await client.cloudConnectorDevices.findDeviceByPropertyValues(request)`
 
-**OnError**: <code>[ResponseError](src/core/response-error.ts)</code>
+- **OnSuccess**: <code>[FindDeviceByPropertyResponseList](src/models/find-device-by-property-response-list.ts)</code>
+- **OnError**: throws <code>[ApiError](src/core/api-error.ts)</code>, with `err.payload` always the <code>[Undeclared](src/core/api-error.ts)</code> arm
+
+**As ApiResult**: `await client.cloudConnectorDevices.findDeviceByPropertyValues(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;FindDeviceByPropertyResponseList, ApiError&gt;</code>, with `result.value` of type <code>[FindDeviceByPropertyResponseList](src/models/find-device-by-property-response-list.ts)</code>
+- **OnError**: `result.payload` always the <code>[Undeclared](src/core/api-error.ts)</code> arm, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -12206,7 +17757,7 @@ try {
 </details>
 
 <details>
-<summary><code>searchDeviceEventHistory(request: CloudConnectorDevices.SearchDeviceEventHistoryRequestParams, options?: RequestOptions): ApiPromise&lt;SearchDeviceEventHistoryResponseList, ResponseError&gt;</code></summary>
+<summary><code>searchDeviceEventHistory(request: CloudConnectorDevices.SearchDeviceEventHistoryRequestParams, options?: RequestOptions): ApiPromise&lt;SearchDeviceEventHistoryResponseList, ApiError&gt;</code></summary>
 
 <dl>
 <dd>
@@ -12221,17 +17772,49 @@ Search device event history to find events that match criteria.Sensor readings, 
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.cloudConnectorDevices.searchDeviceEventHistory({ body });
+  const response = await client.cloudConnectorDevices.searchDeviceEventHistory({
+    body: {
+      accountidentifier: { billingaccountid: "1223334444-00001" },
+      selection: { kind: "ts.event.configuration" },
+      resourceidentifier: { imei: "864508030084997" },
+      limitnumber: 2,
+    },
+  });
   // TODO: Handle 'response' of type SearchDeviceEventHistoryResponseList
 } catch (err) {
-  // TODO: Handle 'err' of type ResponseError
+  // TODO: Handle 'err' of type ApiError, where 'err.payload' is always the Undeclared arm
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.cloudConnectorDevices.searchDeviceEventHistory({
+  body: {
+    accountidentifier: { billingaccountid: "1223334444-00001" },
+    selection: { kind: "ts.event.configuration" },
+    resourceidentifier: { imei: "864508030084997" },
+    limitnumber: 2,
+  },
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type SearchDeviceEventHistoryResponseList
+} else {
+  // TODO: Handle 'result', where 'result.payload' is always the Undeclared arm
 }
 ```
 
@@ -12255,9 +17838,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[SearchDeviceEventHistoryResponseList](src/models/search-device-event-history-response-list.ts)</code>
+**Direct**: `await client.cloudConnectorDevices.searchDeviceEventHistory(request)`
 
-**OnError**: <code>[ResponseError](src/core/response-error.ts)</code>
+- **OnSuccess**: <code>[SearchDeviceEventHistoryResponseList](src/models/search-device-event-history-response-list.ts)</code>
+- **OnError**: throws <code>[ApiError](src/core/api-error.ts)</code>, with `err.payload` always the <code>[Undeclared](src/core/api-error.ts)</code> arm
+
+**As ApiResult**: `await client.cloudConnectorDevices.searchDeviceEventHistory(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;SearchDeviceEventHistoryResponseList, ApiError&gt;</code>, with `result.value` of type <code>[SearchDeviceEventHistoryResponseList](src/models/search-device-event-history-response-list.ts)</code>
+- **OnError**: `result.payload` always the <code>[Undeclared](src/core/api-error.ts)</code> arm, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -12268,7 +17859,7 @@ try {
 </details>
 
 <details>
-<summary><code>searchDevicesResourcesByPropertyValues(request: CloudConnectorDevices.SearchDevicesResourcesByPropertyValuesRequest, options?: RequestOptions): ApiPromise&lt;SearchDeviceByPropertyResponseList, ResponseError&gt;</code></summary>
+<summary><code>searchDevicesResourcesByPropertyValues(request: CloudConnectorDevices.SearchDevicesResourcesByPropertyValuesRequest, options?: RequestOptions): ApiPromise&lt;SearchDeviceByPropertyResponseList, ApiError&gt;</code></summary>
 
 <dl>
 <dd>
@@ -12283,17 +17874,45 @@ Search for devices by property values. Returns an array of all matching device r
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.cloudConnectorDevices.searchDevicesResourcesByPropertyValues({ body });
+  const response = await client.cloudConnectorDevices.searchDevicesResourcesByPropertyValues({
+    body: {
+      accountidentifier: { billingaccountid: "1223334444-00001" },
+      selection: { iccid: "89148000003499233389" },
+    },
+  });
   // TODO: Handle 'response' of type SearchDeviceByPropertyResponseList
 } catch (err) {
-  // TODO: Handle 'err' of type ResponseError
+  // TODO: Handle 'err' of type ApiError, where 'err.payload' is always the Undeclared arm
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.cloudConnectorDevices.searchDevicesResourcesByPropertyValues({
+  body: {
+    accountidentifier: { billingaccountid: "1223334444-00001" },
+    selection: { iccid: "89148000003499233389" },
+  },
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type SearchDeviceByPropertyResponseList
+} else {
+  // TODO: Handle 'result', where 'result.payload' is always the Undeclared arm
 }
 ```
 
@@ -12317,9 +17936,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[SearchDeviceByPropertyResponseList](src/models/search-device-by-property-response-list.ts)</code>
+**Direct**: `await client.cloudConnectorDevices.searchDevicesResourcesByPropertyValues(request)`
 
-**OnError**: <code>[ResponseError](src/core/response-error.ts)</code>
+- **OnSuccess**: <code>[SearchDeviceByPropertyResponseList](src/models/search-device-by-property-response-list.ts)</code>
+- **OnError**: throws <code>[ApiError](src/core/api-error.ts)</code>, with `err.payload` always the <code>[Undeclared](src/core/api-error.ts)</code> arm
+
+**As ApiResult**: `await client.cloudConnectorDevices.searchDevicesResourcesByPropertyValues(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;SearchDeviceByPropertyResponseList, ApiError&gt;</code>, with `result.value` of type <code>[SearchDeviceByPropertyResponseList](src/models/search-device-by-property-response-list.ts)</code>
+- **OnError**: `result.payload` always the <code>[Undeclared](src/core/api-error.ts)</code> arm, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -12330,7 +17957,7 @@ try {
 </details>
 
 <details>
-<summary><code>searchSensorReadings(request: CloudConnectorDevices.SearchSensorReadingsRequest, options?: RequestOptions): ApiPromise&lt;SearchSensorHistoryResponseList, ResponseError&gt;</code></summary>
+<summary><code>searchSensorReadings(request: CloudConnectorDevices.SearchSensorReadingsRequest, options?: RequestOptions): ApiPromise&lt;SearchSensorHistoryResponseList, ApiError&gt;</code></summary>
 
 <dl>
 <dd>
@@ -12345,17 +17972,49 @@ Returns the readings of a specified sensor, with the most recent reading first. 
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.cloudConnectorDevices.searchSensorReadings({ fieldname, body });
+  const response = await client.cloudConnectorDevices.searchSensorReadings({
+    fieldname: "some example string",
+    body: {
+      accountidentifier: { billingaccountid: "1223334444-00001" },
+      resourceidentifier: { imei: "864508030084997" },
+      limitnumber: 2,
+    },
+  });
   // TODO: Handle 'response' of type SearchSensorHistoryResponseList
 } catch (err) {
-  // TODO: Handle 'err' of type ResponseError
+  // TODO: Handle 'err' of type ApiError, where 'err.payload' is always the Undeclared arm
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.cloudConnectorDevices.searchSensorReadings({
+  fieldname: "some example string",
+  body: {
+    accountidentifier: { billingaccountid: "1223334444-00001" },
+    resourceidentifier: { imei: "864508030084997" },
+    limitnumber: 2,
+  },
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type SearchSensorHistoryResponseList
+} else {
+  // TODO: Handle 'result', where 'result.payload' is always the Undeclared arm
 }
 ```
 
@@ -12380,9 +18039,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[SearchSensorHistoryResponseList](src/models/search-sensor-history-response-list.ts)</code>
+**Direct**: `await client.cloudConnectorDevices.searchSensorReadings(request)`
 
-**OnError**: <code>[ResponseError](src/core/response-error.ts)</code>
+- **OnSuccess**: <code>[SearchSensorHistoryResponseList](src/models/search-sensor-history-response-list.ts)</code>
+- **OnError**: throws <code>[ApiError](src/core/api-error.ts)</code>, with `err.payload` always the <code>[Undeclared](src/core/api-error.ts)</code> arm
+
+**As ApiResult**: `await client.cloudConnectorDevices.searchSensorReadings(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;SearchSensorHistoryResponseList, ApiError&gt;</code>, with `result.value` of type <code>[SearchSensorHistoryResponseList](src/models/search-sensor-history-response-list.ts)</code>
+- **OnError**: `result.payload` always the <code>[Undeclared](src/core/api-error.ts)</code> arm, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -12393,7 +18060,7 @@ try {
 </details>
 
 <details>
-<summary><code>updateDevicesConfigurationValue(request: CloudConnectorDevices.UpdateDevicesConfigurationValueRequest, options?: RequestOptions): ApiPromise&lt;ChangeConfigurationResponse, ResponseError&gt;</code></summary>
+<summary><code>updateDevicesConfigurationValue(request: CloudConnectorDevices.UpdateDevicesConfigurationValueRequest, options?: RequestOptions): ApiPromise&lt;ChangeConfigurationResponse, ApiError&gt;</code></summary>
 
 <dl>
 <dd>
@@ -12408,17 +18075,47 @@ Change configuration values on a device, such as setting how often a device reco
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.cloudConnectorDevices.updateDevicesConfigurationValue({ body });
+  const response = await client.cloudConnectorDevices.updateDevicesConfigurationValue({
+    body: {
+      accountidentifier: { billingaccountid: "1223334444-00001" },
+      resourceidentifier: { imei: "864508030147323" },
+      configuration: { frequency: "Low" },
+    },
+  });
   // TODO: Handle 'response' of type ChangeConfigurationResponse
 } catch (err) {
-  // TODO: Handle 'err' of type ResponseError
+  // TODO: Handle 'err' of type ApiError, where 'err.payload' is always the Undeclared arm
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.cloudConnectorDevices.updateDevicesConfigurationValue({
+  body: {
+    accountidentifier: { billingaccountid: "1223334444-00001" },
+    resourceidentifier: { imei: "864508030147323" },
+    configuration: { frequency: "Low" },
+  },
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type ChangeConfigurationResponse
+} else {
+  // TODO: Handle 'result', where 'result.payload' is always the Undeclared arm
 }
 ```
 
@@ -12442,9 +18139,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[ChangeConfigurationResponse](src/models/change-configuration-response.ts)</code>
+**Direct**: `await client.cloudConnectorDevices.updateDevicesConfigurationValue(request)`
 
-**OnError**: <code>[ResponseError](src/core/response-error.ts)</code>
+- **OnSuccess**: <code>[ChangeConfigurationResponse](src/models/change-configuration-response.ts)</code>
+- **OnError**: throws <code>[ApiError](src/core/api-error.ts)</code>, with `err.payload` always the <code>[Undeclared](src/core/api-error.ts)</code> arm
+
+**As ApiResult**: `await client.cloudConnectorDevices.updateDevicesConfigurationValue(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;ChangeConfigurationResponse, ApiError&gt;</code>, with `result.value` of type <code>[ChangeConfigurationResponse](src/models/change-configuration-response.ts)</code>
+- **OnError**: `result.payload` always the <code>[Undeclared](src/core/api-error.ts)</code> arm, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -12474,22 +18179,57 @@ Use this API if you want to manage some device settings before you are ready to 
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.hplDeviceManagement.addDevicesHyperPrecise({ body });
+  const response = await client.hplDeviceManagement.addDevicesHyperPrecise({
+    body: {
+      state: "preactive",
+      devicesToAdd: [
+        { deviceIds: [{ kind: "imei", id: "15-digit IMEI" }, { kind: "iccid", id: "20-digit ICCID" }] },
+        { deviceIds: [{ kind: "imei", id: "15-digit IMEI" }, { kind: "iccid", id: "20-digit ICCID" }] },
+      ],
+      accountName: "0000123456-00001",
+      customFields: [{ key: "CustomField2", value: "SuperVend" }],
+      groupName: "West Region",
+    },
+  });
   // TODO: Handle 'response' of type HplAddDevicesRequest[]
 } catch (err) {
-  if (
-    err instanceof HplDeviceManagement.AddDevicesHyperPreciseError &&
-      err.payload.kind === "hyperPreciseLocationResult"
-  ) {
-    // TODO: Handle 'err.payload.body' of type HyperPreciseLocationResult
-  }
+  // TODO: Handle 'err' of type HplDeviceManagement.AddDevicesHyperPreciseError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.hplDeviceManagement.addDevicesHyperPrecise({
+  body: {
+    state: "preactive",
+    devicesToAdd: [
+      { deviceIds: [{ kind: "imei", id: "15-digit IMEI" }, { kind: "iccid", id: "20-digit ICCID" }] },
+      { deviceIds: [{ kind: "imei", id: "15-digit IMEI" }, { kind: "iccid", id: "20-digit ICCID" }] },
+    ],
+    accountName: "0000123456-00001",
+    customFields: [{ key: "CustomField2", value: "SuperVend" }],
+    groupName: "West Region",
+  },
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type HplAddDevicesRequest[]
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -12513,9 +18253,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[HplAddDevicesRequest](src/models/hpl-add-devices-request.ts)[]</code>
+**Direct**: `await client.hplDeviceManagement.addDevicesHyperPrecise(request)`
 
-**OnError**: <code>[HplDeviceManagement.AddDevicesHyperPreciseError](src/resources/hpl-device-management.ts)</code>
+- **OnSuccess**: <code>[HplAddDevicesRequest](src/models/hpl-add-devices-request.ts)[]</code>
+- **OnError**: throws <code>[HplDeviceManagement.AddDevicesHyperPreciseError](src/resources/hpl-device-management.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.hplDeviceManagement.addDevicesHyperPrecise(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;HplAddDevicesRequest[], HplDeviceManagement.AddDevicesHyperPreciseError&gt;</code>, with `result.value` of type <code>[HplAddDevicesRequest](src/models/hpl-add-devices-request.ts)[]</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -12545,22 +18293,41 @@ Gets the list of a status for hyper-precise location devices.
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.deviceServiceManagement.getDeviceHyperPreciseStatus({ imei, accountNumber });
+  const response = await client.deviceServiceManagement.getDeviceHyperPreciseStatus({
+    imei: "15-digit IMEI",
+    accountNumber: "0000123456-00001",
+  });
   // TODO: Handle 'response' of type BullseyeServiceResult
 } catch (err) {
-  if (
-    err instanceof DeviceServiceManagement.GetDeviceHyperPreciseStatusError &&
-      err.payload.kind === "hyperPreciseLocationResult"
-  ) {
-    // TODO: Handle 'err.payload.body' of type HyperPreciseLocationResult
-  }
+  // TODO: Handle 'err' of type DeviceServiceManagement.GetDeviceHyperPreciseStatusError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.deviceServiceManagement.getDeviceHyperPreciseStatus({
+  imei: "15-digit IMEI",
+  accountNumber: "0000123456-00001",
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type BullseyeServiceResult
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -12585,9 +18352,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[BullseyeServiceResult](src/models/bullseye-service-result.ts)</code>
+**Direct**: `await client.deviceServiceManagement.getDeviceHyperPreciseStatus(request)`
 
-**OnError**: <code>[DeviceServiceManagement.GetDeviceHyperPreciseStatusError](src/resources/device-service-management.ts)</code>
+- **OnSuccess**: <code>[BullseyeServiceResult](src/models/bullseye-service-result.ts)</code>
+- **OnError**: throws <code>[DeviceServiceManagement.GetDeviceHyperPreciseStatusError](src/resources/device-service-management.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.deviceServiceManagement.getDeviceHyperPreciseStatus(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;BullseyeServiceResult, DeviceServiceManagement.GetDeviceHyperPreciseStatusError&gt;</code>, with `result.value` of type <code>[BullseyeServiceResult](src/models/bullseye-service-result.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -12613,22 +18388,45 @@ Enable/disable hyper-precise service for a device.
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.deviceServiceManagement.updateDeviceHyperPreciseStatus({ body });
+  const response = await client.deviceServiceManagement.updateDeviceHyperPreciseStatus({
+    body: {
+      deviceList: [{ imei: "some example string", bullseyeEnable: {} }],
+      accountNumber: "some example string",
+    },
+  });
   // TODO: Handle 'response' of type BullseyeServiceResult
 } catch (err) {
-  if (
-    err instanceof DeviceServiceManagement.UpdateDeviceHyperPreciseStatusError &&
-      err.payload.kind === "hyperPreciseLocationResult"
-  ) {
-    // TODO: Handle 'err.payload.body' of type HyperPreciseLocationResult
-  }
+  // TODO: Handle 'err' of type DeviceServiceManagement.UpdateDeviceHyperPreciseStatusError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.deviceServiceManagement.updateDeviceHyperPreciseStatus({
+  body: {
+    deviceList: [{ imei: "some example string", bullseyeEnable: {} }],
+    accountNumber: "some example string",
+  },
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type BullseyeServiceResult
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -12652,9 +18450,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[BullseyeServiceResult](src/models/bullseye-service-result.ts)</code>
+**Direct**: `await client.deviceServiceManagement.updateDeviceHyperPreciseStatus(request)`
 
-**OnError**: <code>[DeviceServiceManagement.UpdateDeviceHyperPreciseStatusError](src/resources/device-service-management.ts)</code>
+- **OnSuccess**: <code>[BullseyeServiceResult](src/models/bullseye-service-result.ts)</code>
+- **OnError**: throws <code>[DeviceServiceManagement.UpdateDeviceHyperPreciseStatusError](src/resources/device-service-management.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.deviceServiceManagement.updateDeviceHyperPreciseStatus(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;BullseyeServiceResult, DeviceServiceManagement.UpdateDeviceHyperPreciseStatusError&gt;</code>, with `result.value` of type <code>[BullseyeServiceResult](src/models/bullseye-service-result.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -12684,22 +18490,55 @@ Calculate aggregated report per day with number of sessions and usage informatio
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.deviceReports.calculateAggregatedReportAsynchronous({ body });
+  const response = await client.deviceReports.calculateAggregatedReportAsynchronous({
+    body: {
+      accountNumber: "0000123456-00001",
+      startDate: "2022-12-09T22:01:06.217Z",
+      endDate: "2022-12-09T22:01:08.734Z",
+      imei: ["15-digit IMEI"],
+      deviceGroup: "string",
+      dataPlan: "string",
+      noSessionFlag: false,
+    },
+  });
   // TODO: Handle 'response' of type AggregatedReportCallbackResult
 } catch (err) {
-  if (
-    err instanceof DeviceReports.CalculateAggregatedReportAsynchronousError &&
-      err.payload.kind === "hyperPreciseLocationResult"
-  ) {
-    // TODO: Handle 'err.payload.body' of type HyperPreciseLocationResult
-  }
+  // TODO: Handle 'err' of type DeviceReports.CalculateAggregatedReportAsynchronousError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.deviceReports.calculateAggregatedReportAsynchronous({
+  body: {
+    accountNumber: "0000123456-00001",
+    startDate: "2022-12-09T22:01:06.217Z",
+    endDate: "2022-12-09T22:01:08.734Z",
+    imei: ["15-digit IMEI"],
+    deviceGroup: "string",
+    dataPlan: "string",
+    noSessionFlag: false,
+  },
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type AggregatedReportCallbackResult
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -12723,9 +18562,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[AggregatedReportCallbackResult](src/models/aggregated-report-callback-result.ts)</code>
+**Direct**: `await client.deviceReports.calculateAggregatedReportAsynchronous(request)`
 
-**OnError**: <code>[DeviceReports.CalculateAggregatedReportAsynchronousError](src/resources/device-reports.ts)</code>
+- **OnSuccess**: <code>[AggregatedReportCallbackResult](src/models/aggregated-report-callback-result.ts)</code>
+- **OnError**: throws <code>[DeviceReports.CalculateAggregatedReportAsynchronousError](src/resources/device-reports.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.deviceReports.calculateAggregatedReportAsynchronous(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;AggregatedReportCallbackResult, DeviceReports.CalculateAggregatedReportAsynchronousError&gt;</code>, with `result.value` of type <code>[AggregatedReportCallbackResult](src/models/aggregated-report-callback-result.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -12751,22 +18598,55 @@ Calculate aggregated report per day with number of sessions and usage informatio
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.deviceReports.calculateAggregatedReportSynchronous({ body });
+  const response = await client.deviceReports.calculateAggregatedReportSynchronous({
+    body: {
+      accountNumber: "0000123456-00001",
+      startDate: "2022-12-09T22:01:06.217Z",
+      endDate: "2022-12-09T22:01:08.734Z",
+      imei: ["15-digit IMEI"],
+      deviceGroup: "string",
+      dataPlan: "string",
+      noSessionFlag: false,
+    },
+  });
   // TODO: Handle 'response' of type AggregateSessionReport
 } catch (err) {
-  if (
-    err instanceof DeviceReports.CalculateAggregatedReportSynchronousError &&
-      err.payload.kind === "hyperPreciseLocationResult"
-  ) {
-    // TODO: Handle 'err.payload.body' of type HyperPreciseLocationResult
-  }
+  // TODO: Handle 'err' of type DeviceReports.CalculateAggregatedReportSynchronousError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.deviceReports.calculateAggregatedReportSynchronous({
+  body: {
+    accountNumber: "0000123456-00001",
+    startDate: "2022-12-09T22:01:06.217Z",
+    endDate: "2022-12-09T22:01:08.734Z",
+    imei: ["15-digit IMEI"],
+    deviceGroup: "string",
+    dataPlan: "string",
+    noSessionFlag: false,
+  },
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type AggregateSessionReport
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -12790,9 +18670,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[AggregateSessionReport](src/models/aggregate-session-report.ts)</code>
+**Direct**: `await client.deviceReports.calculateAggregatedReportSynchronous(request)`
 
-**OnError**: <code>[DeviceReports.CalculateAggregatedReportSynchronousError](src/resources/device-reports.ts)</code>
+- **OnSuccess**: <code>[AggregateSessionReport](src/models/aggregate-session-report.ts)</code>
+- **OnError**: throws <code>[DeviceReports.CalculateAggregatedReportSynchronousError](src/resources/device-reports.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.deviceReports.calculateAggregatedReportSynchronous(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;AggregateSessionReport, DeviceReports.CalculateAggregatedReportSynchronousError&gt;</code>, with `result.value` of type <code>[AggregateSessionReport](src/models/aggregate-session-report.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -12818,21 +18706,53 @@ Detailed report of session duration and number of bytes transferred per day.
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.deviceReports.getSessionsReport({ body });
+  const response = await client.deviceReports.getSessionsReport({
+    body: {
+      accountNumber: "0000123456-00001",
+      imei: "15-digit IMEI",
+      startDate: "2022-12-09T22:01:06.217Z",
+      endDate: "2022-12-09T22:01:08.734Z",
+      durationLow: 0,
+      durationHigh: 0,
+    },
+  });
   // TODO: Handle 'response' of type SessionReport
 } catch (err) {
-  if (
-    err instanceof DeviceReports.GetSessionsReportError && err.payload.kind === "hyperPreciseLocationResult"
-  ) {
-    // TODO: Handle 'err.payload.body' of type HyperPreciseLocationResult
-  }
+  // TODO: Handle 'err' of type DeviceReports.GetSessionsReportError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.deviceReports.getSessionsReport({
+  body: {
+    accountNumber: "0000123456-00001",
+    imei: "15-digit IMEI",
+    startDate: "2022-12-09T22:01:06.217Z",
+    endDate: "2022-12-09T22:01:08.734Z",
+    durationLow: 0,
+    durationHigh: 0,
+  },
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type SessionReport
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -12856,9 +18776,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[SessionReport](src/models/session-report.ts)</code>
+**Direct**: `await client.deviceReports.getSessionsReport(request)`
 
-**OnError**: <code>[DeviceReports.GetSessionsReportError](src/resources/device-reports.ts)</code>
+- **OnSuccess**: <code>[SessionReport](src/models/session-report.ts)</code>
+- **OnError**: throws <code>[DeviceReports.GetSessionsReportError](src/resources/device-reports.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.deviceReports.getSessionsReport(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;SessionReport, DeviceReports.GetSessionsReportError&gt;</code>, with `result.value` of type <code>[SessionReport](src/models/session-report.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -12888,21 +18816,40 @@ Stops ThingSpace from sending callback messages for the specified account and li
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  await client.hyperPreciseLocationCallbacks.deregisterCallback6({ accountNumber, service });
+  await client.hyperPreciseLocationCallbacks.deregisterCallback6({
+    accountNumber: "0000123456-00001",
+    service: "BullseyeReporting",
+  });
 } catch (err) {
-  if (
-    err instanceof HyperPreciseLocationCallbacks.DeregisterCallback6Error &&
-      err.payload.kind === "hyperPreciseLocationResult"
-  ) {
-    // TODO: Handle 'err.payload.body' of type HyperPreciseLocationResult
-  }
+  // TODO: Handle 'err' of type HyperPreciseLocationCallbacks.DeregisterCallback6Error, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.hyperPreciseLocationCallbacks.deregisterCallback6({
+  accountNumber: "0000123456-00001",
+  service: "BullseyeReporting",
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: The call succeeded and resolves to no body
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -12927,9 +18874,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>undefined</code>
+**Direct**: `await client.hyperPreciseLocationCallbacks.deregisterCallback6(request)`
 
-**OnError**: <code>[HyperPreciseLocationCallbacks.DeregisterCallback6Error](src/resources/hyper-precise-location-callbacks.ts)</code>
+- **OnSuccess**: <code>undefined</code>
+- **OnError**: throws <code>[HyperPreciseLocationCallbacks.DeregisterCallback6Error](src/resources/hyper-precise-location-callbacks.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.hyperPreciseLocationCallbacks.deregisterCallback6(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;undefined, HyperPreciseLocationCallbacks.DeregisterCallback6Error&gt;</code>, with `result.value` of type <code>undefined</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -12955,22 +18910,39 @@ Find registered callback listener for account by account number.
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.hyperPreciseLocationCallbacks.listRegisteredCallbacks6({ accountNumber });
+  const response = await client.hyperPreciseLocationCallbacks.listRegisteredCallbacks6({
+    accountNumber: "0000123456-00001",
+  });
   // TODO: Handle 'response' of type CallbackCreated[]
 } catch (err) {
-  if (
-    err instanceof HyperPreciseLocationCallbacks.ListRegisteredCallbacks6Error &&
-      err.payload.kind === "hyperPreciseLocationResult"
-  ) {
-    // TODO: Handle 'err.payload.body' of type HyperPreciseLocationResult
-  }
+  // TODO: Handle 'err' of type HyperPreciseLocationCallbacks.ListRegisteredCallbacks6Error, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.hyperPreciseLocationCallbacks.listRegisteredCallbacks6({
+  accountNumber: "0000123456-00001",
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type CallbackCreated[]
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -12994,9 +18966,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[CallbackCreated](src/models/callback-created.ts)[]</code>
+**Direct**: `await client.hyperPreciseLocationCallbacks.listRegisteredCallbacks6(request)`
 
-**OnError**: <code>[HyperPreciseLocationCallbacks.ListRegisteredCallbacks6Error](src/resources/hyper-precise-location-callbacks.ts)</code>
+- **OnSuccess**: <code>[CallbackCreated](src/models/callback-created.ts)[]</code>
+- **OnError**: throws <code>[HyperPreciseLocationCallbacks.ListRegisteredCallbacks6Error](src/resources/hyper-precise-location-callbacks.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.hyperPreciseLocationCallbacks.listRegisteredCallbacks6(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;CallbackCreated[], HyperPreciseLocationCallbacks.ListRegisteredCallbacks6Error&gt;</code>, with `result.value` of type <code>[CallbackCreated](src/models/callback-created.ts)[]</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -13022,22 +19002,41 @@ Registers a URL at which an account receives asynchronous responses and other me
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.hyperPreciseLocationCallbacks.registerCallback6({ accountNumber, body });
+  const response = await client.hyperPreciseLocationCallbacks.registerCallback6({
+    accountNumber: "0000123456-00001",
+    body: { name: "BullseyeReporting", url: "https://tsustgtests.mocklab.io/notifications/bullseye" },
+  });
   // TODO: Handle 'response' of type CallbackRegistered
 } catch (err) {
-  if (
-    err instanceof HyperPreciseLocationCallbacks.RegisterCallback6Error &&
-      err.payload.kind === "hyperPreciseLocationResult"
-  ) {
-    // TODO: Handle 'err.payload.body' of type HyperPreciseLocationResult
-  }
+  // TODO: Handle 'err' of type HyperPreciseLocationCallbacks.RegisterCallback6Error, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.hyperPreciseLocationCallbacks.registerCallback6({
+  accountNumber: "0000123456-00001",
+  body: { name: "BullseyeReporting", url: "https://tsustgtests.mocklab.io/notifications/bullseye" },
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type CallbackRegistered
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -13062,9 +19061,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[CallbackRegistered](src/models/callback-registered.ts)</code>
+**Direct**: `await client.hyperPreciseLocationCallbacks.registerCallback6(request)`
 
-**OnError**: <code>[HyperPreciseLocationCallbacks.RegisterCallback6Error](src/resources/hyper-precise-location-callbacks.ts)</code>
+- **OnSuccess**: <code>[CallbackRegistered](src/models/callback-registered.ts)</code>
+- **OnError**: throws <code>[HyperPreciseLocationCallbacks.RegisterCallback6Error](src/resources/hyper-precise-location-callbacks.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.hyperPreciseLocationCallbacks.registerCallback6(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;CallbackRegistered, HyperPreciseLocationCallbacks.RegisterCallback6Error&gt;</code>, with `result.value` of type <code>[CallbackRegistered](src/models/callback-registered.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -13084,21 +19091,47 @@ try {
 <dl>
 <dd>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.deviceCredentialManagement.dropCredentials({ body });
+  const response = await client.deviceCredentialManagement.dropCredentials({
+    body: {
+      ecpd: "some example string",
+      accountNumber: "some example string",
+      items: [{ imei: "some example string" }],
+    },
+  });
   // TODO: Handle 'response' of type DropResponse
 } catch (err) {
-  if (
-    err instanceof DeviceCredentialManagement.DropCredentialsError && err.payload.kind === "errorResponse"
-  ) {
-    // TODO: Handle 'err.payload.body' of type ErrorResponse
-  }
+  // TODO: Handle 'err' of type DeviceCredentialManagement.DropCredentialsError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.deviceCredentialManagement.dropCredentials({
+  body: {
+    ecpd: "some example string",
+    accountNumber: "some example string",
+    items: [{ imei: "some example string" }],
+  },
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type DropResponse
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -13122,9 +19155,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[DropResponse](src/models/drop-response.ts)</code>
+**Direct**: `await client.deviceCredentialManagement.dropCredentials(request)`
 
-**OnError**: <code>[DeviceCredentialManagement.DropCredentialsError](src/resources/device-credential-management.ts)</code>
+- **OnSuccess**: <code>[DropResponse](src/models/drop-response.ts)</code>
+- **OnError**: throws <code>[DeviceCredentialManagement.DropCredentialsError](src/resources/device-credential-management.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.deviceCredentialManagement.dropCredentials(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;DropResponse, DeviceCredentialManagement.DropCredentialsError&gt;</code>, with `result.value` of type <code>[DropResponse](src/models/drop-response.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -13140,21 +19181,47 @@ try {
 <dl>
 <dd>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.deviceCredentialManagement.generateCredentials({ body });
+  const response = await client.deviceCredentialManagement.generateCredentials({
+    body: {
+      ecpd: "some example string",
+      accountNumber: "some example string",
+      items: [{ imei: "some example string" }],
+    },
+  });
   // TODO: Handle 'response' of type GenerateResponse
 } catch (err) {
-  if (
-    err instanceof DeviceCredentialManagement.GenerateCredentialsError && err.payload.kind === "errorResponse"
-  ) {
-    // TODO: Handle 'err.payload.body' of type ErrorResponse
-  }
+  // TODO: Handle 'err' of type DeviceCredentialManagement.GenerateCredentialsError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.deviceCredentialManagement.generateCredentials({
+  body: {
+    ecpd: "some example string",
+    accountNumber: "some example string",
+    items: [{ imei: "some example string" }],
+  },
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type GenerateResponse
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -13178,9 +19245,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[GenerateResponse](src/models/generate-response.ts)</code>
+**Direct**: `await client.deviceCredentialManagement.generateCredentials(request)`
 
-**OnError**: <code>[DeviceCredentialManagement.GenerateCredentialsError](src/resources/device-credential-management.ts)</code>
+- **OnSuccess**: <code>[GenerateResponse](src/models/generate-response.ts)</code>
+- **OnError**: throws <code>[DeviceCredentialManagement.GenerateCredentialsError](src/resources/device-credential-management.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.deviceCredentialManagement.generateCredentials(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;GenerateResponse, DeviceCredentialManagement.GenerateCredentialsError&gt;</code>, with `result.value` of type <code>[GenerateResponse](src/models/generate-response.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -13196,21 +19271,47 @@ try {
 <dl>
 <dd>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.deviceCredentialManagement.resetCredentials({ body });
+  const response = await client.deviceCredentialManagement.resetCredentials({
+    body: {
+      ecpd: "some example string",
+      accountNumber: "some example string",
+      items: [{ imei: "some example string" }],
+    },
+  });
   // TODO: Handle 'response' of type GenerateResponse
 } catch (err) {
-  if (
-    err instanceof DeviceCredentialManagement.ResetCredentialsError && err.payload.kind === "errorResponse"
-  ) {
-    // TODO: Handle 'err.payload.body' of type ErrorResponse
-  }
+  // TODO: Handle 'err' of type DeviceCredentialManagement.ResetCredentialsError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.deviceCredentialManagement.resetCredentials({
+  body: {
+    ecpd: "some example string",
+    accountNumber: "some example string",
+    items: [{ imei: "some example string" }],
+  },
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type GenerateResponse
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -13234,9 +19335,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[GenerateResponse](src/models/generate-response.ts)</code>
+**Direct**: `await client.deviceCredentialManagement.resetCredentials(request)`
 
-**OnError**: <code>[DeviceCredentialManagement.ResetCredentialsError](src/resources/device-credential-management.ts)</code>
+- **OnSuccess**: <code>[GenerateResponse](src/models/generate-response.ts)</code>
+- **OnError**: throws <code>[DeviceCredentialManagement.ResetCredentialsError](src/resources/device-credential-management.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.deviceCredentialManagement.resetCredentials(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;GenerateResponse, DeviceCredentialManagement.ResetCredentialsError&gt;</code>, with `result.value` of type <code>[GenerateResponse](src/models/generate-response.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -13252,21 +19361,47 @@ try {
 <dl>
 <dd>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.deviceCredentialManagement.retrieveCredentials({ body });
+  const response = await client.deviceCredentialManagement.retrieveCredentials({
+    body: {
+      ecpd: "some example string",
+      accountNumber: "some example string",
+      items: [{ imei: "some example string" }],
+    },
+  });
   // TODO: Handle 'response' of type RetrieveResponse
 } catch (err) {
-  if (
-    err instanceof DeviceCredentialManagement.RetrieveCredentialsError && err.payload.kind === "errorResponse"
-  ) {
-    // TODO: Handle 'err.payload.body' of type ErrorResponse
-  }
+  // TODO: Handle 'err' of type DeviceCredentialManagement.RetrieveCredentialsError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.deviceCredentialManagement.retrieveCredentials({
+  body: {
+    ecpd: "some example string",
+    accountNumber: "some example string",
+    items: [{ imei: "some example string" }],
+  },
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type RetrieveResponse
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -13290,9 +19425,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[RetrieveResponse](src/models/retrieve-response.ts)</code>
+**Direct**: `await client.deviceCredentialManagement.retrieveCredentials(request)`
 
-**OnError**: <code>[DeviceCredentialManagement.RetrieveCredentialsError](src/resources/device-credential-management.ts)</code>
+- **OnSuccess**: <code>[RetrieveResponse](src/models/retrieve-response.ts)</code>
+- **OnError**: throws <code>[DeviceCredentialManagement.RetrieveCredentialsError](src/resources/device-credential-management.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.deviceCredentialManagement.retrieveCredentials(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;RetrieveResponse, DeviceCredentialManagement.RetrieveCredentialsError&gt;</code>, with `result.value` of type <code>[RetrieveResponse](src/models/retrieve-response.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -13322,21 +19465,57 @@ Uses the subscribed account ID to activate anomaly detection and set threshold v
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.anomalySettings.activateAnomalyDetection({ body });
+  const response = await client.anomalySettings.activateAnomalyDetection({
+    body: {
+      accountName: "0000123456-00001",
+      requestType: "anomaly",
+      sensitivityParameter: {
+        abnormalMaxValue: 1.1,
+        enableAbnormal: true,
+        enableVeryAbnormal: true,
+        veryAbnormalMaxValue: 0.55,
+      },
+    },
+  });
   // TODO: Handle 'response' of type IntelligenceSuccessResult
 } catch (err) {
-  if (
-    err instanceof AnomalySettings.ActivateAnomalyDetectionError && err.payload.kind === "intelligenceResult"
-  ) {
-    // TODO: Handle 'err.payload.body' of type IntelligenceResult
-  }
+  // TODO: Handle 'err' of type AnomalySettings.ActivateAnomalyDetectionError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.anomalySettings.activateAnomalyDetection({
+  body: {
+    accountName: "0000123456-00001",
+    requestType: "anomaly",
+    sensitivityParameter: {
+      abnormalMaxValue: 1.1,
+      enableAbnormal: true,
+      enableVeryAbnormal: true,
+      veryAbnormalMaxValue: 0.55,
+    },
+  },
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type IntelligenceSuccessResult
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -13360,9 +19539,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[IntelligenceSuccessResult](src/models/intelligence-success-result.ts)</code>
+**Direct**: `await client.anomalySettings.activateAnomalyDetection(request)`
 
-**OnError**: <code>[AnomalySettings.ActivateAnomalyDetectionError](src/resources/anomaly-settings.ts)</code>
+- **OnSuccess**: <code>[IntelligenceSuccessResult](src/models/intelligence-success-result.ts)</code>
+- **OnError**: throws <code>[AnomalySettings.ActivateAnomalyDetectionError](src/resources/anomaly-settings.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.anomalySettings.activateAnomalyDetection(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;IntelligenceSuccessResult, AnomalySettings.ActivateAnomalyDetectionError&gt;</code>, with `result.value` of type <code>[IntelligenceSuccessResult](src/models/intelligence-success-result.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -13388,22 +19575,39 @@ Retrieves the current anomaly detection settings for an account.
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.anomalySettings.listAnomalyDetectionSettings({ accountName });
+  const response = await client.anomalySettings.listAnomalyDetectionSettings({
+    accountName: "0000123456-00001",
+  });
   // TODO: Handle 'response' of type AnomalyDetectionSettings
 } catch (err) {
-  if (
-    err instanceof AnomalySettings.ListAnomalyDetectionSettingsError &&
-      err.payload.kind === "intelligenceResult"
-  ) {
-    // TODO: Handle 'err.payload.body' of type IntelligenceResult
-  }
+  // TODO: Handle 'err' of type AnomalySettings.ListAnomalyDetectionSettingsError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.anomalySettings.listAnomalyDetectionSettings({
+  accountName: "0000123456-00001",
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type AnomalyDetectionSettings
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -13427,9 +19631,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[AnomalyDetectionSettings](src/models/anomaly-detection-settings.ts)</code>
+**Direct**: `await client.anomalySettings.listAnomalyDetectionSettings(request)`
 
-**OnError**: <code>[AnomalySettings.ListAnomalyDetectionSettingsError](src/resources/anomaly-settings.ts)</code>
+- **OnSuccess**: <code>[AnomalyDetectionSettings](src/models/anomaly-detection-settings.ts)</code>
+- **OnError**: throws <code>[AnomalySettings.ListAnomalyDetectionSettingsError](src/resources/anomaly-settings.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.anomalySettings.listAnomalyDetectionSettings(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;AnomalyDetectionSettings, AnomalySettings.ListAnomalyDetectionSettingsError&gt;</code>, with `result.value` of type <code>[AnomalyDetectionSettings](src/models/anomaly-detection-settings.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -13455,22 +19667,39 @@ Resets the thresholds to zero.
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.anomalySettings.resetAnomalyDetectionParameters({ accountName });
+  const response = await client.anomalySettings.resetAnomalyDetectionParameters({
+    accountName: "0000123456-00001",
+  });
   // TODO: Handle 'response' of type IntelligenceSuccessResult
 } catch (err) {
-  if (
-    err instanceof AnomalySettings.ResetAnomalyDetectionParametersError &&
-      err.payload.kind === "intelligenceResult"
-  ) {
-    // TODO: Handle 'err.payload.body' of type IntelligenceResult
-  }
+  // TODO: Handle 'err' of type AnomalySettings.ResetAnomalyDetectionParametersError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.anomalySettings.resetAnomalyDetectionParameters({
+  accountName: "0000123456-00001",
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type IntelligenceSuccessResult
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -13494,9 +19723,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[IntelligenceSuccessResult](src/models/intelligence-success-result.ts)</code>
+**Direct**: `await client.anomalySettings.resetAnomalyDetectionParameters(request)`
 
-**OnError**: <code>[AnomalySettings.ResetAnomalyDetectionParametersError](src/resources/anomaly-settings.ts)</code>
+- **OnSuccess**: <code>[IntelligenceSuccessResult](src/models/intelligence-success-result.ts)</code>
+- **OnError**: throws <code>[AnomalySettings.ResetAnomalyDetectionParametersError](src/resources/anomaly-settings.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.anomalySettings.resetAnomalyDetectionParameters(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;IntelligenceSuccessResult, AnomalySettings.ResetAnomalyDetectionParametersError&gt;</code>, with `result.value` of type <code>[IntelligenceSuccessResult](src/models/intelligence-success-result.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -13526,22 +19763,35 @@ This corresponds to the M2M-MC SOAP interface, ```CreateTrigger```.
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.anomalyTriggers.createAnomalyDetectionTrigger({ body });
+  const response = await client.anomalyTriggers.createAnomalyDetectionTrigger({ body: {} });
   // TODO: Handle 'response' of type AnomalyDetectionTrigger
 } catch (err) {
-  if (
-    err instanceof AnomalyTriggers.CreateAnomalyDetectionTriggerError &&
-      err.payload.kind === "intelligenceResult"
-  ) {
-    // TODO: Handle 'err.payload.body' of type IntelligenceResult
-  }
+  // TODO: Handle 'err' of type AnomalyTriggers.CreateAnomalyDetectionTriggerError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.anomalyTriggers.createAnomalyDetectionTrigger({ body: {} }).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type AnomalyDetectionTrigger
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -13565,9 +19815,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[AnomalyDetectionTrigger](src/models/anomaly-detection-trigger.ts)</code>
+**Direct**: `await client.anomalyTriggers.createAnomalyDetectionTrigger(request)`
 
-**OnError**: <code>[AnomalyTriggers.CreateAnomalyDetectionTriggerError](src/resources/anomaly-triggers.ts)</code>
+- **OnSuccess**: <code>[AnomalyDetectionTrigger](src/models/anomaly-detection-trigger.ts)</code>
+- **OnError**: throws <code>[AnomalyTriggers.CreateAnomalyDetectionTriggerError](src/resources/anomaly-triggers.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.anomalyTriggers.createAnomalyDetectionTrigger(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;AnomalyDetectionTrigger, AnomalyTriggers.CreateAnomalyDetectionTriggerError&gt;</code>, with `result.value` of type <code>[AnomalyDetectionTrigger](src/models/anomaly-detection-trigger.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -13593,22 +19851,39 @@ Deletes a specific trigger ID
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.anomalyTriggers.deleteAnomalyDetectionTrigger({ triggerId });
+  const response = await client.anomalyTriggers.deleteAnomalyDetectionTrigger({
+    triggerId: "be1b5958-3e11-41db-9abd-b1b7618c0035",
+  });
   // TODO: Handle 'response' of type AnomalyDetectionTrigger
 } catch (err) {
-  if (
-    err instanceof AnomalyTriggers.DeleteAnomalyDetectionTriggerError &&
-      err.payload.kind === "intelligenceResult"
-  ) {
-    // TODO: Handle 'err.payload.body' of type IntelligenceResult
-  }
+  // TODO: Handle 'err' of type AnomalyTriggers.DeleteAnomalyDetectionTriggerError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.anomalyTriggers.deleteAnomalyDetectionTrigger({
+  triggerId: "be1b5958-3e11-41db-9abd-b1b7618c0035",
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type AnomalyDetectionTrigger
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -13632,9 +19907,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[AnomalyDetectionTrigger](src/models/anomaly-detection-trigger.ts)</code>
+**Direct**: `await client.anomalyTriggers.deleteAnomalyDetectionTrigger(request)`
 
-**OnError**: <code>[AnomalyTriggers.DeleteAnomalyDetectionTriggerError](src/resources/anomaly-triggers.ts)</code>
+- **OnSuccess**: <code>[AnomalyDetectionTrigger](src/models/anomaly-detection-trigger.ts)</code>
+- **OnError**: throws <code>[AnomalyTriggers.DeleteAnomalyDetectionTriggerError](src/resources/anomaly-triggers.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.anomalyTriggers.deleteAnomalyDetectionTrigger(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;AnomalyDetectionTrigger, AnomalyTriggers.DeleteAnomalyDetectionTriggerError&gt;</code>, with `result.value` of type <code>[AnomalyDetectionTrigger](src/models/anomaly-detection-trigger.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -13660,22 +19943,39 @@ This corresponds to the M2M-MC SOAP interface, ```GetTriggers```.
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.anomalyTriggers.listAnomalyDetectionTriggerSettings({ triggerId });
+  const response = await client.anomalyTriggers.listAnomalyDetectionTriggerSettings({
+    triggerId: "be1b5958-3e11-41db-9abd-b1b7618c0035",
+  });
   // TODO: Handle 'response' of type GetTriggerResponseList[]
 } catch (err) {
-  if (
-    err instanceof AnomalyTriggers.ListAnomalyDetectionTriggerSettingsError &&
-      err.payload.kind === "intelligenceResult"
-  ) {
-    // TODO: Handle 'err.payload.body' of type IntelligenceResult
-  }
+  // TODO: Handle 'err' of type AnomalyTriggers.ListAnomalyDetectionTriggerSettingsError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.anomalyTriggers.listAnomalyDetectionTriggerSettings({
+  triggerId: "be1b5958-3e11-41db-9abd-b1b7618c0035",
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type GetTriggerResponseList[]
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -13699,9 +19999,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[GetTriggerResponseList](src/models/get-trigger-response-list.ts)[]</code>
+**Direct**: `await client.anomalyTriggers.listAnomalyDetectionTriggerSettings(request)`
 
-**OnError**: <code>[AnomalyTriggers.ListAnomalyDetectionTriggerSettingsError](src/resources/anomaly-triggers.ts)</code>
+- **OnSuccess**: <code>[GetTriggerResponseList](src/models/get-trigger-response-list.ts)[]</code>
+- **OnError**: throws <code>[AnomalyTriggers.ListAnomalyDetectionTriggerSettingsError](src/resources/anomaly-triggers.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.anomalyTriggers.listAnomalyDetectionTriggerSettings(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;GetTriggerResponseList[], AnomalyTriggers.ListAnomalyDetectionTriggerSettingsError&gt;</code>, with `result.value` of type <code>[GetTriggerResponseList](src/models/get-trigger-response-list.ts)[]</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -13727,7 +20035,7 @@ This corresponds to the M2M-MC SOAP interface, ```GetTriggers```.
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
@@ -13737,12 +20045,25 @@ try {
   const response = await client.anomalyTriggers.listAnomalyDetectionTriggers();
   // TODO: Handle 'response' of type GetTriggerResponseList[]
 } catch (err) {
-  if (
-    err instanceof AnomalyTriggers.ListAnomalyDetectionTriggersError &&
-      err.payload.kind === "intelligenceResult"
-  ) {
-    // TODO: Handle 'err.payload.body' of type IntelligenceResult
-  }
+  // TODO: Handle 'err' of type AnomalyTriggers.ListAnomalyDetectionTriggersError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.anomalyTriggers.listAnomalyDetectionTriggers().asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type GetTriggerResponseList[]
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -13754,9 +20075,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[GetTriggerResponseList](src/models/get-trigger-response-list.ts)[]</code>
+**Direct**: `await client.anomalyTriggers.listAnomalyDetectionTriggers()`
 
-**OnError**: <code>[AnomalyTriggers.ListAnomalyDetectionTriggersError](src/resources/anomaly-triggers.ts)</code>
+- **OnSuccess**: <code>[GetTriggerResponseList](src/models/get-trigger-response-list.ts)[]</code>
+- **OnError**: throws <code>[AnomalyTriggers.ListAnomalyDetectionTriggersError](src/resources/anomaly-triggers.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.anomalyTriggers.listAnomalyDetectionTriggers().asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;GetTriggerResponseList[], AnomalyTriggers.ListAnomalyDetectionTriggersError&gt;</code>, with `result.value` of type <code>[GetTriggerResponseList](src/models/get-trigger-response-list.ts)[]</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -13782,22 +20111,35 @@ This corresponds to the M2M-MC SOAP interface, ```UpdateTriggerRequest```.
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.anomalyTriggers.updateAnomalyDetectionTrigger({ body });
+  const response = await client.anomalyTriggers.updateAnomalyDetectionTrigger({ body: {} });
   // TODO: Handle 'response' of type AnomalyDetectionTrigger
 } catch (err) {
-  if (
-    err instanceof AnomalyTriggers.UpdateAnomalyDetectionTriggerError &&
-      err.payload.kind === "intelligenceResult"
-  ) {
-    // TODO: Handle 'err.payload.body' of type IntelligenceResult
-  }
+  // TODO: Handle 'err' of type AnomalyTriggers.UpdateAnomalyDetectionTriggerError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.anomalyTriggers.updateAnomalyDetectionTrigger({ body: {} }).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type AnomalyDetectionTrigger
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -13821,9 +20163,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[AnomalyDetectionTrigger](src/models/anomaly-detection-trigger.ts)</code>
+**Direct**: `await client.anomalyTriggers.updateAnomalyDetectionTrigger(request)`
 
-**OnError**: <code>[AnomalyTriggers.UpdateAnomalyDetectionTriggerError](src/resources/anomaly-triggers.ts)</code>
+- **OnSuccess**: <code>[AnomalyDetectionTrigger](src/models/anomaly-detection-trigger.ts)</code>
+- **OnError**: throws <code>[AnomalyTriggers.UpdateAnomalyDetectionTriggerError](src/resources/anomaly-triggers.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.anomalyTriggers.updateAnomalyDetectionTrigger(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;AnomalyDetectionTrigger, AnomalyTriggers.UpdateAnomalyDetectionTriggerError&gt;</code>, with `result.value` of type <code>[AnomalyDetectionTrigger](src/models/anomaly-detection-trigger.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -13853,22 +20203,91 @@ Creates the trigger to identify an anomaly.
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.anomalyTriggersV2.createAnomalyDetectionTriggerV2({ body });
+  const response = await client.anomalyTriggersV2.createAnomalyDetectionTriggerV2({
+    body: [
+      {
+        name: "Anomaly Daily Usage REST Test-Patch 1",
+        triggerCategory: "UsageAnomaly",
+        accountName: "0000123456-00001",
+        anomalyTriggerRequest: {
+          accountNames: "0000123456-00001",
+          includeAbnormal: true,
+          includeVeryAbnormal: true,
+          includeUnderExpectedUsage: true,
+          includeOverExpectedUsage: true,
+        },
+        notification: {
+          notificationType: "DailySummary",
+          callback: true,
+          emailNotification: false,
+          notificationGroupName: "Anomaly Test API",
+          notificationFrequencyFactor: 3,
+          notificationFrequencyInterval: "Hourly",
+          externalEmailRecipients: "placeholder@verizon.com",
+          smsNotification: true,
+          smsNumbers: [{ carrier: "US Cellular", number: "9299280711" }],
+          reminder: true,
+          severity: "Critical",
+        },
+      },
+    ],
+  });
   // TODO: Handle 'response' of type AnomalyDetectionTrigger
 } catch (err) {
-  if (
-    err instanceof AnomalyTriggersV2.CreateAnomalyDetectionTriggerV2Error &&
-      err.payload.kind === "intelligenceResult"
-  ) {
-    // TODO: Handle 'err.payload.body' of type IntelligenceResult
-  }
+  // TODO: Handle 'err' of type AnomalyTriggersV2.CreateAnomalyDetectionTriggerV2Error, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.anomalyTriggersV2.createAnomalyDetectionTriggerV2({
+  body: [
+    {
+      name: "Anomaly Daily Usage REST Test-Patch 1",
+      triggerCategory: "UsageAnomaly",
+      accountName: "0000123456-00001",
+      anomalyTriggerRequest: {
+        accountNames: "0000123456-00001",
+        includeAbnormal: true,
+        includeVeryAbnormal: true,
+        includeUnderExpectedUsage: true,
+        includeOverExpectedUsage: true,
+      },
+      notification: {
+        notificationType: "DailySummary",
+        callback: true,
+        emailNotification: false,
+        notificationGroupName: "Anomaly Test API",
+        notificationFrequencyFactor: 3,
+        notificationFrequencyInterval: "Hourly",
+        externalEmailRecipients: "placeholder@verizon.com",
+        smsNotification: true,
+        smsNumbers: [{ carrier: "US Cellular", number: "9299280711" }],
+        reminder: true,
+        severity: "Critical",
+      },
+    },
+  ],
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type AnomalyDetectionTrigger
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -13892,9 +20311,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[AnomalyDetectionTrigger](src/models/anomaly-detection-trigger.ts)</code>
+**Direct**: `await client.anomalyTriggersV2.createAnomalyDetectionTriggerV2(request)`
 
-**OnError**: <code>[AnomalyTriggersV2.CreateAnomalyDetectionTriggerV2Error](src/resources/anomaly-triggers-v2.ts)</code>
+- **OnSuccess**: <code>[AnomalyDetectionTrigger](src/models/anomaly-detection-trigger.ts)</code>
+- **OnError**: throws <code>[AnomalyTriggersV2.CreateAnomalyDetectionTriggerV2Error](src/resources/anomaly-triggers-v2.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.anomalyTriggersV2.createAnomalyDetectionTriggerV2(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;AnomalyDetectionTrigger, AnomalyTriggersV2.CreateAnomalyDetectionTriggerV2Error&gt;</code>, with `result.value` of type <code>[AnomalyDetectionTrigger](src/models/anomaly-detection-trigger.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -13920,22 +20347,39 @@ Retrieves the values for a specific trigger ID.
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.anomalyTriggersV2.listAnomalyDetectionTriggerSettingsV2({ triggerId });
+  const response = await client.anomalyTriggersV2.listAnomalyDetectionTriggerSettingsV2({
+    triggerId: "be1b5958-3e11-41db-9abd-b1b7618c0035",
+  });
   // TODO: Handle 'response' of type AnomalyTriggerResult
 } catch (err) {
-  if (
-    err instanceof AnomalyTriggersV2.ListAnomalyDetectionTriggerSettingsV2Error &&
-      err.payload.kind === "intelligenceResult"
-  ) {
-    // TODO: Handle 'err.payload.body' of type IntelligenceResult
-  }
+  // TODO: Handle 'err' of type AnomalyTriggersV2.ListAnomalyDetectionTriggerSettingsV2Error, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.anomalyTriggersV2.listAnomalyDetectionTriggerSettingsV2({
+  triggerId: "be1b5958-3e11-41db-9abd-b1b7618c0035",
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type AnomalyTriggerResult
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -13959,9 +20403,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[AnomalyTriggerResult](src/models/anomaly-trigger-result.ts)</code>
+**Direct**: `await client.anomalyTriggersV2.listAnomalyDetectionTriggerSettingsV2(request)`
 
-**OnError**: <code>[AnomalyTriggersV2.ListAnomalyDetectionTriggerSettingsV2Error](src/resources/anomaly-triggers-v2.ts)</code>
+- **OnSuccess**: <code>[AnomalyTriggerResult](src/models/anomaly-trigger-result.ts)</code>
+- **OnError**: throws <code>[AnomalyTriggersV2.ListAnomalyDetectionTriggerSettingsV2Error](src/resources/anomaly-triggers-v2.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.anomalyTriggersV2.listAnomalyDetectionTriggerSettingsV2(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;AnomalyTriggerResult, AnomalyTriggersV2.ListAnomalyDetectionTriggerSettingsV2Error&gt;</code>, with `result.value` of type <code>[AnomalyTriggerResult](src/models/anomaly-trigger-result.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -13987,22 +20439,93 @@ Updates an existing trigger using the account name.
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.anomalyTriggersV2.updateAnomalyDetectionTriggerV2({ body });
+  const response = await client.anomalyTriggersV2.updateAnomalyDetectionTriggerV2({
+    body: [
+      {
+        triggerId: "595f5c44-c31c-4552-8670-020a1545a84d",
+        triggerName: "Anomaly Daily Usage REST Test-Patch Update 4",
+        triggerCategory: "UsageAnomaly",
+        accountName: "0000123456-00001",
+        anomalyTriggerRequest: {
+          accountNames: "0000123456-00001",
+          includeAbnormal: true,
+          includeVeryAbnormal: true,
+          includeUnderExpectedUsage: false,
+          includeOverExpectedUsage: true,
+        },
+        notification: {
+          notificationType: "DailySummary",
+          callback: true,
+          emailNotification: false,
+          notificationGroupName: "Anomaly Test API",
+          notificationFrequencyFactor: 3,
+          notificationFrequencyInterval: "Hourly",
+          externalEmailRecipients: "placeholder@verizon.com",
+          smsNotification: true,
+          smsNumbers: [{ carrier: "US Cellular", number: "9299280711" }],
+          reminder: true,
+          severity: "Critical",
+        },
+      },
+    ],
+  });
   // TODO: Handle 'response' of type IntelligenceSuccessResult
 } catch (err) {
-  if (
-    err instanceof AnomalyTriggersV2.UpdateAnomalyDetectionTriggerV2Error &&
-      err.payload.kind === "intelligenceResult"
-  ) {
-    // TODO: Handle 'err.payload.body' of type IntelligenceResult
-  }
+  // TODO: Handle 'err' of type AnomalyTriggersV2.UpdateAnomalyDetectionTriggerV2Error, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.anomalyTriggersV2.updateAnomalyDetectionTriggerV2({
+  body: [
+    {
+      triggerId: "595f5c44-c31c-4552-8670-020a1545a84d",
+      triggerName: "Anomaly Daily Usage REST Test-Patch Update 4",
+      triggerCategory: "UsageAnomaly",
+      accountName: "0000123456-00001",
+      anomalyTriggerRequest: {
+        accountNames: "0000123456-00001",
+        includeAbnormal: true,
+        includeVeryAbnormal: true,
+        includeUnderExpectedUsage: false,
+        includeOverExpectedUsage: true,
+      },
+      notification: {
+        notificationType: "DailySummary",
+        callback: true,
+        emailNotification: false,
+        notificationGroupName: "Anomaly Test API",
+        notificationFrequencyFactor: 3,
+        notificationFrequencyInterval: "Hourly",
+        externalEmailRecipients: "placeholder@verizon.com",
+        smsNotification: true,
+        smsNumbers: [{ carrier: "US Cellular", number: "9299280711" }],
+        reminder: true,
+        severity: "Critical",
+      },
+    },
+  ],
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type IntelligenceSuccessResult
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -14026,9 +20549,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[IntelligenceSuccessResult](src/models/intelligence-success-result.ts)</code>
+**Direct**: `await client.anomalyTriggersV2.updateAnomalyDetectionTriggerV2(request)`
 
-**OnError**: <code>[AnomalyTriggersV2.UpdateAnomalyDetectionTriggerV2Error](src/resources/anomaly-triggers-v2.ts)</code>
+- **OnSuccess**: <code>[IntelligenceSuccessResult](src/models/intelligence-success-result.ts)</code>
+- **OnError**: throws <code>[AnomalyTriggersV2.UpdateAnomalyDetectionTriggerV2Error](src/resources/anomaly-triggers-v2.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.anomalyTriggersV2.updateAnomalyDetectionTriggerV2(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;IntelligenceSuccessResult, AnomalyTriggersV2.UpdateAnomalyDetectionTriggerV2Error&gt;</code>, with `result.value` of type <code>[IntelligenceSuccessResult](src/models/intelligence-success-result.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -14058,22 +20589,45 @@ A report of a specific device's service scores over a 30 day period.
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.wirelessNetworkPerformance.deviceExperience30DaysHistory({ body });
+  const response = await client.wirelessNetworkPerformance.deviceExperience30DaysHistory({
+    body: {
+      accountName: "0000123456-00001",
+      deviceId: { kind: "iccid", id: "01234567899876543210", mdn: "0123456789" },
+    },
+  });
   // TODO: Handle 'response' of type WnpRequestResponse
 } catch (err) {
-  if (
-    err instanceof WirelessNetworkPerformance.DeviceExperience30DaysHistoryError &&
-      err.payload.kind === "wnpRestErrorResponse"
-  ) {
-    // TODO: Handle 'err.payload.body' of type WnpRestErrorResponse
-  }
+  // TODO: Handle 'err' of type WirelessNetworkPerformance.DeviceExperience30DaysHistoryError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.wirelessNetworkPerformance.deviceExperience30DaysHistory({
+  body: {
+    accountName: "0000123456-00001",
+    deviceId: { kind: "iccid", id: "01234567899876543210", mdn: "0123456789" },
+  },
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type WnpRequestResponse
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -14097,9 +20651,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[WnpRequestResponse](src/models/wnp-request-response.ts)</code>
+**Direct**: `await client.wirelessNetworkPerformance.deviceExperience30DaysHistory(request)`
 
-**OnError**: <code>[WirelessNetworkPerformance.DeviceExperience30DaysHistoryError](src/resources/wireless-network-performance.ts)</code>
+- **OnSuccess**: <code>[WnpRequestResponse](src/models/wnp-request-response.ts)</code>
+- **OnError**: throws <code>[WirelessNetworkPerformance.DeviceExperience30DaysHistoryError](src/resources/wireless-network-performance.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.wirelessNetworkPerformance.deviceExperience30DaysHistory(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;WnpRequestResponse, WirelessNetworkPerformance.DeviceExperience30DaysHistoryError&gt;</code>, with `result.value` of type <code>[WnpRequestResponse](src/models/wnp-request-response.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -14125,22 +20687,45 @@ Run a report to view the latest device experience score for specific devices.
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.wirelessNetworkPerformance.deviceExperienceBulkLatest({ body });
+  const response = await client.wirelessNetworkPerformance.deviceExperienceBulkLatest({
+    body: {
+      accountName: "0000123456-00001",
+      deviceList: [{ kind: "iccid", id: "01234567899876543210", mdn: "0123456789" }],
+    },
+  });
   // TODO: Handle 'response' of type WnpRequestResponse
 } catch (err) {
-  if (
-    err instanceof WirelessNetworkPerformance.DeviceExperienceBulkLatestError &&
-      err.payload.kind === "wnpRestErrorResponse"
-  ) {
-    // TODO: Handle 'err.payload.body' of type WnpRestErrorResponse
-  }
+  // TODO: Handle 'err' of type WirelessNetworkPerformance.DeviceExperienceBulkLatestError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.wirelessNetworkPerformance.deviceExperienceBulkLatest({
+  body: {
+    accountName: "0000123456-00001",
+    deviceList: [{ kind: "iccid", id: "01234567899876543210", mdn: "0123456789" }],
+  },
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type WnpRequestResponse
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -14164,9 +20749,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[WnpRequestResponse](src/models/wnp-request-response.ts)</code>
+**Direct**: `await client.wirelessNetworkPerformance.deviceExperienceBulkLatest(request)`
 
-**OnError**: <code>[WirelessNetworkPerformance.DeviceExperienceBulkLatestError](src/resources/wireless-network-performance.ts)</code>
+- **OnSuccess**: <code>[WnpRequestResponse](src/models/wnp-request-response.ts)</code>
+- **OnError**: throws <code>[WirelessNetworkPerformance.DeviceExperienceBulkLatestError](src/resources/wireless-network-performance.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.wirelessNetworkPerformance.deviceExperienceBulkLatest(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;WnpRequestResponse, WirelessNetworkPerformance.DeviceExperienceBulkLatestError&gt;</code>, with `result.value` of type <code>[WnpRequestResponse](src/models/wnp-request-response.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -14192,22 +20785,51 @@ Run a report for FWA Address qualification or to determine network types availab
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.wirelessNetworkPerformance.domestic4GAnd5GNationwideNetworkCoverage({ body });
+  const response = await client.wirelessNetworkPerformance.domestic4GAnd5GNationwideNetworkCoverage({
+    body: {
+      accountName: "0000123456-00001",
+      requestType: "FWA",
+      locationType: "ADDRESS",
+      locations: {},
+      networkTypesList: [{ networkType: "LTE" }],
+    },
+  });
   // TODO: Handle 'response' of type WnpRequestResponse
 } catch (err) {
-  if (
-    err instanceof WirelessNetworkPerformance.Domestic4GAnd5GNationwideNetworkCoverageError &&
-      err.payload.kind === "wnpRestErrorResponse"
-  ) {
-    // TODO: Handle 'err.payload.body' of type WnpRestErrorResponse
-  }
+  // TODO: Handle 'err' of type WirelessNetworkPerformance.Domestic4GAnd5GNationwideNetworkCoverageError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.wirelessNetworkPerformance.domestic4GAnd5GNationwideNetworkCoverage({
+  body: {
+    accountName: "0000123456-00001",
+    requestType: "FWA",
+    locationType: "ADDRESS",
+    locations: {},
+    networkTypesList: [{ networkType: "LTE" }],
+  },
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type WnpRequestResponse
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -14231,9 +20853,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[WnpRequestResponse](src/models/wnp-request-response.ts)</code>
+**Direct**: `await client.wirelessNetworkPerformance.domestic4GAnd5GNationwideNetworkCoverage(request)`
 
-**OnError**: <code>[WirelessNetworkPerformance.Domestic4GAnd5GNationwideNetworkCoverageError](src/resources/wireless-network-performance.ts)</code>
+- **OnSuccess**: <code>[WnpRequestResponse](src/models/wnp-request-response.ts)</code>
+- **OnError**: throws <code>[WirelessNetworkPerformance.Domestic4GAnd5GNationwideNetworkCoverageError](src/resources/wireless-network-performance.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.wirelessNetworkPerformance.domestic4GAnd5GNationwideNetworkCoverage(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;WnpRequestResponse, WirelessNetworkPerformance.Domestic4GAnd5GNationwideNetworkCoverageError&gt;</code>, with `result.value` of type <code>[WnpRequestResponse](src/models/wnp-request-response.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -14259,22 +20889,47 @@ WNP Query for current network condition.
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.wirelessNetworkPerformance.nearRealTimeNetworkConditions({ body });
+  const response = await client.wirelessNetworkPerformance.nearRealTimeNetworkConditions({
+    body: {
+      accountName: "0000123456-00001",
+      locationType: "LONGLAT",
+      coordinates: { latitude: "-33.84819", longitude: "151.22049" },
+    },
+  });
   // TODO: Handle 'response' of type WnpRequestResponse
 } catch (err) {
-  if (
-    err instanceof WirelessNetworkPerformance.NearRealTimeNetworkConditionsError &&
-      err.payload.kind === "wnpRestErrorResponse"
-  ) {
-    // TODO: Handle 'err.payload.body' of type WnpRestErrorResponse
-  }
+  // TODO: Handle 'err' of type WirelessNetworkPerformance.NearRealTimeNetworkConditionsError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.wirelessNetworkPerformance.nearRealTimeNetworkConditions({
+  body: {
+    accountName: "0000123456-00001",
+    locationType: "LONGLAT",
+    coordinates: { latitude: "-33.84819", longitude: "151.22049" },
+  },
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type WnpRequestResponse
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -14298,9 +20953,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[WnpRequestResponse](src/models/wnp-request-response.ts)</code>
+**Direct**: `await client.wirelessNetworkPerformance.nearRealTimeNetworkConditions(request)`
 
-**OnError**: <code>[WirelessNetworkPerformance.NearRealTimeNetworkConditionsError](src/resources/wireless-network-performance.ts)</code>
+- **OnSuccess**: <code>[WnpRequestResponse](src/models/wnp-request-response.ts)</code>
+- **OnError**: throws <code>[WirelessNetworkPerformance.NearRealTimeNetworkConditionsError](src/resources/wireless-network-performance.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.wirelessNetworkPerformance.nearRealTimeNetworkConditions(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;WnpRequestResponse, WirelessNetworkPerformance.NearRealTimeNetworkConditionsError&gt;</code>, with `result.value` of type <code>[WnpRequestResponse](src/models/wnp-request-response.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -14326,22 +20989,47 @@ Identify the direction and general distance of nearby cell sites and the technol
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.wirelessNetworkPerformance.siteProximity({ body });
+  const response = await client.wirelessNetworkPerformance.siteProximity({
+    body: {
+      accountName: "0000123456-00001",
+      locationType: "LONGLAT",
+      coordinates: { latitude: "-33.84819", longitude: "151.22049" },
+    },
+  });
   // TODO: Handle 'response' of type WnpRequestResponse
 } catch (err) {
-  if (
-    err instanceof WirelessNetworkPerformance.SiteProximityError &&
-      err.payload.kind === "wnpRestErrorResponse"
-  ) {
-    // TODO: Handle 'err.payload.body' of type WnpRestErrorResponse
-  }
+  // TODO: Handle 'err' of type WirelessNetworkPerformance.SiteProximityError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.wirelessNetworkPerformance.siteProximity({
+  body: {
+    accountName: "0000123456-00001",
+    locationType: "LONGLAT",
+    coordinates: { latitude: "-33.84819", longitude: "151.22049" },
+  },
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type WnpRequestResponse
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -14365,9 +21053,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[WnpRequestResponse](src/models/wnp-request-response.ts)</code>
+**Direct**: `await client.wirelessNetworkPerformance.siteProximity(request)`
 
-**OnError**: <code>[WirelessNetworkPerformance.SiteProximityError](src/resources/wireless-network-performance.ts)</code>
+- **OnSuccess**: <code>[WnpRequestResponse](src/models/wnp-request-response.ts)</code>
+- **OnError**: throws <code>[WirelessNetworkPerformance.SiteProximityError](src/resources/wireless-network-performance.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.wirelessNetworkPerformance.siteProximity(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;WnpRequestResponse, WirelessNetworkPerformance.SiteProximityError&gt;</code>, with `result.value` of type <code>[WnpRequestResponse](src/models/wnp-request-response.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -14397,22 +21093,39 @@ Activate a device with either a lead or local profile.
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.managingESimProfiles.activateADeviceProfile({ body });
+  const response = await client.managingESimProfiles.activateADeviceProfile({
+    body: { devices: [{}], accountName: "some example string" },
+  });
   // TODO: Handle 'response' of type GioRequestResponse
 } catch (err) {
-  if (
-    err instanceof ManagingESimProfiles.ActivateADeviceProfileError &&
-      err.payload.kind === "gioRestErrorResponse"
-  ) {
-    // TODO: Handle 'err.payload.body' of type GioRestErrorResponse
-  }
+  // TODO: Handle 'err' of type ManagingESimProfiles.ActivateADeviceProfileError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.managingESimProfiles.activateADeviceProfile({
+  body: { devices: [{}], accountName: "some example string" },
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type GioRequestResponse
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -14436,9 +21149,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[GioRequestResponse](src/models/gio-request-response.ts)</code>
+**Direct**: `await client.managingESimProfiles.activateADeviceProfile(request)`
 
-**OnError**: <code>[ManagingESimProfiles.ActivateADeviceProfileError](src/resources/managing-esim-profiles.ts)</code>
+- **OnSuccess**: <code>[GioRequestResponse](src/models/gio-request-response.ts)</code>
+- **OnError**: throws <code>[ManagingESimProfiles.ActivateADeviceProfileError](src/resources/managing-esim-profiles.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.managingESimProfiles.activateADeviceProfile(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;GioRequestResponse, ManagingESimProfiles.ActivateADeviceProfileError&gt;</code>, with `result.value` of type <code>[GioRequestResponse](src/models/gio-request-response.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -14464,22 +21185,35 @@ Deactivate the lead or local profile. **Note:** to reactivate the profile, use t
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.managingESimProfiles.deactivateADeviceProfile({ body });
+  const response = await client.managingESimProfiles.deactivateADeviceProfile({ body: {} });
   // TODO: Handle 'response' of type GioRequestResponse
 } catch (err) {
-  if (
-    err instanceof ManagingESimProfiles.DeactivateADeviceProfileError &&
-      err.payload.kind === "gioRestErrorResponse"
-  ) {
-    // TODO: Handle 'err.payload.body' of type GioRestErrorResponse
-  }
+  // TODO: Handle 'err' of type ManagingESimProfiles.DeactivateADeviceProfileError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.managingESimProfiles.deactivateADeviceProfile({ body: {} }).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type GioRequestResponse
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -14503,9 +21237,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[GioRequestResponse](src/models/gio-request-response.ts)</code>
+**Direct**: `await client.managingESimProfiles.deactivateADeviceProfile(request)`
 
-**OnError**: <code>[ManagingESimProfiles.DeactivateADeviceProfileError](src/resources/managing-esim-profiles.ts)</code>
+- **OnSuccess**: <code>[GioRequestResponse](src/models/gio-request-response.ts)</code>
+- **OnError**: throws <code>[ManagingESimProfiles.DeactivateADeviceProfileError](src/resources/managing-esim-profiles.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.managingESimProfiles.deactivateADeviceProfile(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;GioRequestResponse, ManagingESimProfiles.DeactivateADeviceProfileError&gt;</code>, with `result.value` of type <code>[GioRequestResponse](src/models/gio-request-response.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -14531,22 +21273,35 @@ Delete a device profile for Global IoT Orchestration. **Note:** the profile must
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.managingESimProfiles.deleteADeviceProfile({ body });
+  const response = await client.managingESimProfiles.deleteADeviceProfile({ body: {} });
   // TODO: Handle 'response' of type GioRequestResponse
 } catch (err) {
-  if (
-    err instanceof ManagingESimProfiles.DeleteADeviceProfileError &&
-      err.payload.kind === "gioRestErrorResponse"
-  ) {
-    // TODO: Handle 'err.payload.body' of type GioRestErrorResponse
-  }
+  // TODO: Handle 'err' of type ManagingESimProfiles.DeleteADeviceProfileError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.managingESimProfiles.deleteADeviceProfile({ body: {} }).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type GioRequestResponse
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -14570,9 +21325,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[GioRequestResponse](src/models/gio-request-response.ts)</code>
+**Direct**: `await client.managingESimProfiles.deleteADeviceProfile(request)`
 
-**OnError**: <code>[ManagingESimProfiles.DeleteADeviceProfileError](src/resources/managing-esim-profiles.ts)</code>
+- **OnSuccess**: <code>[GioRequestResponse](src/models/gio-request-response.ts)</code>
+- **OnError**: throws <code>[ManagingESimProfiles.DeleteADeviceProfileError](src/resources/managing-esim-profiles.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.managingESimProfiles.deleteADeviceProfile(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;GioRequestResponse, ManagingESimProfiles.DeleteADeviceProfileError&gt;</code>, with `result.value` of type <code>[GioRequestResponse](src/models/gio-request-response.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -14598,19 +21361,39 @@ Suspend all service to an eUICC device, including the lead and local profile.
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.managingESimProfiles.deviceSuspend({ body });
+  const response = await client.managingESimProfiles.deviceSuspend({
+    body: { devices: [{}], accountName: "some example string" },
+  });
   // TODO: Handle 'response' of type GioRequestResponse
 } catch (err) {
-  if (err instanceof ManagingESimProfiles.DeviceSuspendError && err.payload.kind === "gioRestErrorResponse") {
-    // TODO: Handle 'err.payload.body' of type GioRestErrorResponse
-  }
+  // TODO: Handle 'err' of type ManagingESimProfiles.DeviceSuspendError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.managingESimProfiles.deviceSuspend({
+  body: { devices: [{}], accountName: "some example string" },
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type GioRequestResponse
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -14634,9 +21417,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[GioRequestResponse](src/models/gio-request-response.ts)</code>
+**Direct**: `await client.managingESimProfiles.deviceSuspend(request)`
 
-**OnError**: <code>[ManagingESimProfiles.DeviceSuspendError](src/resources/managing-esim-profiles.ts)</code>
+- **OnSuccess**: <code>[GioRequestResponse](src/models/gio-request-response.ts)</code>
+- **OnError**: throws <code>[ManagingESimProfiles.DeviceSuspendError](src/resources/managing-esim-profiles.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.managingESimProfiles.deviceSuspend(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;GioRequestResponse, ManagingESimProfiles.DeviceSuspendError&gt;</code>, with `result.value` of type <code>[GioRequestResponse](src/models/gio-request-response.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -14662,22 +21453,35 @@ Download a Global IoT Orchestration device profile.
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.managingESimProfiles.downloadADeviceProfile({ body });
+  const response = await client.managingESimProfiles.downloadADeviceProfile({ body: {} });
   // TODO: Handle 'response' of type GioRequestResponse
 } catch (err) {
-  if (
-    err instanceof ManagingESimProfiles.DownloadADeviceProfileError &&
-      err.payload.kind === "gioRestErrorResponse"
-  ) {
-    // TODO: Handle 'err.payload.body' of type GioRestErrorResponse
-  }
+  // TODO: Handle 'err' of type ManagingESimProfiles.DownloadADeviceProfileError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.managingESimProfiles.downloadADeviceProfile({ body: {} }).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type GioRequestResponse
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -14701,9 +21505,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[GioRequestResponse](src/models/gio-request-response.ts)</code>
+**Direct**: `await client.managingESimProfiles.downloadADeviceProfile(request)`
 
-**OnError**: <code>[ManagingESimProfiles.DownloadADeviceProfileError](src/resources/managing-esim-profiles.ts)</code>
+- **OnSuccess**: <code>[GioRequestResponse](src/models/gio-request-response.ts)</code>
+- **OnError**: throws <code>[ManagingESimProfiles.DownloadADeviceProfileError](src/resources/managing-esim-profiles.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.managingESimProfiles.downloadADeviceProfile(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;GioRequestResponse, ManagingESimProfiles.DownloadADeviceProfileError&gt;</code>, with `result.value` of type <code>[GioRequestResponse](src/models/gio-request-response.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -14729,22 +21541,35 @@ Enable a device lead or local profile.
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.managingESimProfiles.enableADeviceProfile({ body });
+  const response = await client.managingESimProfiles.enableADeviceProfile({ body: {} });
   // TODO: Handle 'response' of type GioRequestResponse
 } catch (err) {
-  if (
-    err instanceof ManagingESimProfiles.EnableADeviceProfileError &&
-      err.payload.kind === "gioRestErrorResponse"
-  ) {
-    // TODO: Handle 'err.payload.body' of type GioRestErrorResponse
-  }
+  // TODO: Handle 'err' of type ManagingESimProfiles.EnableADeviceProfileError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.managingESimProfiles.enableADeviceProfile({ body: {} }).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type GioRequestResponse
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -14768,9 +21593,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[GioRequestResponse](src/models/gio-request-response.ts)</code>
+**Direct**: `await client.managingESimProfiles.enableADeviceProfile(request)`
 
-**OnError**: <code>[ManagingESimProfiles.EnableADeviceProfileError](src/resources/managing-esim-profiles.ts)</code>
+- **OnSuccess**: <code>[GioRequestResponse](src/models/gio-request-response.ts)</code>
+- **OnError**: throws <code>[ManagingESimProfiles.EnableADeviceProfileError](src/resources/managing-esim-profiles.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.managingESimProfiles.enableADeviceProfile(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;GioRequestResponse, ManagingESimProfiles.EnableADeviceProfileError&gt;</code>, with `result.value` of type <code>[GioRequestResponse](src/models/gio-request-response.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -14796,22 +21629,35 @@ Enable the Global IoT Orchestration device profile for download.
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.managingESimProfiles.enableADeviceProfileForDownload({ body });
+  const response = await client.managingESimProfiles.enableADeviceProfileForDownload({ body: {} });
   // TODO: Handle 'response' of type GioRequestResponse
 } catch (err) {
-  if (
-    err instanceof ManagingESimProfiles.EnableADeviceProfileForDownloadError &&
-      err.payload.kind === "gioRestErrorResponse"
-  ) {
-    // TODO: Handle 'err.payload.body' of type GioRestErrorResponse
-  }
+  // TODO: Handle 'err' of type ManagingESimProfiles.EnableADeviceProfileForDownloadError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.managingESimProfiles.enableADeviceProfileForDownload({ body: {} }).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type GioRequestResponse
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -14835,9 +21681,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[GioRequestResponse](src/models/gio-request-response.ts)</code>
+**Direct**: `await client.managingESimProfiles.enableADeviceProfileForDownload(request)`
 
-**OnError**: <code>[ManagingESimProfiles.EnableADeviceProfileForDownloadError](src/resources/managing-esim-profiles.ts)</code>
+- **OnSuccess**: <code>[GioRequestResponse](src/models/gio-request-response.ts)</code>
+- **OnError**: throws <code>[ManagingESimProfiles.EnableADeviceProfileForDownloadError](src/resources/managing-esim-profiles.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.managingESimProfiles.enableADeviceProfileForDownload(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;GioRequestResponse, ManagingESimProfiles.EnableADeviceProfileForDownloadError&gt;</code>, with `result.value` of type <code>[GioRequestResponse](src/models/gio-request-response.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -14863,21 +21717,51 @@ Suspend a device's Global profile.
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.managingESimProfiles.profileSuspend({ body });
+  const response = await client.managingESimProfiles.profileSuspend({
+    body: {
+      devices: [{ deviceIds: [{ kind: "eid", id: "12345678901234567890123456789012" }] }],
+      accountName: "0000123456-00001",
+      smrsOid: "1.3.6.1.4.1.#####.1.500.200.101.5",
+      mdnZipCode: "12345",
+      servicePlan: "service plan name",
+    },
+  });
   // TODO: Handle 'response' of type GioRequestResponse
 } catch (err) {
-  if (
-    err instanceof ManagingESimProfiles.ProfileSuspendError && err.payload.kind === "gioRestErrorResponse"
-  ) {
-    // TODO: Handle 'err.payload.body' of type GioRestErrorResponse
-  }
+  // TODO: Handle 'err' of type ManagingESimProfiles.ProfileSuspendError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.managingESimProfiles.profileSuspend({
+  body: {
+    devices: [{ deviceIds: [{ kind: "eid", id: "12345678901234567890123456789012" }] }],
+    accountName: "0000123456-00001",
+    smrsOid: "1.3.6.1.4.1.#####.1.500.200.101.5",
+    mdnZipCode: "12345",
+    servicePlan: "service plan name",
+  },
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type GioRequestResponse
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -14901,9 +21785,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[GioRequestResponse](src/models/gio-request-response.ts)</code>
+**Direct**: `await client.managingESimProfiles.profileSuspend(request)`
 
-**OnError**: <code>[ManagingESimProfiles.ProfileSuspendError](src/resources/managing-esim-profiles.ts)</code>
+- **OnSuccess**: <code>[GioRequestResponse](src/models/gio-request-response.ts)</code>
+- **OnError**: throws <code>[ManagingESimProfiles.ProfileSuspendError](src/resources/managing-esim-profiles.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.managingESimProfiles.profileSuspend(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;GioRequestResponse, ManagingESimProfiles.ProfileSuspendError&gt;</code>, with `result.value` of type <code>[GioRequestResponse](src/models/gio-request-response.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -14929,19 +21821,51 @@ Resume service to a device with either a lead or local profile.
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.managingESimProfiles.resumeProfile({ body });
+  const response = await client.managingESimProfiles.resumeProfile({
+    body: {
+      devices: [{ deviceIds: [{ kind: "eid", id: "12345678901234567890123456789012" }] }],
+      accountName: "0000123456-00001",
+      smrsOid: "1.3.6.1.4.1.#####.1.500.200.101.5",
+      mdnZipCode: "12345",
+      servicePlan: "service plan name",
+    },
+  });
   // TODO: Handle 'response' of type GioRequestResponse
 } catch (err) {
-  if (err instanceof ManagingESimProfiles.ResumeProfileError && err.payload.kind === "gioRestErrorResponse") {
-    // TODO: Handle 'err.payload.body' of type GioRestErrorResponse
-  }
+  // TODO: Handle 'err' of type ManagingESimProfiles.ResumeProfileError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.managingESimProfiles.resumeProfile({
+  body: {
+    devices: [{ deviceIds: [{ kind: "eid", id: "12345678901234567890123456789012" }] }],
+    accountName: "0000123456-00001",
+    smrsOid: "1.3.6.1.4.1.#####.1.500.200.101.5",
+    mdnZipCode: "12345",
+    servicePlan: "service plan name",
+  },
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type GioRequestResponse
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -14965,9 +21889,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[GioRequestResponse](src/models/gio-request-response.ts)</code>
+**Direct**: `await client.managingESimProfiles.resumeProfile(request)`
 
-**OnError**: <code>[ManagingESimProfiles.ResumeProfileError](src/resources/managing-esim-profiles.ts)</code>
+- **OnSuccess**: <code>[GioRequestResponse](src/models/gio-request-response.ts)</code>
+- **OnError**: throws <code>[ManagingESimProfiles.ResumeProfileError](src/resources/managing-esim-profiles.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.managingESimProfiles.resumeProfile(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;GioRequestResponse, ManagingESimProfiles.ResumeProfileError&gt;</code>, with `result.value` of type <code>[GioRequestResponse](src/models/gio-request-response.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -14993,19 +21925,35 @@ Enable a fallback profile to be set.
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.managingESimProfiles.setFallback({ body });
+  const response = await client.managingESimProfiles.setFallback({ body: {} });
   // TODO: Handle 'response' of type GioRequestResponse
 } catch (err) {
-  if (err instanceof ManagingESimProfiles.SetFallbackError && err.payload.kind === "gioRestErrorResponse") {
-    // TODO: Handle 'err.payload.body' of type GioRestErrorResponse
-  }
+  // TODO: Handle 'err' of type ManagingESimProfiles.SetFallbackError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.managingESimProfiles.setFallback({ body: {} }).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type GioRequestResponse
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -15029,9 +21977,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[GioRequestResponse](src/models/gio-request-response.ts)</code>
+**Direct**: `await client.managingESimProfiles.setFallback(request)`
 
-**OnError**: <code>[ManagingESimProfiles.SetFallbackError](src/resources/managing-esim-profiles.ts)</code>
+- **OnSuccess**: <code>[GioRequestResponse](src/models/gio-request-response.ts)</code>
+- **OnError**: throws <code>[ManagingESimProfiles.SetFallbackError](src/resources/managing-esim-profiles.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.managingESimProfiles.setFallback(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;GioRequestResponse, ManagingESimProfiles.SetFallbackError&gt;</code>, with `result.value` of type <code>[GioRequestResponse](src/models/gio-request-response.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -15061,19 +22017,41 @@ Retrieves queued SMS messages sent by all M2M MC devices associated with an acco
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.deviceSmsMessaging.getSmsMessages({ accountName });
+  const response = await client.deviceSmsMessaging.getSmsMessages({
+    accountName: "0000123456-00001",
+    next: "TheURLForTheNextQuery",
+  });
   // TODO: Handle 'response' of type SmsMessagesResponse
 } catch (err) {
-  if (err instanceof DeviceSmsMessaging.GetSmsMessagesError && err.payload.kind === "gioRestErrorResponse") {
-    // TODO: Handle 'err.payload.body' of type GioRestErrorResponse
-  }
+  // TODO: Handle 'err' of type DeviceSmsMessaging.GetSmsMessagesError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.deviceSmsMessaging.getSmsMessages({
+  accountName: "0000123456-00001",
+  next: "TheURLForTheNextQuery",
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type SmsMessagesResponse
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -15098,9 +22076,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[SmsMessagesResponse](src/models/sms-messages-response.ts)</code>
+**Direct**: `await client.deviceSmsMessaging.getSmsMessages(request)`
 
-**OnError**: <code>[DeviceSmsMessaging.GetSmsMessagesError](src/resources/device-sms-messaging.ts)</code>
+- **OnSuccess**: <code>[SmsMessagesResponse](src/models/sms-messages-response.ts)</code>
+- **OnError**: throws <code>[DeviceSmsMessaging.GetSmsMessagesError](src/resources/device-sms-messaging.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.deviceSmsMessaging.getSmsMessages(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;SmsMessagesResponse, DeviceSmsMessaging.GetSmsMessagesError&gt;</code>, with `result.value` of type <code>[SmsMessagesResponse](src/models/sms-messages-response.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -15126,22 +22112,39 @@ Returns a list of sms history for a given device during a specified time frame.
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.deviceSmsMessaging.listSmsMessageHistory({ body });
+  const response = await client.deviceSmsMessaging.listSmsMessageHistory({
+    body: { deviceId: { kind: "some example string", id: "some example string" } },
+  });
   // TODO: Handle 'response' of type GioRequestResponse
 } catch (err) {
-  if (
-    err instanceof DeviceSmsMessaging.ListSmsMessageHistoryError &&
-      err.payload.kind === "gioRestErrorResponse"
-  ) {
-    // TODO: Handle 'err.payload.body' of type GioRestErrorResponse
-  }
+  // TODO: Handle 'err' of type DeviceSmsMessaging.ListSmsMessageHistoryError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.deviceSmsMessaging.listSmsMessageHistory({
+  body: { deviceId: { kind: "some example string", id: "some example string" } },
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type GioRequestResponse
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -15165,9 +22168,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[GioRequestResponse](src/models/gio-request-response.ts)</code>
+**Direct**: `await client.deviceSmsMessaging.listSmsMessageHistory(request)`
 
-**OnError**: <code>[DeviceSmsMessaging.ListSmsMessageHistoryError](src/resources/device-sms-messaging.ts)</code>
+- **OnSuccess**: <code>[GioRequestResponse](src/models/gio-request-response.ts)</code>
+- **OnError**: throws <code>[DeviceSmsMessaging.ListSmsMessageHistoryError](src/resources/device-sms-messaging.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.deviceSmsMessaging.listSmsMessageHistory(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;GioRequestResponse, DeviceSmsMessaging.ListSmsMessageHistoryError&gt;</code>, with `result.value` of type <code>[GioRequestResponse](src/models/gio-request-response.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -15193,21 +22204,53 @@ Sends an SMS message to one device. Messages are queued on the M2M MC Platform a
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.deviceSmsMessaging.sendAnSmsMessage({ body });
+  const response = await client.deviceSmsMessaging.sendAnSmsMessage({
+    body: {
+      accountName: "0000123456-00001",
+      customFields: [{ key: "CustomField1", value: "value of the field" }],
+      dataEncoding: "optional 7 or 8-bit encoding",
+      timeToLive: "000000010000000R",
+      deviceIds: [{ kind: "iccid", id: "20-digit ICCID" }],
+      smsMessage: "the body or text of the message itself",
+    },
+  });
   // TODO: Handle 'response' of type GioRequestResponse
 } catch (err) {
-  if (
-    err instanceof DeviceSmsMessaging.SendAnSmsMessageError && err.payload.kind === "gioRestErrorResponse"
-  ) {
-    // TODO: Handle 'err.payload.body' of type GioRestErrorResponse
-  }
+  // TODO: Handle 'err' of type DeviceSmsMessaging.SendAnSmsMessageError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.deviceSmsMessaging.sendAnSmsMessage({
+  body: {
+    accountName: "0000123456-00001",
+    customFields: [{ key: "CustomField1", value: "value of the field" }],
+    dataEncoding: "optional 7 or 8-bit encoding",
+    timeToLive: "000000010000000R",
+    deviceIds: [{ kind: "iccid", id: "20-digit ICCID" }],
+    smsMessage: "the body or text of the message itself",
+  },
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type GioRequestResponse
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -15231,9 +22274,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[GioRequestResponse](src/models/gio-request-response.ts)</code>
+**Direct**: `await client.deviceSmsMessaging.sendAnSmsMessage(request)`
 
-**OnError**: <code>[DeviceSmsMessaging.SendAnSmsMessageError](src/resources/device-sms-messaging.ts)</code>
+- **OnSuccess**: <code>[GioRequestResponse](src/models/gio-request-response.ts)</code>
+- **OnError**: throws <code>[DeviceSmsMessaging.SendAnSmsMessageError](src/resources/device-sms-messaging.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.deviceSmsMessaging.sendAnSmsMessage(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;GioRequestResponse, DeviceSmsMessaging.SendAnSmsMessageError&gt;</code>, with `result.value` of type <code>[GioRequestResponse](src/models/gio-request-response.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -15259,22 +22310,39 @@ Starts delivery of SMS messages for the specified account.
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.deviceSmsMessaging.startSmsMessageDelivery({ accountName });
+  const response = await client.deviceSmsMessaging.startSmsMessageDelivery({
+    accountName: "0000123456-00001",
+  });
   // TODO: Handle 'response' of type SuccessResponse
 } catch (err) {
-  if (
-    err instanceof DeviceSmsMessaging.StartSmsMessageDeliveryError &&
-      err.payload.kind === "gioRestErrorResponse"
-  ) {
-    // TODO: Handle 'err.payload.body' of type GioRestErrorResponse
-  }
+  // TODO: Handle 'err' of type DeviceSmsMessaging.StartSmsMessageDeliveryError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.deviceSmsMessaging.startSmsMessageDelivery({
+  accountName: "0000123456-00001",
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type SuccessResponse
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -15298,9 +22366,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[SuccessResponse](src/models/success-response.ts)</code>
+**Direct**: `await client.deviceSmsMessaging.startSmsMessageDelivery(request)`
 
-**OnError**: <code>[DeviceSmsMessaging.StartSmsMessageDeliveryError](src/resources/device-sms-messaging.ts)</code>
+- **OnSuccess**: <code>[SuccessResponse](src/models/success-response.ts)</code>
+- **OnError**: throws <code>[DeviceSmsMessaging.StartSmsMessageDeliveryError](src/resources/device-sms-messaging.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.deviceSmsMessaging.startSmsMessageDelivery(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;SuccessResponse, DeviceSmsMessaging.StartSmsMessageDeliveryError&gt;</code>, with `result.value` of type <code>[SuccessResponse](src/models/success-response.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -15330,19 +22406,37 @@ Retrieve all of the service plans, features and carriers associated with the acc
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.deviceActions.accountInformation({ accountName });
+  const response = await client.deviceActions.accountInformation({ accountName: "some example string" });
   // TODO: Handle 'response' of type AccountDetails
 } catch (err) {
-  if (err instanceof DeviceActions.AccountInformationError && err.payload.kind === "gioRestErrorResponse") {
-    // TODO: Handle 'err.payload.body' of type GioRestErrorResponse
-  }
+  // TODO: Handle 'err' of type DeviceActions.AccountInformationError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.deviceActions.accountInformation({
+  accountName: "some example string",
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type AccountDetails
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -15366,9 +22460,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[AccountDetails](src/models/account-details.ts)</code>
+**Direct**: `await client.deviceActions.accountInformation(request)`
 
-**OnError**: <code>[DeviceActions.AccountInformationError](src/resources/device-actions.ts)</code>
+- **OnSuccess**: <code>[AccountDetails](src/models/account-details.ts)</code>
+- **OnError**: throws <code>[DeviceActions.AccountInformationError](src/resources/device-actions.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.deviceActions.accountInformation(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;AccountDetails, DeviceActions.AccountInformationError&gt;</code>, with `result.value` of type <code>[AccountDetails](src/models/account-details.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -15394,19 +22496,35 @@ Retrieve the aggregate usage for a device or a number of devices.
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.deviceActions.aggregateUsage({ body });
+  const response = await client.deviceActions.aggregateUsage({ body: {} });
   // TODO: Handle 'response' of type GioRequestResponse
 } catch (err) {
-  if (err instanceof DeviceActions.AggregateUsageApiError && err.payload.kind === "gioRestErrorResponse") {
-    // TODO: Handle 'err.payload.body' of type GioRestErrorResponse
-  }
+  // TODO: Handle 'err' of type DeviceActions.AggregateUsageApiError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.deviceActions.aggregateUsage({ body: {} }).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type GioRequestResponse
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -15430,9 +22548,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[GioRequestResponse](src/models/gio-request-response.ts)</code>
+**Direct**: `await client.deviceActions.aggregateUsage(request)`
 
-**OnError**: <code>[DeviceActions.AggregateUsageApiError](src/resources/device-actions.ts)</code>
+- **OnSuccess**: <code>[GioRequestResponse](src/models/gio-request-response.ts)</code>
+- **OnError**: throws <code>[DeviceActions.AggregateUsageApiError](src/resources/device-actions.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.deviceActions.aggregateUsage(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;GioRequestResponse, DeviceActions.AggregateUsageApiError&gt;</code>, with `result.value` of type <code>[GioRequestResponse](src/models/gio-request-response.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -15458,19 +22584,35 @@ Retrieve the daily usage for a device, for a specified period of time, segmented
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.deviceActions.dailyUsage({ body });
+  const response = await client.deviceActions.dailyUsage({ body: {} });
   // TODO: Handle 'response' of type DailyUsageResponse
 } catch (err) {
-  if (err instanceof DeviceActions.DailyUsageError && err.payload.kind === "gioRestErrorResponse") {
-    // TODO: Handle 'err.payload.body' of type GioRestErrorResponse
-  }
+  // TODO: Handle 'err' of type DeviceActions.DailyUsageError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.deviceActions.dailyUsage({ body: {} }).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type DailyUsageResponse
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -15494,9 +22636,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[DailyUsageResponse](src/models/daily-usage-response.ts)</code>
+**Direct**: `await client.deviceActions.dailyUsage(request)`
 
-**OnError**: <code>[DeviceActions.DailyUsageError](src/resources/device-actions.ts)</code>
+- **OnSuccess**: <code>[DailyUsageResponse](src/models/daily-usage-response.ts)</code>
+- **OnError**: throws <code>[DeviceActions.DailyUsageError](src/resources/device-actions.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.deviceActions.dailyUsage(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;DailyUsageResponse, DeviceActions.DailyUsageError&gt;</code>, with `result.value` of type <code>[DailyUsageResponse](src/models/daily-usage-response.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -15522,22 +22672,41 @@ Get the status of an asynchronous request made with the Device Actions.
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.deviceActions.getAsynchronousRequestStatus({ accountName, requestId });
+  const response = await client.deviceActions.getAsynchronousRequestStatus({
+    accountName: "0000123456-00001",
+    requestId: "d1f08526-5443-4054-9a29-4456490ea9f8",
+  });
   // TODO: Handle 'response' of type StatusResponse
 } catch (err) {
-  if (
-    err instanceof DeviceActions.GetAsynchronousRequestStatusError &&
-      err.payload.kind === "gioRestErrorResponse"
-  ) {
-    // TODO: Handle 'err.payload.body' of type GioRestErrorResponse
-  }
+  // TODO: Handle 'err' of type DeviceActions.GetAsynchronousRequestStatusError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.deviceActions.getAsynchronousRequestStatus({
+  accountName: "0000123456-00001",
+  requestId: "d1f08526-5443-4054-9a29-4456490ea9f8",
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type StatusResponse
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -15562,9 +22731,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[StatusResponse](src/models/status-response.ts)</code>
+**Direct**: `await client.deviceActions.getAsynchronousRequestStatus(request)`
 
-**OnError**: <code>[DeviceActions.GetAsynchronousRequestStatusError](src/resources/device-actions.ts)</code>
+- **OnSuccess**: <code>[StatusResponse](src/models/status-response.ts)</code>
+- **OnError**: throws <code>[DeviceActions.GetAsynchronousRequestStatusError](src/resources/device-actions.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.deviceActions.getAsynchronousRequestStatus(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;StatusResponse, DeviceActions.GetAsynchronousRequestStatusError&gt;</code>, with `result.value` of type <code>[StatusResponse](src/models/status-response.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -15590,22 +22767,35 @@ Retrieve the provisioning history of a specific device or devices.
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.deviceActions.retrieveDeviceProvisioningHistory({ body });
+  const response = await client.deviceActions.retrieveDeviceProvisioningHistory({ body: {} });
   // TODO: Handle 'response' of type GioRequestResponse
 } catch (err) {
-  if (
-    err instanceof DeviceActions.RetrieveDeviceProvisioningHistoryError &&
-      err.payload.kind === "gioRestErrorResponse"
-  ) {
-    // TODO: Handle 'err.payload.body' of type GioRestErrorResponse
-  }
+  // TODO: Handle 'err' of type DeviceActions.RetrieveDeviceProvisioningHistoryError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.deviceActions.retrieveDeviceProvisioningHistory({ body: {} }).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type GioRequestResponse
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -15629,9 +22819,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[GioRequestResponse](src/models/gio-request-response.ts)</code>
+**Direct**: `await client.deviceActions.retrieveDeviceProvisioningHistory(request)`
 
-**OnError**: <code>[DeviceActions.RetrieveDeviceProvisioningHistoryError](src/resources/device-actions.ts)</code>
+- **OnSuccess**: <code>[GioRequestResponse](src/models/gio-request-response.ts)</code>
+- **OnError**: throws <code>[DeviceActions.RetrieveDeviceProvisioningHistoryError](src/resources/device-actions.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.deviceActions.retrieveDeviceProvisioningHistory(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;GioRequestResponse, DeviceActions.RetrieveDeviceProvisioningHistoryError&gt;</code>, with `result.value` of type <code>[GioRequestResponse](src/models/gio-request-response.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -15657,22 +22855,39 @@ Allows the profile to fetch the complete device list. This works with Verizon US
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.deviceActions.retrieveTheGlobalDeviceList({ body });
+  const response = await client.deviceActions.retrieveTheGlobalDeviceList({
+    body: { accountName: "some example string" },
+  });
   // TODO: Handle 'response' of type GioRequestResponse
 } catch (err) {
-  if (
-    err instanceof DeviceActions.RetrieveTheGlobalDeviceListError &&
-      err.payload.kind === "gioRestErrorResponse"
-  ) {
-    // TODO: Handle 'err.payload.body' of type GioRestErrorResponse
-  }
+  // TODO: Handle 'err' of type DeviceActions.RetrieveTheGlobalDeviceListError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.deviceActions.retrieveTheGlobalDeviceList({
+  body: { accountName: "some example string" },
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type GioRequestResponse
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -15696,9 +22911,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[GioRequestResponse](src/models/gio-request-response.ts)</code>
+**Direct**: `await client.deviceActions.retrieveTheGlobalDeviceList(request)`
 
-**OnError**: <code>[DeviceActions.RetrieveTheGlobalDeviceListError](src/resources/device-actions.ts)</code>
+- **OnSuccess**: <code>[GioRequestResponse](src/models/gio-request-response.ts)</code>
+- **OnError**: throws <code>[DeviceActions.RetrieveTheGlobalDeviceListError](src/resources/device-actions.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.deviceActions.retrieveTheGlobalDeviceList(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;GioRequestResponse, DeviceActions.RetrieveTheGlobalDeviceListError&gt;</code>, with `result.value` of type <code>[GioRequestResponse](src/models/gio-request-response.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -15724,19 +22947,37 @@ Retrieve all of the service plans, features and carriers associated with the acc
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.deviceActions.servicePlanList({ accountName });
+  const response = await client.deviceActions.servicePlanList({ accountName: "some example string" });
   // TODO: Handle 'response' of type AccountDetails
 } catch (err) {
-  if (err instanceof DeviceActions.ServicePlanListError && err.payload.kind === "gioRestErrorResponse") {
-    // TODO: Handle 'err.payload.body' of type GioRestErrorResponse
-  }
+  // TODO: Handle 'err' of type DeviceActions.ServicePlanListError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.deviceActions.servicePlanList({
+  accountName: "some example string",
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type AccountDetails
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -15760,9 +23001,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[AccountDetails](src/models/account-details.ts)</code>
+**Direct**: `await client.deviceActions.servicePlanList(request)`
 
-**OnError**: <code>[DeviceActions.ServicePlanListError](src/resources/device-actions.ts)</code>
+- **OnSuccess**: <code>[AccountDetails](src/models/account-details.ts)</code>
+- **OnError**: throws <code>[DeviceActions.ServicePlanListError](src/resources/device-actions.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.deviceActions.servicePlanList(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;AccountDetails, DeviceActions.ServicePlanListError&gt;</code>, with `result.value` of type <code>[AccountDetails](src/models/account-details.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -15792,7 +23041,7 @@ Creates a QoS elevation subscription ID and activates the subscription.
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
@@ -15801,17 +23050,32 @@ Creates a QoS elevation subscription ID and activates the subscription.
 try {
   const response =
     await client.thingSpaceQualityOfServiceApiActions.createAThingSpaceQualityOfServiceApiSubscription({
-      body,
+      body: { accountName: "some example string", deviceInfo: [{ deviceId: {}, flowInfo: [{}] }] },
     });
   // TODO: Handle 'response' of type Success201
 } catch (err) {
-  if (
-    err instanceof
-      ThingSpaceQualityOfServiceApiActions.CreateAThingSpaceQualityOfServiceApiSubscriptionError &&
-      err.payload.kind === "defaultResponse"
-  ) {
-    // TODO: Handle 'err.payload.body' of type DefaultResponse
-  }
+  // TODO: Handle 'err' of type ThingSpaceQualityOfServiceApiActions.CreateAThingSpaceQualityOfServiceApiSubscriptionError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result =
+  await client.thingSpaceQualityOfServiceApiActions.createAThingSpaceQualityOfServiceApiSubscription({
+    body: { accountName: "some example string", deviceInfo: [{ deviceId: {}, flowInfo: [{}] }] },
+  }).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type Success201
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -15835,9 +23099,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[Success201](src/models/success201.ts)</code>
+**Direct**: `await client.thingSpaceQualityOfServiceApiActions.createAThingSpaceQualityOfServiceApiSubscription(request)`
 
-**OnError**: <code>[ThingSpaceQualityOfServiceApiActions.CreateAThingSpaceQualityOfServiceApiSubscriptionError](src/resources/thing-space-quality-of-service-api-actions.ts)</code>
+- **OnSuccess**: <code>[Success201](src/models/success201.ts)</code>
+- **OnError**: throws <code>[ThingSpaceQualityOfServiceApiActions.CreateAThingSpaceQualityOfServiceApiSubscriptionError](src/resources/thing-space-quality-of-service-api-actions.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.thingSpaceQualityOfServiceApiActions.createAThingSpaceQualityOfServiceApiSubscription(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;Success201, ThingSpaceQualityOfServiceApiActions.CreateAThingSpaceQualityOfServiceApiSubscriptionError&gt;</code>, with `result.value` of type <code>[Success201](src/models/success201.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -15863,7 +23135,7 @@ Stops an active ThingSpace Quality of Service API subscription using the account
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
@@ -15872,17 +23144,34 @@ Stops an active ThingSpace Quality of Service API subscription using the account
 try {
   const response =
     await client.thingSpaceQualityOfServiceApiActions.stopAThingSpaceQualityOfServiceApiSubscription({
-      accountName,
-      qosSubscriptionId,
+      accountName: "0000123456-00001",
+      qosSubscriptionId: "QoS subscription ID",
     });
   // TODO: Handle 'response' of type Success201
 } catch (err) {
-  if (
-    err instanceof ThingSpaceQualityOfServiceApiActions.StopAThingSpaceQualityOfServiceApiSubscriptionError &&
-      err.payload.kind === "defaultResponse"
-  ) {
-    // TODO: Handle 'err.payload.body' of type DefaultResponse
-  }
+  // TODO: Handle 'err' of type ThingSpaceQualityOfServiceApiActions.StopAThingSpaceQualityOfServiceApiSubscriptionError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result =
+  await client.thingSpaceQualityOfServiceApiActions.stopAThingSpaceQualityOfServiceApiSubscription({
+    accountName: "0000123456-00001",
+    qosSubscriptionId: "QoS subscription ID",
+  }).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type Success201
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -15907,9 +23196,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[Success201](src/models/success201.ts)</code>
+**Direct**: `await client.thingSpaceQualityOfServiceApiActions.stopAThingSpaceQualityOfServiceApiSubscription(request)`
 
-**OnError**: <code>[ThingSpaceQualityOfServiceApiActions.StopAThingSpaceQualityOfServiceApiSubscriptionError](src/resources/thing-space-quality-of-service-api-actions.ts)</code>
+- **OnSuccess**: <code>[Success201](src/models/success201.ts)</code>
+- **OnError**: throws <code>[ThingSpaceQualityOfServiceApiActions.StopAThingSpaceQualityOfServiceApiSubscriptionError](src/resources/thing-space-quality-of-service-api-actions.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.thingSpaceQualityOfServiceApiActions.stopAThingSpaceQualityOfServiceApiSubscription(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;Success201, ThingSpaceQualityOfServiceApiActions.StopAThingSpaceQualityOfServiceApiSubscriptionError&gt;</code>, with `result.value` of type <code>[Success201](src/models/success201.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -15924,22 +23221,60 @@ try {
 > Source: [Pwn](src/resources/pwn.ts)
 
 <details>
-<summary><code>changePwnDeviceIPaddress(request: Pwn.ChangePwnDeviceIPaddressRequestParams, options?: RequestOptions): ApiPromise&lt;ChangePwnDeviceIpAddressResponse, ResponseError&gt;</code></summary>
+<summary><code>changePwnDeviceIPaddress(request: Pwn.ChangePwnDeviceIPaddressRequestParams, options?: RequestOptions): ApiPromise&lt;ChangePwnDeviceIpAddressResponse, ApiError&gt;</code></summary>
 
 <dl>
 <dd>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.pwn.changePwnDeviceIPaddress({ body });
+  const response = await client.pwn.changePwnDeviceIPaddress({
+    body: {
+      accountName: "some example string",
+      deviceList: [
+        {
+          deviceIds: [{ id: "some example string", kind: "some example string" }],
+          ipAddress: "some example string",
+        },
+      ],
+    },
+  });
   // TODO: Handle 'response' of type ChangePwnDeviceIpAddressResponse
 } catch (err) {
-  // TODO: Handle 'err' of type ResponseError
+  // TODO: Handle 'err' of type ApiError, where 'err.payload' is always the Undeclared arm
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.pwn.changePwnDeviceIPaddress({
+  body: {
+    accountName: "some example string",
+    deviceList: [
+      {
+        deviceIds: [{ id: "some example string", kind: "some example string" }],
+        ipAddress: "some example string",
+      },
+    ],
+  },
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type ChangePwnDeviceIpAddressResponse
+} else {
+  // TODO: Handle 'result', where 'result.payload' is always the Undeclared arm
 }
 ```
 
@@ -15963,9 +23298,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[ChangePwnDeviceIpAddressResponse](src/models/change-pwn-device-ip-address-response.ts)</code>
+**Direct**: `await client.pwn.changePwnDeviceIPaddress(request)`
 
-**OnError**: <code>[ResponseError](src/core/response-error.ts)</code>
+- **OnSuccess**: <code>[ChangePwnDeviceIpAddressResponse](src/models/change-pwn-device-ip-address-response.ts)</code>
+- **OnError**: throws <code>[ApiError](src/core/api-error.ts)</code>, with `err.payload` always the <code>[Undeclared](src/core/api-error.ts)</code> arm
+
+**As ApiResult**: `await client.pwn.changePwnDeviceIPaddress(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;ChangePwnDeviceIpAddressResponse, ApiError&gt;</code>, with `result.value` of type <code>[ChangePwnDeviceIpAddressResponse](src/models/change-pwn-device-ip-address-response.ts)</code>
+- **OnError**: `result.payload` always the <code>[Undeclared](src/core/api-error.ts)</code> arm, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -15976,22 +23319,52 @@ try {
 </details>
 
 <details>
-<summary><code>changePwnDeviceProfile(request: Pwn.ChangePwnDeviceProfileRequestParams, options?: RequestOptions): ApiPromise&lt;ChangePwnDeviceProfileResponse, ResponseError&gt;</code></summary>
+<summary><code>changePwnDeviceProfile(request: Pwn.ChangePwnDeviceProfileRequestParams, options?: RequestOptions): ApiPromise&lt;ChangePwnDeviceProfileResponse, ApiError&gt;</code></summary>
 
 <dl>
 <dd>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.pwn.changePwnDeviceProfile({ body });
+  const response = await client.pwn.changePwnDeviceProfile({
+    body: {
+      accountName: "0342351414-00001",
+      deviceList: [{ deviceIds: [{ id: "99948099913024600000", kind: "iccid" }] }],
+      newProfile: "HSS EsmProfile Enterprise 5G internet",
+    },
+  });
   // TODO: Handle 'response' of type ChangePwnDeviceProfileResponse
 } catch (err) {
-  // TODO: Handle 'err' of type ResponseError
+  // TODO: Handle 'err' of type ApiError, where 'err.payload' is always the Undeclared arm
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.pwn.changePwnDeviceProfile({
+  body: {
+    accountName: "0342351414-00001",
+    deviceList: [{ deviceIds: [{ id: "99948099913024600000", kind: "iccid" }] }],
+    newProfile: "HSS EsmProfile Enterprise 5G internet",
+  },
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type ChangePwnDeviceProfileResponse
+} else {
+  // TODO: Handle 'result', where 'result.payload' is always the Undeclared arm
 }
 ```
 
@@ -16015,9 +23388,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[ChangePwnDeviceProfileResponse](src/models/change-pwn-device-profile-response.ts)</code>
+**Direct**: `await client.pwn.changePwnDeviceProfile(request)`
 
-**OnError**: <code>[ResponseError](src/core/response-error.ts)</code>
+- **OnSuccess**: <code>[ChangePwnDeviceProfileResponse](src/models/change-pwn-device-profile-response.ts)</code>
+- **OnError**: throws <code>[ApiError](src/core/api-error.ts)</code>, with `err.payload` always the <code>[Undeclared](src/core/api-error.ts)</code> arm
+
+**As ApiResult**: `await client.pwn.changePwnDeviceProfile(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;ChangePwnDeviceProfileResponse, ApiError&gt;</code>, with `result.value` of type <code>[ChangePwnDeviceProfileResponse](src/models/change-pwn-device-profile-response.ts)</code>
+- **OnError**: `result.payload` always the <code>[Undeclared](src/core/api-error.ts)</code> arm, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -16028,22 +23409,52 @@ try {
 </details>
 
 <details>
-<summary><code>changePwnDeviceStateActivate(request: Pwn.ChangePwnDeviceStateActivateRequestParams, options?: RequestOptions): ApiPromise&lt;ChangePwnDeviceStateResponse, ResponseError&gt;</code></summary>
+<summary><code>changePwnDeviceStateActivate(request: Pwn.ChangePwnDeviceStateActivateRequestParams, options?: RequestOptions): ApiPromise&lt;ChangePwnDeviceStateResponse, ApiError&gt;</code></summary>
 
 <dl>
 <dd>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.pwn.changePwnDeviceStateActivate({ body });
+  const response = await client.pwn.changePwnDeviceStateActivate({
+    body: {
+      accountName: "0342351414-00001",
+      deviceList: [{ deviceIds: [{ id: "99948099913024600001", kind: "iccid" }] }],
+      activate: { profile: "HSS EsmProfile Enterprise 5G" },
+    },
+  });
   // TODO: Handle 'response' of type ChangePwnDeviceStateResponse
 } catch (err) {
-  // TODO: Handle 'err' of type ResponseError
+  // TODO: Handle 'err' of type ApiError, where 'err.payload' is always the Undeclared arm
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.pwn.changePwnDeviceStateActivate({
+  body: {
+    accountName: "0342351414-00001",
+    deviceList: [{ deviceIds: [{ id: "99948099913024600001", kind: "iccid" }] }],
+    activate: { profile: "HSS EsmProfile Enterprise 5G" },
+  },
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type ChangePwnDeviceStateResponse
+} else {
+  // TODO: Handle 'result', where 'result.payload' is always the Undeclared arm
 }
 ```
 
@@ -16067,9 +23478,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[ChangePwnDeviceStateResponse](src/models/change-pwn-device-state-response.ts)</code>
+**Direct**: `await client.pwn.changePwnDeviceStateActivate(request)`
 
-**OnError**: <code>[ResponseError](src/core/response-error.ts)</code>
+- **OnSuccess**: <code>[ChangePwnDeviceStateResponse](src/models/change-pwn-device-state-response.ts)</code>
+- **OnError**: throws <code>[ApiError](src/core/api-error.ts)</code>, with `err.payload` always the <code>[Undeclared](src/core/api-error.ts)</code> arm
+
+**As ApiResult**: `await client.pwn.changePwnDeviceStateActivate(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;ChangePwnDeviceStateResponse, ApiError&gt;</code>, with `result.value` of type <code>[ChangePwnDeviceStateResponse](src/models/change-pwn-device-state-response.ts)</code>
+- **OnError**: `result.payload` always the <code>[Undeclared](src/core/api-error.ts)</code> arm, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -16080,22 +23499,56 @@ try {
 </details>
 
 <details>
-<summary><code>changePwnDeviceStateDeactivate(request: Pwn.ChangePwnDeviceStateDeactivateRequestParams, options?: RequestOptions): ApiPromise&lt;ChangePwnDeviceStateResponse, ResponseError&gt;</code></summary>
+<summary><code>changePwnDeviceStateDeactivate(request: Pwn.ChangePwnDeviceStateDeactivateRequestParams, options?: RequestOptions): ApiPromise&lt;ChangePwnDeviceStateResponse, ApiError&gt;</code></summary>
 
 <dl>
 <dd>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.pwn.changePwnDeviceStateDeactivate({ body });
+  const response = await client.pwn.changePwnDeviceStateDeactivate({
+    body: {
+      accountName: "0342351414-00001",
+      deviceList: [
+        { deviceIds: [{ id: "99948099913031600000", kind: "iccid" }] },
+        { deviceIds: [{ id: "99948099913031700000", kind: "iccid" }] },
+      ],
+    },
+  });
   // TODO: Handle 'response' of type ChangePwnDeviceStateResponse
 } catch (err) {
-  // TODO: Handle 'err' of type ResponseError
+  // TODO: Handle 'err' of type ApiError, where 'err.payload' is always the Undeclared arm
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.pwn.changePwnDeviceStateDeactivate({
+  body: {
+    accountName: "0342351414-00001",
+    deviceList: [
+      { deviceIds: [{ id: "99948099913031600000", kind: "iccid" }] },
+      { deviceIds: [{ id: "99948099913031700000", kind: "iccid" }] },
+    ],
+  },
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type ChangePwnDeviceStateResponse
+} else {
+  // TODO: Handle 'result', where 'result.payload' is always the Undeclared arm
 }
 ```
 
@@ -16119,9 +23572,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[ChangePwnDeviceStateResponse](src/models/change-pwn-device-state-response.ts)</code>
+**Direct**: `await client.pwn.changePwnDeviceStateDeactivate(request)`
 
-**OnError**: <code>[ResponseError](src/core/response-error.ts)</code>
+- **OnSuccess**: <code>[ChangePwnDeviceStateResponse](src/models/change-pwn-device-state-response.ts)</code>
+- **OnError**: throws <code>[ApiError](src/core/api-error.ts)</code>, with `err.payload` always the <code>[Undeclared](src/core/api-error.ts)</code> arm
+
+**As ApiResult**: `await client.pwn.changePwnDeviceStateDeactivate(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;ChangePwnDeviceStateResponse, ApiError&gt;</code>, with `result.value` of type <code>[ChangePwnDeviceStateResponse](src/models/change-pwn-device-state-response.ts)</code>
+- **OnError**: `result.payload` always the <code>[Undeclared](src/core/api-error.ts)</code> arm, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -16132,22 +23593,40 @@ try {
 </details>
 
 <details>
-<summary><code>getPwnPerformanceConsent(request: Pwn.GetPwnPerformanceConsentRequest, options?: RequestOptions): ApiPromise&lt;GetPwnPerformanceConsentResponse, ResponseError&gt;</code></summary>
+<summary><code>getPwnPerformanceConsent(request: Pwn.GetPwnPerformanceConsentRequest, options?: RequestOptions): ApiPromise&lt;GetPwnPerformanceConsentResponse, ApiError&gt;</code></summary>
 
 <dl>
 <dd>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.pwn.getPwnPerformanceConsent({ aname });
+  const response = await client.pwn.getPwnPerformanceConsent({ aname: "1533445500-00088" });
   // TODO: Handle 'response' of type GetPwnPerformanceConsentResponse
 } catch (err) {
-  // TODO: Handle 'err' of type ResponseError
+  // TODO: Handle 'err' of type ApiError, where 'err.payload' is always the Undeclared arm
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.pwn.getPwnPerformanceConsent({ aname: "1533445500-00088" }).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type GetPwnPerformanceConsentResponse
+} else {
+  // TODO: Handle 'result', where 'result.payload' is always the Undeclared arm
 }
 ```
 
@@ -16171,9 +23650,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[GetPwnPerformanceConsentResponse](src/models/get-pwn-performance-consent-response.ts)</code>
+**Direct**: `await client.pwn.getPwnPerformanceConsent(request)`
 
-**OnError**: <code>[ResponseError](src/core/response-error.ts)</code>
+- **OnSuccess**: <code>[GetPwnPerformanceConsentResponse](src/models/get-pwn-performance-consent-response.ts)</code>
+- **OnError**: throws <code>[ApiError](src/core/api-error.ts)</code>, with `err.payload` always the <code>[Undeclared](src/core/api-error.ts)</code> arm
+
+**As ApiResult**: `await client.pwn.getPwnPerformanceConsent(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;GetPwnPerformanceConsentResponse, ApiError&gt;</code>, with `result.value` of type <code>[GetPwnPerformanceConsentResponse](src/models/get-pwn-performance-consent-response.ts)</code>
+- **OnError**: `result.payload` always the <code>[Undeclared](src/core/api-error.ts)</code> arm, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -16184,22 +23671,40 @@ try {
 </details>
 
 <details>
-<summary><code>getProfileList(request: Pwn.GetProfileListRequest, options?: RequestOptions): ApiPromise&lt;PwnProfileList, ResponseError&gt;</code></summary>
+<summary><code>getProfileList(request: Pwn.GetProfileListRequest, options?: RequestOptions): ApiPromise&lt;PwnProfileList, ApiError&gt;</code></summary>
 
 <dl>
 <dd>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.pwn.getProfileList({ aname });
+  const response = await client.pwn.getProfileList({ aname: "0342351414-00001" });
   // TODO: Handle 'response' of type PwnProfileList
 } catch (err) {
-  // TODO: Handle 'err' of type ResponseError
+  // TODO: Handle 'err' of type ApiError, where 'err.payload' is always the Undeclared arm
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.pwn.getProfileList({ aname: "0342351414-00001" }).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type PwnProfileList
+} else {
+  // TODO: Handle 'result', where 'result.payload' is always the Undeclared arm
 }
 ```
 
@@ -16223,9 +23728,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[PwnProfileList](src/models/pwn-profile-list.ts)</code>
+**Direct**: `await client.pwn.getProfileList(request)`
 
-**OnError**: <code>[ResponseError](src/core/response-error.ts)</code>
+- **OnSuccess**: <code>[PwnProfileList](src/models/pwn-profile-list.ts)</code>
+- **OnError**: throws <code>[ApiError](src/core/api-error.ts)</code>, with `err.payload` always the <code>[Undeclared](src/core/api-error.ts)</code> arm
+
+**As ApiResult**: `await client.pwn.getProfileList(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;PwnProfileList, ApiError&gt;</code>, with `result.value` of type <code>[PwnProfileList](src/models/pwn-profile-list.ts)</code>
+- **OnError**: `result.payload` always the <code>[Undeclared](src/core/api-error.ts)</code> arm, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -16236,22 +23749,40 @@ try {
 </details>
 
 <details>
-<summary><code>kpiList(request: Pwn.KpiListRequest, options?: RequestOptions): ApiPromise&lt;KpiInfoList, ResponseError&gt;</code></summary>
+<summary><code>kpiList(request: Pwn.KpiListRequest, options?: RequestOptions): ApiPromise&lt;KpiInfoList, ApiError&gt;</code></summary>
 
 <dl>
 <dd>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.pwn.kpiList({ aname });
+  const response = await client.pwn.kpiList({ aname: "0342351414-00001" });
   // TODO: Handle 'response' of type KpiInfoList
 } catch (err) {
-  // TODO: Handle 'err' of type ResponseError
+  // TODO: Handle 'err' of type ApiError, where 'err.payload' is always the Undeclared arm
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.pwn.kpiList({ aname: "0342351414-00001" }).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type KpiInfoList
+} else {
+  // TODO: Handle 'result', where 'result.payload' is always the Undeclared arm
 }
 ```
 
@@ -16275,9 +23806,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[KpiInfoList](src/models/kpi-info-list.ts)</code>
+**Direct**: `await client.pwn.kpiList(request)`
 
-**OnError**: <code>[ResponseError](src/core/response-error.ts)</code>
+- **OnSuccess**: <code>[KpiInfoList](src/models/kpi-info-list.ts)</code>
+- **OnError**: throws <code>[ApiError](src/core/api-error.ts)</code>, with `err.payload` always the <code>[Undeclared](src/core/api-error.ts)</code> arm
+
+**As ApiResult**: `await client.pwn.kpiList(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;KpiInfoList, ApiError&gt;</code>, with `result.value` of type <code>[KpiInfoList](src/models/kpi-info-list.ts)</code>
+- **OnError**: `result.payload` always the <code>[Undeclared](src/core/api-error.ts)</code> arm, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -16307,22 +23846,37 @@ Retrieves the aggregate usage for an account using pseudo-MDN during the promoti
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.promotionPeriodInformation.getPromoDeviceAggregateUsageHistory({ body });
+  const response = await client.promotionPeriodInformation.getPromoDeviceAggregateUsageHistory({ body: {} });
   // TODO: Handle 'response' of type UsageRequestResponse
 } catch (err) {
-  if (
-    err instanceof PromotionPeriodInformation.GetPromoDeviceAggregateUsageHistoryError &&
-      err.payload.kind === "readySimRestErrorResponse"
-  ) {
-    // TODO: Handle 'err.payload.body' of type ReadySimRestErrorResponse
-  }
+  // TODO: Handle 'err' of type PromotionPeriodInformation.GetPromoDeviceAggregateUsageHistoryError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.promotionPeriodInformation.getPromoDeviceAggregateUsageHistory({
+  body: {},
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type UsageRequestResponse
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -16346,9 +23900,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[UsageRequestResponse](src/models/usage-request-response.ts)</code>
+**Direct**: `await client.promotionPeriodInformation.getPromoDeviceAggregateUsageHistory(request)`
 
-**OnError**: <code>[PromotionPeriodInformation.GetPromoDeviceAggregateUsageHistoryError](src/resources/promotion-period-information.ts)</code>
+- **OnSuccess**: <code>[UsageRequestResponse](src/models/usage-request-response.ts)</code>
+- **OnError**: throws <code>[PromotionPeriodInformation.GetPromoDeviceAggregateUsageHistoryError](src/resources/promotion-period-information.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.promotionPeriodInformation.getPromoDeviceAggregateUsageHistory(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;UsageRequestResponse, PromotionPeriodInformation.GetPromoDeviceAggregateUsageHistoryError&gt;</code>, with `result.value` of type <code>[UsageRequestResponse](src/models/usage-request-response.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -16374,22 +23936,35 @@ Retrieves the usage history of a device during the promotion period.
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.promotionPeriodInformation.getPromoDeviceUsageHistory({ body });
+  const response = await client.promotionPeriodInformation.getPromoDeviceUsageHistory({ body: {} });
   // TODO: Handle 'response' of type ResponseToUsageQuery
 } catch (err) {
-  if (
-    err instanceof PromotionPeriodInformation.GetPromoDeviceUsageHistoryError &&
-      err.payload.kind === "readySimRestErrorResponse"
-  ) {
-    // TODO: Handle 'err.payload.body' of type ReadySimRestErrorResponse
-  }
+  // TODO: Handle 'err' of type PromotionPeriodInformation.GetPromoDeviceUsageHistoryError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.promotionPeriodInformation.getPromoDeviceUsageHistory({ body: {} }).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type ResponseToUsageQuery
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -16413,9 +23988,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[ResponseToUsageQuery](src/models/response-to-usage-query.ts)</code>
+**Direct**: `await client.promotionPeriodInformation.getPromoDeviceUsageHistory(request)`
 
-**OnError**: <code>[PromotionPeriodInformation.GetPromoDeviceUsageHistoryError](src/resources/promotion-period-information.ts)</code>
+- **OnSuccess**: <code>[ResponseToUsageQuery](src/models/response-to-usage-query.ts)</code>
+- **OnError**: throws <code>[PromotionPeriodInformation.GetPromoDeviceUsageHistoryError](src/resources/promotion-period-information.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.promotionPeriodInformation.getPromoDeviceUsageHistory(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;ResponseToUsageQuery, PromotionPeriodInformation.GetPromoDeviceUsageHistoryError&gt;</code>, with `result.value` of type <code>[ResponseToUsageQuery](src/models/response-to-usage-query.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -16445,7 +24028,7 @@ Retrieves all of the available triggers for pseudo-MDN.
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
@@ -16455,12 +24038,25 @@ try {
   const response = await client.retrieveTheTriggers.getAllAvailableTriggers();
   // TODO: Handle 'response' of type TriggerValueResponse
 } catch (err) {
-  if (
-    err instanceof RetrieveTheTriggers.GetAllAvailableTriggersError &&
-      err.payload.kind === "readySimRestErrorResponse"
-  ) {
-    // TODO: Handle 'err.payload.body' of type ReadySimRestErrorResponse
-  }
+  // TODO: Handle 'err' of type RetrieveTheTriggers.GetAllAvailableTriggersError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.retrieveTheTriggers.getAllAvailableTriggers().asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type TriggerValueResponse
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -16472,9 +24068,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[TriggerValueResponse](src/models/trigger-value-response.ts)</code>
+**Direct**: `await client.retrieveTheTriggers.getAllAvailableTriggers()`
 
-**OnError**: <code>[RetrieveTheTriggers.GetAllAvailableTriggersError](src/resources/retrieve-the-triggers.ts)</code>
+- **OnSuccess**: <code>[TriggerValueResponse](src/models/trigger-value-response.ts)</code>
+- **OnError**: throws <code>[RetrieveTheTriggers.GetAllAvailableTriggersError](src/resources/retrieve-the-triggers.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.retrieveTheTriggers.getAllAvailableTriggers().asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;TriggerValueResponse, RetrieveTheTriggers.GetAllAvailableTriggersError&gt;</code>, with `result.value` of type <code>[TriggerValueResponse](src/models/trigger-value-response.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -16500,22 +24104,39 @@ Retrieve the triggers associated with an account name.
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.retrieveTheTriggers.getAllTriggersByAccountName({ accountName });
+  const response = await client.retrieveTheTriggers.getAllTriggersByAccountName({
+    accountName: "0000123456-000001",
+  });
   // TODO: Handle 'response' of type TriggerValueResponse
 } catch (err) {
-  if (
-    err instanceof RetrieveTheTriggers.GetAllTriggersByAccountNameError &&
-      err.payload.kind === "readySimRestErrorResponse"
-  ) {
-    // TODO: Handle 'err.payload.body' of type ReadySimRestErrorResponse
-  }
+  // TODO: Handle 'err' of type RetrieveTheTriggers.GetAllTriggersByAccountNameError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.retrieveTheTriggers.getAllTriggersByAccountName({
+  accountName: "0000123456-000001",
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type TriggerValueResponse
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -16539,9 +24160,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[TriggerValueResponse](src/models/trigger-value-response.ts)</code>
+**Direct**: `await client.retrieveTheTriggers.getAllTriggersByAccountName(request)`
 
-**OnError**: <code>[RetrieveTheTriggers.GetAllTriggersByAccountNameError](src/resources/retrieve-the-triggers.ts)</code>
+- **OnSuccess**: <code>[TriggerValueResponse](src/models/trigger-value-response.ts)</code>
+- **OnError**: throws <code>[RetrieveTheTriggers.GetAllTriggersByAccountNameError](src/resources/retrieve-the-triggers.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.retrieveTheTriggers.getAllTriggersByAccountName(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;TriggerValueResponse, RetrieveTheTriggers.GetAllTriggersByAccountNameError&gt;</code>, with `result.value` of type <code>[TriggerValueResponse](src/models/trigger-value-response.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -16567,7 +24196,7 @@ Retrieves all of the triggers for the specified account associated with the Prom
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
@@ -16577,12 +24206,25 @@ try {
   const response = await client.retrieveTheTriggers.getAllTriggersByTriggerCategory();
   // TODO: Handle 'response' of type TriggerValueResponse2
 } catch (err) {
-  if (
-    err instanceof RetrieveTheTriggers.GetAllTriggersByTriggerCategoryError &&
-      err.payload.kind === "readySimRestErrorResponse"
-  ) {
-    // TODO: Handle 'err.payload.body' of type ReadySimRestErrorResponse
-  }
+  // TODO: Handle 'err' of type RetrieveTheTriggers.GetAllTriggersByTriggerCategoryError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.retrieveTheTriggers.getAllTriggersByTriggerCategory().asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type TriggerValueResponse2
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -16594,9 +24236,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[TriggerValueResponse2](src/models/trigger-value-response2.ts)</code>
+**Direct**: `await client.retrieveTheTriggers.getAllTriggersByTriggerCategory()`
 
-**OnError**: <code>[RetrieveTheTriggers.GetAllTriggersByTriggerCategoryError](src/resources/retrieve-the-triggers.ts)</code>
+- **OnSuccess**: <code>[TriggerValueResponse2](src/models/trigger-value-response2.ts)</code>
+- **OnError**: throws <code>[RetrieveTheTriggers.GetAllTriggersByTriggerCategoryError](src/resources/retrieve-the-triggers.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.retrieveTheTriggers.getAllTriggersByTriggerCategory().asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;TriggerValueResponse2, RetrieveTheTriggers.GetAllTriggersByTriggerCategoryError&gt;</code>, with `result.value` of type <code>[TriggerValueResponse2](src/models/trigger-value-response2.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -16622,22 +24272,39 @@ Retrives a specific trigger by its ID.
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.retrieveTheTriggers.getTriggersById({ triggerId });
+  const response = await client.retrieveTheTriggers.getTriggersById({
+    triggerId: "2874DEC7-26CF-4797-9C6A-B5A2AC72D526",
+  });
   // TODO: Handle 'response' of type TriggerValueResponse2
 } catch (err) {
-  if (
-    err instanceof RetrieveTheTriggers.GetTriggersByIdError &&
-      err.payload.kind === "readySimRestErrorResponse"
-  ) {
-    // TODO: Handle 'err.payload.body' of type ReadySimRestErrorResponse
-  }
+  // TODO: Handle 'err' of type RetrieveTheTriggers.GetTriggersByIdError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.retrieveTheTriggers.getTriggersById({
+  triggerId: "2874DEC7-26CF-4797-9C6A-B5A2AC72D526",
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type TriggerValueResponse2
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -16661,9 +24328,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[TriggerValueResponse2](src/models/trigger-value-response2.ts)</code>
+**Direct**: `await client.retrieveTheTriggers.getTriggersById(request)`
 
-**OnError**: <code>[RetrieveTheTriggers.GetTriggersByIdError](src/resources/retrieve-the-triggers.ts)</code>
+- **OnSuccess**: <code>[TriggerValueResponse2](src/models/trigger-value-response2.ts)</code>
+- **OnError**: throws <code>[RetrieveTheTriggers.GetTriggersByIdError](src/resources/retrieve-the-triggers.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.retrieveTheTriggers.getTriggersById(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;TriggerValueResponse2, RetrieveTheTriggers.GetTriggersByIdError&gt;</code>, with `result.value` of type <code>[TriggerValueResponse2](src/models/trigger-value-response2.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -16693,7 +24368,7 @@ Updates the promotional triggers for pseudo-MDN.
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
@@ -16703,12 +24378,25 @@ try {
   const response = await client.updateTriggers.updateAllAvailableTriggers();
   // TODO: Handle 'response' of type Success
 } catch (err) {
-  if (
-    err instanceof UpdateTriggers.UpdateAllAvailableTriggersError &&
-      err.payload.kind === "readySimRestErrorResponse"
-  ) {
-    // TODO: Handle 'err.payload.body' of type ReadySimRestErrorResponse
-  }
+  // TODO: Handle 'err' of type UpdateTriggers.UpdateAllAvailableTriggersError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.updateTriggers.updateAllAvailableTriggers().asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type Success
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -16732,9 +24420,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[Success](src/models/success.ts)</code>
+**Direct**: `await client.updateTriggers.updateAllAvailableTriggers(request)`
 
-**OnError**: <code>[UpdateTriggers.UpdateAllAvailableTriggersError](src/resources/update-triggers.ts)</code>
+- **OnSuccess**: <code>[Success](src/models/success.ts)</code>
+- **OnError**: throws <code>[UpdateTriggers.UpdateAllAvailableTriggersError](src/resources/update-triggers.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.updateTriggers.updateAllAvailableTriggers(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;Success, UpdateTriggers.UpdateAllAvailableTriggersError&gt;</code>, with `result.value` of type <code>[Success](src/models/success.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -16764,19 +24460,53 @@ System assign a new activation code to reactivate a deactivated device. **Note:*
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.simActions.newactivatecode({ body });
+  const response = await client.simActions.newactivatecode({
+    body: {
+      devices: [
+        { deviceIds: [{ id: "15-digit IMEI", kind: "imei" }, { id: "20-digit ICCID", kind: "iccid" }] },
+      ],
+      accountName: "0000123456-00001",
+      servicePlan: "the service plan name",
+      mdnZipCode: "five digit zip code",
+    },
+  });
   // TODO: Handle 'response' of type ESimRequestResponse
 } catch (err) {
-  if (err instanceof SimActions.NewactivatecodeError && err.payload.kind === "eSimRestErrorResponse") {
-    // TODO: Handle 'err.payload.body' of type ESimRestErrorResponse
-  }
+  // TODO: Handle 'err' of type SimActions.NewactivatecodeError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.simActions.newactivatecode({
+  body: {
+    devices: [
+      { deviceIds: [{ id: "15-digit IMEI", kind: "imei" }, { id: "20-digit ICCID", kind: "iccid" }] },
+    ],
+    accountName: "0000123456-00001",
+    servicePlan: "the service plan name",
+    mdnZipCode: "five digit zip code",
+  },
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type ESimRequestResponse
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -16800,9 +24530,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[ESimRequestResponse](src/models/esim-request-response.ts)</code>
+**Direct**: `await client.simActions.newactivatecode(request)`
 
-**OnError**: <code>[SimActions.NewactivatecodeError](src/resources/sim-actions.ts)</code>
+- **OnSuccess**: <code>[ESimRequestResponse](src/models/esim-request-response.ts)</code>
+- **OnError**: throws <code>[SimActions.NewactivatecodeError](src/resources/sim-actions.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.simActions.newactivatecode(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;ESimRequestResponse, SimActions.NewactivatecodeError&gt;</code>, with `result.value` of type <code>[ESimRequestResponse](src/models/esim-request-response.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -16828,19 +24566,67 @@ Uses the profile to activate the SIM.
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.simActions.setactivateUsingPost({ body });
+  const response = await client.simActions.setactivateUsingPost({
+    body: {
+      devices: [
+        {
+          deviceIds: [
+            { id: "32-digit EID", kind: "eid" },
+            { id: "15-digit IMEI", kind: "imei" },
+            { id: "20-digit ICCID", kind: "iccid (ICCID is only used for reactivation)" },
+          ],
+        },
+      ],
+      carrierName: "Verizon Wireless",
+      accountName: "0000123456-00001",
+      servicePlan: "the service plan name",
+      mdnZipCode: "five digit zip code",
+    },
+  });
   // TODO: Handle 'response' of type ESimRequestResponse
 } catch (err) {
-  if (err instanceof SimActions.SetactivateUsingPostError && err.payload.kind === "eSimRestErrorResponse") {
-    // TODO: Handle 'err.payload.body' of type ESimRestErrorResponse
-  }
+  // TODO: Handle 'err' of type SimActions.SetactivateUsingPostError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.simActions.setactivateUsingPost({
+  body: {
+    devices: [
+      {
+        deviceIds: [
+          { id: "32-digit EID", kind: "eid" },
+          { id: "15-digit IMEI", kind: "imei" },
+          { id: "20-digit ICCID", kind: "iccid (ICCID is only used for reactivation)" },
+        ],
+      },
+    ],
+    carrierName: "Verizon Wireless",
+    accountName: "0000123456-00001",
+    servicePlan: "the service plan name",
+    mdnZipCode: "five digit zip code",
+  },
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type ESimRequestResponse
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -16864,9 +24650,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[ESimRequestResponse](src/models/esim-request-response.ts)</code>
+**Direct**: `await client.simActions.setactivateUsingPost(request)`
 
-**OnError**: <code>[SimActions.SetactivateUsingPostError](src/resources/sim-actions.ts)</code>
+- **OnSuccess**: <code>[ESimRequestResponse](src/models/esim-request-response.ts)</code>
+- **OnError**: throws <code>[SimActions.SetactivateUsingPostError](src/resources/sim-actions.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.simActions.setactivateUsingPost(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;ESimRequestResponse, SimActions.SetactivateUsingPostError&gt;</code>, with `result.value` of type <code>[ESimRequestResponse](src/models/esim-request-response.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -16892,19 +24686,35 @@ Uses the profile to deactivate the SIM.
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.simActions.setdeactivateUsingPost({ body });
+  const response = await client.simActions.setdeactivateUsingPost({ body: {} });
   // TODO: Handle 'response' of type ESimRequestResponse
 } catch (err) {
-  if (err instanceof SimActions.SetdeactivateUsingPostError && err.payload.kind === "eSimRestErrorResponse") {
-    // TODO: Handle 'err.payload.body' of type ESimRestErrorResponse
-  }
+  // TODO: Handle 'err' of type SimActions.SetdeactivateUsingPostError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.simActions.setdeactivateUsingPost({ body: {} }).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type ESimRequestResponse
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -16928,9 +24738,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[ESimRequestResponse](src/models/esim-request-response.ts)</code>
+**Direct**: `await client.simActions.setdeactivateUsingPost(request)`
 
-**OnError**: <code>[SimActions.SetdeactivateUsingPostError](src/resources/sim-actions.ts)</code>
+- **OnSuccess**: <code>[ESimRequestResponse](src/models/esim-request-response.ts)</code>
+- **OnError**: throws <code>[SimActions.SetdeactivateUsingPostError](src/resources/sim-actions.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.simActions.setdeactivateUsingPost(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;ESimRequestResponse, SimActions.SetdeactivateUsingPostError&gt;</code>, with `result.value` of type <code>[ESimRequestResponse](src/models/esim-request-response.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -16960,21 +24778,35 @@ Retrieve a list of all devices associated with an account.
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.globalReporting.retrieveGlobalList({ body });
+  const response = await client.globalReporting.retrieveGlobalList({ body: {} });
   // TODO: Handle 'response' of type ESimRequestResponse
 } catch (err) {
-  if (
-    err instanceof GlobalReporting.RetrieveGlobalListError && err.payload.kind === "eSimRestErrorResponse"
-  ) {
-    // TODO: Handle 'err.payload.body' of type ESimRestErrorResponse
-  }
+  // TODO: Handle 'err' of type GlobalReporting.RetrieveGlobalListError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.globalReporting.retrieveGlobalList({ body: {} }).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type ESimRequestResponse
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -16998,9 +24830,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[ESimRequestResponse](src/models/esim-request-response.ts)</code>
+**Direct**: `await client.globalReporting.retrieveGlobalList(request)`
 
-**OnError**: <code>[GlobalReporting.RetrieveGlobalListError](src/resources/global-reporting.ts)</code>
+- **OnSuccess**: <code>[ESimRequestResponse](src/models/esim-request-response.ts)</code>
+- **OnError**: throws <code>[GlobalReporting.RetrieveGlobalListError](src/resources/global-reporting.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.globalReporting.retrieveGlobalList(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;ESimRequestResponse, GlobalReporting.RetrieveGlobalListError&gt;</code>, with `result.value` of type <code>[ESimRequestResponse](src/models/esim-request-response.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -17026,22 +24866,35 @@ Retrieve the provisioning history of a specific device or devices.
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.globalReporting.deviceprovhistoryUsingPost({ body });
+  const response = await client.globalReporting.deviceprovhistoryUsingPost({ body: {} });
   // TODO: Handle 'response' of type ESimRequestResponse
 } catch (err) {
-  if (
-    err instanceof GlobalReporting.DeviceprovhistoryUsingPostError &&
-      err.payload.kind === "eSimRestErrorResponse"
-  ) {
-    // TODO: Handle 'err.payload.body' of type ESimRestErrorResponse
-  }
+  // TODO: Handle 'err' of type GlobalReporting.DeviceprovhistoryUsingPostError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.globalReporting.deviceprovhistoryUsingPost({ body: {} }).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type ESimRequestResponse
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -17065,9 +24918,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[ESimRequestResponse](src/models/esim-request-response.ts)</code>
+**Direct**: `await client.globalReporting.deviceprovhistoryUsingPost(request)`
 
-**OnError**: <code>[GlobalReporting.DeviceprovhistoryUsingPostError](src/resources/global-reporting.ts)</code>
+- **OnSuccess**: <code>[ESimRequestResponse](src/models/esim-request-response.ts)</code>
+- **OnError**: throws <code>[GlobalReporting.DeviceprovhistoryUsingPostError](src/resources/global-reporting.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.globalReporting.deviceprovhistoryUsingPost(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;ESimRequestResponse, GlobalReporting.DeviceprovhistoryUsingPostError&gt;</code>, with `result.value` of type <code>[ESimRequestResponse](src/models/esim-request-response.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -17097,19 +24958,37 @@ This API allows the user to get the access control rules defined for them.
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.deviceRoleController.getAclRulesByVendorId({ vendorId });
+  const response = await client.deviceRoleController.getAclRulesByVendorId({ vendorId: "TestVendor" });
   // TODO: Handle 'response' of type DeviceRole[]
 } catch (err) {
-  if (err instanceof DeviceRoleController.GetAclRulesByVendorIdError && err.payload.kind === "error401") {
-    // TODO: Handle 'err.payload.body' of type string
-  }
+  // TODO: Handle 'err' of type DeviceRoleController.GetAclRulesByVendorIdError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.deviceRoleController.getAclRulesByVendorId({
+  vendorId: "TestVendor",
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type DeviceRole[]
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -17133,9 +25012,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[DeviceRole](src/models/device-role.ts)[]</code>
+**Direct**: `await client.deviceRoleController.getAclRulesByVendorId(request)`
 
-**OnError**: <code>[DeviceRoleController.GetAclRulesByVendorIdError](src/resources/device-role-controller.ts)</code>
+- **OnSuccess**: <code>[DeviceRole](src/models/device-role.ts)[]</code>
+- **OnError**: throws <code>[DeviceRoleController.GetAclRulesByVendorIdError](src/resources/device-role-controller.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.deviceRoleController.getAclRulesByVendorId(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;DeviceRole[], DeviceRoleController.GetAclRulesByVendorIdError&gt;</code>, with `result.value` of type <code>[DeviceRole](src/models/device-role.ts)[]</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -17168,21 +25055,77 @@ Note: The user needs to authenticate with their ThingSpace credentials using the
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.etxAppConfiguration.createConfiguration({ vendorId, body });
+  const response = await client.etxAppConfiguration.createConfiguration({
+    vendorId: "VerizonETX",
+    body: {
+      geoFence: {
+        type: Type.FeatureCollection,
+        features: [{ type: Type1.Feature, geometry: {}, properties: {} }],
+      },
+      messages: [
+        {
+          isPrivate: true,
+          roadUserType: [RoadUserTypes.VulnerableRoadUser],
+          triggerConditions: [TriggerCondition.Enter],
+          generic: {
+            messageType: "some example string",
+            messageFormat: "some example string",
+            payload: "some example string",
+          },
+        },
+      ],
+      isActive: true,
+    },
+  });
   // TODO: Handle 'response' of type GeoFenceConfigurationResponse
 } catch (err) {
-  if (
-    err instanceof EtxAppConfiguration.CreateConfigurationError && err.payload.kind === "responseErrorModel"
-  ) {
-    // TODO: Handle 'err.payload.body' of type ResponseErrorModel
-  }
+  // TODO: Handle 'err' of type EtxAppConfiguration.CreateConfigurationError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.etxAppConfiguration.createConfiguration({
+  vendorId: "VerizonETX",
+  body: {
+    geoFence: {
+      type: Type.FeatureCollection,
+      features: [{ type: Type1.Feature, geometry: {}, properties: {} }],
+    },
+    messages: [
+      {
+        isPrivate: true,
+        roadUserType: [RoadUserTypes.VulnerableRoadUser],
+        triggerConditions: [TriggerCondition.Enter],
+        generic: {
+          messageType: "some example string",
+          messageFormat: "some example string",
+          payload: "some example string",
+        },
+      },
+    ],
+    isActive: true,
+  },
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type GeoFenceConfigurationResponse
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -17207,9 +25150,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[GeoFenceConfigurationResponse](src/models/geo-fence-configuration-response.ts)</code>
+**Direct**: `await client.etxAppConfiguration.createConfiguration(request)`
 
-**OnError**: <code>[EtxAppConfiguration.CreateConfigurationError](src/resources/etx-app-configuration.ts)</code>
+- **OnSuccess**: <code>[GeoFenceConfigurationResponse](src/models/geo-fence-configuration-response.ts)</code>
+- **OnError**: throws <code>[EtxAppConfiguration.CreateConfigurationError](src/resources/etx-app-configuration.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.etxAppConfiguration.createConfiguration(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;GeoFenceConfigurationResponse, EtxAppConfiguration.CreateConfigurationError&gt;</code>, with `result.value` of type <code>[GeoFenceConfigurationResponse](src/models/geo-fence-configuration-response.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -17238,20 +25189,40 @@ Note: The user needs to authenticate with their ThingSpace credentials using the
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  await client.etxAppConfiguration.deleteConfiguration({ id, vendorId });
+  await client.etxAppConfiguration.deleteConfiguration({
+    id: "18bac1ff-c7bd-44d9-a7ad-06a093a94713",
+    vendorId: "VerizonETX",
+  });
 } catch (err) {
-  if (
-    err instanceof EtxAppConfiguration.DeleteConfigurationError && err.payload.kind === "responseErrorModel"
-  ) {
-    // TODO: Handle 'err.payload.body' of type ResponseErrorModel
-  }
+  // TODO: Handle 'err' of type EtxAppConfiguration.DeleteConfigurationError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.etxAppConfiguration.deleteConfiguration({
+  id: "18bac1ff-c7bd-44d9-a7ad-06a093a94713",
+  vendorId: "VerizonETX",
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: The call succeeded and resolves to no body
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -17276,9 +25247,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>undefined</code>
+**Direct**: `await client.etxAppConfiguration.deleteConfiguration(request)`
 
-**OnError**: <code>[EtxAppConfiguration.DeleteConfigurationError](src/resources/etx-app-configuration.ts)</code>
+- **OnSuccess**: <code>undefined</code>
+- **OnError**: throws <code>[EtxAppConfiguration.DeleteConfigurationError](src/resources/etx-app-configuration.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.etxAppConfiguration.deleteConfiguration(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;undefined, EtxAppConfiguration.DeleteConfigurationError&gt;</code>, with `result.value` of type <code>undefined</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -17307,19 +25286,41 @@ Note: The user needs to authenticate with their ThingSpace credentials using the
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.etxAppConfiguration.getConfiguration({ id, vendorId });
+  const response = await client.etxAppConfiguration.getConfiguration({
+    id: "18bac1ff-c7bd-44d9-a7ad-06a093a94713",
+    vendorId: "VerizonETX",
+  });
   // TODO: Handle 'response' of type GeoFenceConfigurationResponse
 } catch (err) {
-  if (err instanceof EtxAppConfiguration.GetConfigurationError && err.payload.kind === "responseErrorModel") {
-    // TODO: Handle 'err.payload.body' of type ResponseErrorModel
-  }
+  // TODO: Handle 'err' of type EtxAppConfiguration.GetConfigurationError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.etxAppConfiguration.getConfiguration({
+  id: "18bac1ff-c7bd-44d9-a7ad-06a093a94713",
+  vendorId: "VerizonETX",
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type GeoFenceConfigurationResponse
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -17344,9 +25345,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[GeoFenceConfigurationResponse](src/models/geo-fence-configuration-response.ts)</code>
+**Direct**: `await client.etxAppConfiguration.getConfiguration(request)`
 
-**OnError**: <code>[EtxAppConfiguration.GetConfigurationError](src/resources/etx-app-configuration.ts)</code>
+- **OnSuccess**: <code>[GeoFenceConfigurationResponse](src/models/geo-fence-configuration-response.ts)</code>
+- **OnError**: throws <code>[EtxAppConfiguration.GetConfigurationError](src/resources/etx-app-configuration.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.etxAppConfiguration.getConfiguration(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;GeoFenceConfigurationResponse, EtxAppConfiguration.GetConfigurationError&gt;</code>, with `result.value` of type <code>[GeoFenceConfigurationResponse](src/models/geo-fence-configuration-response.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -17375,21 +25384,37 @@ Note: The user needs to authenticate with their ThingSpace credentials using the
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.etxAppConfiguration.getConfigurationList({ vendorId });
+  const response = await client.etxAppConfiguration.getConfigurationList({ vendorId: "VerizonETX" });
   // TODO: Handle 'response' of type ConfigurationListItem[]
 } catch (err) {
-  if (
-    err instanceof EtxAppConfiguration.GetConfigurationListError && err.payload.kind === "responseErrorModel"
-  ) {
-    // TODO: Handle 'err.payload.body' of type ResponseErrorModel
-  }
+  // TODO: Handle 'err' of type EtxAppConfiguration.GetConfigurationListError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.etxAppConfiguration.getConfigurationList({
+  vendorId: "VerizonETX",
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type ConfigurationListItem[]
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -17413,9 +25438,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[ConfigurationListItem](src/models/configuration-list-item.ts)[]</code>
+**Direct**: `await client.etxAppConfiguration.getConfigurationList(request)`
 
-**OnError**: <code>[EtxAppConfiguration.GetConfigurationListError](src/resources/etx-app-configuration.ts)</code>
+- **OnSuccess**: <code>[ConfigurationListItem](src/models/configuration-list-item.ts)[]</code>
+- **OnError**: throws <code>[EtxAppConfiguration.GetConfigurationListError](src/resources/etx-app-configuration.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.etxAppConfiguration.getConfigurationList(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;ConfigurationListItem[], EtxAppConfiguration.GetConfigurationListError&gt;</code>, with `result.value` of type <code>[ConfigurationListItem](src/models/configuration-list-item.ts)[]</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -17444,20 +25477,42 @@ Note: The user needs to authenticate with their ThingSpace credentials using the
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  await client.etxAppConfiguration.updateConfiguration({ id, vendorId, body });
+  await client.etxAppConfiguration.updateConfiguration({
+    id: "18bac1ff-c7bd-44d9-a7ad-06a093a94713",
+    vendorId: "VerizonETX",
+    body: {},
+  });
 } catch (err) {
-  if (
-    err instanceof EtxAppConfiguration.UpdateConfigurationError && err.payload.kind === "responseErrorModel"
-  ) {
-    // TODO: Handle 'err.payload.body' of type ResponseErrorModel
-  }
+  // TODO: Handle 'err' of type EtxAppConfiguration.UpdateConfigurationError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.etxAppConfiguration.updateConfiguration({
+  id: "18bac1ff-c7bd-44d9-a7ad-06a093a94713",
+  vendorId: "VerizonETX",
+  body: {},
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: The call succeeded and resolves to no body
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -17483,9 +25538,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>undefined</code>
+**Direct**: `await client.etxAppConfiguration.updateConfiguration(request)`
 
-**OnError**: <code>[EtxAppConfiguration.UpdateConfigurationError](src/resources/etx-app-configuration.ts)</code>
+- **OnSuccess**: <code>undefined</code>
+- **OnError**: throws <code>[EtxAppConfiguration.UpdateConfigurationError](src/resources/etx-app-configuration.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.etxAppConfiguration.updateConfiguration(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;undefined, EtxAppConfiguration.UpdateConfigurationError&gt;</code>, with `result.value` of type <code>undefined</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -17518,21 +25581,43 @@ Note: The user needs to authenticate with their ThingSpace credentials using the
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.etxRegistration.getEtxClientCertificate({ id, vendorId });
+  const response = await client.etxRegistration.getEtxClientCertificate({
+    id: {},
+    vendorId: "VerizonETX",
+    xTransactionId: "123e4567-e89b-12d3-a456-426614174000",
+  });
   // TODO: Handle 'response' of type ClientPersistenceResponse
 } catch (err) {
-  if (
-    err instanceof EtxRegistration.GetEtxClientCertificateError && err.payload.kind === "etxRespondingError"
-  ) {
-    // TODO: Handle 'err.payload.body' of type EtxRespondingError
-  }
+  // TODO: Handle 'err' of type EtxRegistration.GetEtxClientCertificateError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.etxRegistration.getEtxClientCertificate({
+  id: {},
+  vendorId: "VerizonETX",
+  xTransactionId: "123e4567-e89b-12d3-a456-426614174000",
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type ClientPersistenceResponse
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -17558,9 +25643,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[ClientPersistenceResponse](src/models/client-persistence-response.ts)</code>
+**Direct**: `await client.etxRegistration.getEtxClientCertificate(request)`
 
-**OnError**: <code>[EtxRegistration.GetEtxClientCertificateError](src/resources/etx-registration.ts)</code>
+- **OnSuccess**: <code>[ClientPersistenceResponse](src/models/client-persistence-response.ts)</code>
+- **OnError**: throws <code>[EtxRegistration.GetEtxClientCertificateError](src/resources/etx-registration.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.etxRegistration.getEtxClientCertificate(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;ClientPersistenceResponse, EtxRegistration.GetEtxClientCertificateError&gt;</code>, with `result.value` of type <code>[ClientPersistenceResponse](src/models/client-persistence-response.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -17589,19 +25682,51 @@ Note: The user needs to authenticate with their ThingSpace credentials using the
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.etxRegistration.getEtxConnectionUrl({ vendorId, body });
+  const response = await client.etxRegistration.getEtxConnectionUrl({
+    vendorId: "VerizonETX",
+    xTransactionId: "123e4567-e89b-12d3-a456-426614174000",
+    body: {
+      deviceId: "00000000-0000-0000-0000-000000000000",
+      geolocation: { latitude: 1.5, longitude: 1.5 },
+      networkType: NetworkType.Vz,
+    },
+  });
   // TODO: Handle 'response' of type ConnectionResponse
 } catch (err) {
-  if (err instanceof EtxRegistration.GetEtxConnectionUrlError && err.payload.kind === "etxRespondingError") {
-    // TODO: Handle 'err.payload.body' of type EtxRespondingError
-  }
+  // TODO: Handle 'err' of type EtxRegistration.GetEtxConnectionUrlError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.etxRegistration.getEtxConnectionUrl({
+  vendorId: "VerizonETX",
+  xTransactionId: "123e4567-e89b-12d3-a456-426614174000",
+  body: {
+    deviceId: "00000000-0000-0000-0000-000000000000",
+    geolocation: { latitude: 1.5, longitude: 1.5 },
+    networkType: NetworkType.Vz,
+  },
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type ConnectionResponse
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -17627,9 +25752,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[ConnectionResponse](src/models/connection-response.ts)</code>
+**Direct**: `await client.etxRegistration.getEtxConnectionUrl(request)`
 
-**OnError**: <code>[EtxRegistration.GetEtxConnectionUrlError](src/resources/etx-registration.ts)</code>
+- **OnSuccess**: <code>[ConnectionResponse](src/models/connection-response.ts)</code>
+- **OnError**: throws <code>[EtxRegistration.GetEtxConnectionUrlError](src/resources/etx-registration.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.etxRegistration.getEtxConnectionUrl(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;ConnectionResponse, EtxRegistration.GetEtxConnectionUrlError&gt;</code>, with `result.value` of type <code>[ConnectionResponse](src/models/connection-response.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -17660,22 +25793,51 @@ Note: The user needs to authenticate with their ThingSpace credentials using the
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.etxRegistration.getEtxConnectionUrlMultiMec({ vendorId, body });
+  const response = await client.etxRegistration.getEtxConnectionUrlMultiMec({
+    vendorId: "VerizonETX",
+    xTransactionId: "123e4567-e89b-12d3-a456-426614174000",
+    body: {
+      deviceId: "00000000-0000-0000-0000-000000000000",
+      geolocation: { latitude: 1.5, longitude: 1.5 },
+      networkType: NetworkType.Vz,
+    },
+  });
   // TODO: Handle 'response' of type ConnectionResponseV3
 } catch (err) {
-  if (
-    err instanceof EtxRegistration.GetEtxConnectionUrlMultiMecError &&
-      err.payload.kind === "etxRespondingError"
-  ) {
-    // TODO: Handle 'err.payload.body' of type EtxRespondingError
-  }
+  // TODO: Handle 'err' of type EtxRegistration.GetEtxConnectionUrlMultiMecError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.etxRegistration.getEtxConnectionUrlMultiMec({
+  vendorId: "VerizonETX",
+  xTransactionId: "123e4567-e89b-12d3-a456-426614174000",
+  body: {
+    deviceId: "00000000-0000-0000-0000-000000000000",
+    geolocation: { latitude: 1.5, longitude: 1.5 },
+    networkType: NetworkType.Vz,
+  },
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type ConnectionResponseV3
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -17701,9 +25863,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[ConnectionResponseV3](src/models/connection-response-v3.ts)</code>
+**Direct**: `await client.etxRegistration.getEtxConnectionUrlMultiMec(request)`
 
-**OnError**: <code>[EtxRegistration.GetEtxConnectionUrlMultiMecError](src/resources/etx-registration.ts)</code>
+- **OnSuccess**: <code>[ConnectionResponseV3](src/models/connection-response-v3.ts)</code>
+- **OnError**: throws <code>[EtxRegistration.GetEtxConnectionUrlMultiMecError](src/resources/etx-registration.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.etxRegistration.getEtxConnectionUrlMultiMec(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;ConnectionResponseV3, EtxRegistration.GetEtxConnectionUrlMultiMecError&gt;</code>, with `result.value` of type <code>[ConnectionResponseV3](src/models/connection-response-v3.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -17730,19 +25900,41 @@ This API allows retrieving devices by vendor ID and optional filters. The reques
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.etxRegistration.queryEtxDevices({ body });
+  const response = await client.etxRegistration.queryEtxDevices({
+    xTransactionId: "123e4567-e89b-12d3-a456-426614174000",
+    body: { vendorId: "some example string" },
+  });
   // TODO: Handle 'response' of type DevicesResponse[]
 } catch (err) {
-  if (err instanceof EtxRegistration.QueryEtxDevicesError && err.payload.kind === "etxRespondingError") {
-    // TODO: Handle 'err.payload.body' of type EtxRespondingError
-  }
+  // TODO: Handle 'err' of type EtxRegistration.QueryEtxDevicesError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.etxRegistration.queryEtxDevices({
+  xTransactionId: "123e4567-e89b-12d3-a456-426614174000",
+  body: { vendorId: "some example string" },
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type DevicesResponse[]
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -17767,9 +25959,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[DevicesResponse](src/models/devices-response.ts)[]</code>
+**Direct**: `await client.etxRegistration.queryEtxDevices(request)`
 
-**OnError**: <code>[EtxRegistration.QueryEtxDevicesError](src/resources/etx-registration.ts)</code>
+- **OnSuccess**: <code>[DevicesResponse](src/models/devices-response.ts)[]</code>
+- **OnError**: throws <code>[EtxRegistration.QueryEtxDevicesError](src/resources/etx-registration.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.etxRegistration.queryEtxDevices(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;DevicesResponse[], EtxRegistration.QueryEtxDevicesError&gt;</code>, with `result.value` of type <code>[DevicesResponse](src/models/devices-response.ts)[]</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -17802,19 +26002,49 @@ Note: The user needs to authenticate with their ThingSpace credentials using the
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.etxRegistration.registerEtxClient({ body });
+  const response = await client.etxRegistration.registerEtxClient({
+    xTransactionId: "123e4567-e89b-12d3-a456-426614174000",
+    body: {
+      clientType: EtxClientType.Vehicle,
+      clientSubtype: ClientSubtype.PassengerCar,
+      vendorId: "some example string",
+    },
+  });
   // TODO: Handle 'response' of type ClientRegistrationResponse
 } catch (err) {
-  if (err instanceof EtxRegistration.RegisterEtxClientError && err.payload.kind === "etxRespondingError") {
-    // TODO: Handle 'err.payload.body' of type EtxRespondingError
-  }
+  // TODO: Handle 'err' of type EtxRegistration.RegisterEtxClientError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.etxRegistration.registerEtxClient({
+  xTransactionId: "123e4567-e89b-12d3-a456-426614174000",
+  body: {
+    clientType: EtxClientType.Vehicle,
+    clientSubtype: ClientSubtype.PassengerCar,
+    vendorId: "some example string",
+  },
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type ClientRegistrationResponse
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -17839,9 +26069,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[ClientRegistrationResponse](src/models/client-registration-response.ts)</code>
+**Direct**: `await client.etxRegistration.registerEtxClient(request)`
 
-**OnError**: <code>[EtxRegistration.RegisterEtxClientError](src/resources/etx-registration.ts)</code>
+- **OnSuccess**: <code>[ClientRegistrationResponse](src/models/client-registration-response.ts)</code>
+- **OnError**: throws <code>[EtxRegistration.RegisterEtxClientError](src/resources/etx-registration.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.etxRegistration.registerEtxClient(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;ClientRegistrationResponse, EtxRegistration.RegisterEtxClientError&gt;</code>, with `result.value` of type <code>[ClientRegistrationResponse](src/models/client-registration-response.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -17872,21 +26110,43 @@ Note: The user needs to authenticate with their ThingSpace credentials using the
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.etxRegistration.renewEtxClientCertificate({ deviceId, vendorId });
+  const response = await client.etxRegistration.renewEtxClientCertificate({
+    deviceId: "a4fcd16a-343d-4527-8203-2f46e3e4ff4b",
+    vendorId: "VerizonETX",
+    xTransactionId: "123e4567-e89b-12d3-a456-426614174000",
+  });
   // TODO: Handle 'response' of type ClientRegistrationResponse
 } catch (err) {
-  if (
-    err instanceof EtxRegistration.RenewEtxClientCertificateError && err.payload.kind === "etxRespondingError"
-  ) {
-    // TODO: Handle 'err.payload.body' of type EtxRespondingError
-  }
+  // TODO: Handle 'err' of type EtxRegistration.RenewEtxClientCertificateError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.etxRegistration.renewEtxClientCertificate({
+  deviceId: "a4fcd16a-343d-4527-8203-2f46e3e4ff4b",
+  vendorId: "VerizonETX",
+  xTransactionId: "123e4567-e89b-12d3-a456-426614174000",
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type ClientRegistrationResponse
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -17913,9 +26173,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[ClientRegistrationResponse](src/models/client-registration-response.ts)</code>
+**Direct**: `await client.etxRegistration.renewEtxClientCertificate(request)`
 
-**OnError**: <code>[EtxRegistration.RenewEtxClientCertificateError](src/resources/etx-registration.ts)</code>
+- **OnSuccess**: <code>[ClientRegistrationResponse](src/models/client-registration-response.ts)</code>
+- **OnError**: throws <code>[EtxRegistration.RenewEtxClientCertificateError](src/resources/etx-registration.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.etxRegistration.renewEtxClientCertificate(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;ClientRegistrationResponse, EtxRegistration.RenewEtxClientCertificateError&gt;</code>, with `result.value` of type <code>[ClientRegistrationResponse](src/models/client-registration-response.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -17944,18 +26212,42 @@ Note: The user needs to authenticate with their ThingSpace credentials using the
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  await client.etxRegistration.unregisterEtxClients({ deviceIDs, vendorId });
+  await client.etxRegistration.unregisterEtxClients({
+    deviceIDs: ["00000000-0000-0000-0000-000000000000"],
+    vendorId: "VerizonETX",
+    xTransactionId: "123e4567-e89b-12d3-a456-426614174000",
+  });
 } catch (err) {
-  if (err instanceof EtxRegistration.UnregisterEtxClientsError && err.payload.kind === "etxRespondingError") {
-    // TODO: Handle 'err.payload.body' of type EtxRespondingError
-  }
+  // TODO: Handle 'err' of type EtxRegistration.UnregisterEtxClientsError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.etxRegistration.unregisterEtxClients({
+  deviceIDs: ["00000000-0000-0000-0000-000000000000"],
+  vendorId: "VerizonETX",
+  xTransactionId: "123e4567-e89b-12d3-a456-426614174000",
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: The call succeeded and resolves to no body
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -17981,9 +26273,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>undefined</code>
+**Direct**: `await client.etxRegistration.unregisterEtxClients(request)`
 
-**OnError**: <code>[EtxRegistration.UnregisterEtxClientsError](src/resources/etx-registration.ts)</code>
+- **OnSuccess**: <code>undefined</code>
+- **OnError**: throws <code>[EtxRegistration.UnregisterEtxClientsError](src/resources/etx-registration.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.etxRegistration.unregisterEtxClients(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;undefined, EtxRegistration.UnregisterEtxClientsError&gt;</code>, with `result.value` of type <code>undefined</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -18013,18 +26313,37 @@ Removes a map message for the specified region and intersection ID.
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  await client.mapMessageController.deleteMapMessage({ regionId, i10Nid });
+  await client.mapMessageController.deleteMapMessage({ regionId: "0", i10Nid: "58399" });
 } catch (err) {
-  if (err instanceof MapMessageController.DeleteMapMessageError && err.payload.kind === "mdmErrorResponse") {
-    // TODO: Handle 'err.payload.body' of type MdmErrorResponse
-  }
+  // TODO: Handle 'err' of type MapMessageController.DeleteMapMessageError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.mapMessageController.deleteMapMessage({
+  regionId: "0",
+  i10Nid: "58399",
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: The call succeeded and resolves to no body
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -18049,9 +26368,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>undefined</code>
+**Direct**: `await client.mapMessageController.deleteMapMessage(request)`
 
-**OnError**: <code>[MapMessageController.DeleteMapMessageError](src/resources/map-message-controller.ts)</code>
+- **OnSuccess**: <code>undefined</code>
+- **OnError**: throws <code>[MapMessageController.DeleteMapMessageError](src/resources/map-message-controller.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.mapMessageController.deleteMapMessage(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;undefined, MapMessageController.DeleteMapMessageError&gt;</code>, with `result.value` of type <code>undefined</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -18084,21 +26411,59 @@ This endpoint allows user to download SAE J2735 or ETSI MAP messages in ASN.1 UP
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.mapMessageController.downloadMapMessages({ geofence, vendorId });
+  const response = await client.mapMessageController.downloadMapMessages({
+    geofence: {
+      type: EtxMapMessageGeofenceGeometry.Polygon,
+      coordinates: [
+        [-77.479395, 38.990773],
+        [-77.114566, 38.99944],
+        [-77.100228, 38.817204],
+        [-77.418059, 38.827754],
+        [-77.479395, 38.990773],
+      ],
+    },
+    vendorId: "VzMapManager",
+  });
   // TODO: Handle 'response' of type string
 } catch (err) {
-  if (
-    err instanceof MapMessageController.DownloadMapMessagesError && err.payload.kind === "mdmErrorResponse"
-  ) {
-    // TODO: Handle 'err.payload.body' of type MdmErrorResponse
-  }
+  // TODO: Handle 'err' of type MapMessageController.DownloadMapMessagesError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.mapMessageController.downloadMapMessages({
+  geofence: {
+    type: EtxMapMessageGeofenceGeometry.Polygon,
+    coordinates: [
+      [-77.479395, 38.990773],
+      [-77.114566, 38.99944],
+      [-77.100228, 38.817204],
+      [-77.418059, 38.827754],
+      [-77.479395, 38.990773],
+    ],
+  },
+  vendorId: "VzMapManager",
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type string
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -18123,9 +26488,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>string</code>
+**Direct**: `await client.mapMessageController.downloadMapMessages(request)`
 
-**OnError**: <code>[MapMessageController.DownloadMapMessagesError](src/resources/map-message-controller.ts)</code>
+- **OnSuccess**: <code>string</code>
+- **OnError**: throws <code>[MapMessageController.DownloadMapMessagesError](src/resources/map-message-controller.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.mapMessageController.downloadMapMessages(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;string, MapMessageController.DownloadMapMessagesError&gt;</code>, with `result.value` of type <code>string</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -18159,19 +26532,43 @@ Note: The user needs to authenticate with their ThingSpace credentials using the
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.mapMessageController.ingestMapMessages({ vendorId, body });
+  const response = await client.mapMessageController.ingestMapMessages({
+    vendorId: "VzMapManager",
+    mapDataMessageStandard: EtxMessageStandardEnum.Sae,
+    body: { messageId: 1, value: {} },
+  });
   // TODO: Handle 'response' of type string
 } catch (err) {
-  if (err instanceof MapMessageController.IngestMapMessagesError && err.payload.kind === "mdmErrorResponse") {
-    // TODO: Handle 'err.payload.body' of type MdmErrorResponse
-  }
+  // TODO: Handle 'err' of type MapMessageController.IngestMapMessagesError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.mapMessageController.ingestMapMessages({
+  vendorId: "VzMapManager",
+  mapDataMessageStandard: EtxMessageStandardEnum.Sae,
+  body: { messageId: 1, value: {} },
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type string
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -18186,7 +26583,7 @@ try {
 | Name | Type | Description |
 | --- | --- | --- |
 | <code>vendorId</code> | <code>string</code> | The VendorID set during the Vendor registration call. |
-| <code>mapDataMessageStandard?</code> | <code>[EtxMessageStandardEnum](src/models/etx-message-standard-enum.ts)</code> | Select which V2X messaging standard will be used for the message generation. The following options are supported:<br>- "etsi": The message will be generated using the ETSI (European) standard (e.g. MAPEM).<br>- "sae": The message will be generated using the SAE J2735 (North American) standard (e.g. MAP).<br>- if not sent while POST, defaults to "sae" |
+| <code>mapDataMessageStandard?</code> | <code>[EtxMessageStandardEnum](src/models/etx-message-standard-enum.ts)</code> | Select which V2X messaging standard will be used for the message generation. The following options are supported:<br>- "etsi": The message will be generated using the ETSI (European) standard (e.g. MAPEM).<br>- "sae": The message will be generated using the SAE J2735 (North American) standard (e.g. MAP).<br>- if not sent while POST, defaults to "sae"<br>**Default**: "sae" |
 | <code>body</code> | <code>[EtxMapDataIngestRequest](src/models/etx-map-data-ingest-request.ts)</code> | UPER/ASN.1 J2735/ETSI base64 encoded MapData message or JSON representation of the MapData message. |
 
 </dd>
@@ -18197,9 +26594,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>string</code>
+**Direct**: `await client.mapMessageController.ingestMapMessages(request)`
 
-**OnError**: <code>[MapMessageController.IngestMapMessagesError](src/resources/map-message-controller.ts)</code>
+- **OnSuccess**: <code>string</code>
+- **OnError**: throws <code>[MapMessageController.IngestMapMessagesError](src/resources/map-message-controller.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.mapMessageController.ingestMapMessages(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;string, MapMessageController.IngestMapMessagesError&gt;</code>, with `result.value` of type <code>string</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -18229,19 +26634,51 @@ An array of region and intersection ID pairs, or a GeoJSON geofence specificatio
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.mapMessageController.queryMapMessages({ vendorId, body });
+  const response = await client.mapMessageController.queryMapMessages({
+    vendorId: "VzMapManager",
+    body: {
+      messageStandard: EtxMessageStandardEnum.Sae,
+      regionIntersectionPairs: [{ regionId: 100, intersectionId: 5233 }],
+      expectedType: EtxExpectedTypeEnum.Base64,
+      pageSize: 50,
+    },
+  });
   // TODO: Handle 'response' of type Record<string, unknown>[]
 } catch (err) {
-  if (err instanceof MapMessageController.QueryMapMessagesError && err.payload.kind === "mdmErrorResponse") {
-    // TODO: Handle 'err.payload.body' of type MdmErrorResponse
-  }
+  // TODO: Handle 'err' of type MapMessageController.QueryMapMessagesError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.mapMessageController.queryMapMessages({
+  vendorId: "VzMapManager",
+  body: {
+    messageStandard: EtxMessageStandardEnum.Sae,
+    regionIntersectionPairs: [{ regionId: 100, intersectionId: 5233 }],
+    expectedType: EtxExpectedTypeEnum.Base64,
+    pageSize: 50,
+  },
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type Record<string, unknown>[]
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -18266,9 +26703,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>Record&lt;string, unknown&gt;[]</code>
+**Direct**: `await client.mapMessageController.queryMapMessages(request)`
 
-**OnError**: <code>[MapMessageController.QueryMapMessagesError](src/resources/map-message-controller.ts)</code>
+- **OnSuccess**: <code>Record&lt;string, unknown&gt;[]</code>
+- **OnError**: throws <code>[MapMessageController.QueryMapMessagesError](src/resources/map-message-controller.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.mapMessageController.queryMapMessages(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;Record&lt;string, unknown&gt;[], MapMessageController.QueryMapMessagesError&gt;</code>, with `result.value` of type <code>Record&lt;string, unknown&gt;[]</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -18298,21 +26743,37 @@ Retrieves the rate plans and rate plan details for a profile ID.
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.retrieveRatePlanList.getRatePlanList({ ecpdId });
+  const response = await client.retrieveRatePlanList.getRatePlanList({ ecpdId: "0000123456-00001" });
   // TODO: Handle 'response' of type Rateplan
 } catch (err) {
-  if (
-    err instanceof RetrieveRatePlanList.GetRatePlanListError && err.payload.kind === "ruleRestErrorResponse"
-  ) {
-    // TODO: Handle 'err.payload.body' of type RuleRestErrorResponse
-  }
+  // TODO: Handle 'err' of type RetrieveRatePlanList.GetRatePlanListError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.retrieveRatePlanList.getRatePlanList({
+  ecpdId: "0000123456-00001",
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type Rateplan
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -18336,9 +26797,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[Rateplan](src/models/rateplan.ts)</code>
+**Direct**: `await client.retrieveRatePlanList.getRatePlanList(request)`
 
-**OnError**: <code>[RetrieveRatePlanList.GetRatePlanListError](src/resources/retrieve-rate-plan-list.ts)</code>
+- **OnSuccess**: <code>[Rateplan](src/models/rateplan.ts)</code>
+- **OnError**: throws <code>[RetrieveRatePlanList.GetRatePlanListError](src/resources/retrieve-rate-plan-list.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.retrieveRatePlanList.getRatePlanList(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;Rateplan, RetrieveRatePlanList.GetRatePlanListError&gt;</code>, with `result.value` of type <code>[Rateplan](src/models/rateplan.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -18368,22 +26837,83 @@ Create a usage trigger at the account level, device level or a price plan trigge
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.createPricePlanTriggers.createTriggerRules({ body });
+  const response = await client.createPricePlanTriggers.createTriggerRules({
+    body: {
+      triggerName: "name of the trigger",
+      ecpdId: "Verizon profile ID",
+      triggerCategory: TriggerCategory.AccountUsage,
+      dataTrigger: { accountLevel: { filterCriteria: {}, condition: {}, action: AccountLevelAction.Notify } },
+      notification: {
+        notificationType: "PerEvent",
+        callback: true,
+        emailNotification: false,
+        notificationGroupName: "NotificationGroupName",
+        notificationFrequencyFactor: 3,
+        notificationFrequencyInterval: "Daily",
+        externalEmailRecipients: "ExternalEmailRecipients",
+        smsNotification: true,
+        smsNumbers: [
+          { number: "10-digit mobile number", carrier: "mobile service provider" },
+          { number: "10-digit mobile number", carrier: "mobile service provider" },
+        ],
+        reminder: true,
+        severity: "Notice",
+      },
+      active: Active.True,
+    },
+  });
   // TODO: Handle 'response' of type TriggerResponse
 } catch (err) {
-  if (
-    err instanceof CreatePricePlanTriggers.CreateTriggerRulesError &&
-      err.payload.kind === "ruleRestErrorResponse"
-  ) {
-    // TODO: Handle 'err.payload.body' of type RuleRestErrorResponse
-  }
+  // TODO: Handle 'err' of type CreatePricePlanTriggers.CreateTriggerRulesError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.createPricePlanTriggers.createTriggerRules({
+  body: {
+    triggerName: "name of the trigger",
+    ecpdId: "Verizon profile ID",
+    triggerCategory: TriggerCategory.AccountUsage,
+    dataTrigger: { accountLevel: { filterCriteria: {}, condition: {}, action: AccountLevelAction.Notify } },
+    notification: {
+      notificationType: "PerEvent",
+      callback: true,
+      emailNotification: false,
+      notificationGroupName: "NotificationGroupName",
+      notificationFrequencyFactor: 3,
+      notificationFrequencyInterval: "Daily",
+      externalEmailRecipients: "ExternalEmailRecipients",
+      smsNotification: true,
+      smsNumbers: [
+        { number: "10-digit mobile number", carrier: "mobile service provider" },
+        { number: "10-digit mobile number", carrier: "mobile service provider" },
+      ],
+      reminder: true,
+      severity: "Notice",
+    },
+    active: Active.True,
+  },
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type TriggerResponse
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -18407,9 +26937,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[TriggerResponse](src/models/trigger-response.ts)</code>
+**Direct**: `await client.createPricePlanTriggers.createTriggerRules(request)`
 
-**OnError**: <code>[CreatePricePlanTriggers.CreateTriggerRulesError](src/resources/create-price-plan-triggers.ts)</code>
+- **OnSuccess**: <code>[TriggerResponse](src/models/trigger-response.ts)</code>
+- **OnError**: throws <code>[CreatePricePlanTriggers.CreateTriggerRulesError](src/resources/create-price-plan-triggers.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.createPricePlanTriggers.createTriggerRules(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;TriggerResponse, CreatePricePlanTriggers.CreateTriggerRulesError&gt;</code>, with `result.value` of type <code>[TriggerResponse](src/models/trigger-response.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -18439,22 +26977,85 @@ Updates a usage trigger at the account level, device level or a price plan trigg
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.updatePricePlanTriggers.updateTriggerRules({ body });
+  const response = await client.updatePricePlanTriggers.updateTriggerRules({
+    body: {
+      triggerId: "b9cc1da6-ffff-eeee-gggg-7eba8859ab5e",
+      triggerName: "name of the trigger",
+      ecpdId: "Verizon profile ID",
+      triggerCategory: TriggerCategory.AccountUsage,
+      dataTrigger: {},
+      notification: {
+        notificationType: "PerEvent",
+        callback: true,
+        emailNotification: false,
+        notificationGroupName: "NotificationGroupName",
+        notificationFrequencyFactor: 3,
+        notificationFrequencyInterval: "Daily",
+        externalEmailRecipients: "ExternalEmailRecipients",
+        smsNotification: true,
+        smsNumbers: [
+          { number: "10-digit mobile number", carrier: "mobile service provider" },
+          { number: "10-digit mobile number", carrier: "mobile service provider" },
+        ],
+        reminder: true,
+        severity: "Notice",
+      },
+      active: Active.True,
+    },
+  });
   // TODO: Handle 'response' of type TriggerResponse
 } catch (err) {
-  if (
-    err instanceof UpdatePricePlanTriggers.UpdateTriggerRulesError &&
-      err.payload.kind === "ruleRestErrorResponse"
-  ) {
-    // TODO: Handle 'err.payload.body' of type RuleRestErrorResponse
-  }
+  // TODO: Handle 'err' of type UpdatePricePlanTriggers.UpdateTriggerRulesError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.updatePricePlanTriggers.updateTriggerRules({
+  body: {
+    triggerId: "b9cc1da6-ffff-eeee-gggg-7eba8859ab5e",
+    triggerName: "name of the trigger",
+    ecpdId: "Verizon profile ID",
+    triggerCategory: TriggerCategory.AccountUsage,
+    dataTrigger: {},
+    notification: {
+      notificationType: "PerEvent",
+      callback: true,
+      emailNotification: false,
+      notificationGroupName: "NotificationGroupName",
+      notificationFrequencyFactor: 3,
+      notificationFrequencyInterval: "Daily",
+      externalEmailRecipients: "ExternalEmailRecipients",
+      smsNotification: true,
+      smsNumbers: [
+        { number: "10-digit mobile number", carrier: "mobile service provider" },
+        { number: "10-digit mobile number", carrier: "mobile service provider" },
+      ],
+      reminder: true,
+      severity: "Notice",
+    },
+    active: Active.True,
+  },
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type TriggerResponse
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -18478,9 +27079,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[TriggerResponse](src/models/trigger-response.ts)</code>
+**Direct**: `await client.updatePricePlanTriggers.updateTriggerRules(request)`
 
-**OnError**: <code>[UpdatePricePlanTriggers.UpdateTriggerRulesError](src/resources/update-price-plan-triggers.ts)</code>
+- **OnSuccess**: <code>[TriggerResponse](src/models/trigger-response.ts)</code>
+- **OnError**: throws <code>[UpdatePricePlanTriggers.UpdateTriggerRulesError](src/resources/update-price-plan-triggers.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.updatePricePlanTriggers.updateTriggerRules(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;TriggerResponse, UpdatePricePlanTriggers.UpdateTriggerRulesError&gt;</code>, with `result.value` of type <code>[TriggerResponse](src/models/trigger-response.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -18510,22 +27119,55 @@ Change a device's service plan to use 5G BI.
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.gbiDeviceActions5.businessInternetServiceplanchange({ body });
+  const response = await client.gbiDeviceActions5.businessInternetServiceplanchange({
+    body: {
+      accountName: "0000123456-00001",
+      servicePlan: "5G BI service plan name being changed to",
+      deviceListWithServiceAddress: [
+        { deviceId: [{ id: "15-digit IMEI", kind: "imei" }] },
+        { primaryPlaceofuse: {} },
+      ],
+      currentServicePlan: "Optional name of the plan being changed from",
+    },
+  });
   // TODO: Handle 'response' of type GbiRequestResponse5
 } catch (err) {
-  if (
-    err instanceof GbiDeviceActions5.BusinessInternetServiceplanchangeError &&
-      err.payload.kind === "gbiRestErrorResponse5"
-  ) {
-    // TODO: Handle 'err.payload.body' of type GbiRestErrorResponse5
-  }
+  // TODO: Handle 'err' of type GbiDeviceActions5.BusinessInternetServiceplanchangeError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.gbiDeviceActions5.businessInternetServiceplanchange({
+  body: {
+    accountName: "0000123456-00001",
+    servicePlan: "5G BI service plan name being changed to",
+    deviceListWithServiceAddress: [
+      { deviceId: [{ id: "15-digit IMEI", kind: "imei" }] },
+      { primaryPlaceofuse: {} },
+    ],
+    currentServicePlan: "Optional name of the plan being changed from",
+  },
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type GbiRequestResponse5
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -18549,9 +27191,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[GbiRequestResponse5](src/models/gbi-request-response5.ts)</code>
+**Direct**: `await client.gbiDeviceActions5.businessInternetServiceplanchange(request)`
 
-**OnError**: <code>[GbiDeviceActions5.BusinessInternetServiceplanchangeError](src/resources/gbi-device-actions5.ts)</code>
+- **OnSuccess**: <code>[GbiRequestResponse5](src/models/gbi-request-response5.ts)</code>
+- **OnError**: throws <code>[GbiDeviceActions5.BusinessInternetServiceplanchangeError](src/resources/gbi-device-actions5.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.gbiDeviceActions5.businessInternetServiceplanchange(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;GbiRequestResponse5, GbiDeviceActions5.BusinessInternetServiceplanchangeError&gt;</code>, with `result.value` of type <code>[GbiRequestResponse5](src/models/gbi-request-response5.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -18577,22 +27227,61 @@ Uses the device's ICCID and IMEI to activate service.
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.gbiDeviceActions5.businessInternetactivateUsingPost({ body });
+  const response = await client.gbiDeviceActions5.businessInternetactivateUsingPost({
+    body: {
+      accountName: "0000123456-00001",
+      servicePlan: "service plan name",
+      deviceListWithServiceAddress: [
+        { deviceId: [{ id: "15-digit IMEI", kind: "imei" }, { id: "20-digit ICCID", kind: "iccid" }] },
+        { primaryPlaceofuse: { address: {}, customerName: {} } },
+      ],
+      skuNumber: "VZW Stock Keeping Unit number",
+      publicIpRestriction: "Unrestricted",
+      carrierName: "Verizon Wireless",
+      mdnZipCode: "the 5-digit ZIP code of the Mobile Directory Number (MDN)",
+    },
+  });
   // TODO: Handle 'response' of type GbiRequestResponse5
 } catch (err) {
-  if (
-    err instanceof GbiDeviceActions5.BusinessInternetactivateUsingPostError &&
-      err.payload.kind === "gbiRestErrorResponse5"
-  ) {
-    // TODO: Handle 'err.payload.body' of type GbiRestErrorResponse5
-  }
+  // TODO: Handle 'err' of type GbiDeviceActions5.BusinessInternetactivateUsingPostError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.gbiDeviceActions5.businessInternetactivateUsingPost({
+  body: {
+    accountName: "0000123456-00001",
+    servicePlan: "service plan name",
+    deviceListWithServiceAddress: [
+      { deviceId: [{ id: "15-digit IMEI", kind: "imei" }, { id: "20-digit ICCID", kind: "iccid" }] },
+      { primaryPlaceofuse: { address: {}, customerName: {} } },
+    ],
+    skuNumber: "VZW Stock Keeping Unit number",
+    publicIpRestriction: "Unrestricted",
+    carrierName: "Verizon Wireless",
+    mdnZipCode: "the 5-digit ZIP code of the Mobile Directory Number (MDN)",
+  },
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type GbiRequestResponse5
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -18616,9 +27305,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[GbiRequestResponse5](src/models/gbi-request-response5.ts)</code>
+**Direct**: `await client.gbiDeviceActions5.businessInternetactivateUsingPost(request)`
 
-**OnError**: <code>[GbiDeviceActions5.BusinessInternetactivateUsingPostError](src/resources/gbi-device-actions5.ts)</code>
+- **OnSuccess**: <code>[GbiRequestResponse5](src/models/gbi-request-response5.ts)</code>
+- **OnError**: throws <code>[GbiDeviceActions5.BusinessInternetactivateUsingPostError](src/resources/gbi-device-actions5.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.gbiDeviceActions5.businessInternetactivateUsingPost(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;GbiRequestResponse5, GbiDeviceActions5.BusinessInternetactivateUsingPostError&gt;</code>, with `result.value` of type <code>[GbiRequestResponse5](src/models/gbi-request-response5.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -18644,22 +27341,39 @@ Uses the decive's Integrated Circuit Card Identification Number (ICCID) to retri
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.gbiDeviceActions5.businessInternetlistDeviceInformation({ body });
+  const response = await client.gbiDeviceActions5.businessInternetlistDeviceInformation({
+    body: { deviceId: { id: "20-digit ICCID", kind: "iccid" } },
+  });
   // TODO: Handle 'response' of type GbideviceDetailsresponse5
 } catch (err) {
-  if (
-    err instanceof GbiDeviceActions5.BusinessInternetlistDeviceInformationError &&
-      err.payload.kind === "gbiRestErrorResponse5"
-  ) {
-    // TODO: Handle 'err.payload.body' of type GbiRestErrorResponse5
-  }
+  // TODO: Handle 'err' of type GbiDeviceActions5.BusinessInternetlistDeviceInformationError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.gbiDeviceActions5.businessInternetlistDeviceInformation({
+  body: { deviceId: { id: "20-digit ICCID", kind: "iccid" } },
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type GbideviceDetailsresponse5
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -18683,9 +27397,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[GbideviceDetailsresponse5](src/models/gbidevice-detailsresponse5.ts)</code>
+**Direct**: `await client.gbiDeviceActions5.businessInternetlistDeviceInformation(request)`
 
-**OnError**: <code>[GbiDeviceActions5.BusinessInternetlistDeviceInformationError](src/resources/gbi-device-actions5.ts)</code>
+- **OnSuccess**: <code>[GbideviceDetailsresponse5](src/models/gbidevice-detailsresponse5.ts)</code>
+- **OnError**: throws <code>[GbiDeviceActions5.BusinessInternetlistDeviceInformationError](src/resources/gbi-device-actions5.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.gbiDeviceActions5.businessInternetlistDeviceInformation(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;GbideviceDetailsresponse5, GbiDeviceActions5.BusinessInternetlistDeviceInformationError&gt;</code>, with `result.value` of type <code>[GbideviceDetailsresponse5](src/models/gbidevice-detailsresponse5.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -18705,22 +27427,93 @@ try {
 <dl>
 <dd>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.sensorInsightsSensors.sensorInsightsListSensorDevicesRequest({ body });
+  const response = await client.sensorInsightsSensors.sensorInsightsListSensorDevicesRequest({
+    body: {
+      accountname: "0000123456-00001",
+      filter: {
+        expand: "device detail(s)",
+        limitnumber: 100,
+        nopagination: true,
+        page: "The number of pages",
+        pagenumber: 1,
+        projection: ["specific device fields requested"],
+        selection: { additionalProp1: "string", additionalProp2: "string", additionalProp3: "string" },
+      },
+      resourceidentifier: {
+        deveui: "The unique EUI64 address of the device",
+        deviceid: "The UUID of the device",
+        esn: 223372036854775800,
+        iccid: "The 20-digit Integrated Circuit Card ID (SIM card ID)",
+        imei: 223372036854775,
+        imsi: 223372036854775800,
+        mac: "The Media Access Control address of the device, listed on the device in the format XX-XX-XX-XX-XX-XX or XX:XX:XX:XX:XX:XX",
+        manufacturer: "REOLINK",
+        meid: "The 56-bit Mobile Equipment ID",
+        msisdn:
+          "The Mobile Station International Subscriber Directory Number. In the USA, this is 1+ a 10-digit phone number",
+        nodeUuid: "The UUID of the node the device is associated with",
+        qrcode: "The Quick Response (QR) code",
+        serial: "The device's serial number",
+      },
+    },
+  });
   // TODO: Handle 'response' of type ResourceDevice[]
 } catch (err) {
-  if (
-    err instanceof SensorInsightsSensors.SensorInsightsListSensorDevicesRequestError &&
-      err.payload.kind === "managementError400"
-  ) {
-    // TODO: Handle 'err.payload.body' of type ManagementError400
-  }
+  // TODO: Handle 'err' of type SensorInsightsSensors.SensorInsightsListSensorDevicesRequestError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.sensorInsightsSensors.sensorInsightsListSensorDevicesRequest({
+  body: {
+    accountname: "0000123456-00001",
+    filter: {
+      expand: "device detail(s)",
+      limitnumber: 100,
+      nopagination: true,
+      page: "The number of pages",
+      pagenumber: 1,
+      projection: ["specific device fields requested"],
+      selection: { additionalProp1: "string", additionalProp2: "string", additionalProp3: "string" },
+    },
+    resourceidentifier: {
+      deveui: "The unique EUI64 address of the device",
+      deviceid: "The UUID of the device",
+      esn: 223372036854775800,
+      iccid: "The 20-digit Integrated Circuit Card ID (SIM card ID)",
+      imei: 223372036854775,
+      imsi: 223372036854775800,
+      mac: "The Media Access Control address of the device, listed on the device in the format XX-XX-XX-XX-XX-XX or XX:XX:XX:XX:XX:XX",
+      manufacturer: "REOLINK",
+      meid: "The 56-bit Mobile Equipment ID",
+      msisdn:
+        "The Mobile Station International Subscriber Directory Number. In the USA, this is 1+ a 10-digit phone number",
+      nodeUuid: "The UUID of the node the device is associated with",
+      qrcode: "The Quick Response (QR) code",
+      serial: "The device's serial number",
+    },
+  },
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type ResourceDevice[]
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -18744,9 +27537,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[ResourceDevice](src/models/resource-device.ts)[]</code>
+**Direct**: `await client.sensorInsightsSensors.sensorInsightsListSensorDevicesRequest(request)`
 
-**OnError**: <code>[SensorInsightsSensors.SensorInsightsListSensorDevicesRequestError](src/resources/sensor-insights-sensors.ts)</code>
+- **OnSuccess**: <code>[ResourceDevice](src/models/resource-device.ts)[]</code>
+- **OnError**: throws <code>[SensorInsightsSensors.SensorInsightsListSensorDevicesRequestError](src/resources/sensor-insights-sensors.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.sensorInsightsSensors.sensorInsightsListSensorDevicesRequest(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;ResourceDevice[], SensorInsightsSensors.SensorInsightsListSensorDevicesRequestError&gt;</code>, with `result.value` of type <code>[ResourceDevice](src/models/resource-device.ts)[]</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -18762,21 +27563,44 @@ try {
 <dl>
 <dd>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  await client.sensorInsightsSensors.sensorInsightsOffBoardSensorRequest({ body });
+  await client.sensorInsightsSensors.sensorInsightsOffBoardSensorRequest({
+    body: {
+      accountname: "0000123456-00001",
+      configuration: { removesensor: { deveui: "The unique EUI64 address of the device" } },
+    },
+  });
 } catch (err) {
-  if (
-    err instanceof SensorInsightsSensors.SensorInsightsOffBoardSensorRequestError &&
-      err.payload.kind === "managementError400"
-  ) {
-    // TODO: Handle 'err.payload.body' of type ManagementError400
-  }
+  // TODO: Handle 'err' of type SensorInsightsSensors.SensorInsightsOffBoardSensorRequestError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.sensorInsightsSensors.sensorInsightsOffBoardSensorRequest({
+  body: {
+    accountname: "0000123456-00001",
+    configuration: { removesensor: { deveui: "The unique EUI64 address of the device" } },
+  },
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: The call succeeded and resolves to no body
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -18800,9 +27624,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>undefined</code>
+**Direct**: `await client.sensorInsightsSensors.sensorInsightsOffBoardSensorRequest(request)`
 
-**OnError**: <code>[SensorInsightsSensors.SensorInsightsOffBoardSensorRequestError](src/resources/sensor-insights-sensors.ts)</code>
+- **OnSuccess**: <code>undefined</code>
+- **OnError**: throws <code>[SensorInsightsSensors.SensorInsightsOffBoardSensorRequestError](src/resources/sensor-insights-sensors.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.sensorInsightsSensors.sensorInsightsOffBoardSensorRequest(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;undefined, SensorInsightsSensors.SensorInsightsOffBoardSensorRequestError&gt;</code>, with `result.value` of type <code>undefined</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -18818,21 +27650,68 @@ try {
 <dl>
 <dd>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  await client.sensorInsightsSensors.sensorInsightsOnBoardSensorRequest({ body });
+  await client.sensorInsightsSensors.sensorInsightsOnBoardSensorRequest({
+    body: {
+      accountname: "0000123456-00001",
+      payload: {
+        addsensor: {
+          deveui: "The unique EUI64 address of the device",
+          appeui:
+            "global application ID in IEEE EUI64 address space that uniquely identifies the entity able to process the JoinReq frame",
+          appkey: "Encryption key used for messages during every over the air activation",
+          class: "A",
+          kind: "ts.device.sensor.lorawan.radiobridge.RBS301-DWS-US",
+          description: "used to identify water leaks",
+          name: "Water Leak sensor",
+          customdata: { additionalProp1: {}, additionalProp2: {}, additionalProp3: {} },
+        },
+      },
+    },
+  });
 } catch (err) {
-  if (
-    err instanceof SensorInsightsSensors.SensorInsightsOnBoardSensorRequestError &&
-      err.payload.kind === "managementError400"
-  ) {
-    // TODO: Handle 'err.payload.body' of type ManagementError400
-  }
+  // TODO: Handle 'err' of type SensorInsightsSensors.SensorInsightsOnBoardSensorRequestError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.sensorInsightsSensors.sensorInsightsOnBoardSensorRequest({
+  body: {
+    accountname: "0000123456-00001",
+    payload: {
+      addsensor: {
+        deveui: "The unique EUI64 address of the device",
+        appeui:
+          "global application ID in IEEE EUI64 address space that uniquely identifies the entity able to process the JoinReq frame",
+        appkey: "Encryption key used for messages during every over the air activation",
+        class: "A",
+        kind: "ts.device.sensor.lorawan.radiobridge.RBS301-DWS-US",
+        description: "used to identify water leaks",
+        name: "Water Leak sensor",
+        customdata: { additionalProp1: {}, additionalProp2: {}, additionalProp3: {} },
+      },
+    },
+  },
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: The call succeeded and resolves to no body
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -18856,9 +27735,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>undefined</code>
+**Direct**: `await client.sensorInsightsSensors.sensorInsightsOnBoardSensorRequest(request)`
 
-**OnError**: <code>[SensorInsightsSensors.SensorInsightsOnBoardSensorRequestError](src/resources/sensor-insights-sensors.ts)</code>
+- **OnSuccess**: <code>undefined</code>
+- **OnError**: throws <code>[SensorInsightsSensors.SensorInsightsOnBoardSensorRequestError](src/resources/sensor-insights-sensors.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.sensorInsightsSensors.sensorInsightsOnBoardSensorRequest(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;undefined, SensorInsightsSensors.SensorInsightsOnBoardSensorRequestError&gt;</code>, with `result.value` of type <code>undefined</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -18874,22 +27761,47 @@ try {
 <dl>
 <dd>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.sensorInsightsSensors.sensorInsightsSensorOffBoardingStatusRequest({ body });
+  const response = await client.sensorInsightsSensors.sensorInsightsSensorOffBoardingStatusRequest({
+    body: {
+      accountname: "0000123456-00001",
+      gatewayidentifier: { deviceid: "UUID of the Gateway device" },
+      offboarding: {},
+    },
+  });
   // TODO: Handle 'response' of type DtoSensorOffBoardingStatusResponse
 } catch (err) {
-  if (
-    err instanceof SensorInsightsSensors.SensorInsightsSensorOffBoardingStatusRequestError &&
-      err.payload.kind === "managementError400"
-  ) {
-    // TODO: Handle 'err.payload.body' of type ManagementError400
-  }
+  // TODO: Handle 'err' of type SensorInsightsSensors.SensorInsightsSensorOffBoardingStatusRequestError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.sensorInsightsSensors.sensorInsightsSensorOffBoardingStatusRequest({
+  body: {
+    accountname: "0000123456-00001",
+    gatewayidentifier: { deviceid: "UUID of the Gateway device" },
+    offboarding: {},
+  },
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type DtoSensorOffBoardingStatusResponse
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -18913,9 +27825,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[DtoSensorOffBoardingStatusResponse](src/models/dto-sensor-off-boarding-status-response.ts)</code>
+**Direct**: `await client.sensorInsightsSensors.sensorInsightsSensorOffBoardingStatusRequest(request)`
 
-**OnError**: <code>[SensorInsightsSensors.SensorInsightsSensorOffBoardingStatusRequestError](src/resources/sensor-insights-sensors.ts)</code>
+- **OnSuccess**: <code>[DtoSensorOffBoardingStatusResponse](src/models/dto-sensor-off-boarding-status-response.ts)</code>
+- **OnError**: throws <code>[SensorInsightsSensors.SensorInsightsSensorOffBoardingStatusRequestError](src/resources/sensor-insights-sensors.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.sensorInsightsSensors.sensorInsightsSensorOffBoardingStatusRequest(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;DtoSensorOffBoardingStatusResponse, SensorInsightsSensors.SensorInsightsSensorOffBoardingStatusRequestError&gt;</code>, with `result.value` of type <code>[DtoSensorOffBoardingStatusResponse](src/models/dto-sensor-off-boarding-status-response.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -18931,22 +27851,47 @@ try {
 <dl>
 <dd>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.sensorInsightsSensors.sensorInsightsSensorOnBoardStatusRequest({ body });
+  const response = await client.sensorInsightsSensors.sensorInsightsSensorOnBoardStatusRequest({
+    body: {
+      accountname: "0000123456-00001",
+      gatewayidentifier: { deviceid: "00000000-0000-0000-0000-000000000255" },
+      onboarding: {},
+    },
+  });
   // TODO: Handle 'response' of type DtoSensorOnBoardingStatusResponse
 } catch (err) {
-  if (
-    err instanceof SensorInsightsSensors.SensorInsightsSensorOnBoardStatusRequestError &&
-      err.payload.kind === "managementError400"
-  ) {
-    // TODO: Handle 'err.payload.body' of type ManagementError400
-  }
+  // TODO: Handle 'err' of type SensorInsightsSensors.SensorInsightsSensorOnBoardStatusRequestError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.sensorInsightsSensors.sensorInsightsSensorOnBoardStatusRequest({
+  body: {
+    accountname: "0000123456-00001",
+    gatewayidentifier: { deviceid: "00000000-0000-0000-0000-000000000255" },
+    onboarding: {},
+  },
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type DtoSensorOnBoardingStatusResponse
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -18970,9 +27915,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[DtoSensorOnBoardingStatusResponse](src/models/dto-sensor-on-boarding-status-response.ts)</code>
+**Direct**: `await client.sensorInsightsSensors.sensorInsightsSensorOnBoardStatusRequest(request)`
 
-**OnError**: <code>[SensorInsightsSensors.SensorInsightsSensorOnBoardStatusRequestError](src/resources/sensor-insights-sensors.ts)</code>
+- **OnSuccess**: <code>[DtoSensorOnBoardingStatusResponse](src/models/dto-sensor-on-boarding-status-response.ts)</code>
+- **OnError**: throws <code>[SensorInsightsSensors.SensorInsightsSensorOnBoardStatusRequestError](src/resources/sensor-insights-sensors.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.sensorInsightsSensors.sensorInsightsSensorOnBoardStatusRequest(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;DtoSensorOnBoardingStatusResponse, SensorInsightsSensors.SensorInsightsSensorOnBoardStatusRequestError&gt;</code>, with `result.value` of type <code>[DtoSensorOnBoardingStatusResponse](src/models/dto-sensor-on-boarding-status-response.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -18992,22 +27945,77 @@ try {
 <dl>
 <dd>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.sensorInsightsDevices.sensorInsightsDeviceActionSetRequest({ body });
+  const response = await client.sensorInsightsDevices.sensorInsightsDeviceActionSetRequest({
+    body: {
+      accountname: "0000123456-00001",
+      configuration: { deviceConfig: { ble: {} } },
+      resourceidentifier: {
+        deveui: "The unique EUI64 address of the device",
+        deviceid: "The UUID of the device",
+        esn: 223372036854775800,
+        iccid: "The 20-digit Integrated Circuit Card ID (SIM card ID)",
+        imei: 223372036854775,
+        imsi: 223372036854775800,
+        mac: "The Media Access Control address of the device, listed on the device in the format XX-XX-XX-XX-XX-XX or XX:XX:XX:XX:XX:XX",
+        manufacturer: "REOLINK",
+        meid: "The 56-bit Mobile Equipment ID",
+        msisdn:
+          "The Mobile Station International Subscriber Directory Number. In the USA, this is 1+ a 10-digit phone number",
+        nodeUuid: "The UUID of the node the device is associated with",
+        qrcode: "The Quick Response (QR) code",
+        serial: "The device's serial number",
+      },
+    },
+  });
   // TODO: Handle 'response' of type DtoDeviceActionSetResponse
 } catch (err) {
-  if (
-    err instanceof SensorInsightsDevices.SensorInsightsDeviceActionSetRequestError &&
-      err.payload.kind === "managementError400"
-  ) {
-    // TODO: Handle 'err.payload.body' of type ManagementError400
-  }
+  // TODO: Handle 'err' of type SensorInsightsDevices.SensorInsightsDeviceActionSetRequestError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.sensorInsightsDevices.sensorInsightsDeviceActionSetRequest({
+  body: {
+    accountname: "0000123456-00001",
+    configuration: { deviceConfig: { ble: {} } },
+    resourceidentifier: {
+      deveui: "The unique EUI64 address of the device",
+      deviceid: "The UUID of the device",
+      esn: 223372036854775800,
+      iccid: "The 20-digit Integrated Circuit Card ID (SIM card ID)",
+      imei: 223372036854775,
+      imsi: 223372036854775800,
+      mac: "The Media Access Control address of the device, listed on the device in the format XX-XX-XX-XX-XX-XX or XX:XX:XX:XX:XX:XX",
+      manufacturer: "REOLINK",
+      meid: "The 56-bit Mobile Equipment ID",
+      msisdn:
+        "The Mobile Station International Subscriber Directory Number. In the USA, this is 1+ a 10-digit phone number",
+      nodeUuid: "The UUID of the node the device is associated with",
+      qrcode: "The Quick Response (QR) code",
+      serial: "The device's serial number",
+    },
+  },
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type DtoDeviceActionSetResponse
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -19031,9 +28039,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[DtoDeviceActionSetResponse](src/models/dto-device-action-set-response.ts)</code>
+**Direct**: `await client.sensorInsightsDevices.sensorInsightsDeviceActionSetRequest(request)`
 
-**OnError**: <code>[SensorInsightsDevices.SensorInsightsDeviceActionSetRequestError](src/resources/sensor-insights-devices.ts)</code>
+- **OnSuccess**: <code>[DtoDeviceActionSetResponse](src/models/dto-device-action-set-response.ts)</code>
+- **OnError**: throws <code>[SensorInsightsDevices.SensorInsightsDeviceActionSetRequestError](src/resources/sensor-insights-devices.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.sensorInsightsDevices.sensorInsightsDeviceActionSetRequest(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;DtoDeviceActionSetResponse, SensorInsightsDevices.SensorInsightsDeviceActionSetRequestError&gt;</code>, with `result.value` of type <code>[DtoDeviceActionSetResponse](src/models/dto-device-action-set-response.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -19049,22 +28065,75 @@ try {
 <dl>
 <dd>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.sensorInsightsDevices.sensorInsightsLastReportedTimeRequest({ body });
+  const response = await client.sensorInsightsDevices.sensorInsightsLastReportedTimeRequest({
+    body: {
+      accountname: "0000123456-00001",
+      resourceidentifier: {
+        deveui: "The unique EUI64 address of the device",
+        deviceid: "The UUID of the device",
+        esn: 223372036854775800,
+        iccid: "The 20-digit Integrated Circuit Card ID (SIM card ID)",
+        imei: 223372036854775,
+        imsi: 223372036854775800,
+        mac: "The Media Access Control address of the device, listed on the device in the format XX-XX-XX-XX-XX-XX or XX:XX:XX:XX:XX:XX",
+        manufacturer: "REOLINK",
+        meid: "The 56-bit Mobile Equipment ID",
+        msisdn:
+          "The Mobile Station International Subscriber Directory Number. In the USA, this is 1+ a 10-digit phone number",
+        nodeUuid: "The UUID of the node the device is associated with",
+        qrcode: "The Quick Response (QR) code",
+        serial: "The device's serial number",
+      },
+    },
+  });
   // TODO: Handle 'response' of type DtoLastReportedTimeResponse
 } catch (err) {
-  if (
-    err instanceof SensorInsightsDevices.SensorInsightsLastReportedTimeRequestError &&
-      err.payload.kind === "managementError400"
-  ) {
-    // TODO: Handle 'err.payload.body' of type ManagementError400
-  }
+  // TODO: Handle 'err' of type SensorInsightsDevices.SensorInsightsLastReportedTimeRequestError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.sensorInsightsDevices.sensorInsightsLastReportedTimeRequest({
+  body: {
+    accountname: "0000123456-00001",
+    resourceidentifier: {
+      deveui: "The unique EUI64 address of the device",
+      deviceid: "The UUID of the device",
+      esn: 223372036854775800,
+      iccid: "The 20-digit Integrated Circuit Card ID (SIM card ID)",
+      imei: 223372036854775,
+      imsi: 223372036854775800,
+      mac: "The Media Access Control address of the device, listed on the device in the format XX-XX-XX-XX-XX-XX or XX:XX:XX:XX:XX:XX",
+      manufacturer: "REOLINK",
+      meid: "The 56-bit Mobile Equipment ID",
+      msisdn:
+        "The Mobile Station International Subscriber Directory Number. In the USA, this is 1+ a 10-digit phone number",
+      nodeUuid: "The UUID of the node the device is associated with",
+      qrcode: "The Quick Response (QR) code",
+      serial: "The device's serial number",
+    },
+  },
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type DtoLastReportedTimeResponse
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -19088,9 +28157,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[DtoLastReportedTimeResponse](src/models/dto-last-reported-time-response.ts)</code>
+**Direct**: `await client.sensorInsightsDevices.sensorInsightsLastReportedTimeRequest(request)`
 
-**OnError**: <code>[SensorInsightsDevices.SensorInsightsLastReportedTimeRequestError](src/resources/sensor-insights-devices.ts)</code>
+- **OnSuccess**: <code>[DtoLastReportedTimeResponse](src/models/dto-last-reported-time-response.ts)</code>
+- **OnError**: throws <code>[SensorInsightsDevices.SensorInsightsLastReportedTimeRequestError](src/resources/sensor-insights-devices.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.sensorInsightsDevices.sensorInsightsLastReportedTimeRequest(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;DtoLastReportedTimeResponse, SensorInsightsDevices.SensorInsightsLastReportedTimeRequestError&gt;</code>, with `result.value` of type <code>[DtoLastReportedTimeResponse](src/models/dto-last-reported-time-response.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -19106,7 +28183,7 @@ try {
 <dl>
 <dd>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
@@ -19114,16 +28191,53 @@ try {
 ```ts
 try {
   const response = await client.sensorInsightsDevices.sensorInsightsListDeviceExperienceHistoryRequest({
-    body,
+    body: {
+      accountname: "0000123456-00001",
+      filter: {
+        expand: "device detail(s)",
+        limitnumber: 100,
+        nopagination: true,
+        page: "The number of pages",
+        pagenumber: 100,
+        projection: ["specific device fields requested"],
+        selection: { additionalProp1: "string", additionalProp2: "string", additionalProp3: "string" },
+      },
+    },
   });
   // TODO: Handle 'response' of type UserDeviceExperienceHistory[]
 } catch (err) {
-  if (
-    err instanceof SensorInsightsDevices.SensorInsightsListDeviceExperienceHistoryRequestError &&
-      err.payload.kind === "managementError400"
-  ) {
-    // TODO: Handle 'err.payload.body' of type ManagementError400
-  }
+  // TODO: Handle 'err' of type SensorInsightsDevices.SensorInsightsListDeviceExperienceHistoryRequestError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.sensorInsightsDevices.sensorInsightsListDeviceExperienceHistoryRequest({
+  body: {
+    accountname: "0000123456-00001",
+    filter: {
+      expand: "device detail(s)",
+      limitnumber: 100,
+      nopagination: true,
+      page: "The number of pages",
+      pagenumber: 100,
+      projection: ["specific device fields requested"],
+      selection: { additionalProp1: "string", additionalProp2: "string", additionalProp3: "string" },
+    },
+  },
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type UserDeviceExperienceHistory[]
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -19147,9 +28261,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[UserDeviceExperienceHistory](src/models/user-device-experience-history.ts)[]</code>
+**Direct**: `await client.sensorInsightsDevices.sensorInsightsListDeviceExperienceHistoryRequest(request)`
 
-**OnError**: <code>[SensorInsightsDevices.SensorInsightsListDeviceExperienceHistoryRequestError](src/resources/sensor-insights-devices.ts)</code>
+- **OnSuccess**: <code>[UserDeviceExperienceHistory](src/models/user-device-experience-history.ts)[]</code>
+- **OnError**: throws <code>[SensorInsightsDevices.SensorInsightsListDeviceExperienceHistoryRequestError](src/resources/sensor-insights-devices.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.sensorInsightsDevices.sensorInsightsListDeviceExperienceHistoryRequest(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;UserDeviceExperienceHistory[], SensorInsightsDevices.SensorInsightsListDeviceExperienceHistoryRequestError&gt;</code>, with `result.value` of type <code>[UserDeviceExperienceHistory](src/models/user-device-experience-history.ts)[]</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -19165,22 +28287,93 @@ try {
 <dl>
 <dd>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.sensorInsightsDevices.sensorInsightsListDevicesRequest({ body });
+  const response = await client.sensorInsightsDevices.sensorInsightsListDevicesRequest({
+    body: {
+      accountname: "0000123456-00001",
+      filter: {
+        expand: "device detail(s)",
+        limitnumber: 100,
+        nopagination: true,
+        page: "The number of pages",
+        pagenumber: 100,
+        projection: ["specific device fields requested"],
+        selection: { additionalProp1: "string", additionalProp2: "string", additionalProp3: "string" },
+      },
+      resourceidentifier: {
+        deveui: "The unique EUI64 address of the device",
+        deviceid: "The UUID of the device",
+        esn: 223372036854775800,
+        iccid: "The 20-digit Integrated Circuit Card ID (SIM card ID)",
+        imei: 223372036854775,
+        imsi: 223372036854775800,
+        mac: "The Media Access Control address of the device, listed on the device in the format XX-XX-XX-XX-XX-XX or XX:XX:XX:XX:XX:XX",
+        manufacturer: "REOLINK",
+        meid: "The 56-bit Mobile Equipment ID",
+        msisdn:
+          "The Mobile Station International Subscriber Directory Number. In the USA, this is 1+ a 10-digit phone number",
+        nodeUuid: "The UUID of the node the device is associated with",
+        qrcode: "The Quick Response (QR) code",
+        serial: "The device's serial number",
+      },
+    },
+  });
   // TODO: Handle 'response' of type DtoExpandedDeviceResponse[]
 } catch (err) {
-  if (
-    err instanceof SensorInsightsDevices.SensorInsightsListDevicesRequestError &&
-      err.payload.kind === "managementError"
-  ) {
-    // TODO: Handle 'err.payload.body' of type ManagementError
-  }
+  // TODO: Handle 'err' of type SensorInsightsDevices.SensorInsightsListDevicesRequestError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.sensorInsightsDevices.sensorInsightsListDevicesRequest({
+  body: {
+    accountname: "0000123456-00001",
+    filter: {
+      expand: "device detail(s)",
+      limitnumber: 100,
+      nopagination: true,
+      page: "The number of pages",
+      pagenumber: 100,
+      projection: ["specific device fields requested"],
+      selection: { additionalProp1: "string", additionalProp2: "string", additionalProp3: "string" },
+    },
+    resourceidentifier: {
+      deveui: "The unique EUI64 address of the device",
+      deviceid: "The UUID of the device",
+      esn: 223372036854775800,
+      iccid: "The 20-digit Integrated Circuit Card ID (SIM card ID)",
+      imei: 223372036854775,
+      imsi: 223372036854775800,
+      mac: "The Media Access Control address of the device, listed on the device in the format XX-XX-XX-XX-XX-XX or XX:XX:XX:XX:XX:XX",
+      manufacturer: "REOLINK",
+      meid: "The 56-bit Mobile Equipment ID",
+      msisdn:
+        "The Mobile Station International Subscriber Directory Number. In the USA, this is 1+ a 10-digit phone number",
+      nodeUuid: "The UUID of the node the device is associated with",
+      qrcode: "The Quick Response (QR) code",
+      serial: "The device's serial number",
+    },
+  },
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type DtoExpandedDeviceResponse[]
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -19204,9 +28397,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[DtoExpandedDeviceResponse](src/models/dto-expanded-device-response.ts)[]</code>
+**Direct**: `await client.sensorInsightsDevices.sensorInsightsListDevicesRequest(request)`
 
-**OnError**: <code>[SensorInsightsDevices.SensorInsightsListDevicesRequestError](src/resources/sensor-insights-devices.ts)</code>
+- **OnSuccess**: <code>[DtoExpandedDeviceResponse](src/models/dto-expanded-device-response.ts)[]</code>
+- **OnError**: throws <code>[SensorInsightsDevices.SensorInsightsListDevicesRequestError](src/resources/sensor-insights-devices.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.sensorInsightsDevices.sensorInsightsListDevicesRequest(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;DtoExpandedDeviceResponse[], SensorInsightsDevices.SensorInsightsListDevicesRequestError&gt;</code>, with `result.value` of type <code>[DtoExpandedDeviceResponse](src/models/dto-expanded-device-response.ts)[]</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -19222,7 +28423,7 @@ try {
 <dl>
 <dd>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
@@ -19230,16 +28431,53 @@ try {
 ```ts
 try {
   const response = await client.sensorInsightsDevices.sensorInsightsListNetworkExperienceHistoryRequest({
-    body,
+    body: {
+      accountname: "0000123456-00001",
+      filter: {
+        expand: "device detail(s)",
+        limitnumber: 100,
+        nopagination: true,
+        page: "The number of pages",
+        pagenumber: 100,
+        projection: ["specific device fields requested"],
+        selection: { additionalProp1: "string", additionalProp2: "string", additionalProp3: "string" },
+      },
+    },
   });
   // TODO: Handle 'response' of type UserNetworkExperienceHistory[]
 } catch (err) {
-  if (
-    err instanceof SensorInsightsDevices.SensorInsightsListNetworkExperienceHistoryRequestError &&
-      err.payload.kind === "managementError400"
-  ) {
-    // TODO: Handle 'err.payload.body' of type ManagementError400
-  }
+  // TODO: Handle 'err' of type SensorInsightsDevices.SensorInsightsListNetworkExperienceHistoryRequestError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.sensorInsightsDevices.sensorInsightsListNetworkExperienceHistoryRequest({
+  body: {
+    accountname: "0000123456-00001",
+    filter: {
+      expand: "device detail(s)",
+      limitnumber: 100,
+      nopagination: true,
+      page: "The number of pages",
+      pagenumber: 100,
+      projection: ["specific device fields requested"],
+      selection: { additionalProp1: "string", additionalProp2: "string", additionalProp3: "string" },
+    },
+  },
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type UserNetworkExperienceHistory[]
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -19263,9 +28501,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[UserNetworkExperienceHistory](src/models/user-network-experience-history.ts)[]</code>
+**Direct**: `await client.sensorInsightsDevices.sensorInsightsListNetworkExperienceHistoryRequest(request)`
 
-**OnError**: <code>[SensorInsightsDevices.SensorInsightsListNetworkExperienceHistoryRequestError](src/resources/sensor-insights-devices.ts)</code>
+- **OnSuccess**: <code>[UserNetworkExperienceHistory](src/models/user-network-experience-history.ts)[]</code>
+- **OnError**: throws <code>[SensorInsightsDevices.SensorInsightsListNetworkExperienceHistoryRequestError](src/resources/sensor-insights-devices.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.sensorInsightsDevices.sensorInsightsListNetworkExperienceHistoryRequest(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;UserNetworkExperienceHistory[], SensorInsightsDevices.SensorInsightsListNetworkExperienceHistoryRequestError&gt;</code>, with `result.value` of type <code>[UserNetworkExperienceHistory](src/models/user-network-experience-history.ts)[]</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -19281,22 +28527,151 @@ try {
 <dl>
 <dd>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.sensorInsightsDevices.sensorInsightsPatchDeviceRequest({ body });
+  const response = await client.sensorInsightsDevices.sensorInsightsPatchDeviceRequest({
+    body: {
+      accountname: "0000123456-00001",
+      device: {
+        accountclientid: "null",
+        billingaccountid: "0000123456-00001",
+        chipset: "The chipset used by the device",
+        createdon: new Date(Date.UTC(2023, 9, 2, 15, 46, 34, 562)),
+        customdata: { additionalProp1: {}, additionalProp2: {}, additionalProp3: {} },
+        description: "The number of days to retaing the event data",
+        esn: 223372036854775800,
+        fields: { additionalProp1: "string", additionalProp2: "string", additionalProp3: "string" },
+        foreignid: "c1f178d3-eeee-ffff-gggg-0d6b7ae6022a",
+        hardwareversion: "1.0",
+        iccid: "The 20-digit Integrated Circuit Card ID (SIM card ID)",
+        id: "33e21f61-a44a-44c9-b7a0-a63f5d19bd4f",
+        imei: 223372036854775,
+        imsi: 223372036854775800,
+        lastupdated: new Date(Date.UTC(2023, 9, 2, 15, 46, 34, 562)),
+        licenses: ["licenses assigned to the device"],
+        mac: "The Media Access Control address of the device, listed on the device in the format XX-XX-XX-XX-XX-XX or XX:XX:XX:XX:XX:XX",
+        manufacturer: "REOLINK",
+        meid: "The 56-bit Mobile Equipment ID",
+        msisdn:
+          "The Mobile Station International Subscriber Directory Number. In the USA, this is 1+ a 10-digit phone number",
+        name: "User defined name of the record",
+        parentdeviceid: "BLE device ID",
+        productmodel: "Model name of the device",
+        providerid: "Verizon Wireless",
+        qrcode: "The Quick Response (QR) code",
+        refid: "P3730-1422323050860",
+        refidtype: "The type of value represented by `refid`",
+        serial: "The device's serial number",
+        services: ["configuration"],
+        sku: "The Stock Keeping Unit (SKU) number",
+        softwareversion: "the current device software version",
+        state: "success",
+        version: "1.0",
+        versionid: "337bd2e8-eeee-ffff-gggg-5207992fd395",
+        eventretention: 90,
+      },
+      resourceidentifier: {
+        deveui: "The unique EUI64 address of the device",
+        deviceid: "The UUID of the device",
+        esn: 223372036854775800,
+        iccid: "The 20-digit Integrated Circuit Card ID (SIM card ID)",
+        imei: 223372036854775,
+        imsi: 223372036854775800,
+        mac: "The Media Access Control address of the device, listed on the device in the format XX-XX-XX-XX-XX-XX or XX:XX:XX:XX:XX:XX",
+        manufacturer: "REOLINK",
+        meid: "The 56-bit Mobile Equipment ID",
+        msisdn:
+          "The Mobile Station International Subscriber Directory Number. In the USA, this is 1+ a 10-digit phone number",
+        nodeUuid: "The UUID of the node the device is associated with",
+        qrcode: "The Quick Response (QR) code",
+        serial: "The device's serial number",
+      },
+    },
+  });
   // TODO: Handle 'response' of type ResourceDevice
 } catch (err) {
-  if (
-    err instanceof SensorInsightsDevices.SensorInsightsPatchDeviceRequestError &&
-      err.payload.kind === "managementError400"
-  ) {
-    // TODO: Handle 'err.payload.body' of type ManagementError400
-  }
+  // TODO: Handle 'err' of type SensorInsightsDevices.SensorInsightsPatchDeviceRequestError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.sensorInsightsDevices.sensorInsightsPatchDeviceRequest({
+  body: {
+    accountname: "0000123456-00001",
+    device: {
+      accountclientid: "null",
+      billingaccountid: "0000123456-00001",
+      chipset: "The chipset used by the device",
+      createdon: new Date(Date.UTC(2023, 9, 2, 15, 46, 34, 562)),
+      customdata: { additionalProp1: {}, additionalProp2: {}, additionalProp3: {} },
+      description: "The number of days to retaing the event data",
+      esn: 223372036854775800,
+      fields: { additionalProp1: "string", additionalProp2: "string", additionalProp3: "string" },
+      foreignid: "c1f178d3-eeee-ffff-gggg-0d6b7ae6022a",
+      hardwareversion: "1.0",
+      iccid: "The 20-digit Integrated Circuit Card ID (SIM card ID)",
+      id: "33e21f61-a44a-44c9-b7a0-a63f5d19bd4f",
+      imei: 223372036854775,
+      imsi: 223372036854775800,
+      lastupdated: new Date(Date.UTC(2023, 9, 2, 15, 46, 34, 562)),
+      licenses: ["licenses assigned to the device"],
+      mac: "The Media Access Control address of the device, listed on the device in the format XX-XX-XX-XX-XX-XX or XX:XX:XX:XX:XX:XX",
+      manufacturer: "REOLINK",
+      meid: "The 56-bit Mobile Equipment ID",
+      msisdn:
+        "The Mobile Station International Subscriber Directory Number. In the USA, this is 1+ a 10-digit phone number",
+      name: "User defined name of the record",
+      parentdeviceid: "BLE device ID",
+      productmodel: "Model name of the device",
+      providerid: "Verizon Wireless",
+      qrcode: "The Quick Response (QR) code",
+      refid: "P3730-1422323050860",
+      refidtype: "The type of value represented by `refid`",
+      serial: "The device's serial number",
+      services: ["configuration"],
+      sku: "The Stock Keeping Unit (SKU) number",
+      softwareversion: "the current device software version",
+      state: "success",
+      version: "1.0",
+      versionid: "337bd2e8-eeee-ffff-gggg-5207992fd395",
+      eventretention: 90,
+    },
+    resourceidentifier: {
+      deveui: "The unique EUI64 address of the device",
+      deviceid: "The UUID of the device",
+      esn: 223372036854775800,
+      iccid: "The 20-digit Integrated Circuit Card ID (SIM card ID)",
+      imei: 223372036854775,
+      imsi: 223372036854775800,
+      mac: "The Media Access Control address of the device, listed on the device in the format XX-XX-XX-XX-XX-XX or XX:XX:XX:XX:XX:XX",
+      manufacturer: "REOLINK",
+      meid: "The 56-bit Mobile Equipment ID",
+      msisdn:
+        "The Mobile Station International Subscriber Directory Number. In the USA, this is 1+ a 10-digit phone number",
+      nodeUuid: "The UUID of the node the device is associated with",
+      qrcode: "The Quick Response (QR) code",
+      serial: "The device's serial number",
+    },
+  },
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type ResourceDevice
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -19320,9 +28695,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[ResourceDevice](src/models/resource-device.ts)</code>
+**Direct**: `await client.sensorInsightsDevices.sensorInsightsPatchDeviceRequest(request)`
 
-**OnError**: <code>[SensorInsightsDevices.SensorInsightsPatchDeviceRequestError](src/resources/sensor-insights-devices.ts)</code>
+- **OnSuccess**: <code>[ResourceDevice](src/models/resource-device.ts)</code>
+- **OnError**: throws <code>[SensorInsightsDevices.SensorInsightsPatchDeviceRequestError](src/resources/sensor-insights-devices.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.sensorInsightsDevices.sensorInsightsPatchDeviceRequest(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;ResourceDevice, SensorInsightsDevices.SensorInsightsPatchDeviceRequestError&gt;</code>, with `result.value` of type <code>[ResourceDevice](src/models/resource-device.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -19342,22 +28725,93 @@ try {
 <dl>
 <dd>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.sensorInsightsGateways.sensorInsightsListGatewayDevicesRequest({ body });
+  const response = await client.sensorInsightsGateways.sensorInsightsListGatewayDevicesRequest({
+    body: {
+      accountname: "0000123456-00001",
+      filter: {
+        expand: "device detail(s)",
+        limitnumber: 100,
+        nopagination: true,
+        page: "The number of pages",
+        pagenumber: 100,
+        projection: ["specific device fields requested"],
+        selection: { additionalProp1: "string", additionalProp2: "string", additionalProp3: "string" },
+      },
+      resourceidentifier: {
+        deveui: "The unique EUI64 address of the device",
+        deviceid: "The UUID of the device",
+        esn: 223372036854775800,
+        iccid: "The 20-digit Integrated Circuit Card ID (SIM card ID)",
+        imei: 223372036854775,
+        imsi: 223372036854775800,
+        mac: "The Media Access Control address of the device, listed on the device in the format XX-XX-XX-XX-XX-XX or XX:XX:XX:XX:XX:XX",
+        manufacturer: "REOLINK",
+        meid: "The 56-bit Mobile Equipment ID",
+        msisdn:
+          "The Mobile Station International Subscriber Directory Number. In the USA, this is 1+ a 10-digit phone number",
+        nodeUuid: "The UUID of the node the device is associated with",
+        qrcode: "The Quick Response (QR) code",
+        serial: "The device's serial number",
+      },
+    },
+  });
   // TODO: Handle 'response' of type ResourceDevice[]
 } catch (err) {
-  if (
-    err instanceof SensorInsightsGateways.SensorInsightsListGatewayDevicesRequestError &&
-      err.payload.kind === "managementError400"
-  ) {
-    // TODO: Handle 'err.payload.body' of type ManagementError400
-  }
+  // TODO: Handle 'err' of type SensorInsightsGateways.SensorInsightsListGatewayDevicesRequestError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.sensorInsightsGateways.sensorInsightsListGatewayDevicesRequest({
+  body: {
+    accountname: "0000123456-00001",
+    filter: {
+      expand: "device detail(s)",
+      limitnumber: 100,
+      nopagination: true,
+      page: "The number of pages",
+      pagenumber: 100,
+      projection: ["specific device fields requested"],
+      selection: { additionalProp1: "string", additionalProp2: "string", additionalProp3: "string" },
+    },
+    resourceidentifier: {
+      deveui: "The unique EUI64 address of the device",
+      deviceid: "The UUID of the device",
+      esn: 223372036854775800,
+      iccid: "The 20-digit Integrated Circuit Card ID (SIM card ID)",
+      imei: 223372036854775,
+      imsi: 223372036854775800,
+      mac: "The Media Access Control address of the device, listed on the device in the format XX-XX-XX-XX-XX-XX or XX:XX:XX:XX:XX:XX",
+      manufacturer: "REOLINK",
+      meid: "The 56-bit Mobile Equipment ID",
+      msisdn:
+        "The Mobile Station International Subscriber Directory Number. In the USA, this is 1+ a 10-digit phone number",
+      nodeUuid: "The UUID of the node the device is associated with",
+      qrcode: "The Quick Response (QR) code",
+      serial: "The device's serial number",
+    },
+  },
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type ResourceDevice[]
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -19381,9 +28835,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[ResourceDevice](src/models/resource-device.ts)[]</code>
+**Direct**: `await client.sensorInsightsGateways.sensorInsightsListGatewayDevicesRequest(request)`
 
-**OnError**: <code>[SensorInsightsGateways.SensorInsightsListGatewayDevicesRequestError](src/resources/sensor-insights-gateways.ts)</code>
+- **OnSuccess**: <code>[ResourceDevice](src/models/resource-device.ts)[]</code>
+- **OnError**: throws <code>[SensorInsightsGateways.SensorInsightsListGatewayDevicesRequestError](src/resources/sensor-insights-gateways.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.sensorInsightsGateways.sensorInsightsListGatewayDevicesRequest(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;ResourceDevice[], SensorInsightsGateways.SensorInsightsListGatewayDevicesRequestError&gt;</code>, with `result.value` of type <code>[ResourceDevice](src/models/resource-device.ts)[]</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -19403,22 +28865,53 @@ try {
 <dl>
 <dd>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.sensorInsightsSmartAlerts.sensorInsightsBulkUpdate({ body });
+  const response = await client.sensorInsightsSmartAlerts.sensorInsightsBulkUpdate({
+    body: {
+      accountname: "0000123456-00001",
+      resourceidentifiers: [
+        { id: "ee70a869-eeee-ffff-gggg-07c14c31f96e" },
+        { deviceid: "The UUID of the device" },
+      ],
+      smartalert: { name: "User defined name of the record" },
+    },
+  });
   // TODO: Handle 'response' of type UserSmartAlert
 } catch (err) {
-  if (
-    err instanceof SensorInsightsSmartAlerts.SensorInsightsBulkUpdateError &&
-      err.payload.kind === "managementError400"
-  ) {
-    // TODO: Handle 'err.payload.body' of type ManagementError400
-  }
+  // TODO: Handle 'err' of type SensorInsightsSmartAlerts.SensorInsightsBulkUpdateError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.sensorInsightsSmartAlerts.sensorInsightsBulkUpdate({
+  body: {
+    accountname: "0000123456-00001",
+    resourceidentifiers: [
+      { id: "ee70a869-eeee-ffff-gggg-07c14c31f96e" },
+      { deviceid: "The UUID of the device" },
+    ],
+    smartalert: { name: "User defined name of the record" },
+  },
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type UserSmartAlert
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -19442,9 +28935,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[UserSmartAlert](src/models/user-smart-alert.ts)</code>
+**Direct**: `await client.sensorInsightsSmartAlerts.sensorInsightsBulkUpdate(request)`
 
-**OnError**: <code>[SensorInsightsSmartAlerts.SensorInsightsBulkUpdateError](src/resources/sensor-insights-smart-alerts.ts)</code>
+- **OnSuccess**: <code>[UserSmartAlert](src/models/user-smart-alert.ts)</code>
+- **OnError**: throws <code>[SensorInsightsSmartAlerts.SensorInsightsBulkUpdateError](src/resources/sensor-insights-smart-alerts.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.sensorInsightsSmartAlerts.sensorInsightsBulkUpdate(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;UserSmartAlert, SensorInsightsSmartAlerts.SensorInsightsBulkUpdateError&gt;</code>, with `result.value` of type <code>[UserSmartAlert](src/models/user-smart-alert.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -19460,22 +28961,63 @@ try {
 <dl>
 <dd>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.sensorInsightsSmartAlerts.sensorInsightsListSmartAlertsRequest({ body });
+  const response = await client.sensorInsightsSmartAlerts.sensorInsightsListSmartAlertsRequest({
+    body: {
+      accountname: "0000123456-00001",
+      filter: {
+        expand: "device detail(s)",
+        limitnumber: 100,
+        nopagination: true,
+        page: "The number of pages",
+        pagenumber: 100,
+        projection: ["specific device fields requested"],
+        selection: { additionalProp1: "string", additionalProp2: "string", additionalProp3: "string" },
+      },
+      resourceidentifier: { id: "cb3eea68-eeee-ffff-gggg-ac4463ccd073" },
+    },
+  });
   // TODO: Handle 'response' of type UserSmartAlert[]
 } catch (err) {
-  if (
-    err instanceof SensorInsightsSmartAlerts.SensorInsightsListSmartAlertsRequestError &&
-      err.payload.kind === "managementError400"
-  ) {
-    // TODO: Handle 'err.payload.body' of type ManagementError400
-  }
+  // TODO: Handle 'err' of type SensorInsightsSmartAlerts.SensorInsightsListSmartAlertsRequestError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.sensorInsightsSmartAlerts.sensorInsightsListSmartAlertsRequest({
+  body: {
+    accountname: "0000123456-00001",
+    filter: {
+      expand: "device detail(s)",
+      limitnumber: 100,
+      nopagination: true,
+      page: "The number of pages",
+      pagenumber: 100,
+      projection: ["specific device fields requested"],
+      selection: { additionalProp1: "string", additionalProp2: "string", additionalProp3: "string" },
+    },
+    resourceidentifier: { id: "cb3eea68-eeee-ffff-gggg-ac4463ccd073" },
+  },
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type UserSmartAlert[]
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -19499,9 +29041,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[UserSmartAlert](src/models/user-smart-alert.ts)[]</code>
+**Direct**: `await client.sensorInsightsSmartAlerts.sensorInsightsListSmartAlertsRequest(request)`
 
-**OnError**: <code>[SensorInsightsSmartAlerts.SensorInsightsListSmartAlertsRequestError](src/resources/sensor-insights-smart-alerts.ts)</code>
+- **OnSuccess**: <code>[UserSmartAlert](src/models/user-smart-alert.ts)[]</code>
+- **OnError**: throws <code>[SensorInsightsSmartAlerts.SensorInsightsListSmartAlertsRequestError](src/resources/sensor-insights-smart-alerts.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.sensorInsightsSmartAlerts.sensorInsightsListSmartAlertsRequest(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;UserSmartAlert[], SensorInsightsSmartAlerts.SensorInsightsListSmartAlertsRequestError&gt;</code>, with `result.value` of type <code>[UserSmartAlert](src/models/user-smart-alert.ts)[]</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -19517,22 +29067,89 @@ try {
 <dl>
 <dd>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.sensorInsightsSmartAlerts.sensorInsightsPatchSmartAlertRequest({ body });
+  const response = await client.sensorInsightsSmartAlerts.sensorInsightsPatchSmartAlertRequest({
+    body: {
+      accountname: "0000123456-00001",
+      resourceidentifier: { id: "0b37ab8b-eeee-ffff-gggg-e0149af43f43" },
+      smartalert: {
+        accountclientid: "null",
+        billingaccountid: "0000123456-00001",
+        category: "telemetry",
+        condition: 2592000,
+        createdon: new Date(Date.UTC(2023, 9, 2, 15, 46, 34, 562)),
+        description: "a short description",
+        deviceid: "The UUID of the device",
+        foreignid: "c1f178d3-eeee-ffff-gggg-0d6b7ae6022a",
+        id: "fecbe450-eeee-ffff-gggg-aa166fd5f8e3",
+        isacknowledged: true,
+        iscleared: true,
+        isdisabled: false,
+        lastupdated: new Date(Date.UTC(2023, 9, 2, 15, 46, 34, 562)),
+        name: "User defined name of the record",
+        ruleid: "The UUID of a rule",
+        severity: "minor",
+        state: "success",
+        template: "The template ID",
+        version: "1.0",
+        versionid: "337bd2e8-eeee-ffff-gggg-5207992fd395",
+      },
+    },
+  });
   // TODO: Handle 'response' of type UserSmartAlert
 } catch (err) {
-  if (
-    err instanceof SensorInsightsSmartAlerts.SensorInsightsPatchSmartAlertRequestError &&
-      err.payload.kind === "managementError400"
-  ) {
-    // TODO: Handle 'err.payload.body' of type ManagementError400
-  }
+  // TODO: Handle 'err' of type SensorInsightsSmartAlerts.SensorInsightsPatchSmartAlertRequestError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.sensorInsightsSmartAlerts.sensorInsightsPatchSmartAlertRequest({
+  body: {
+    accountname: "0000123456-00001",
+    resourceidentifier: { id: "0b37ab8b-eeee-ffff-gggg-e0149af43f43" },
+    smartalert: {
+      accountclientid: "null",
+      billingaccountid: "0000123456-00001",
+      category: "telemetry",
+      condition: 2592000,
+      createdon: new Date(Date.UTC(2023, 9, 2, 15, 46, 34, 562)),
+      description: "a short description",
+      deviceid: "The UUID of the device",
+      foreignid: "c1f178d3-eeee-ffff-gggg-0d6b7ae6022a",
+      id: "fecbe450-eeee-ffff-gggg-aa166fd5f8e3",
+      isacknowledged: true,
+      iscleared: true,
+      isdisabled: false,
+      lastupdated: new Date(Date.UTC(2023, 9, 2, 15, 46, 34, 562)),
+      name: "User defined name of the record",
+      ruleid: "The UUID of a rule",
+      severity: "minor",
+      state: "success",
+      template: "The template ID",
+      version: "1.0",
+      versionid: "337bd2e8-eeee-ffff-gggg-5207992fd395",
+    },
+  },
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type UserSmartAlert
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -19556,9 +29173,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[UserSmartAlert](src/models/user-smart-alert.ts)</code>
+**Direct**: `await client.sensorInsightsSmartAlerts.sensorInsightsPatchSmartAlertRequest(request)`
 
-**OnError**: <code>[SensorInsightsSmartAlerts.SensorInsightsPatchSmartAlertRequestError](src/resources/sensor-insights-smart-alerts.ts)</code>
+- **OnSuccess**: <code>[UserSmartAlert](src/models/user-smart-alert.ts)</code>
+- **OnError**: throws <code>[SensorInsightsSmartAlerts.SensorInsightsPatchSmartAlertRequestError](src/resources/sensor-insights-smart-alerts.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.sensorInsightsSmartAlerts.sensorInsightsPatchSmartAlertRequest(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;UserSmartAlert, SensorInsightsSmartAlerts.SensorInsightsPatchSmartAlertRequestError&gt;</code>, with `result.value` of type <code>[UserSmartAlert](src/models/user-smart-alert.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -19578,22 +29203,63 @@ try {
 <dl>
 <dd>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.sensorInsightsRules.sensorInsightsListRulesRequest({ body });
+  const response = await client.sensorInsightsRules.sensorInsightsListRulesRequest({
+    body: {
+      accountname: "0000123456-00001",
+      filter: {
+        expand: "device detail(s)",
+        limitnumber: 100,
+        nopagination: true,
+        page: "The number of pages",
+        pagenumber: 100,
+        projection: ["specific device fields requested"],
+        selection: { additionalProp1: "string", additionalProp2: "string", additionalProp3: "string" },
+      },
+      resourceidentifier: { id: "ffb86390-eeee-ffff-gggg-9d1180882d63" },
+    },
+  });
   // TODO: Handle 'response' of type ResourceRule[]
 } catch (err) {
-  if (
-    err instanceof SensorInsightsRules.SensorInsightsListRulesRequestError &&
-      err.payload.kind === "managementError400"
-  ) {
-    // TODO: Handle 'err.payload.body' of type ManagementError400
-  }
+  // TODO: Handle 'err' of type SensorInsightsRules.SensorInsightsListRulesRequestError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.sensorInsightsRules.sensorInsightsListRulesRequest({
+  body: {
+    accountname: "0000123456-00001",
+    filter: {
+      expand: "device detail(s)",
+      limitnumber: 100,
+      nopagination: true,
+      page: "The number of pages",
+      pagenumber: 100,
+      projection: ["specific device fields requested"],
+      selection: { additionalProp1: "string", additionalProp2: "string", additionalProp3: "string" },
+    },
+    resourceidentifier: { id: "ffb86390-eeee-ffff-gggg-9d1180882d63" },
+  },
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type ResourceRule[]
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -19617,9 +29283,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[ResourceRule](src/models/resource-rule.ts)[]</code>
+**Direct**: `await client.sensorInsightsRules.sensorInsightsListRulesRequest(request)`
 
-**OnError**: <code>[SensorInsightsRules.SensorInsightsListRulesRequestError](src/resources/sensor-insights-rules.ts)</code>
+- **OnSuccess**: <code>[ResourceRule](src/models/resource-rule.ts)[]</code>
+- **OnError**: throws <code>[SensorInsightsRules.SensorInsightsListRulesRequestError](src/resources/sensor-insights-rules.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.sensorInsightsRules.sensorInsightsListRulesRequest(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;ResourceRule[], SensorInsightsRules.SensorInsightsListRulesRequestError&gt;</code>, with `result.value` of type <code>[ResourceRule](src/models/resource-rule.ts)[]</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -19635,22 +29309,77 @@ try {
 <dl>
 <dd>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.sensorInsightsRules.sensorInsightsOverwriteRuleRequest({ body });
+  const response = await client.sensorInsightsRules.sensorInsightsOverwriteRuleRequest({
+    body: {
+      accountname: "0000123456-00001",
+      resourceidentifier: { id: "7f5f610a-eeee-ffff-gggg-4d20cf3dcfbc" },
+      rule: {
+        accountclientid: "null",
+        billingaccountid: "The billing account ID",
+        createdon: new Date(Date.UTC(2023, 9, 2, 15, 46, 34, 562)),
+        description: "a short description",
+        deviceid: "The UUID of the device",
+        disabled: true,
+        foreignid: "c1f178d3-eeee-ffff-gggg-0d6b7ae6022a",
+        id: "bc5b5b5a-eeee-ffff-gggg-cb2cb2533d47",
+        lastupdated: new Date(Date.UTC(2023, 9, 2, 15, 46, 34, 562)),
+        name: "User defined name of the record",
+        rulechain: {},
+        rulesyntax: "The rule syntax",
+        version: "1.0",
+        versionid: "337bd2e8-eeee-ffff-gggg-5207992fd395",
+      },
+    },
+  });
   // TODO: Handle 'response' of type ResourceRule
 } catch (err) {
-  if (
-    err instanceof SensorInsightsRules.SensorInsightsOverwriteRuleRequestError &&
-      err.payload.kind === "managementError400"
-  ) {
-    // TODO: Handle 'err.payload.body' of type ManagementError400
-  }
+  // TODO: Handle 'err' of type SensorInsightsRules.SensorInsightsOverwriteRuleRequestError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.sensorInsightsRules.sensorInsightsOverwriteRuleRequest({
+  body: {
+    accountname: "0000123456-00001",
+    resourceidentifier: { id: "7f5f610a-eeee-ffff-gggg-4d20cf3dcfbc" },
+    rule: {
+      accountclientid: "null",
+      billingaccountid: "The billing account ID",
+      createdon: new Date(Date.UTC(2023, 9, 2, 15, 46, 34, 562)),
+      description: "a short description",
+      deviceid: "The UUID of the device",
+      disabled: true,
+      foreignid: "c1f178d3-eeee-ffff-gggg-0d6b7ae6022a",
+      id: "bc5b5b5a-eeee-ffff-gggg-cb2cb2533d47",
+      lastupdated: new Date(Date.UTC(2023, 9, 2, 15, 46, 34, 562)),
+      name: "User defined name of the record",
+      rulechain: {},
+      rulesyntax: "The rule syntax",
+      version: "1.0",
+      versionid: "337bd2e8-eeee-ffff-gggg-5207992fd395",
+    },
+  },
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type ResourceRule
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -19674,9 +29403,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[ResourceRule](src/models/resource-rule.ts)</code>
+**Direct**: `await client.sensorInsightsRules.sensorInsightsOverwriteRuleRequest(request)`
 
-**OnError**: <code>[SensorInsightsRules.SensorInsightsOverwriteRuleRequestError](src/resources/sensor-insights-rules.ts)</code>
+- **OnSuccess**: <code>[ResourceRule](src/models/resource-rule.ts)</code>
+- **OnError**: throws <code>[SensorInsightsRules.SensorInsightsOverwriteRuleRequestError](src/resources/sensor-insights-rules.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.sensorInsightsRules.sensorInsightsOverwriteRuleRequest(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;ResourceRule, SensorInsightsRules.SensorInsightsOverwriteRuleRequestError&gt;</code>, with `result.value` of type <code>[ResourceRule](src/models/resource-rule.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -19696,7 +29433,7 @@ try {
 <dl>
 <dd>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
@@ -19706,12 +29443,26 @@ try {
   const response = await client.sensorInsightsHealthScore.sensorInsightsGetNetworkHealthScoreResponse();
   // TODO: Handle 'response' of type DtoGetNetworkHealthScoreResponse
 } catch (err) {
-  if (
-    err instanceof SensorInsightsHealthScore.SensorInsightsGetNetworkHealthScoreResponseError &&
-      err.payload.kind === "managementError400"
-  ) {
-    // TODO: Handle 'err.payload.body' of type ManagementError400
-  }
+  // TODO: Handle 'err' of type SensorInsightsHealthScore.SensorInsightsGetNetworkHealthScoreResponseError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result =
+  await client.sensorInsightsHealthScore.sensorInsightsGetNetworkHealthScoreResponse().asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type DtoGetNetworkHealthScoreResponse
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -19723,9 +29474,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[DtoGetNetworkHealthScoreResponse](src/models/dto-get-network-health-score-response.ts)</code>
+**Direct**: `await client.sensorInsightsHealthScore.sensorInsightsGetNetworkHealthScoreResponse()`
 
-**OnError**: <code>[SensorInsightsHealthScore.SensorInsightsGetNetworkHealthScoreResponseError](src/resources/sensor-insights-health-score.ts)</code>
+- **OnSuccess**: <code>[DtoGetNetworkHealthScoreResponse](src/models/dto-get-network-health-score-response.ts)</code>
+- **OnError**: throws <code>[SensorInsightsHealthScore.SensorInsightsGetNetworkHealthScoreResponseError](src/resources/sensor-insights-health-score.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.sensorInsightsHealthScore.sensorInsightsGetNetworkHealthScoreResponse().asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;DtoGetNetworkHealthScoreResponse, SensorInsightsHealthScore.SensorInsightsGetNetworkHealthScoreResponseError&gt;</code>, with `result.value` of type <code>[DtoGetNetworkHealthScoreResponse](src/models/dto-get-network-health-score-response.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -19741,7 +29500,7 @@ try {
 <dl>
 <dd>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
@@ -19751,12 +29510,25 @@ try {
   const response = await client.sensorInsightsHealthScore.sensorInsightsHealthScoreSummary();
   // TODO: Handle 'response' of type DtoHealthScoreSummary
 } catch (err) {
-  if (
-    err instanceof SensorInsightsHealthScore.SensorInsightsHealthScoreSummaryError &&
-      err.payload.kind === "managementError400"
-  ) {
-    // TODO: Handle 'err.payload.body' of type ManagementError400
-  }
+  // TODO: Handle 'err' of type SensorInsightsHealthScore.SensorInsightsHealthScoreSummaryError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.sensorInsightsHealthScore.sensorInsightsHealthScoreSummary().asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type DtoHealthScoreSummary
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -19768,9 +29540,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[DtoHealthScoreSummary](src/models/dto-health-score-summary.ts)</code>
+**Direct**: `await client.sensorInsightsHealthScore.sensorInsightsHealthScoreSummary()`
 
-**OnError**: <code>[SensorInsightsHealthScore.SensorInsightsHealthScoreSummaryError](src/resources/sensor-insights-health-score.ts)</code>
+- **OnSuccess**: <code>[DtoHealthScoreSummary](src/models/dto-health-score-summary.ts)</code>
+- **OnError**: throws <code>[SensorInsightsHealthScore.SensorInsightsHealthScoreSummaryError](src/resources/sensor-insights-health-score.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.sensorInsightsHealthScore.sensorInsightsHealthScoreSummary().asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;DtoHealthScoreSummary, SensorInsightsHealthScore.SensorInsightsHealthScoreSummaryError&gt;</code>, with `result.value` of type <code>[DtoHealthScoreSummary](src/models/dto-health-score-summary.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -19790,21 +29570,48 @@ try {
 <dl>
 <dd>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  await client.sensorInsightsNotificationGroups.sensorInsightsAddUsersToNotificationGroupRequest({ body });
+  await client.sensorInsightsNotificationGroups.sensorInsightsAddUsersToNotificationGroupRequest({
+    body: {
+      accountname: "0000123456-00001",
+      id: "45f1a56e-eeee-ffff-gggg-68cb994feb5f",
+      userids: ["ee70a869-eeee-ffff-gggg-07c14c31f96e", "131501ff-eeee-ffff-gggg-647d19179a12"],
+    },
+  });
 } catch (err) {
-  if (
-    err instanceof SensorInsightsNotificationGroups.SensorInsightsAddUsersToNotificationGroupRequestError &&
-      err.payload.kind === "managementError400"
-  ) {
-    // TODO: Handle 'err.payload.body' of type ManagementError400
-  }
+  // TODO: Handle 'err' of type SensorInsightsNotificationGroups.SensorInsightsAddUsersToNotificationGroupRequestError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.sensorInsightsNotificationGroups.sensorInsightsAddUsersToNotificationGroupRequest(
+  {
+    body: {
+      accountname: "0000123456-00001",
+      id: "45f1a56e-eeee-ffff-gggg-68cb994feb5f",
+      userids: ["ee70a869-eeee-ffff-gggg-07c14c31f96e", "131501ff-eeee-ffff-gggg-647d19179a12"],
+    },
+  },
+).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: The call succeeded and resolves to no body
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -19828,9 +29635,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>undefined</code>
+**Direct**: `await client.sensorInsightsNotificationGroups.sensorInsightsAddUsersToNotificationGroupRequest(request)`
 
-**OnError**: <code>[SensorInsightsNotificationGroups.SensorInsightsAddUsersToNotificationGroupRequestError](src/resources/sensor-insights-notification-groups.ts)</code>
+- **OnSuccess**: <code>undefined</code>
+- **OnError**: throws <code>[SensorInsightsNotificationGroups.SensorInsightsAddUsersToNotificationGroupRequestError](src/resources/sensor-insights-notification-groups.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.sensorInsightsNotificationGroups.sensorInsightsAddUsersToNotificationGroupRequest(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;undefined, SensorInsightsNotificationGroups.SensorInsightsAddUsersToNotificationGroupRequestError&gt;</code>, with `result.value` of type <code>undefined</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -19846,7 +29661,7 @@ try {
 <dl>
 <dd>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
@@ -19854,16 +29669,49 @@ try {
 ```ts
 try {
   const response = await client.sensorInsightsNotificationGroups.sensorInsightsCreateNotificationGroupRequest(
-    { body },
+    {
+      body: {
+        accountname: "0000123456-00001",
+        group: {
+          description: "a short description",
+          groupemail: "email@domain.com",
+          name: "User defined name of the record",
+        },
+        userids: ["ee70a869-eeee-ffff-gggg-07c14c31f96e", "131501ff-eeee-ffff-gggg-647d19179a12"],
+      },
+    },
   );
   // TODO: Handle 'response' of type DtoNotificationGroupResponseEntity
 } catch (err) {
-  if (
-    err instanceof SensorInsightsNotificationGroups.SensorInsightsCreateNotificationGroupRequestError &&
-      err.payload.kind === "managementError400"
-  ) {
-    // TODO: Handle 'err.payload.body' of type ManagementError400
-  }
+  // TODO: Handle 'err' of type SensorInsightsNotificationGroups.SensorInsightsCreateNotificationGroupRequestError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.sensorInsightsNotificationGroups.sensorInsightsCreateNotificationGroupRequest({
+  body: {
+    accountname: "0000123456-00001",
+    group: {
+      description: "a short description",
+      groupemail: "email@domain.com",
+      name: "User defined name of the record",
+    },
+    userids: ["ee70a869-eeee-ffff-gggg-07c14c31f96e", "131501ff-eeee-ffff-gggg-647d19179a12"],
+  },
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type DtoNotificationGroupResponseEntity
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -19887,9 +29735,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[DtoNotificationGroupResponseEntity](src/models/dto-notification-group-response-entity.ts)</code>
+**Direct**: `await client.sensorInsightsNotificationGroups.sensorInsightsCreateNotificationGroupRequest(request)`
 
-**OnError**: <code>[SensorInsightsNotificationGroups.SensorInsightsCreateNotificationGroupRequestError](src/resources/sensor-insights-notification-groups.ts)</code>
+- **OnSuccess**: <code>[DtoNotificationGroupResponseEntity](src/models/dto-notification-group-response-entity.ts)</code>
+- **OnError**: throws <code>[SensorInsightsNotificationGroups.SensorInsightsCreateNotificationGroupRequestError](src/resources/sensor-insights-notification-groups.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.sensorInsightsNotificationGroups.sensorInsightsCreateNotificationGroupRequest(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;DtoNotificationGroupResponseEntity, SensorInsightsNotificationGroups.SensorInsightsCreateNotificationGroupRequestError&gt;</code>, with `result.value` of type <code>[DtoNotificationGroupResponseEntity](src/models/dto-notification-group-response-entity.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -19905,21 +29761,38 @@ try {
 <dl>
 <dd>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  await client.sensorInsightsNotificationGroups.sensorInsightsDeleteNotificationGroup({ payload });
+  await client.sensorInsightsNotificationGroups.sensorInsightsDeleteNotificationGroup({
+    payload: { accountname: "0000123456-00001", force: true, id: "6737ca22-eeee-ffff-gggg-84c09f2ede8e" },
+  });
 } catch (err) {
-  if (
-    err instanceof SensorInsightsNotificationGroups.SensorInsightsDeleteNotificationGroupError &&
-      err.payload.kind === "managementError400"
-  ) {
-    // TODO: Handle 'err.payload.body' of type ManagementError400
-  }
+  // TODO: Handle 'err' of type SensorInsightsNotificationGroups.SensorInsightsDeleteNotificationGroupError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.sensorInsightsNotificationGroups.sensorInsightsDeleteNotificationGroup({
+  payload: { accountname: "0000123456-00001", force: true, id: "6737ca22-eeee-ffff-gggg-84c09f2ede8e" },
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: The call succeeded and resolves to no body
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -19943,9 +29816,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>undefined</code>
+**Direct**: `await client.sensorInsightsNotificationGroups.sensorInsightsDeleteNotificationGroup(request)`
 
-**OnError**: <code>[SensorInsightsNotificationGroups.SensorInsightsDeleteNotificationGroupError](src/resources/sensor-insights-notification-groups.ts)</code>
+- **OnSuccess**: <code>undefined</code>
+- **OnError**: throws <code>[SensorInsightsNotificationGroups.SensorInsightsDeleteNotificationGroupError](src/resources/sensor-insights-notification-groups.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.sensorInsightsNotificationGroups.sensorInsightsDeleteNotificationGroup(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;undefined, SensorInsightsNotificationGroups.SensorInsightsDeleteNotificationGroupError&gt;</code>, with `result.value` of type <code>undefined</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -19961,7 +29842,7 @@ try {
 <dl>
 <dd>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
@@ -19969,16 +29850,53 @@ try {
 ```ts
 try {
   const response = await client.sensorInsightsNotificationGroups.sensorInsightsListNotificationGroupRequest({
-    body,
+    body: {
+      accountname: "0000123456-00001",
+      filter: {
+        expand: "device detail(s)",
+        limitnumber: 100,
+        nopagination: true,
+        page: "The number of pages",
+        pagenumber: 100,
+        projection: ["specific device fields requested"],
+        selection: { additionalProp1: "string", additionalProp2: "string", additionalProp3: "string" },
+      },
+    },
   });
   // TODO: Handle 'response' of type DtoNotificationGroupResponseEntity[]
 } catch (err) {
-  if (
-    err instanceof SensorInsightsNotificationGroups.SensorInsightsListNotificationGroupRequestError &&
-      err.payload.kind === "managementError400"
-  ) {
-    // TODO: Handle 'err.payload.body' of type ManagementError400
-  }
+  // TODO: Handle 'err' of type SensorInsightsNotificationGroups.SensorInsightsListNotificationGroupRequestError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.sensorInsightsNotificationGroups.sensorInsightsListNotificationGroupRequest({
+  body: {
+    accountname: "0000123456-00001",
+    filter: {
+      expand: "device detail(s)",
+      limitnumber: 100,
+      nopagination: true,
+      page: "The number of pages",
+      pagenumber: 100,
+      projection: ["specific device fields requested"],
+      selection: { additionalProp1: "string", additionalProp2: "string", additionalProp3: "string" },
+    },
+  },
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type DtoNotificationGroupResponseEntity[]
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -20002,9 +29920,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[DtoNotificationGroupResponseEntity](src/models/dto-notification-group-response-entity.ts)[]</code>
+**Direct**: `await client.sensorInsightsNotificationGroups.sensorInsightsListNotificationGroupRequest(request)`
 
-**OnError**: <code>[SensorInsightsNotificationGroups.SensorInsightsListNotificationGroupRequestError](src/resources/sensor-insights-notification-groups.ts)</code>
+- **OnSuccess**: <code>[DtoNotificationGroupResponseEntity](src/models/dto-notification-group-response-entity.ts)[]</code>
+- **OnError**: throws <code>[SensorInsightsNotificationGroups.SensorInsightsListNotificationGroupRequestError](src/resources/sensor-insights-notification-groups.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.sensorInsightsNotificationGroups.sensorInsightsListNotificationGroupRequest(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;DtoNotificationGroupResponseEntity[], SensorInsightsNotificationGroups.SensorInsightsListNotificationGroupRequestError&gt;</code>, with `result.value` of type <code>[DtoNotificationGroupResponseEntity](src/models/dto-notification-group-response-entity.ts)[]</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -20020,7 +29946,7 @@ try {
 <dl>
 <dd>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
@@ -20028,16 +29954,39 @@ try {
 ```ts
 try {
   await client.sensorInsightsNotificationGroups.sensorInsightsRemoveUsersFromNotificationGroupRequest({
-    body,
+    body: {
+      accountname: "0000123456-00001",
+      id: "111538a8-eeee-ffff-gggg-3b72804403e8",
+      userids: ["ee70a869-eeee-ffff-gggg-07c14c31f96e", "131501ff-eeee-ffff-gggg-647d19179a12"],
+    },
   });
 } catch (err) {
-  if (
-    err instanceof
-      SensorInsightsNotificationGroups.SensorInsightsRemoveUsersFromNotificationGroupRequestError &&
-      err.payload.kind === "managementError400"
-  ) {
-    // TODO: Handle 'err.payload.body' of type ManagementError400
-  }
+  // TODO: Handle 'err' of type SensorInsightsNotificationGroups.SensorInsightsRemoveUsersFromNotificationGroupRequestError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result =
+  await client.sensorInsightsNotificationGroups.sensorInsightsRemoveUsersFromNotificationGroupRequest({
+    body: {
+      accountname: "0000123456-00001",
+      id: "111538a8-eeee-ffff-gggg-3b72804403e8",
+      userids: ["ee70a869-eeee-ffff-gggg-07c14c31f96e", "131501ff-eeee-ffff-gggg-647d19179a12"],
+    },
+  }).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: The call succeeded and resolves to no body
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -20061,9 +30010,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>undefined</code>
+**Direct**: `await client.sensorInsightsNotificationGroups.sensorInsightsRemoveUsersFromNotificationGroupRequest(request)`
 
-**OnError**: <code>[SensorInsightsNotificationGroups.SensorInsightsRemoveUsersFromNotificationGroupRequestError](src/resources/sensor-insights-notification-groups.ts)</code>
+- **OnSuccess**: <code>undefined</code>
+- **OnError**: throws <code>[SensorInsightsNotificationGroups.SensorInsightsRemoveUsersFromNotificationGroupRequestError](src/resources/sensor-insights-notification-groups.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.sensorInsightsNotificationGroups.sensorInsightsRemoveUsersFromNotificationGroupRequest(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;undefined, SensorInsightsNotificationGroups.SensorInsightsRemoveUsersFromNotificationGroupRequestError&gt;</code>, with `result.value` of type <code>undefined</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -20079,7 +30036,7 @@ try {
 <dl>
 <dd>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
@@ -20087,16 +30044,51 @@ try {
 ```ts
 try {
   const response = await client.sensorInsightsNotificationGroups.sensorInsightsUpdateNotificationGroupRequest(
-    { body },
+    {
+      body: {
+        accountname: "0000123456-00001",
+        group: {
+          description: "a short description",
+          groupemail: "email@domain.com",
+          name: "User defined name of the record",
+        },
+        id: "7b0b9c53-eeee-ffff-gggg-bde5e44f4b12",
+        userids: ["ee70a869-eeee-ffff-gggg-07c14c31f96e", "131501ff-eeee-ffff-gggg-647d19179a12"],
+      },
+    },
   );
   // TODO: Handle 'response' of type DtoNotificationGroupResponseEntity
 } catch (err) {
-  if (
-    err instanceof SensorInsightsNotificationGroups.SensorInsightsUpdateNotificationGroupRequestError &&
-      err.payload.kind === "managementError400"
-  ) {
-    // TODO: Handle 'err.payload.body' of type ManagementError400
-  }
+  // TODO: Handle 'err' of type SensorInsightsNotificationGroups.SensorInsightsUpdateNotificationGroupRequestError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.sensorInsightsNotificationGroups.sensorInsightsUpdateNotificationGroupRequest({
+  body: {
+    accountname: "0000123456-00001",
+    group: {
+      description: "a short description",
+      groupemail: "email@domain.com",
+      name: "User defined name of the record",
+    },
+    id: "7b0b9c53-eeee-ffff-gggg-bde5e44f4b12",
+    userids: ["ee70a869-eeee-ffff-gggg-07c14c31f96e", "131501ff-eeee-ffff-gggg-647d19179a12"],
+  },
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type DtoNotificationGroupResponseEntity
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -20120,9 +30112,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[DtoNotificationGroupResponseEntity](src/models/dto-notification-group-response-entity.ts)</code>
+**Direct**: `await client.sensorInsightsNotificationGroups.sensorInsightsUpdateNotificationGroupRequest(request)`
 
-**OnError**: <code>[SensorInsightsNotificationGroups.SensorInsightsUpdateNotificationGroupRequestError](src/resources/sensor-insights-notification-groups.ts)</code>
+- **OnSuccess**: <code>[DtoNotificationGroupResponseEntity](src/models/dto-notification-group-response-entity.ts)</code>
+- **OnError**: throws <code>[SensorInsightsNotificationGroups.SensorInsightsUpdateNotificationGroupRequestError](src/resources/sensor-insights-notification-groups.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.sensorInsightsNotificationGroups.sensorInsightsUpdateNotificationGroupRequest(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;DtoNotificationGroupResponseEntity, SensorInsightsNotificationGroups.SensorInsightsUpdateNotificationGroupRequestError&gt;</code>, with `result.value` of type <code>[DtoNotificationGroupResponseEntity](src/models/dto-notification-group-response-entity.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -20142,22 +30142,57 @@ try {
 <dl>
 <dd>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.sensorInsightsUsers.sensorInsightsCreateUserRequest({ body });
+  const response = await client.sensorInsightsUsers.sensorInsightsCreateUserRequest({
+    body: {
+      accountname: "0000123456-00001",
+      user: {
+        email: "email@domain.com",
+        firstname: "First name",
+        lastname: "Last name or Surname",
+        mdn: "908-555-1234",
+        customdata: { additionalProp1: {}, additionalProp2: {}, additionalProp3: {} },
+      },
+    },
+  });
   // TODO: Handle 'response' of type ResourceUser
 } catch (err) {
-  if (
-    err instanceof SensorInsightsUsers.SensorInsightsCreateUserRequestError &&
-      err.payload.kind === "managementError400"
-  ) {
-    // TODO: Handle 'err.payload.body' of type ManagementError400
-  }
+  // TODO: Handle 'err' of type SensorInsightsUsers.SensorInsightsCreateUserRequestError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.sensorInsightsUsers.sensorInsightsCreateUserRequest({
+  body: {
+    accountname: "0000123456-00001",
+    user: {
+      email: "email@domain.com",
+      firstname: "First name",
+      lastname: "Last name or Surname",
+      mdn: "908-555-1234",
+      customdata: { additionalProp1: {}, additionalProp2: {}, additionalProp3: {} },
+    },
+  },
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type ResourceUser
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -20181,9 +30216,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[ResourceUser](src/models/resource-user.ts)</code>
+**Direct**: `await client.sensorInsightsUsers.sensorInsightsCreateUserRequest(request)`
 
-**OnError**: <code>[SensorInsightsUsers.SensorInsightsCreateUserRequestError](src/resources/sensor-insights-users.ts)</code>
+- **OnSuccess**: <code>[ResourceUser](src/models/resource-user.ts)</code>
+- **OnError**: throws <code>[SensorInsightsUsers.SensorInsightsCreateUserRequestError](src/resources/sensor-insights-users.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.sensorInsightsUsers.sensorInsightsCreateUserRequest(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;ResourceUser, SensorInsightsUsers.SensorInsightsCreateUserRequestError&gt;</code>, with `result.value` of type <code>[ResourceUser](src/models/resource-user.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -20199,21 +30242,38 @@ try {
 <dl>
 <dd>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  await client.sensorInsightsUsers.sensorInsightsDeleteUser({ deleterequestpayload });
+  await client.sensorInsightsUsers.sensorInsightsDeleteUser({
+    deleterequestpayload: { accountname: "0000123456-00001", id: "8ea30999-eeee-ffff-gggg-3ea409f5fee4" },
+  });
 } catch (err) {
-  if (
-    err instanceof SensorInsightsUsers.SensorInsightsDeleteUserError &&
-      err.payload.kind === "managementError400"
-  ) {
-    // TODO: Handle 'err.payload.body' of type ManagementError400
-  }
+  // TODO: Handle 'err' of type SensorInsightsUsers.SensorInsightsDeleteUserError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.sensorInsightsUsers.sensorInsightsDeleteUser({
+  deleterequestpayload: { accountname: "0000123456-00001", id: "8ea30999-eeee-ffff-gggg-3ea409f5fee4" },
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: The call succeeded and resolves to no body
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -20237,9 +30297,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>undefined</code>
+**Direct**: `await client.sensorInsightsUsers.sensorInsightsDeleteUser(request)`
 
-**OnError**: <code>[SensorInsightsUsers.SensorInsightsDeleteUserError](src/resources/sensor-insights-users.ts)</code>
+- **OnSuccess**: <code>undefined</code>
+- **OnError**: throws <code>[SensorInsightsUsers.SensorInsightsDeleteUserError](src/resources/sensor-insights-users.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.sensorInsightsUsers.sensorInsightsDeleteUser(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;undefined, SensorInsightsUsers.SensorInsightsDeleteUserError&gt;</code>, with `result.value` of type <code>undefined</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -20255,22 +30323,61 @@ try {
 <dl>
 <dd>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.sensorInsightsUsers.sensorInsightsListUserRequest({ body });
+  const response = await client.sensorInsightsUsers.sensorInsightsListUserRequest({
+    body: {
+      accountname: "0000123456-00001",
+      filter: {
+        expand: "device detail(s)",
+        limitnumber: 100,
+        nopagination: true,
+        page: "The number of pages",
+        pagenumber: 100,
+        projection: ["specific device fields requested"],
+        selection: { additionalProp1: "string", additionalProp2: "string", additionalProp3: "string" },
+      },
+    },
+  });
   // TODO: Handle 'response' of type ResourceUser[]
 } catch (err) {
-  if (
-    err instanceof SensorInsightsUsers.SensorInsightsListUserRequestError &&
-      err.payload.kind === "managementError400"
-  ) {
-    // TODO: Handle 'err.payload.body' of type ManagementError400
-  }
+  // TODO: Handle 'err' of type SensorInsightsUsers.SensorInsightsListUserRequestError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.sensorInsightsUsers.sensorInsightsListUserRequest({
+  body: {
+    accountname: "0000123456-00001",
+    filter: {
+      expand: "device detail(s)",
+      limitnumber: 100,
+      nopagination: true,
+      page: "The number of pages",
+      pagenumber: 100,
+      projection: ["specific device fields requested"],
+      selection: { additionalProp1: "string", additionalProp2: "string", additionalProp3: "string" },
+    },
+  },
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type ResourceUser[]
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -20294,9 +30401,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[ResourceUser](src/models/resource-user.ts)[]</code>
+**Direct**: `await client.sensorInsightsUsers.sensorInsightsListUserRequest(request)`
 
-**OnError**: <code>[SensorInsightsUsers.SensorInsightsListUserRequestError](src/resources/sensor-insights-users.ts)</code>
+- **OnSuccess**: <code>[ResourceUser](src/models/resource-user.ts)[]</code>
+- **OnError**: throws <code>[SensorInsightsUsers.SensorInsightsListUserRequestError](src/resources/sensor-insights-users.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.sensorInsightsUsers.sensorInsightsListUserRequest(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;ResourceUser[], SensorInsightsUsers.SensorInsightsListUserRequestError&gt;</code>, with `result.value` of type <code>[ResourceUser](src/models/resource-user.ts)[]</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -20312,22 +30427,59 @@ try {
 <dl>
 <dd>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.sensorInsightsUsers.sensorInsightsUpdateUserRequest({ body });
+  const response = await client.sensorInsightsUsers.sensorInsightsUpdateUserRequest({
+    body: {
+      accountname: "0000123456-00001",
+      id: "9dd573ba-eeee-ffff-gggg-8009758bcaca",
+      user: {
+        email: "email@domain.com",
+        firstname: "First name",
+        lastname: "Last name or Surname",
+        mdn: "908-555-1234",
+        customdata: { additionalProp1: {}, additionalProp2: {}, additionalProp3: {} },
+      },
+    },
+  });
   // TODO: Handle 'response' of type ResourceUser
 } catch (err) {
-  if (
-    err instanceof SensorInsightsUsers.SensorInsightsUpdateUserRequestError &&
-      err.payload.kind === "managementError400"
-  ) {
-    // TODO: Handle 'err.payload.body' of type ManagementError400
-  }
+  // TODO: Handle 'err' of type SensorInsightsUsers.SensorInsightsUpdateUserRequestError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.sensorInsightsUsers.sensorInsightsUpdateUserRequest({
+  body: {
+    accountname: "0000123456-00001",
+    id: "9dd573ba-eeee-ffff-gggg-8009758bcaca",
+    user: {
+      email: "email@domain.com",
+      firstname: "First name",
+      lastname: "Last name or Surname",
+      mdn: "908-555-1234",
+      customdata: { additionalProp1: {}, additionalProp2: {}, additionalProp3: {} },
+    },
+  },
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type ResourceUser
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -20351,9 +30503,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[ResourceUser](src/models/resource-user.ts)</code>
+**Direct**: `await client.sensorInsightsUsers.sensorInsightsUpdateUserRequest(request)`
 
-**OnError**: <code>[SensorInsightsUsers.SensorInsightsUpdateUserRequestError](src/resources/sensor-insights-users.ts)</code>
+- **OnSuccess**: <code>[ResourceUser](src/models/resource-user.ts)</code>
+- **OnError**: throws <code>[SensorInsightsUsers.SensorInsightsUpdateUserRequestError](src/resources/sensor-insights-users.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.sensorInsightsUsers.sensorInsightsUpdateUserRequest(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;ResourceUser, SensorInsightsUsers.SensorInsightsUpdateUserRequestError&gt;</code>, with `result.value` of type <code>[ResourceUser](src/models/resource-user.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -20383,22 +30543,61 @@ Create a device profile
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.sensorInsightsDeviceProfile.createAProfile({ body });
+  const response = await client.sensorInsightsDeviceProfile.createAProfile({
+    body: {
+      accountname: "0000123456-00001",
+      profiles: [
+        {
+          kind: "the kind of profile being created",
+          version: "1.0",
+          modelid: "00000000-0000-0000-0000-000000000019",
+          name: "Demo Entry sensor 1730928792",
+          configuration: {},
+        },
+      ],
+    },
+  });
   // TODO: Handle 'response' of type DtoProfileResponse[]
 } catch (err) {
-  if (
-    err instanceof SensorInsightsDeviceProfile.CreateAProfileError &&
-      err.payload.kind === "managementError400"
-  ) {
-    // TODO: Handle 'err.payload.body' of type ManagementError400
-  }
+  // TODO: Handle 'err' of type SensorInsightsDeviceProfile.CreateAProfileError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.sensorInsightsDeviceProfile.createAProfile({
+  body: {
+    accountname: "0000123456-00001",
+    profiles: [
+      {
+        kind: "the kind of profile being created",
+        version: "1.0",
+        modelid: "00000000-0000-0000-0000-000000000019",
+        name: "Demo Entry sensor 1730928792",
+        configuration: {},
+      },
+    ],
+  },
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type DtoProfileResponse[]
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -20422,9 +30621,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[DtoProfileResponse](src/models/dto-profile-response.ts)[]</code>
+**Direct**: `await client.sensorInsightsDeviceProfile.createAProfile(request)`
 
-**OnError**: <code>[SensorInsightsDeviceProfile.CreateAProfileError](src/resources/sensor-insights-device-profile.ts)</code>
+- **OnSuccess**: <code>[DtoProfileResponse](src/models/dto-profile-response.ts)[]</code>
+- **OnError**: throws <code>[SensorInsightsDeviceProfile.CreateAProfileError](src/resources/sensor-insights-device-profile.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.sensorInsightsDeviceProfile.createAProfile(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;DtoProfileResponse[], SensorInsightsDeviceProfile.CreateAProfileError&gt;</code>, with `result.value` of type <code>[DtoProfileResponse](src/models/dto-profile-response.ts)[]</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -20450,22 +30657,35 @@ Delete a device profile
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.sensorInsightsDeviceProfile.deleteAProfile({ deleterequest });
+  const response = await client.sensorInsightsDeviceProfile.deleteAProfile({ deleterequest: {} });
   // TODO: Handle 'response' of type DtoProfileResponse[]
 } catch (err) {
-  if (
-    err instanceof SensorInsightsDeviceProfile.DeleteAProfileError &&
-      err.payload.kind === "managementError400"
-  ) {
-    // TODO: Handle 'err.payload.body' of type ManagementError400
-  }
+  // TODO: Handle 'err' of type SensorInsightsDeviceProfile.DeleteAProfileError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.sensorInsightsDeviceProfile.deleteAProfile({ deleterequest: {} }).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type DtoProfileResponse[]
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -20489,9 +30709,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[DtoProfileResponse](src/models/dto-profile-response.ts)[]</code>
+**Direct**: `await client.sensorInsightsDeviceProfile.deleteAProfile(request)`
 
-**OnError**: <code>[SensorInsightsDeviceProfile.DeleteAProfileError](src/resources/sensor-insights-device-profile.ts)</code>
+- **OnSuccess**: <code>[DtoProfileResponse](src/models/dto-profile-response.ts)[]</code>
+- **OnError**: throws <code>[SensorInsightsDeviceProfile.DeleteAProfileError](src/resources/sensor-insights-device-profile.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.sensorInsightsDeviceProfile.deleteAProfile(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;DtoProfileResponse[], SensorInsightsDeviceProfile.DeleteAProfileError&gt;</code>, with `result.value` of type <code>[DtoProfileResponse](src/models/dto-profile-response.ts)[]</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -20517,21 +30745,41 @@ Query a device profile for an individual device
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.sensorInsightsDeviceProfile.queryAProfile({ body });
+  const response = await client.sensorInsightsDeviceProfile.queryAProfile({
+    body: {
+      filter: { selection: { modelid: "00000000-0000-0000-0000-000000000019" }, querytotalcount: true },
+    },
+  });
   // TODO: Handle 'response' of type DtoProfileResponse[]
 } catch (err) {
-  if (
-    err instanceof SensorInsightsDeviceProfile.QueryAProfileError && err.payload.kind === "managementError400"
-  ) {
-    // TODO: Handle 'err.payload.body' of type ManagementError400
-  }
+  // TODO: Handle 'err' of type SensorInsightsDeviceProfile.QueryAProfileError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.sensorInsightsDeviceProfile.queryAProfile({
+  body: { filter: { selection: { modelid: "00000000-0000-0000-0000-000000000019" }, querytotalcount: true } },
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type DtoProfileResponse[]
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -20555,9 +30803,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[DtoProfileResponse](src/models/dto-profile-response.ts)[]</code>
+**Direct**: `await client.sensorInsightsDeviceProfile.queryAProfile(request)`
 
-**OnError**: <code>[SensorInsightsDeviceProfile.QueryAProfileError](src/resources/sensor-insights-device-profile.ts)</code>
+- **OnSuccess**: <code>[DtoProfileResponse](src/models/dto-profile-response.ts)[]</code>
+- **OnError**: throws <code>[SensorInsightsDeviceProfile.QueryAProfileError](src/resources/sensor-insights-device-profile.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.sensorInsightsDeviceProfile.queryAProfile(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;DtoProfileResponse[], SensorInsightsDeviceProfile.QueryAProfileError&gt;</code>, with `result.value` of type <code>[DtoProfileResponse](src/models/dto-profile-response.ts)[]</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -20583,22 +30839,35 @@ Partially update a device profile
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.sensorInsightsDeviceProfile.updateAProfile({ body });
+  const response = await client.sensorInsightsDeviceProfile.updateAProfile({ body: {} });
   // TODO: Handle 'response' of type DtoProfileResponse[]
 } catch (err) {
-  if (
-    err instanceof SensorInsightsDeviceProfile.UpdateAProfileError &&
-      err.payload.kind === "managementError400"
-  ) {
-    // TODO: Handle 'err.payload.body' of type ManagementError400
-  }
+  // TODO: Handle 'err' of type SensorInsightsDeviceProfile.UpdateAProfileError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.sensorInsightsDeviceProfile.updateAProfile({ body: {} }).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type DtoProfileResponse[]
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -20622,9 +30891,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[DtoProfileResponse](src/models/dto-profile-response.ts)[]</code>
+**Direct**: `await client.sensorInsightsDeviceProfile.updateAProfile(request)`
 
-**OnError**: <code>[SensorInsightsDeviceProfile.UpdateAProfileError](src/resources/sensor-insights-device-profile.ts)</code>
+- **OnSuccess**: <code>[DtoProfileResponse](src/models/dto-profile-response.ts)[]</code>
+- **OnError**: throws <code>[SensorInsightsDeviceProfile.UpdateAProfileError](src/resources/sensor-insights-device-profile.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.sensorInsightsDeviceProfile.updateAProfile(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;DtoProfileResponse[], SensorInsightsDeviceProfile.UpdateAProfileError&gt;</code>, with `result.value` of type <code>[DtoProfileResponse](src/models/dto-profile-response.ts)[]</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>
@@ -20654,22 +30931,37 @@ Get Device Alerts for the most recent daily period, up to 30 days.
 </dd>
 </dl>
 
-### Usage
+### Direct Usage
 
 <dl>
 <dd>
 
 ```ts
 try {
-  const response = await client.sensorInsightsSmartAlertMetrics.sensorinsightsmetricsquery({ body });
+  const response = await client.sensorInsightsSmartAlertMetrics.sensorinsightsmetricsquery({ body: {} });
   // TODO: Handle 'response' of type DtoQueryMetricsResponse
 } catch (err) {
-  if (
-    err instanceof SensorInsightsSmartAlertMetrics.SensorinsightsmetricsqueryError &&
-      err.payload.kind === "managementError400"
-  ) {
-    // TODO: Handle 'err.payload.body' of type ManagementError400
-  }
+  // TODO: Handle 'err' of type SensorInsightsSmartAlertMetrics.SensorinsightsmetricsqueryError, discriminated with 'err.payload.kind'
+}
+```
+
+</dd>
+</dl>
+
+### Usage as ApiResult
+
+<dl>
+<dd>
+
+```ts
+const result = await client.sensorInsightsSmartAlertMetrics.sensorinsightsmetricsquery({
+  body: {},
+}).asApiResult();
+// TODO: Use 'result.status' and 'result.headers' to read the raw response status and headers
+if (result.ok) {
+  // TODO: Use 'result.value' of type DtoQueryMetricsResponse
+} else {
+  // TODO: Handle 'result', discriminated with 'result.payload.kind'
 }
 ```
 
@@ -20693,9 +30985,17 @@ try {
 <dl>
 <dd>
 
-**OnSuccess**: <code>[DtoQueryMetricsResponse](src/models/dto-query-metrics-response.ts)</code>
+**Direct**: `await client.sensorInsightsSmartAlertMetrics.sensorinsightsmetricsquery(request)`
 
-**OnError**: <code>[SensorInsightsSmartAlertMetrics.SensorinsightsmetricsqueryError](src/resources/sensor-insights-smart-alert-metrics.ts)</code>
+- **OnSuccess**: <code>[DtoQueryMetricsResponse](src/models/dto-query-metrics-response.ts)</code>
+- **OnError**: throws <code>[SensorInsightsSmartAlertMetrics.SensorinsightsmetricsqueryError](src/resources/sensor-insights-smart-alert-metrics.ts)</code>, with `err.payload` discriminated on `kind`
+
+**As ApiResult**: `await client.sensorInsightsSmartAlertMetrics.sensorinsightsmetricsquery(request).asApiResult()`
+
+- **OnSuccess**: <code>[ApiResult](src/core/api-promise.ts)&lt;DtoQueryMetricsResponse, SensorInsightsSmartAlertMetrics.SensorinsightsmetricsqueryError&gt;</code>, with `result.value` of type <code>[DtoQueryMetricsResponse](src/models/dto-query-metrics-response.ts)</code>
+- **OnError**: `result.payload` discriminated on `kind`, with `result.message`
+
+**Thrown**: <code>[VerizonError](src/core/errors.ts)</code> on any operational failure — a caller abort and a programmer error stay outside the family and reach you raw
 
 </dd>
 </dl>

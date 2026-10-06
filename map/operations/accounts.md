@@ -4,16 +4,17 @@
 
 Accessor: `client.accounts` · Source: `src/resources/accounts.ts` · 3 operations · Request and error types: namespace `Accounts`
 
-**Type sources**: every type an operation names, with the file that declares it and the schema value exported beside it. Import every name from `verizon`; the `Source` path is where to **read** the shape, never what to import. `ResponseError` and the runtime error family are excluded — see sdk-map.md.
+**Type sources**: every type an operation names, with the file that declares it and the schema value exported beside it. Import every name from `verizon`; the `Source` path is where to **read** the shape, never what to import. `ApiError`, the runtime error family and the file vocabulary are excluded — see sdk-map.md.
 
 ### getAccountInformation
 
+- **Server**: `thingspace` — not the `hyperPreciseCredentials` group; see Servers & auth in sdk-map.md
 - **Signature**: `getAccountInformation(request: Accounts.GetAccountInformationRequest, options?: RequestOptions): ApiPromise<Account, Accounts.GetAccountInformationError>`
 - **Wire**: `GET /m2m/v1/accounts/{aname}`
 - **Auth**: all of `thingspaceOauth`, `vzM2MToken` — both are sent
 - **Request body**: none — no `Content-Type` header is sent
 - **Returns**: `Account`
-- **Error**: `Accounts.GetAccountInformationError` — **typed arms**, narrowed on `err.payload.kind`
+- **Error**: `VerizonError` with `kind: "api"`, an instance of `Accounts.GetAccountInformationError` — **typed arms**, narrowed on `err.payload.kind`
 - **Error arms**: `"connectivityManagementResult"` [400] `ConnectivityManagementResult` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
 
 **Fields** — `Accounts.GetAccountInformationRequest` (1):
@@ -29,12 +30,13 @@ Accessor: `client.accounts` · Source: `src/resources/accounts.ts` · 3 operatio
 
 ### listAccountLeads
 
+- **Server**: `thingspace` — not the `hyperPreciseCredentials` group; see Servers & auth in sdk-map.md
 - **Signature**: `listAccountLeads(request: Accounts.ListAccountLeadsRequest, options?: RequestOptions): ApiPromise<AccountLeadsResult, Accounts.ListAccountLeadsError>`
 - **Wire**: `GET /m2m/v1/leads/{aname}`
 - **Auth**: all of `thingspaceOauth`, `vzM2MToken` — both are sent
 - **Request body**: none — no `Content-Type` header is sent
 - **Returns**: `AccountLeadsResult`
-- **Error**: `Accounts.ListAccountLeadsError` — **typed arms**, narrowed on `err.payload.kind`
+- **Error**: `VerizonError` with `kind: "api"`, an instance of `Accounts.ListAccountLeadsError` — **typed arms**, narrowed on `err.payload.kind`
 - **Error arms**: `"connectivityManagementResult"` [400] `ConnectivityManagementResult` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
 
 **Fields** — `Accounts.ListAccountLeadsRequest` (2):
@@ -51,12 +53,13 @@ Accessor: `client.accounts` · Source: `src/resources/accounts.ts` · 3 operatio
 
 ### listAccountStatesAndServices
 
+- **Server**: `thingspace` — not the `hyperPreciseCredentials` group; see Servers & auth in sdk-map.md
 - **Signature**: `listAccountStatesAndServices(request: Accounts.ListAccountStatesAndServicesRequest, options?: RequestOptions): ApiPromise<AccountStatesAndServices, Accounts.ListAccountStatesAndServicesError>`
 - **Wire**: `GET /m2m/v1/accounts/{aname}/statesandservices`
 - **Auth**: all of `thingspaceOauth`, `vzM2MToken` — both are sent
 - **Request body**: none — no `Content-Type` header is sent
 - **Returns**: `AccountStatesAndServices`
-- **Error**: `Accounts.ListAccountStatesAndServicesError` — **typed arms**, narrowed on `err.payload.kind`
+- **Error**: `VerizonError` with `kind: "api"`, an instance of `Accounts.ListAccountStatesAndServicesError` — **typed arms**, narrowed on `err.payload.kind`
 - **Error arms**: `"connectivityManagementResult"` [400] `ConnectivityManagementResult` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
 
 **Fields** — `Accounts.ListAccountStatesAndServicesRequest` (1):

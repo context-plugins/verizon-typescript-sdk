@@ -4,6 +4,7 @@ import { dtoResourceidentifierSchema, type DtoResourceidentifier } from "./dto-r
 import { resourceRuleSchema, type ResourceRule } from "./resource-rule.js";
 
 export type DtoOverwriteRuleRequest = {
+  /** The numeric account name, which must include leading zeros */
   accountname?: string;
   resourceidentifier?: DtoResourceidentifier;
   rule?: ResourceRule;

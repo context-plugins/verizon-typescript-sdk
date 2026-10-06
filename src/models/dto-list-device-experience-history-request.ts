@@ -3,6 +3,7 @@ import type { Schema } from "../core/validation/schema.js";
 import { dtoFilterSchema, type DtoFilter } from "./dto-filter.js";
 
 export type DtoListDeviceExperienceHistoryRequest = {
+  /** The numeric account name, which must include leading zeros */
   accountname?: string;
   filter?: DtoFilter;
 };

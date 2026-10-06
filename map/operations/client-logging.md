@@ -4,7 +4,7 @@
 
 Accessor: `client.clientLogging` · Source: `src/resources/client-logging.ts` · 6 operations · Request and error types: namespace `ClientLogging`
 
-**Type sources**: every type an operation names, with the file that declares it and the schema value exported beside it. Import every name from `verizon`; the `Source` path is where to **read** the shape, never what to import. `ResponseError` and the runtime error family are excluded — see sdk-map.md.
+**Type sources**: every type an operation names, with the file that declares it and the schema value exported beside it. Import every name from `verizon`; the `Source` path is where to **read** the shape, never what to import. `ApiError`, the runtime error family and the file vocabulary are excluded — see sdk-map.md.
 
 ### disableDeviceLogging
 
@@ -13,8 +13,9 @@ Accessor: `client.clientLogging` · Source: `src/resources/client-logging.ts` ·
 - **Wire**: `DELETE /logging/{account}/devices/{deviceId}`
 - **Auth**: all of `thingspaceOauth`, `vzM2MToken` — both are sent
 - **Request body**: none — no `Content-Type` header is sent
+- **SDK-sent**: `header Idempotency-Key` (minted per call)
 - **Returns**: `undefined` — the operation resolves to nothing
-- **Error**: `ClientLogging.DisableDeviceLoggingError` — **typed arms**, narrowed on `err.payload.kind`
+- **Error**: `VerizonError` with `kind: "api"`, an instance of `ClientLogging.DisableDeviceLoggingError` — **typed arms**, narrowed on `err.payload.kind`
 - **Error arms**: `"fotaV2Result"` [400] `FotaV2Result` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
 
 **Fields** — `ClientLogging.DisableDeviceLoggingRequest` (2):
@@ -35,8 +36,9 @@ Accessor: `client.clientLogging` · Source: `src/resources/client-logging.ts` ·
 - **Wire**: `DELETE /logging/{account}/devices`
 - **Auth**: all of `thingspaceOauth`, `vzM2MToken` — both are sent
 - **Request body**: none — no `Content-Type` header is sent
+- **SDK-sent**: `header Idempotency-Key` (minted per call)
 - **Returns**: `undefined` — the operation resolves to nothing
-- **Error**: `ClientLogging.DisableLoggingForDevicesError` — **typed arms**, narrowed on `err.payload.kind`
+- **Error**: `VerizonError` with `kind: "api"`, an instance of `ClientLogging.DisableLoggingForDevicesError` — **typed arms**, narrowed on `err.payload.kind`
 - **Error arms**: `"fotaV2Result"` [400] `FotaV2Result` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
 
 **Fields** — `ClientLogging.DisableLoggingForDevicesRequest` (2):
@@ -57,8 +59,9 @@ Accessor: `client.clientLogging` · Source: `src/resources/client-logging.ts` ·
 - **Wire**: `PUT /logging/{account}/devices/{deviceId}`
 - **Auth**: all of `thingspaceOauth`, `vzM2MToken` — both are sent
 - **Request body**: none — no `Content-Type` header is sent
+- **SDK-sent**: `header Idempotency-Key` (minted per call)
 - **Returns**: `DeviceLoggingStatus`
-- **Error**: `ClientLogging.EnableDeviceLoggingError` — **typed arms**, narrowed on `err.payload.kind`
+- **Error**: `VerizonError` with `kind: "api"`, an instance of `ClientLogging.EnableDeviceLoggingError` — **typed arms**, narrowed on `err.payload.kind`
 - **Error arms**: `"fotaV2Result"` [400] `FotaV2Result` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
 
 **Fields** — `ClientLogging.EnableDeviceLoggingRequest` (2):
@@ -80,8 +83,9 @@ Accessor: `client.clientLogging` · Source: `src/resources/client-logging.ts` ·
 - **Wire**: `PUT /logging/{account}/devices`
 - **Auth**: all of `thingspaceOauth`, `vzM2MToken` — both are sent
 - **Request body**: none — no `Content-Type` header is sent
+- **SDK-sent**: `header Idempotency-Key` (minted per call)
 - **Returns**: `DeviceLoggingStatus[]` — a bare `application/json` array; the success type *is* the array, not a wrapper model
-- **Error**: `ClientLogging.EnableLoggingForDevicesError` — **typed arms**, narrowed on `err.payload.kind`
+- **Error**: `VerizonError` with `kind: "api"`, an instance of `ClientLogging.EnableLoggingForDevicesError` — **typed arms**, narrowed on `err.payload.kind`
 - **Error arms**: `"fotaV2Result"` [400] `FotaV2Result` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
 
 **Fields** — `ClientLogging.EnableLoggingForDevicesRequest` (1):
@@ -103,7 +107,7 @@ Accessor: `client.clientLogging` · Source: `src/resources/client-logging.ts` ·
 - **Auth**: all of `thingspaceOauth`, `vzM2MToken` — both are sent
 - **Request body**: none — no `Content-Type` header is sent
 - **Returns**: `DeviceLog[]` — a bare `application/json` array; the success type *is* the array, not a wrapper model
-- **Error**: `ClientLogging.ListDeviceLogsError` — **typed arms**, narrowed on `err.payload.kind`
+- **Error**: `VerizonError` with `kind: "api"`, an instance of `ClientLogging.ListDeviceLogsError` — **typed arms**, narrowed on `err.payload.kind`
 - **Error arms**: `"fotaV2Result"` [400] `FotaV2Result` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
 
 **Fields** — `ClientLogging.ListDeviceLogsRequest` (2):
@@ -126,7 +130,7 @@ Accessor: `client.clientLogging` · Source: `src/resources/client-logging.ts` ·
 - **Auth**: all of `thingspaceOauth`, `vzM2MToken` — both are sent
 - **Request body**: none — no `Content-Type` header is sent
 - **Returns**: `DeviceLoggingStatus[]` — a bare `application/json` array; the success type *is* the array, not a wrapper model
-- **Error**: `ClientLogging.ListDevicesWithLoggingEnabledError` — **typed arms**, narrowed on `err.payload.kind`
+- **Error**: `VerizonError` with `kind: "api"`, an instance of `ClientLogging.ListDevicesWithLoggingEnabledError` — **typed arms**, narrowed on `err.payload.kind`
 - **Error arms**: `"fotaV2Result"` [400] `FotaV2Result` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
 
 **Fields** — `ClientLogging.ListDevicesWithLoggingEnabledRequest` (1):

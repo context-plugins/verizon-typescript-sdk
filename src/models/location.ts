@@ -3,9 +3,13 @@ import type { Schema } from "../core/validation/schema.js";
 import { positionDataSchema, type PositionData } from "./position-data.js";
 import { positionErrorSchema, type PositionError } from "./position-error.js";
 
+/** Device location information. */
 export type Location = {
+  /** MDN. */
   msid?: string;
+  /** Position data. */
   pd?: PositionData;
+  /** Position error. */
   error?: PositionError;
 };
 

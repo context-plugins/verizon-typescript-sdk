@@ -3,6 +3,7 @@ import type { Schema } from "../core/validation/schema.js";
 import { snowSchema, type Snow } from "./snow.js";
 
 export type DescriptionOfRoadSurfaceSnow = {
+  /** Indicates the surface of the roadway is snow. */
   snow: Snow;
 };
 

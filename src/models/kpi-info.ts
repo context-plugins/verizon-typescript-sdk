@@ -1,6 +1,7 @@
 import * as s from "../core/validation/index.js";
 import type { Schema } from "../core/validation/schema.js";
 
+/** KPI Info Object */
 export type KpiInfo = {
   name?: string;
   value?: string;

@@ -4,7 +4,7 @@
 
 Accessor: `client.softwareManagementReportsV2` · Source: `src/resources/software-management-reports-v2.ts` · 5 operations · Request and error types: namespace `SoftwareManagementReportsV2`
 
-**Type sources**: every type an operation names, with the file that declares it and the schema value exported beside it. Import every name from `verizon`; the `Source` path is where to **read** the shape, never what to import. `ResponseError` and the runtime error family are excluded — see sdk-map.md.
+**Type sources**: every type an operation names, with the file that declares it and the schema value exported beside it. Import every name from `verizon`; the `Source` path is where to **read** the shape, never what to import. `ApiError`, the runtime error family and the file vocabulary are excluded — see sdk-map.md.
 
 ### getCampaignDeviceStatus
 
@@ -14,7 +14,7 @@ Accessor: `client.softwareManagementReportsV2` · Source: `src/resources/softwar
 - **Auth**: all of `thingspaceOauth`, `vzM2MToken` — both are sent
 - **Request body**: none — no `Content-Type` header is sent
 - **Returns**: `V2CampaignDevice`
-- **Error**: `SoftwareManagementReportsV2.GetCampaignDeviceStatusError` — **typed arms**, narrowed on `err.payload.kind`
+- **Error**: `VerizonError` with `kind: "api"`, an instance of `SoftwareManagementReportsV2.GetCampaignDeviceStatusError` — **typed arms**, narrowed on `err.payload.kind`
 - **Error arms**: `"fotaV2Result"` [400] `FotaV2Result` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
 
 **Fields** — `SoftwareManagementReportsV2.GetCampaignDeviceStatusRequest` (3):
@@ -38,7 +38,7 @@ Accessor: `client.softwareManagementReportsV2` · Source: `src/resources/softwar
 - **Auth**: all of `thingspaceOauth`, `vzM2MToken` — both are sent
 - **Request body**: none — no `Content-Type` header is sent
 - **Returns**: `V2CampaignHistory`
-- **Error**: `SoftwareManagementReportsV2.GetCampaignHistoryByStatusError` — **typed arms**, narrowed on `err.payload.kind`
+- **Error**: `VerizonError` with `kind: "api"`, an instance of `SoftwareManagementReportsV2.GetCampaignHistoryByStatusError` — **typed arms**, narrowed on `err.payload.kind`
 - **Error arms**: `"fotaV2Result"` [400] `FotaV2Result` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
 
 **Fields** — `SoftwareManagementReportsV2.GetCampaignHistoryByStatusRequest` (3):
@@ -62,7 +62,7 @@ Accessor: `client.softwareManagementReportsV2` · Source: `src/resources/softwar
 - **Auth**: all of `thingspaceOauth`, `vzM2MToken` — both are sent
 - **Request body**: none — no `Content-Type` header is sent
 - **Returns**: `DeviceSoftwareUpgrade[]` — a bare `application/json` array; the success type *is* the array, not a wrapper model
-- **Error**: `SoftwareManagementReportsV2.GetDeviceFirmwareUpgradeHistory2Error` — **typed arms**, narrowed on `err.payload.kind`
+- **Error**: `VerizonError` with `kind: "api"`, an instance of `SoftwareManagementReportsV2.GetDeviceFirmwareUpgradeHistory2Error` — **typed arms**, narrowed on `err.payload.kind`
 - **Error arms**: `"fotaV2Result"` [400] `FotaV2Result` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
 
 **Fields** — `SoftwareManagementReportsV2.GetDeviceFirmwareUpgradeHistory2Request` (2):
@@ -85,7 +85,7 @@ Accessor: `client.softwareManagementReportsV2` · Source: `src/resources/softwar
 - **Auth**: all of `thingspaceOauth`, `vzM2MToken` — both are sent
 - **Request body**: none — no `Content-Type` header is sent
 - **Returns**: `V2AccountDeviceList`
-- **Error**: `SoftwareManagementReportsV2.ListAccountDevices2Error` — **typed arms**, narrowed on `err.payload.kind`
+- **Error**: `VerizonError` with `kind: "api"`, an instance of `SoftwareManagementReportsV2.ListAccountDevices2Error` — **typed arms**, narrowed on `err.payload.kind`
 - **Error arms**: `"fotaV2Result"` [400] `FotaV2Result` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
 
 **Fields** — `SoftwareManagementReportsV2.ListAccountDevices2Request` (3):
@@ -109,7 +109,7 @@ Accessor: `client.softwareManagementReportsV2` · Source: `src/resources/softwar
 - **Auth**: all of `thingspaceOauth`, `vzM2MToken` — both are sent
 - **Request body**: none — no `Content-Type` header is sent
 - **Returns**: `SoftwarePackage[]` — a bare `application/json` array; the success type *is* the array, not a wrapper model
-- **Error**: `SoftwareManagementReportsV2.ListAvailableSoftwareError` — **typed arms**, narrowed on `err.payload.kind`
+- **Error**: `VerizonError` with `kind: "api"`, an instance of `SoftwareManagementReportsV2.ListAvailableSoftwareError` — **typed arms**, narrowed on `err.payload.kind`
 - **Error arms**: `"fotaV2Result"` [400] `FotaV2Result` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
 
 **Fields** — `SoftwareManagementReportsV2.ListAvailableSoftwareRequest` (2):

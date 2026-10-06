@@ -1,6 +1,7 @@
 import * as s from "../core/validation/index.js";
 import type { EnumSchema } from "../core/validation/schema.js";
 
+/** A flag to indicate of the trigger is active, true, or not, false */
 export const Active = {
   True: "true",
   False: "false",

@@ -1,9 +1,9 @@
 import type { AuthSchemes } from "../auth-schemes.js";
+import { ApiError, type Declared, type ErrorDecoders, type ErrorPayload } from "../core/api-error.js";
 import type { ApiPromise } from "../core/api-promise.js";
 import type { RequestOptions } from "../core/api-request.js";
 import { allAuth } from "../core/auth/schemes.js";
 import type { RawClient } from "../core/raw-client.js";
-import { ResponseError, type Declared, type ErrorDecoders } from "../core/response-error.js";
 import * as s from "../core/validation/index.js";
 import {
   readySimRestErrorResponseSchema,
@@ -16,6 +16,9 @@ import {
 } from "../models/trigger-value-response2.js";
 import type { Servers } from "../servers.js";
 
+/**
+ * Retrieve the triggers associated with the feature and the account.
+ */
 export class RetrieveTheTriggers {
   readonly #rawClient: RawClient;
   readonly #servers: Servers;
@@ -27,14 +30,32 @@ export class RetrieveTheTriggers {
     this.#auth = auth;
   }
 
+  /**
+   * Retrieve all triggers.
+   *
+   * @remarks
+   * Retrieves all of the available triggers for pseudo-MDN.
+   *
+   * @returns Status of Request
+   *
+   * @throws {@link RetrieveTheTriggers.GetAllAvailableTriggersError} when the API answers with an
+   * error status — narrow on `err.payload.kind`
+   *
+   * @throws {@link VerizonError} when no usable response was produced: a connection failure, a
+   * timeout, a body that would not decode, a value that would not encode, or a credential that
+   * could not be obtained
+   */
   getAllAvailableTriggers(
     options?: RequestOptions,
   ): ApiPromise<TriggerValueResponse, RetrieveTheTriggers.GetAllAvailableTriggersError> {
     return this.#rawClient.execute(
       {
         method: "GET",
-        url: this.#servers.hyperPreciseCredentials("/m2m/v2/triggers"),
+        urlTemplate: this.#servers.thingspace("/m2m/v2/triggers"),
         auth: allAuth(this.#auth.thingspaceOauth, this.#auth.vzM2MToken),
+        pathParams: [],
+        query: [],
+        headers: [],
         body: { kind: "empty" },
       },
       {
@@ -45,6 +66,21 @@ export class RetrieveTheTriggers {
     );
   }
 
+  /**
+   * Retrieve Triggers by Account Name.
+   *
+   * @remarks
+   * Retrieve the triggers associated with an account name.
+   *
+   * @returns Status of Request
+   *
+   * @throws {@link RetrieveTheTriggers.GetAllTriggersByAccountNameError} when the API answers with
+   * an error status — narrow on `err.payload.kind`
+   *
+   * @throws {@link VerizonError} when no usable response was produced: a connection failure, a
+   * timeout, a body that would not decode, a value that would not encode, or a credential that
+   * could not be obtained
+   */
   getAllTriggersByAccountName(
     request: RetrieveTheTriggers.GetAllTriggersByAccountNameRequest,
     options?: RequestOptions,
@@ -52,9 +88,11 @@ export class RetrieveTheTriggers {
     return this.#rawClient.execute(
       {
         method: "GET",
-        url: this.#servers.hyperPreciseCredentials("/m2m/v2/triggers/accounts/{accountName}"),
+        urlTemplate: this.#servers.thingspace("/m2m/v2/triggers/accounts/{accountName}"),
         auth: allAuth(this.#auth.thingspaceOauth, this.#auth.vzM2MToken),
         pathParams: [{ name: "accountName", value: request.accountName, schema: s.string() }],
+        query: [],
+        headers: [],
         body: { kind: "empty" },
       },
       {
@@ -65,14 +103,32 @@ export class RetrieveTheTriggers {
     );
   }
 
+  /**
+   * Retrieve Triggers by the PromoAlerts category.
+   *
+   * @remarks
+   * Retrieves all of the triggers for the specified account associated with the PromoAlert category
+   *
+   * @returns Request response
+   *
+   * @throws {@link RetrieveTheTriggers.GetAllTriggersByTriggerCategoryError} when the API answers
+   * with an error status — narrow on `err.payload.kind`
+   *
+   * @throws {@link VerizonError} when no usable response was produced: a connection failure, a
+   * timeout, a body that would not decode, a value that would not encode, or a credential that
+   * could not be obtained
+   */
   getAllTriggersByTriggerCategory(
     options?: RequestOptions,
   ): ApiPromise<TriggerValueResponse2, RetrieveTheTriggers.GetAllTriggersByTriggerCategoryError> {
     return this.#rawClient.execute(
       {
         method: "GET",
-        url: this.#servers.hyperPreciseCredentials("/m2m/v2/triggers/categories/PromoAlerts"),
+        urlTemplate: this.#servers.thingspace("/m2m/v2/triggers/categories/PromoAlerts"),
         auth: allAuth(this.#auth.thingspaceOauth, this.#auth.vzM2MToken),
+        pathParams: [],
+        query: [],
+        headers: [],
         body: { kind: "empty" },
       },
       {
@@ -83,6 +139,21 @@ export class RetrieveTheTriggers {
     );
   }
 
+  /**
+   * Retrieve Triggers by triggerId.
+   *
+   * @remarks
+   * Retrives a specific trigger by its ID.
+   *
+   * @returns Request response
+   *
+   * @throws {@link RetrieveTheTriggers.GetTriggersByIdError} when the API answers with an error
+   * status — narrow on `err.payload.kind`
+   *
+   * @throws {@link VerizonError} when no usable response was produced: a connection failure, a
+   * timeout, a body that would not decode, a value that would not encode, or a credential that
+   * could not be obtained
+   */
   getTriggersById(
     request: RetrieveTheTriggers.GetTriggersByIdRequest,
     options?: RequestOptions,
@@ -90,9 +161,11 @@ export class RetrieveTheTriggers {
     return this.#rawClient.execute(
       {
         method: "GET",
-        url: this.#servers.hyperPreciseCredentials("/m2m/v2/triggers/{triggerId}"),
+        urlTemplate: this.#servers.thingspace("/m2m/v2/triggers/{triggerId}"),
         auth: allAuth(this.#auth.thingspaceOauth, this.#auth.vzM2MToken),
         pathParams: [{ name: "triggerId", value: request.triggerId, schema: s.string() }],
+        query: [],
+        headers: [],
         body: { kind: "empty" },
       },
       {
@@ -105,12 +178,12 @@ export class RetrieveTheTriggers {
 }
 
 export namespace RetrieveTheTriggers {
-  export class GetAllAvailableTriggersError extends ResponseError<
-    Declared<"readySimRestErrorResponse", ReadySimRestErrorResponse>
-  > {
+  export class GetAllAvailableTriggersError extends ApiError {
+    declare readonly payload: ErrorPayload<Declared<"readySimRestErrorResponse", ReadySimRestErrorResponse>>;
+
     static readonly errors: ErrorDecoders<GetAllAvailableTriggersError> = [
       {
-        on: [400, 599],
+        on: "default",
         kind: "readySimRestErrorResponse",
         decode: { kind: "json", schema: readySimRestErrorResponseSchema },
       },
@@ -118,27 +191,28 @@ export namespace RetrieveTheTriggers {
   }
 
   export type GetAllTriggersByAccountNameRequest = {
+    /** The account name */
     accountName: string;
   };
 
-  export class GetAllTriggersByAccountNameError extends ResponseError<
-    Declared<"readySimRestErrorResponse", ReadySimRestErrorResponse>
-  > {
+  export class GetAllTriggersByAccountNameError extends ApiError {
+    declare readonly payload: ErrorPayload<Declared<"readySimRestErrorResponse", ReadySimRestErrorResponse>>;
+
     static readonly errors: ErrorDecoders<GetAllTriggersByAccountNameError> = [
       {
-        on: [400, 599],
+        on: "default",
         kind: "readySimRestErrorResponse",
         decode: { kind: "json", schema: readySimRestErrorResponseSchema },
       },
     ];
   }
 
-  export class GetAllTriggersByTriggerCategoryError extends ResponseError<
-    Declared<"readySimRestErrorResponse", ReadySimRestErrorResponse>
-  > {
+  export class GetAllTriggersByTriggerCategoryError extends ApiError {
+    declare readonly payload: ErrorPayload<Declared<"readySimRestErrorResponse", ReadySimRestErrorResponse>>;
+
     static readonly errors: ErrorDecoders<GetAllTriggersByTriggerCategoryError> = [
       {
-        on: [400, 599],
+        on: "default",
         kind: "readySimRestErrorResponse",
         decode: { kind: "json", schema: readySimRestErrorResponseSchema },
       },
@@ -146,15 +220,16 @@ export namespace RetrieveTheTriggers {
   }
 
   export type GetTriggersByIdRequest = {
+    /** The ID of a specific trigger */
     triggerId: string;
   };
 
-  export class GetTriggersByIdError extends ResponseError<
-    Declared<"readySimRestErrorResponse", ReadySimRestErrorResponse>
-  > {
+  export class GetTriggersByIdError extends ApiError {
+    declare readonly payload: ErrorPayload<Declared<"readySimRestErrorResponse", ReadySimRestErrorResponse>>;
+
     static readonly errors: ErrorDecoders<GetTriggersByIdError> = [
       {
-        on: [400, 599],
+        on: "default",
         kind: "readySimRestErrorResponse",
         decode: { kind: "json", schema: readySimRestErrorResponseSchema },
       },

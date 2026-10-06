@@ -2,9 +2,13 @@ import * as s from "../core/validation/index.js";
 import type { Schema } from "../core/validation/schema.js";
 import { v2CampaignMetaInfoSchema, type V2CampaignMetaInfo } from "./v2-campaign-meta-info.js";
 
+/** Campaign history details. */
 export type V2CampaignHistory = {
+  /** Has more report flag. */
   hasMoreData: boolean;
+  /** Campaign identifier. */
   lastSeenCampaignId?: string;
+  /** Software upgrade list. */
   campaignList: V2CampaignMetaInfo[] | null;
 };
 

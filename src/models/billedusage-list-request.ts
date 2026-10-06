@@ -4,6 +4,9 @@ import { billingCycleSchema, type BillingCycle } from "./billing-cycle.js";
 import { deviceListSchema, type DeviceList } from "./device-list.js";
 import { labelsListSchema, type LabelsList } from "./labels-list.js";
 
+/**
+ * Information required to associate a usage segmentation label with a device to retrieve billing.
+ */
 export type BilledusageListRequest = {
   accountName: string;
   labels?: LabelsList;

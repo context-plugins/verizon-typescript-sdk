@@ -3,6 +3,7 @@ import type { Schema } from "../core/validation/schema.js";
 import { conditionActionSchema, type ConditionAction } from "./condition-action.js";
 
 export type AccountGroupShareCondition = {
+  /** The action taken when trigger conditions are met */
   action?: ConditionAction;
 };
 

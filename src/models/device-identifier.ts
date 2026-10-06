@@ -1,9 +1,13 @@
 import * as s from "../core/validation/index.js";
 import type { Schema } from "../core/validation/schema.js";
 
+/** Device Id details. */
 export type DeviceIdentifier = {
+  /** Kind of device. */
   kind: string;
+  /** Device Identity number. */
   id: string;
+  /** Device MDN number. */
   mdn?: string;
 };
 

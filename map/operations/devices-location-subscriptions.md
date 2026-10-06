@@ -4,7 +4,7 @@
 
 Accessor: `client.devicesLocationSubscriptions` · Source: `src/resources/devices-location-subscriptions.ts` · 2 operations · Request and error types: namespace `DevicesLocationSubscriptions`
 
-**Type sources**: every type an operation names, with the file that declares it and the schema value exported beside it. Import every name from `verizon`; the `Source` path is where to **read** the shape, never what to import. `ResponseError` and the runtime error family are excluded — see sdk-map.md.
+**Type sources**: every type an operation names, with the file that declares it and the schema value exported beside it. Import every name from `verizon`; the `Source` path is where to **read** the shape, never what to import. `ApiError`, the runtime error family and the file vocabulary are excluded — see sdk-map.md.
 
 ### getLocationServiceSubscriptionStatus
 
@@ -14,7 +14,7 @@ Accessor: `client.devicesLocationSubscriptions` · Source: `src/resources/device
 - **Auth**: all of `thingspaceOauth`, `vzM2MToken` — both are sent
 - **Request body**: none — no `Content-Type` header is sent
 - **Returns**: `DeviceLocationSubscription`
-- **Error**: `DevicesLocationSubscriptions.GetLocationServiceSubscriptionStatusError` — **typed arms**, narrowed on `err.payload.kind`
+- **Error**: `VerizonError` with `kind: "api"`, an instance of `DevicesLocationSubscriptions.GetLocationServiceSubscriptionStatusError` — **typed arms**, narrowed on `err.payload.kind`
 - **Error arms**: `"deviceLocationResult"` [400] `DeviceLocationResult` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
 
 **Fields** — `DevicesLocationSubscriptions.GetLocationServiceSubscriptionStatusRequest` (1):
@@ -35,8 +35,9 @@ Accessor: `client.devicesLocationSubscriptions` · Source: `src/resources/device
 - **Wire**: `POST /usage`
 - **Auth**: all of `thingspaceOauth`, `vzM2MToken` — both are sent
 - **Request body**: none — no `Content-Type` header is sent
+- **SDK-sent**: `header Idempotency-Key` (minted per call)
 - **Returns**: `Record<string, unknown>` — a bare `application/json` map; the success type *is* the map
-- **Error**: `DevicesLocationSubscriptions.GetLocationServiceUsageError` — **typed arms**, narrowed on `err.payload.kind`
+- **Error**: `VerizonError` with `kind: "api"`, an instance of `DevicesLocationSubscriptions.GetLocationServiceUsageError` — **typed arms**, narrowed on `err.payload.kind`
 - **Error arms**: `"deviceLocationResult"` [400] `DeviceLocationResult` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
 
 | Type | Schema value | Source |

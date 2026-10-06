@@ -4,16 +4,18 @@
 
 Accessor: `client.deviceManagement` · Source: `src/resources/device-management.ts` · 29 operations · Request and error types: namespace `DeviceManagement`
 
-**Type sources**: every type an operation names, with the file that declares it and the schema value exported beside it. Import every name from `verizon`; the `Source` path is where to **read** the shape, never what to import. `ResponseError` and the runtime error family are excluded — see sdk-map.md.
+**Type sources**: every type an operation names, with the file that declares it and the schema value exported beside it. Import every name from `verizon`; the `Source` path is where to **read** the shape, never what to import. `ApiError`, the runtime error family and the file vocabulary are excluded — see sdk-map.md.
 
 ### activateServiceForDevices
 
+- **Server**: `thingspace` — not the `hyperPreciseCredentials` group; see Servers & auth in sdk-map.md
 - **Signature**: `activateServiceForDevices(request: DeviceManagement.ActivateServiceForDevicesRequest, options?: RequestOptions): ApiPromise<DeviceManagementResult, DeviceManagement.ActivateServiceForDevicesError>`
 - **Wire**: `POST /m2m/v1/devices/actions/activate`
 - **Auth**: all of `thingspaceOauth`, `vzM2MToken` — both are sent
 - **Request body**: `application/json` — the `body` field
+- **SDK-sent**: `header Idempotency-Key` (minted per call)
 - **Returns**: `DeviceManagementResult`
-- **Error**: `DeviceManagement.ActivateServiceForDevicesError` — **typed arms**, narrowed on `err.payload.kind`
+- **Error**: `VerizonError` with `kind: "api"`, an instance of `DeviceManagement.ActivateServiceForDevicesError` — **typed arms**, narrowed on `err.payload.kind`
 - **Error arms**: `"connectivityManagementResult"` [400] `ConnectivityManagementResult` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
 
 **Fields** — `DeviceManagement.ActivateServiceForDevicesRequest` (1):
@@ -30,12 +32,14 @@ Accessor: `client.deviceManagement` · Source: `src/resources/device-management.
 
 ### addDevices
 
+- **Server**: `thingspace` — not the `hyperPreciseCredentials` group; see Servers & auth in sdk-map.md
 - **Signature**: `addDevices(request: DeviceManagement.AddDevicesRequestParams, options?: RequestOptions): ApiPromise<AddDevicesResult[], DeviceManagement.AddDevicesError>`
 - **Wire**: `POST /m2m/v1/devices/actions/add`
 - **Auth**: all of `thingspaceOauth`, `vzM2MToken` — both are sent
 - **Request body**: `application/json` — the `body` field
+- **SDK-sent**: `header Idempotency-Key` (minted per call)
 - **Returns**: `AddDevicesResult[]` — a bare `application/json` array; the success type *is* the array, not a wrapper model
-- **Error**: `DeviceManagement.AddDevicesError` — **typed arms**, narrowed on `err.payload.kind`
+- **Error**: `VerizonError` with `kind: "api"`, an instance of `DeviceManagement.AddDevicesError` — **typed arms**, narrowed on `err.payload.kind`
 - **Error arms**: `"connectivityManagementResult"` [400] `ConnectivityManagementResult` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
 
 **Fields** — `DeviceManagement.AddDevicesRequestParams` (1):
@@ -52,12 +56,14 @@ Accessor: `client.deviceManagement` · Source: `src/resources/device-management.
 
 ### billedUsageInfo
 
+- **Server**: `thingspace` — not the `hyperPreciseCredentials` group; see Servers & auth in sdk-map.md
 - **Signature**: `billedUsageInfo(request: DeviceManagement.BilledUsageInfoRequest, options?: RequestOptions): ApiPromise<DeviceManagementResult, DeviceManagement.BilledUsageInfoError>`
 - **Wire**: `POST /m2m/v1/devices/usage/actions/billedusage/list`
 - **Auth**: all of `thingspaceOauth`, `vzM2MToken` — both are sent
 - **Request body**: `application/json` — the `body` field
+- **SDK-sent**: `header Idempotency-Key` (minted per call)
 - **Returns**: `DeviceManagementResult`
-- **Error**: `DeviceManagement.BilledUsageInfoError` — **typed arms**, narrowed on `err.payload.kind`
+- **Error**: `VerizonError` with `kind: "api"`, an instance of `DeviceManagement.BilledUsageInfoError` — **typed arms**, narrowed on `err.payload.kind`
 - **Error arms**: `"connectivityManagementResult"` [400] `ConnectivityManagementResult` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
 
 **Fields** — `DeviceManagement.BilledUsageInfoRequest` (1):
@@ -74,12 +80,14 @@ Accessor: `client.deviceManagement` · Source: `src/resources/device-management.
 
 ### changeDevicesServicePlan
 
+- **Server**: `thingspace` — not the `hyperPreciseCredentials` group; see Servers & auth in sdk-map.md
 - **Signature**: `changeDevicesServicePlan(request: DeviceManagement.ChangeDevicesServicePlanRequest, options?: RequestOptions): ApiPromise<DeviceManagementResult, DeviceManagement.ChangeDevicesServicePlanError>`
 - **Wire**: `PUT /m2m/v1/devices/actions/plan`
 - **Auth**: all of `thingspaceOauth`, `vzM2MToken` — both are sent
 - **Request body**: `application/json` — the `body` field
+- **SDK-sent**: `header Idempotency-Key` (minted per call)
 - **Returns**: `DeviceManagementResult`
-- **Error**: `DeviceManagement.ChangeDevicesServicePlanError` — **typed arms**, narrowed on `err.payload.kind`
+- **Error**: `VerizonError` with `kind: "api"`, an instance of `DeviceManagement.ChangeDevicesServicePlanError` — **typed arms**, narrowed on `err.payload.kind`
 - **Error arms**: `"connectivityManagementResult"` [400] `ConnectivityManagementResult` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
 
 **Fields** — `DeviceManagement.ChangeDevicesServicePlanRequest` (1):
@@ -96,12 +104,14 @@ Accessor: `client.deviceManagement` · Source: `src/resources/device-management.
 
 ### checkDevicesAvailabilityForActivation
 
+- **Server**: `thingspace` — not the `hyperPreciseCredentials` group; see Servers & auth in sdk-map.md
 - **Signature**: `checkDevicesAvailabilityForActivation(request: DeviceManagement.CheckDevicesAvailabilityForActivationRequest, options?: RequestOptions): ApiPromise<DeviceManagementResult, DeviceManagement.CheckDevicesAvailabilityForActivationError>`
 - **Wire**: `POST /m2m/v1/devices/availability/actions/list`
 - **Auth**: all of `thingspaceOauth`, `vzM2MToken` — both are sent
 - **Request body**: `application/json` — the `body` field
+- **SDK-sent**: `header Idempotency-Key` (minted per call)
 - **Returns**: `DeviceManagementResult`
-- **Error**: `DeviceManagement.CheckDevicesAvailabilityForActivationError` — **typed arms**, narrowed on `err.payload.kind`
+- **Error**: `VerizonError` with `kind: "api"`, an instance of `DeviceManagement.CheckDevicesAvailabilityForActivationError` — **typed arms**, narrowed on `err.payload.kind`
 - **Error arms**: `"connectivityManagementResult"` [400] `ConnectivityManagementResult` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
 
 **Fields** — `DeviceManagement.CheckDevicesAvailabilityForActivationRequest` (1):
@@ -118,12 +128,14 @@ Accessor: `client.deviceManagement` · Source: `src/resources/device-management.
 
 ### deactivateServiceForDevices
 
+- **Server**: `thingspace` — not the `hyperPreciseCredentials` group; see Servers & auth in sdk-map.md
 - **Signature**: `deactivateServiceForDevices(request: DeviceManagement.DeactivateServiceForDevicesRequest, options?: RequestOptions): ApiPromise<DeviceManagementResult, DeviceManagement.DeactivateServiceForDevicesError>`
 - **Wire**: `POST /m2m/v1/devices/actions/deactivate`
 - **Auth**: all of `thingspaceOauth`, `vzM2MToken` — both are sent
 - **Request body**: `application/json` — the `body` field
+- **SDK-sent**: `header Idempotency-Key` (minted per call)
 - **Returns**: `DeviceManagementResult`
-- **Error**: `DeviceManagement.DeactivateServiceForDevicesError` — **typed arms**, narrowed on `err.payload.kind`
+- **Error**: `VerizonError` with `kind: "api"`, an instance of `DeviceManagement.DeactivateServiceForDevicesError` — **typed arms**, narrowed on `err.payload.kind`
 - **Error arms**: `"connectivityManagementResult"` [400] `ConnectivityManagementResult` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
 
 **Fields** — `DeviceManagement.DeactivateServiceForDevicesRequest` (1):
@@ -140,12 +152,14 @@ Accessor: `client.deviceManagement` · Source: `src/resources/device-management.
 
 ### deleteDeactivatedDevices
 
+- **Server**: `thingspace` — not the `hyperPreciseCredentials` group; see Servers & auth in sdk-map.md
 - **Signature**: `deleteDeactivatedDevices(request: DeviceManagement.DeleteDeactivatedDevicesRequest, options?: RequestOptions): ApiPromise<DeleteDevicesResult[], DeviceManagement.DeleteDeactivatedDevicesError>`
 - **Wire**: `POST /m2m/v1/devices/actions/delete`
 - **Auth**: all of `thingspaceOauth`, `vzM2MToken` — both are sent
 - **Request body**: `application/json` — the `body` field
+- **SDK-sent**: `header Idempotency-Key` (minted per call)
 - **Returns**: `DeleteDevicesResult[]` — a bare `application/json` array; the success type *is* the array, not a wrapper model
-- **Error**: `DeviceManagement.DeleteDeactivatedDevicesError` — **typed arms**, narrowed on `err.payload.kind`
+- **Error**: `VerizonError` with `kind: "api"`, an instance of `DeviceManagement.DeleteDeactivatedDevicesError` — **typed arms**, narrowed on `err.payload.kind`
 - **Error arms**: `"connectivityManagementResult"` [400] `ConnectivityManagementResult` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
 
 **Fields** — `DeviceManagement.DeleteDeactivatedDevicesRequest` (1):
@@ -162,12 +176,14 @@ Accessor: `client.deviceManagement` · Source: `src/resources/device-management.
 
 ### deviceUpload
 
+- **Server**: `thingspace` — not the `hyperPreciseCredentials` group; see Servers & auth in sdk-map.md
 - **Signature**: `deviceUpload(request: DeviceManagement.DeviceUploadRequestParams, options?: RequestOptions): ApiPromise<RequestResponse, DeviceManagement.DeviceUploadError>`
 - **Wire**: `POST /m2m/v1/devices/actions/upload`
 - **Auth**: all of `thingspaceOauth`, `vzM2MToken` — both are sent
 - **Request body**: `application/json` — the `body` field
+- **SDK-sent**: `header Idempotency-Key` (minted per call)
 - **Returns**: `RequestResponse`
-- **Error**: `DeviceManagement.DeviceUploadError` — **typed arms**, narrowed on `err.payload.kind`
+- **Error**: `VerizonError` with `kind: "api"`, an instance of `DeviceManagement.DeviceUploadError` — **typed arms**, narrowed on `err.payload.kind`
 - **Error arms**: `"restErrorResponse"` [400] `RestErrorResponse` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
 
 **Fields** — `DeviceManagement.DeviceUploadRequestParams` (1):
@@ -184,12 +200,14 @@ Accessor: `client.deviceManagement` · Source: `src/resources/device-management.
 
 ### deviceUploadStatus
 
+- **Server**: `thingspace` — not the `hyperPreciseCredentials` group; see Servers & auth in sdk-map.md
 - **Signature**: `deviceUploadStatus(request: DeviceManagement.DeviceUploadStatusRequest, options?: RequestOptions): ApiPromise<DeviceManagementResult, DeviceManagement.DeviceUploadStatusError>`
 - **Wire**: `POST /m2m/v1/devices/requests/status`
 - **Auth**: all of `thingspaceOauth`, `vzM2MToken` — both are sent
 - **Request body**: `application/json` — the `body` field
+- **SDK-sent**: `header Idempotency-Key` (minted per call)
 - **Returns**: `DeviceManagementResult`
-- **Error**: `DeviceManagement.DeviceUploadStatusError` — **typed arms**, narrowed on `err.payload.kind`
+- **Error**: `VerizonError` with `kind: "api"`, an instance of `DeviceManagement.DeviceUploadStatusError` — **typed arms**, narrowed on `err.payload.kind`
 - **Error arms**: `"connectivityManagementResult"` [400] `ConnectivityManagementResult` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
 
 **Fields** — `DeviceManagement.DeviceUploadStatusRequest` (1):
@@ -206,12 +224,14 @@ Accessor: `client.deviceManagement` · Source: `src/resources/device-management.
 
 ### getDeviceExtendedDiagnosticInformation
 
+- **Server**: `thingspace` — not the `hyperPreciseCredentials` group; see Servers & auth in sdk-map.md
 - **Signature**: `getDeviceExtendedDiagnosticInformation(request: DeviceManagement.GetDeviceExtendedDiagnosticInformationRequest, options?: RequestOptions): ApiPromise<DeviceExtendedDiagnosticsResult, DeviceManagement.GetDeviceExtendedDiagnosticInformationError>`
 - **Wire**: `POST /m2m/v1/devices/extendeddiagnostics/actions/list`
 - **Auth**: all of `thingspaceOauth`, `vzM2MToken` — both are sent
 - **Request body**: `application/json` — the `body` field
+- **SDK-sent**: `header Idempotency-Key` (minted per call)
 - **Returns**: `DeviceExtendedDiagnosticsResult`
-- **Error**: `DeviceManagement.GetDeviceExtendedDiagnosticInformationError` — **typed arms**, narrowed on `err.payload.kind`
+- **Error**: `VerizonError` with `kind: "api"`, an instance of `DeviceManagement.GetDeviceExtendedDiagnosticInformationError` — **typed arms**, narrowed on `err.payload.kind`
 - **Error arms**: `"connectivityManagementResult"` [400] `ConnectivityManagementResult` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
 
 **Fields** — `DeviceManagement.GetDeviceExtendedDiagnosticInformationRequest` (1):
@@ -228,12 +248,14 @@ Accessor: `client.deviceManagement` · Source: `src/resources/device-management.
 
 ### getDeviceServiceSuspensionStatus
 
+- **Server**: `thingspace` — not the `hyperPreciseCredentials` group; see Servers & auth in sdk-map.md
 - **Signature**: `getDeviceServiceSuspensionStatus(request: DeviceManagement.GetDeviceServiceSuspensionStatusRequest, options?: RequestOptions): ApiPromise<DeviceManagementResult, DeviceManagement.GetDeviceServiceSuspensionStatusError>`
 - **Wire**: `POST /m2m/v1/devices/suspension/status`
 - **Auth**: all of `thingspaceOauth`, `vzM2MToken` — both are sent
 - **Request body**: `application/json` — the `body` field
+- **SDK-sent**: `header Idempotency-Key` (minted per call)
 - **Returns**: `DeviceManagementResult`
-- **Error**: `DeviceManagement.GetDeviceServiceSuspensionStatusError` — **typed arms**, narrowed on `err.payload.kind`
+- **Error**: `VerizonError` with `kind: "api"`, an instance of `DeviceManagement.GetDeviceServiceSuspensionStatusError` — **typed arms**, narrowed on `err.payload.kind`
 - **Error arms**: `"connectivityManagementResult"` [400] `ConnectivityManagementResult` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
 
 **Fields** — `DeviceManagement.GetDeviceServiceSuspensionStatusRequest` (1):
@@ -250,12 +272,14 @@ Accessor: `client.deviceManagement` · Source: `src/resources/device-management.
 
 ### listCurrentDevicesPrlVersion
 
+- **Server**: `thingspace` — not the `hyperPreciseCredentials` group; see Servers & auth in sdk-map.md
 - **Signature**: `listCurrentDevicesPrlVersion(request: DeviceManagement.ListCurrentDevicesPrlVersionRequest, options?: RequestOptions): ApiPromise<DeviceManagementResult, DeviceManagement.ListCurrentDevicesPrlVersionError>`
 - **Wire**: `POST /m2m/v1/devices/prl/actions/list`
 - **Auth**: all of `thingspaceOauth`, `vzM2MToken` — both are sent
 - **Request body**: `application/json` — the `body` field
+- **SDK-sent**: `header Idempotency-Key` (minted per call)
 - **Returns**: `DeviceManagementResult`
-- **Error**: `DeviceManagement.ListCurrentDevicesPrlVersionError` — **typed arms**, narrowed on `err.payload.kind`
+- **Error**: `VerizonError` with `kind: "api"`, an instance of `DeviceManagement.ListCurrentDevicesPrlVersionError` — **typed arms**, narrowed on `err.payload.kind`
 - **Error arms**: `"connectivityManagementResult"` [400] `ConnectivityManagementResult` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
 
 **Fields** — `DeviceManagement.ListCurrentDevicesPrlVersionRequest` (1):
@@ -272,12 +296,14 @@ Accessor: `client.deviceManagement` · Source: `src/resources/device-management.
 
 ### listDevicesInformation
 
+- **Server**: `thingspace` — not the `hyperPreciseCredentials` group; see Servers & auth in sdk-map.md
 - **Signature**: `listDevicesInformation(request: DeviceManagement.ListDevicesInformationRequest, options?: RequestOptions): ApiPromise<AccountDeviceListResult, DeviceManagement.ListDevicesInformationError>`
 - **Wire**: `POST /m2m/v1/devices/actions/list`
 - **Auth**: all of `thingspaceOauth`, `vzM2MToken` — both are sent
 - **Request body**: `application/json` — the `body` field
+- **SDK-sent**: `header Idempotency-Key` (minted per call)
 - **Returns**: `AccountDeviceListResult`
-- **Error**: `DeviceManagement.ListDevicesInformationError` — **typed arms**, narrowed on `err.payload.kind`
+- **Error**: `VerizonError` with `kind: "api"`, an instance of `DeviceManagement.ListDevicesInformationError` — **typed arms**, narrowed on `err.payload.kind`
 - **Error arms**: `"connectivityManagementResult"` [400] `ConnectivityManagementResult` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
 
 **Fields** — `DeviceManagement.ListDevicesInformationRequest` (1):
@@ -294,12 +320,14 @@ Accessor: `client.deviceManagement` · Source: `src/resources/device-management.
 
 ### listDevicesProvisioningHistory
 
+- **Server**: `thingspace` — not the `hyperPreciseCredentials` group; see Servers & auth in sdk-map.md
 - **Signature**: `listDevicesProvisioningHistory(request: DeviceManagement.ListDevicesProvisioningHistoryRequest, options?: RequestOptions): ApiPromise<DeviceProvisioningHistoryListResult[], DeviceManagement.ListDevicesProvisioningHistoryError>`
 - **Wire**: `POST /m2m/v1/devices/history/actions/list`
 - **Auth**: all of `thingspaceOauth`, `vzM2MToken` — both are sent
 - **Request body**: `application/json` — the `body` field
+- **SDK-sent**: `header Idempotency-Key` (minted per call)
 - **Returns**: `DeviceProvisioningHistoryListResult[]` — a bare `application/json` array; the success type *is* the array, not a wrapper model
-- **Error**: `DeviceManagement.ListDevicesProvisioningHistoryError` — **typed arms**, narrowed on `err.payload.kind`
+- **Error**: `VerizonError` with `kind: "api"`, an instance of `DeviceManagement.ListDevicesProvisioningHistoryError` — **typed arms**, narrowed on `err.payload.kind`
 - **Error arms**: `"connectivityManagementResult"` [400] `ConnectivityManagementResult` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
 
 **Fields** — `DeviceManagement.ListDevicesProvisioningHistoryRequest` (1):
@@ -316,12 +344,14 @@ Accessor: `client.deviceManagement` · Source: `src/resources/device-management.
 
 ### listDevicesUsageHistory
 
+- **Server**: `thingspace` — not the `hyperPreciseCredentials` group; see Servers & auth in sdk-map.md
 - **Signature**: `listDevicesUsageHistory(request: DeviceManagement.ListDevicesUsageHistoryRequest, options?: RequestOptions): ApiPromise<DeviceUsageListResult, DeviceManagement.ListDevicesUsageHistoryError>`
 - **Wire**: `POST /m2m/v1/devices/usage/actions/list`
 - **Auth**: all of `thingspaceOauth`, `vzM2MToken` — both are sent
 - **Request body**: `application/json` — the `body` field
+- **SDK-sent**: `header Idempotency-Key` (minted per call)
 - **Returns**: `DeviceUsageListResult`
-- **Error**: `DeviceManagement.ListDevicesUsageHistoryError` — **typed arms**, narrowed on `err.payload.kind`
+- **Error**: `VerizonError` with `kind: "api"`, an instance of `DeviceManagement.ListDevicesUsageHistoryError` — **typed arms**, narrowed on `err.payload.kind`
 - **Error arms**: `"connectivityManagementResult"` [400] `ConnectivityManagementResult` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
 
 **Fields** — `DeviceManagement.ListDevicesUsageHistoryRequest` (1):
@@ -338,12 +368,14 @@ Accessor: `client.deviceManagement` · Source: `src/resources/device-management.
 
 ### listDevicesWithImeiIccidMismatch
 
+- **Server**: `thingspace` — not the `hyperPreciseCredentials` group; see Servers & auth in sdk-map.md
 - **Signature**: `listDevicesWithImeiIccidMismatch(request: DeviceManagement.ListDevicesWithImeiIccidMismatchRequest, options?: RequestOptions): ApiPromise<DeviceMismatchListResult, DeviceManagement.ListDevicesWithImeiIccidMismatchError>`
 - **Wire**: `POST /m2m/v1/devices/actions/list/imeiiccidmismatch`
 - **Auth**: all of `thingspaceOauth`, `vzM2MToken` — both are sent
 - **Request body**: `application/json` — the `body` field
+- **SDK-sent**: `header Idempotency-Key` (minted per call)
 - **Returns**: `DeviceMismatchListResult`
-- **Error**: `DeviceManagement.ListDevicesWithImeiIccidMismatchError` — **typed arms**, narrowed on `err.payload.kind`
+- **Error**: `VerizonError` with `kind: "api"`, an instance of `DeviceManagement.ListDevicesWithImeiIccidMismatchError` — **typed arms**, narrowed on `err.payload.kind`
 - **Error arms**: `"connectivityManagementResult"` [400] `ConnectivityManagementResult` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
 
 **Fields** — `DeviceManagement.ListDevicesWithImeiIccidMismatchRequest` (1):
@@ -360,12 +392,14 @@ Accessor: `client.deviceManagement` · Source: `src/resources/device-management.
 
 ### moveDevicesWithinAccountsOfProfile
 
+- **Server**: `thingspace` — not the `hyperPreciseCredentials` group; see Servers & auth in sdk-map.md
 - **Signature**: `moveDevicesWithinAccountsOfProfile(request: DeviceManagement.MoveDevicesWithinAccountsOfProfileRequest, options?: RequestOptions): ApiPromise<DeviceManagementResult, DeviceManagement.MoveDevicesWithinAccountsOfProfileError>`
 - **Wire**: `PUT /m2m/v1/devices/actions/move`
 - **Auth**: all of `thingspaceOauth`, `vzM2MToken` — both are sent
 - **Request body**: `application/json` — the `body` field
+- **SDK-sent**: `header Idempotency-Key` (minted per call)
 - **Returns**: `DeviceManagementResult`
-- **Error**: `DeviceManagement.MoveDevicesWithinAccountsOfProfileError` — **typed arms**, narrowed on `err.payload.kind`
+- **Error**: `VerizonError` with `kind: "api"`, an instance of `DeviceManagement.MoveDevicesWithinAccountsOfProfileError` — **typed arms**, narrowed on `err.payload.kind`
 - **Error arms**: `"connectivityManagementResult"` [400] `ConnectivityManagementResult` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
 
 **Fields** — `DeviceManagement.MoveDevicesWithinAccountsOfProfileRequest` (1):
@@ -382,12 +416,14 @@ Accessor: `client.deviceManagement` · Source: `src/resources/device-management.
 
 ### restoreServiceForSuspendedDevices
 
+- **Server**: `thingspace` — not the `hyperPreciseCredentials` group; see Servers & auth in sdk-map.md
 - **Signature**: `restoreServiceForSuspendedDevices(request: DeviceManagement.RestoreServiceForSuspendedDevicesRequest, options?: RequestOptions): ApiPromise<DeviceManagementResult, DeviceManagement.RestoreServiceForSuspendedDevicesError>`
 - **Wire**: `POST /m2m/v1/devices/actions/restore`
 - **Auth**: all of `thingspaceOauth`, `vzM2MToken` — both are sent
 - **Request body**: `application/json` — the `body` field
+- **SDK-sent**: `header Idempotency-Key` (minted per call)
 - **Returns**: `DeviceManagementResult`
-- **Error**: `DeviceManagement.RestoreServiceForSuspendedDevicesError` — **typed arms**, narrowed on `err.payload.kind`
+- **Error**: `VerizonError` with `kind: "api"`, an instance of `DeviceManagement.RestoreServiceForSuspendedDevicesError` — **typed arms**, narrowed on `err.payload.kind`
 - **Error arms**: `"connectivityManagementResult"` [400] `ConnectivityManagementResult` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
 
 **Fields** — `DeviceManagement.RestoreServiceForSuspendedDevicesRequest` (1):
@@ -404,12 +440,14 @@ Accessor: `client.deviceManagement` · Source: `src/resources/device-management.
 
 ### retrieveAggregateDeviceUsageHistory
 
+- **Server**: `thingspace` — not the `hyperPreciseCredentials` group; see Servers & auth in sdk-map.md
 - **Signature**: `retrieveAggregateDeviceUsageHistory(request: DeviceManagement.RetrieveAggregateDeviceUsageHistoryRequest, options?: RequestOptions): ApiPromise<DeviceManagementResult, DeviceManagement.RetrieveAggregateDeviceUsageHistoryError>`
 - **Wire**: `POST /m2m/v1/devices/usage/actions/list/aggregate`
 - **Auth**: all of `thingspaceOauth`, `vzM2MToken` — both are sent
 - **Request body**: `application/json` — the `body` field
+- **SDK-sent**: `header Idempotency-Key` (minted per call)
 - **Returns**: `DeviceManagementResult`
-- **Error**: `DeviceManagement.RetrieveAggregateDeviceUsageHistoryError` — **typed arms**, narrowed on `err.payload.kind`
+- **Error**: `VerizonError` with `kind: "api"`, an instance of `DeviceManagement.RetrieveAggregateDeviceUsageHistoryError` — **typed arms**, narrowed on `err.payload.kind`
 - **Error arms**: `"connectivityManagementResult"` [400] `ConnectivityManagementResult` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
 
 **Fields** — `DeviceManagement.RetrieveAggregateDeviceUsageHistoryRequest` (1):
@@ -426,12 +464,14 @@ Accessor: `client.deviceManagement` · Source: `src/resources/device-management.
 
 ### retrieveDeviceConnectionHistory
 
+- **Server**: `thingspace` — not the `hyperPreciseCredentials` group; see Servers & auth in sdk-map.md
 - **Signature**: `retrieveDeviceConnectionHistory(request: DeviceManagement.RetrieveDeviceConnectionHistoryRequest, options?: RequestOptions): ApiPromise<ConnectionHistoryResult, DeviceManagement.RetrieveDeviceConnectionHistoryError>`
 - **Wire**: `POST /m2m/v1/devices/connections/actions/listHistory`
 - **Auth**: all of `thingspaceOauth`, `vzM2MToken` — both are sent
 - **Request body**: `application/json` — the `body` field
+- **SDK-sent**: `header Idempotency-Key` (minted per call)
 - **Returns**: `ConnectionHistoryResult`
-- **Error**: `DeviceManagement.RetrieveDeviceConnectionHistoryError` — **typed arms**, narrowed on `err.payload.kind`
+- **Error**: `VerizonError` with `kind: "api"`, an instance of `DeviceManagement.RetrieveDeviceConnectionHistoryError` — **typed arms**, narrowed on `err.payload.kind`
 - **Error arms**: `"connectivityManagementResult"` [400] `ConnectivityManagementResult` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
 
 **Fields** — `DeviceManagement.RetrieveDeviceConnectionHistoryRequest` (1):
@@ -448,12 +488,14 @@ Accessor: `client.deviceManagement` · Source: `src/resources/device-management.
 
 ### suspendServiceForDevices
 
+- **Server**: `thingspace` — not the `hyperPreciseCredentials` group; see Servers & auth in sdk-map.md
 - **Signature**: `suspendServiceForDevices(request: DeviceManagement.SuspendServiceForDevicesRequest, options?: RequestOptions): ApiPromise<DeviceManagementResult, DeviceManagement.SuspendServiceForDevicesError>`
 - **Wire**: `POST /m2m/v1/devices/actions/suspend`
 - **Auth**: all of `thingspaceOauth`, `vzM2MToken` — both are sent
 - **Request body**: `application/json` — the `body` field
+- **SDK-sent**: `header Idempotency-Key` (minted per call)
 - **Returns**: `DeviceManagementResult`
-- **Error**: `DeviceManagement.SuspendServiceForDevicesError` — **typed arms**, narrowed on `err.payload.kind`
+- **Error**: `VerizonError` with `kind: "api"`, an instance of `DeviceManagement.SuspendServiceForDevicesError` — **typed arms**, narrowed on `err.payload.kind`
 - **Error arms**: `"connectivityManagementResult"` [400] `ConnectivityManagementResult` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
 
 **Fields** — `DeviceManagement.SuspendServiceForDevicesRequest` (1):
@@ -470,12 +512,14 @@ Accessor: `client.deviceManagement` · Source: `src/resources/device-management.
 
 ### updateDeviceId
 
+- **Server**: `thingspace` — not the `hyperPreciseCredentials` group; see Servers & auth in sdk-map.md
 - **Signature**: `updateDeviceId(request: DeviceManagement.UpdateDeviceIdRequest, options?: RequestOptions): ApiPromise<DeviceManagementResult, DeviceManagement.UpdateDeviceIdError>`
 - **Wire**: `PUT /m2m/v1/devices/{serviceType}/actions/deviceId`
 - **Auth**: all of `thingspaceOauth`, `vzM2MToken` — both are sent
 - **Request body**: `application/json` — the `body` field
+- **SDK-sent**: `header Idempotency-Key` (minted per call)
 - **Returns**: `DeviceManagementResult`
-- **Error**: `DeviceManagement.UpdateDeviceIdError` — **typed arms**, narrowed on `err.payload.kind`
+- **Error**: `VerizonError` with `kind: "api"`, an instance of `DeviceManagement.UpdateDeviceIdError` — **typed arms**, narrowed on `err.payload.kind`
 - **Error arms**: `"connectivityManagementResult"` [400] `ConnectivityManagementResult` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
 
 **Fields** — `DeviceManagement.UpdateDeviceIdRequest` (2):
@@ -493,12 +537,14 @@ Accessor: `client.deviceManagement` · Source: `src/resources/device-management.
 
 ### updateDevicesContactInformation
 
+- **Server**: `thingspace` — not the `hyperPreciseCredentials` group; see Servers & auth in sdk-map.md
 - **Signature**: `updateDevicesContactInformation(request: DeviceManagement.UpdateDevicesContactInformationRequest, options?: RequestOptions): ApiPromise<DeviceManagementResult, DeviceManagement.UpdateDevicesContactInformationError>`
 - **Wire**: `PUT /m2m/v1/devices/actions/contactInfo`
 - **Auth**: all of `thingspaceOauth`, `vzM2MToken` — both are sent
 - **Request body**: `application/json` — the `body` field
+- **SDK-sent**: `header Idempotency-Key` (minted per call)
 - **Returns**: `DeviceManagementResult`
-- **Error**: `DeviceManagement.UpdateDevicesContactInformationError` — **typed arms**, narrowed on `err.payload.kind`
+- **Error**: `VerizonError` with `kind: "api"`, an instance of `DeviceManagement.UpdateDevicesContactInformationError` — **typed arms**, narrowed on `err.payload.kind`
 - **Error arms**: `"connectivityManagementResult"` [400] `ConnectivityManagementResult` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
 
 **Fields** — `DeviceManagement.UpdateDevicesContactInformationRequest` (1):
@@ -515,12 +561,14 @@ Accessor: `client.deviceManagement` · Source: `src/resources/device-management.
 
 ### updateDevicesCostCenterCode
 
+- **Server**: `thingspace` — not the `hyperPreciseCredentials` group; see Servers & auth in sdk-map.md
 - **Signature**: `updateDevicesCostCenterCode(request: DeviceManagement.UpdateDevicesCostCenterCodeRequest, options?: RequestOptions): ApiPromise<DeviceManagementResult, DeviceManagement.UpdateDevicesCostCenterCodeError>`
 - **Wire**: `PUT /m2m/v1/devices/costCenter`
 - **Auth**: all of `thingspaceOauth`, `vzM2MToken` — both are sent
 - **Request body**: `application/json` — the `body` field
+- **SDK-sent**: `header Idempotency-Key` (minted per call)
 - **Returns**: `DeviceManagementResult`
-- **Error**: `DeviceManagement.UpdateDevicesCostCenterCodeError` — **typed arms**, narrowed on `err.payload.kind`
+- **Error**: `VerizonError` with `kind: "api"`, an instance of `DeviceManagement.UpdateDevicesCostCenterCodeError` — **typed arms**, narrowed on `err.payload.kind`
 - **Error arms**: `"connectivityManagementResult"` [400] `ConnectivityManagementResult` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
 
 **Fields** — `DeviceManagement.UpdateDevicesCostCenterCodeRequest` (1):
@@ -537,12 +585,14 @@ Accessor: `client.deviceManagement` · Source: `src/resources/device-management.
 
 ### updateDevicesCustomFields
 
+- **Server**: `thingspace` — not the `hyperPreciseCredentials` group; see Servers & auth in sdk-map.md
 - **Signature**: `updateDevicesCustomFields(request: DeviceManagement.UpdateDevicesCustomFieldsRequest, options?: RequestOptions): ApiPromise<DeviceManagementResult, DeviceManagement.UpdateDevicesCustomFieldsError>`
 - **Wire**: `PUT /m2m/v1/devices/actions/customFields`
 - **Auth**: all of `thingspaceOauth`, `vzM2MToken` — both are sent
 - **Request body**: `application/json` — the `body` field
+- **SDK-sent**: `header Idempotency-Key` (minted per call)
 - **Returns**: `DeviceManagementResult`
-- **Error**: `DeviceManagement.UpdateDevicesCustomFieldsError` — **typed arms**, narrowed on `err.payload.kind`
+- **Error**: `VerizonError` with `kind: "api"`, an instance of `DeviceManagement.UpdateDevicesCustomFieldsError` — **typed arms**, narrowed on `err.payload.kind`
 - **Error arms**: `"connectivityManagementResult"` [400] `ConnectivityManagementResult` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
 
 **Fields** — `DeviceManagement.UpdateDevicesCustomFieldsRequest` (1):
@@ -559,12 +609,14 @@ Accessor: `client.deviceManagement` · Source: `src/resources/device-management.
 
 ### updateDevicesState
 
+- **Server**: `thingspace` — not the `hyperPreciseCredentials` group; see Servers & auth in sdk-map.md
 - **Signature**: `updateDevicesState(request: DeviceManagement.UpdateDevicesStateRequest, options?: RequestOptions): ApiPromise<DeviceManagementResult, DeviceManagement.UpdateDevicesStateError>`
 - **Wire**: `PUT /m2m/v1/devices/actions/gotostate`
 - **Auth**: all of `thingspaceOauth`, `vzM2MToken` — both are sent
 - **Request body**: `application/json` — the `body` field
+- **SDK-sent**: `header Idempotency-Key` (minted per call)
 - **Returns**: `DeviceManagementResult`
-- **Error**: `DeviceManagement.UpdateDevicesStateError` — **typed arms**, narrowed on `err.payload.kind`
+- **Error**: `VerizonError` with `kind: "api"`, an instance of `DeviceManagement.UpdateDevicesStateError` — **typed arms**, narrowed on `err.payload.kind`
 - **Error arms**: `"connectivityManagementResult"` [400] `ConnectivityManagementResult` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
 
 **Fields** — `DeviceManagement.UpdateDevicesStateRequest` (1):
@@ -581,12 +633,14 @@ Accessor: `client.deviceManagement` · Source: `src/resources/device-management.
 
 ### uploadActivateDevice
 
+- **Server**: `thingspace` — not the `hyperPreciseCredentials` group; see Servers & auth in sdk-map.md
 - **Signature**: `uploadActivateDevice(request: DeviceManagement.UploadActivateDeviceRequest, options?: RequestOptions): ApiPromise<DeviceManagementResult, DeviceManagement.UploadActivateDeviceError>`
 - **Wire**: `POST /m2m/v1/devices/actions/uploadactivate`
 - **Auth**: all of `thingspaceOauth`, `vzM2MToken` — both are sent
 - **Request body**: `application/json` — the `body` field
+- **SDK-sent**: `header Idempotency-Key` (minted per call)
 - **Returns**: `DeviceManagementResult`
-- **Error**: `DeviceManagement.UploadActivateDeviceError` — **typed arms**, narrowed on `err.payload.kind`
+- **Error**: `VerizonError` with `kind: "api"`, an instance of `DeviceManagement.UploadActivateDeviceError` — **typed arms**, narrowed on `err.payload.kind`
 - **Error arms**: `"connectivityManagementResult"` [400] `ConnectivityManagementResult` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
 
 **Fields** — `DeviceManagement.UploadActivateDeviceRequest` (1):
@@ -603,12 +657,14 @@ Accessor: `client.deviceManagement` · Source: `src/resources/device-management.
 
 ### usageSegmentationLabelAssociation
 
+- **Server**: `thingspace` — not the `hyperPreciseCredentials` group; see Servers & auth in sdk-map.md
 - **Signature**: `usageSegmentationLabelAssociation(request: DeviceManagement.UsageSegmentationLabelAssociationRequest, options?: RequestOptions): ApiPromise<DeviceManagementResult, DeviceManagement.UsageSegmentationLabelAssociationError>`
 - **Wire**: `POST /m2m/v1/devices/actions/usagesegmentationlabels`
 - **Auth**: all of `thingspaceOauth`, `vzM2MToken` — both are sent
 - **Request body**: `application/json` — the `body` field
+- **SDK-sent**: `header Idempotency-Key` (minted per call)
 - **Returns**: `DeviceManagementResult`
-- **Error**: `DeviceManagement.UsageSegmentationLabelAssociationError` — **typed arms**, narrowed on `err.payload.kind`
+- **Error**: `VerizonError` with `kind: "api"`, an instance of `DeviceManagement.UsageSegmentationLabelAssociationError` — **typed arms**, narrowed on `err.payload.kind`
 - **Error arms**: `"connectivityManagementResult"` [400] `ConnectivityManagementResult` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
 
 **Fields** — `DeviceManagement.UsageSegmentationLabelAssociationRequest` (1):
@@ -625,12 +681,14 @@ Accessor: `client.deviceManagement` · Source: `src/resources/device-management.
 
 ### usageSegmentationLabelDeletion
 
+- **Server**: `thingspace` — not the `hyperPreciseCredentials` group; see Servers & auth in sdk-map.md
 - **Signature**: `usageSegmentationLabelDeletion(request: DeviceManagement.UsageSegmentationLabelDeletionRequest, options?: RequestOptions): ApiPromise<DeviceManagementResult, DeviceManagement.UsageSegmentationLabelDeletionError>`
 - **Wire**: `DELETE /m2m/v1/devices/actions/usagesegmentationlabels`
 - **Auth**: all of `thingspaceOauth`, `vzM2MToken` — both are sent
 - **Request body**: none — no `Content-Type` header is sent
+- **SDK-sent**: `header Idempotency-Key` (minted per call)
 - **Returns**: `DeviceManagementResult`
-- **Error**: `DeviceManagement.UsageSegmentationLabelDeletionError` — **typed arms**, narrowed on `err.payload.kind`
+- **Error**: `VerizonError` with `kind: "api"`, an instance of `DeviceManagement.UsageSegmentationLabelDeletionError` — **typed arms**, narrowed on `err.payload.kind`
 - **Error arms**: `"connectivityManagementResult"` [400] `ConnectivityManagementResult` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
 
 **Fields** — `DeviceManagement.UsageSegmentationLabelDeletionRequest` (2):

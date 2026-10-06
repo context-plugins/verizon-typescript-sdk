@@ -2,8 +2,11 @@ import * as s from "../core/validation/index.js";
 import type { Schema } from "../core/validation/schema.js";
 
 export type DtoNotificationGroupRequestEntity = {
+  /** a short description */
   description?: string;
+  /** Contact email for the group */
   groupemail?: string;
+  /** User defined name of the record */
   name?: string;
 };
 

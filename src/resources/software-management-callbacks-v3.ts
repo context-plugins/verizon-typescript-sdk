@@ -1,9 +1,10 @@
 import type { AuthSchemes } from "../auth-schemes.js";
+import { ApiError, type Declared, type ErrorDecoders, type ErrorPayload } from "../core/api-error.js";
 import type { ApiPromise } from "../core/api-promise.js";
 import type { RequestOptions } from "../core/api-request.js";
 import { allAuth } from "../core/auth/schemes.js";
 import type { RawClient } from "../core/raw-client.js";
-import { ResponseError, type Declared, type ErrorDecoders } from "../core/response-error.js";
+import { uuid } from "../core/uuid.js";
 import * as s from "../core/validation/index.js";
 import {
   fotaV3CallbackRegistrationRequestSchema,
@@ -21,6 +22,9 @@ import { fotaV3ResultSchema, type FotaV3Result } from "../models/fota-v3-result.
 import { fotaV3SuccessResultSchema, type FotaV3SuccessResult } from "../models/fota-v3-success-result.js";
 import type { Servers } from "../servers.js";
 
+/**
+ * Find registered callbacks or create, update and delete a registered callback.
+ */
 export class SoftwareManagementCallbacksV3 {
   readonly #rawClient: RawClient;
   readonly #servers: Servers;
@@ -32,6 +36,21 @@ export class SoftwareManagementCallbacksV3 {
     this.#auth = auth;
   }
 
+  /**
+   * Delete a previously registered Callback
+   *
+   * @remarks
+   * This endpoint allows user to delete a previously registered callback URL.
+   *
+   * @returns Delete request result.
+   *
+   * @throws {@link SoftwareManagementCallbacksV3.DeregisterCallback5Error} when the API answers
+   * with an error status — narrow on `err.payload.kind`
+   *
+   * @throws {@link VerizonError} when no usable response was produced: a connection failure, a
+   * timeout, a body that would not decode, a value that would not encode, or a credential that
+   * could not be obtained
+   */
   deregisterCallback5(
     request: SoftwareManagementCallbacksV3.DeregisterCallback5Request,
     options?: RequestOptions,
@@ -39,9 +58,11 @@ export class SoftwareManagementCallbacksV3 {
     return this.#rawClient.execute(
       {
         method: "DELETE",
-        url: this.#servers.softwareManagementV3("/callbacks/{acc}"),
+        urlTemplate: this.#servers.softwareManagementV3("/callbacks/{acc}"),
         auth: allAuth(this.#auth.thingspaceOauth, this.#auth.vzM2MToken),
         pathParams: [{ name: "acc", value: request.acc, schema: s.string() }],
+        query: [],
+        headers: [{ name: "Idempotency-Key", value: uuid(), schema: s.string() }],
         body: { kind: "empty" },
       },
       {
@@ -52,6 +73,21 @@ export class SoftwareManagementCallbacksV3 {
     );
   }
 
+  /**
+   * Get the registered callback information
+   *
+   * @remarks
+   * This endpoint allows user to get the registered callback information.
+   *
+   * @returns Return callback registration.
+   *
+   * @throws {@link SoftwareManagementCallbacksV3.ListRegisteredCallbacks5Error} when the API
+   * answers with an error status — narrow on `err.payload.kind`
+   *
+   * @throws {@link VerizonError} when no usable response was produced: a connection failure, a
+   * timeout, a body that would not decode, a value that would not encode, or a credential that
+   * could not be obtained
+   */
   listRegisteredCallbacks5(
     request: SoftwareManagementCallbacksV3.ListRegisteredCallbacks5Request,
     options?: RequestOptions,
@@ -59,9 +95,11 @@ export class SoftwareManagementCallbacksV3 {
     return this.#rawClient.execute(
       {
         method: "GET",
-        url: this.#servers.softwareManagementV3("/callbacks/{acc}"),
+        urlTemplate: this.#servers.softwareManagementV3("/callbacks/{acc}"),
         auth: allAuth(this.#auth.thingspaceOauth, this.#auth.vzM2MToken),
         pathParams: [{ name: "acc", value: request.acc, schema: s.string() }],
+        query: [],
+        headers: [],
         body: { kind: "empty" },
       },
       {
@@ -72,6 +110,21 @@ export class SoftwareManagementCallbacksV3 {
     );
   }
 
+  /**
+   * Create HTTPS callback address
+   *
+   * @remarks
+   * This endpoint allows the user to create the HTTPS callback address.
+   *
+   * @returns Return callback registration.
+   *
+   * @throws {@link SoftwareManagementCallbacksV3.RegisterCallback5Error} when the API answers with
+   * an error status — narrow on `err.payload.kind`
+   *
+   * @throws {@link VerizonError} when no usable response was produced: a connection failure, a
+   * timeout, a body that would not decode, a value that would not encode, or a credential that
+   * could not be obtained
+   */
   registerCallback5(
     request: SoftwareManagementCallbacksV3.RegisterCallback5Request,
     options?: RequestOptions,
@@ -79,9 +132,11 @@ export class SoftwareManagementCallbacksV3 {
     return this.#rawClient.execute(
       {
         method: "POST",
-        url: this.#servers.softwareManagementV3("/callbacks/{acc}"),
+        urlTemplate: this.#servers.softwareManagementV3("/callbacks/{acc}"),
         auth: allAuth(this.#auth.thingspaceOauth, this.#auth.vzM2MToken),
         pathParams: [{ name: "acc", value: request.acc, schema: s.string() }],
+        query: [],
+        headers: [{ name: "Idempotency-Key", value: uuid(), schema: s.string() }],
         body: { kind: "json", value: request.body, schema: fotaV3CallbackRegistrationRequestSchema },
       },
       {
@@ -92,6 +147,21 @@ export class SoftwareManagementCallbacksV3 {
     );
   }
 
+  /**
+   * Update HTTPS callback address
+   *
+   * @remarks
+   * This endpoint allows the user to update the HTTPS callback address.
+   *
+   * @returns Return callback registration.
+   *
+   * @throws {@link SoftwareManagementCallbacksV3.UpdateCallback2Error} when the API answers with an
+   * error status — narrow on `err.payload.kind`
+   *
+   * @throws {@link VerizonError} when no usable response was produced: a connection failure, a
+   * timeout, a body that would not decode, a value that would not encode, or a credential that
+   * could not be obtained
+   */
   updateCallback2(
     request: SoftwareManagementCallbacksV3.UpdateCallback2Request,
     options?: RequestOptions,
@@ -99,9 +169,11 @@ export class SoftwareManagementCallbacksV3 {
     return this.#rawClient.execute(
       {
         method: "PUT",
-        url: this.#servers.softwareManagementV3("/callbacks/{acc}"),
+        urlTemplate: this.#servers.softwareManagementV3("/callbacks/{acc}"),
         auth: allAuth(this.#auth.thingspaceOauth, this.#auth.vzM2MToken),
         pathParams: [{ name: "acc", value: request.acc, schema: s.string() }],
+        query: [],
+        headers: [{ name: "Idempotency-Key", value: uuid(), schema: s.string() }],
         body: { kind: "json", value: request.body, schema: fotaV3CallbackRegistrationRequestSchema },
       },
       {
@@ -115,42 +187,56 @@ export class SoftwareManagementCallbacksV3 {
 
 export namespace SoftwareManagementCallbacksV3 {
   export type DeregisterCallback5Request = {
+    /** Account identifier. */
     acc: string;
   };
 
-  export class DeregisterCallback5Error extends ResponseError<Declared<"fotaV3Result", FotaV3Result>> {
+  export class DeregisterCallback5Error extends ApiError {
+    declare readonly payload: ErrorPayload<Declared<"fotaV3Result", FotaV3Result>>;
+
     static readonly errors: ErrorDecoders<DeregisterCallback5Error> = [
       { on: 400, kind: "fotaV3Result", decode: { kind: "json", schema: fotaV3ResultSchema } },
     ];
   }
 
   export type ListRegisteredCallbacks5Request = {
+    /** Account identifier. */
     acc: string;
   };
 
-  export class ListRegisteredCallbacks5Error extends ResponseError<Declared<"fotaV3Result", FotaV3Result>> {
+  export class ListRegisteredCallbacks5Error extends ApiError {
+    declare readonly payload: ErrorPayload<Declared<"fotaV3Result", FotaV3Result>>;
+
     static readonly errors: ErrorDecoders<ListRegisteredCallbacks5Error> = [
       { on: 400, kind: "fotaV3Result", decode: { kind: "json", schema: fotaV3ResultSchema } },
     ];
   }
 
   export type RegisterCallback5Request = {
+    /** Account identifier. */
     acc: string;
+    /** Callback URL registration. */
     body: FotaV3CallbackRegistrationRequest;
   };
 
-  export class RegisterCallback5Error extends ResponseError<Declared<"fotaV3Result", FotaV3Result>> {
+  export class RegisterCallback5Error extends ApiError {
+    declare readonly payload: ErrorPayload<Declared<"fotaV3Result", FotaV3Result>>;
+
     static readonly errors: ErrorDecoders<RegisterCallback5Error> = [
       { on: 400, kind: "fotaV3Result", decode: { kind: "json", schema: fotaV3ResultSchema } },
     ];
   }
 
   export type UpdateCallback2Request = {
+    /** Account identifier. */
     acc: string;
+    /** Callback URL registration. */
     body: FotaV3CallbackRegistrationRequest;
   };
 
-  export class UpdateCallback2Error extends ResponseError<Declared<"fotaV3Result", FotaV3Result>> {
+  export class UpdateCallback2Error extends ApiError {
+    declare readonly payload: ErrorPayload<Declared<"fotaV3Result", FotaV3Result>>;
+
     static readonly errors: ErrorDecoders<UpdateCallback2Error> = [
       { on: 400, kind: "fotaV3Result", decode: { kind: "json", schema: fotaV3ResultSchema } },
     ];

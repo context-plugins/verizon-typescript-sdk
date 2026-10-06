@@ -4,6 +4,7 @@ import { gatewayidentifierSchema, type Gatewayidentifier } from "./gatewayidenti
 import { offboardingSchema, type Offboarding } from "./offboarding.js";
 
 export type DtoSensorOffBoardStatusRequest = {
+  /** The numeric account name, which must include leading zeros */
   accountname?: string;
   gatewayidentifier?: Gatewayidentifier;
   offboarding?: Offboarding;

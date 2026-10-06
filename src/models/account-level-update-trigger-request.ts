@@ -7,9 +7,13 @@ import { triggerCategorySchema, type TriggerCategory } from "./trigger-category.
 import { smsNumberModelSchema, type SmsNumberModel } from "./unions/sms-number-model.js";
 
 export type AccountLevelUpdateTriggerRequest = {
+  /** The system assigned UUID of the trigger */
   triggerId?: string;
+  /** The user defined name of the trigger */
   triggerName?: string;
+  /** The Enterprise Customer Profile Database ID */
   ecpdId?: string;
+  /** The type of trigger being created or modified */
   triggerCategory?: TriggerCategory;
   dataTrigger?: DataTrigger1;
   notification?: Notificationarray;
@@ -24,6 +28,7 @@ export type AccountLevelUpdateTriggerRequest = {
   smsNumbers?: SmsNumberModel[];
   reminder?: boolean;
   severity?: string;
+  /** A flag to indicate of the trigger is active, true, or not, false */
   active?: Active;
 };
 
@@ -39,7 +44,7 @@ export const accountLevelUpdateTriggerRequestSchema: Schema<AccountLevelUpdateTr
     callback: s.optional(s.boolean()),
     emailNotification: s.optional(s.boolean()),
     notificationGroupName: s.optional(s.string()),
-    notificationFrequencyFactor: s.optional(s.number()),
+    notificationFrequencyFactor: s.optional(s.int()),
     notificationFrequencyInterval: s.optional(s.string()),
     externalEmailRecipients: s.optional(s.string()),
     smsNotification: s.optional(s.boolean()),

@@ -4,16 +4,18 @@
 
 Accessor: `client.connectivityCallbacks` · Source: `src/resources/connectivity-callbacks.ts` · 3 operations · Request and error types: namespace `ConnectivityCallbacks`
 
-**Type sources**: every type an operation names, with the file that declares it and the schema value exported beside it. Import every name from `verizon`; the `Source` path is where to **read** the shape, never what to import. `ResponseError` and the runtime error family are excluded — see sdk-map.md.
+**Type sources**: every type an operation names, with the file that declares it and the schema value exported beside it. Import every name from `verizon`; the `Source` path is where to **read** the shape, never what to import. `ApiError`, the runtime error family and the file vocabulary are excluded — see sdk-map.md.
 
 ### deregisterCallback
 
+- **Server**: `thingspace` — not the `hyperPreciseCredentials` group; see Servers & auth in sdk-map.md
 - **Signature**: `deregisterCallback(request: ConnectivityCallbacks.DeregisterCallbackRequest, options?: RequestOptions): ApiPromise<CallbackActionResult, ConnectivityCallbacks.DeregisterCallbackError>`
 - **Wire**: `DELETE /m2m/v1/callbacks/{aname}/name/{sname}`
 - **Auth**: all of `thingspaceOauth`, `vzM2MToken` — both are sent
 - **Request body**: none — no `Content-Type` header is sent
+- **SDK-sent**: `header Idempotency-Key` (minted per call)
 - **Returns**: `CallbackActionResult`
-- **Error**: `ConnectivityCallbacks.DeregisterCallbackError` — **typed arms**, narrowed on `err.payload.kind`
+- **Error**: `VerizonError` with `kind: "api"`, an instance of `ConnectivityCallbacks.DeregisterCallbackError` — **typed arms**, narrowed on `err.payload.kind`
 - **Error arms**: `"connectivityManagementResult"` [400] `ConnectivityManagementResult` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
 
 **Fields** — `ConnectivityCallbacks.DeregisterCallbackRequest` (2):
@@ -30,12 +32,13 @@ Accessor: `client.connectivityCallbacks` · Source: `src/resources/connectivity-
 
 ### listRegisteredCallbacks
 
+- **Server**: `thingspace` — not the `hyperPreciseCredentials` group; see Servers & auth in sdk-map.md
 - **Signature**: `listRegisteredCallbacks(request: ConnectivityCallbacks.ListRegisteredCallbacksRequest, options?: RequestOptions): ApiPromise<ConnectivityManagementCallback[], ConnectivityCallbacks.ListRegisteredCallbacksError>`
 - **Wire**: `GET /m2m/v1/callbacks/{aname}`
 - **Auth**: all of `thingspaceOauth`, `vzM2MToken` — both are sent
 - **Request body**: none — no `Content-Type` header is sent
 - **Returns**: `ConnectivityManagementCallback[]` — a bare `application/json` array; the success type *is* the array, not a wrapper model
-- **Error**: `ConnectivityCallbacks.ListRegisteredCallbacksError` — **typed arms**, narrowed on `err.payload.kind`
+- **Error**: `VerizonError` with `kind: "api"`, an instance of `ConnectivityCallbacks.ListRegisteredCallbacksError` — **typed arms**, narrowed on `err.payload.kind`
 - **Error arms**: `"connectivityManagementResult"` [400] `ConnectivityManagementResult` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
 
 **Fields** — `ConnectivityCallbacks.ListRegisteredCallbacksRequest` (1):
@@ -51,12 +54,14 @@ Accessor: `client.connectivityCallbacks` · Source: `src/resources/connectivity-
 
 ### registerCallback
 
+- **Server**: `thingspace` — not the `hyperPreciseCredentials` group; see Servers & auth in sdk-map.md
 - **Signature**: `registerCallback(request: ConnectivityCallbacks.RegisterCallbackRequestParams, options?: RequestOptions): ApiPromise<CallbackActionResult, ConnectivityCallbacks.RegisterCallbackError>`
 - **Wire**: `POST /m2m/v1/callbacks/{aname}`
 - **Auth**: all of `thingspaceOauth`, `vzM2MToken` — both are sent
 - **Request body**: `application/json` — the `body` field
+- **SDK-sent**: `header Idempotency-Key` (minted per call)
 - **Returns**: `CallbackActionResult`
-- **Error**: `ConnectivityCallbacks.RegisterCallbackError` — **typed arms**, narrowed on `err.payload.kind`
+- **Error**: `VerizonError` with `kind: "api"`, an instance of `ConnectivityCallbacks.RegisterCallbackError` — **typed arms**, narrowed on `err.payload.kind`
 - **Error arms**: `"connectivityManagementResult"` [400] `ConnectivityManagementResult` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
 
 **Fields** — `ConnectivityCallbacks.RegisterCallbackRequestParams` (2):

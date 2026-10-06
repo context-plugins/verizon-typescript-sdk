@@ -7,8 +7,10 @@ import {
 import { dtoFilterSchema, type DtoFilter } from "./dto-filter.js";
 
 export type DtoListDevicesRequest = {
+  /** The numeric account name, which must include leading zeros */
   accountname?: string;
   filter?: DtoFilter;
+  /** Device identifiers, one or more are required */
   resourceidentifier?: DtoDeviceResourceIdentifier;
 };
 

@@ -1,6 +1,7 @@
 import * as s from "../core/validation/index.js";
 import type { EnumSchema } from "../core/validation/schema.js";
 
+/** Possible response codes. */
 export const ResponseCode = {
   InvalidAccess: "INVALID_ACCESS",
   InvalidParameter: "INVALID_PARAMETER",

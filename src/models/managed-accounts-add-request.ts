@@ -1,18 +1,22 @@
 import * as s from "../core/validation/index.js";
 import type { Schema } from "../core/validation/schema.js";
-import { serviceNameSchema, type ServiceName } from "./service-name.js";
+import { ServiceName, serviceNameSchema } from "./service-name.js";
 
 export type ManagedAccountsAddRequest = {
+  /** Account identifier */
   accountName: string;
-  serviceName: ServiceName;
+  /** Service name @default ServiceName.Location */
+  serviceName?: ServiceName;
+  /** SKU name */
   type: string;
+  /** managed account list */
   managedAccList: string[];
 };
 
 export const managedAccountsAddRequestSchema: Schema<ManagedAccountsAddRequest> =
   s.object<ManagedAccountsAddRequest>({
     accountName: s.string(),
-    serviceName: serviceNameSchema,
+    serviceName: s.defaulted(serviceNameSchema, ServiceName.Location),
     type: s.string(),
     managedAccList: s.array(s.string()),
   });

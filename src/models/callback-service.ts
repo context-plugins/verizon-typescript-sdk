@@ -1,6 +1,7 @@
 import * as s from "../core/validation/index.js";
 import type { EnumSchema } from "../core/validation/schema.js";
 
+/** Callback type. Must be 'Fota' for Software Management Services API. */
 export const CallbackService = {
   Fota: "Fota",
 } as const;

@@ -1,6 +1,7 @@
 import * as s from "../core/validation/index.js";
 import type { Schema } from "../core/validation/schema.js";
 
+/** Notification SMS details. */
 export type SmsNumber = {
   carrier?: string;
   number?: string;

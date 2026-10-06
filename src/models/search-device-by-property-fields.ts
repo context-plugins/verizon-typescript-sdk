@@ -3,6 +3,7 @@ import type { Schema } from "../core/validation/schema.js";
 import { accelerationSchema, type Acceleration } from "./acceleration.js";
 import { devicePropertylocationSchema, type DevicePropertylocation } from "./device-propertylocation.js";
 
+/** List of device sensors and their most recently reported values. */
 export type SearchDeviceByPropertyFields = {
   acceleration?: Acceleration;
   battery?: string;

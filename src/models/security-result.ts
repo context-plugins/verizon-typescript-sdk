@@ -1,6 +1,7 @@
 import * as s from "../core/validation/index.js";
 import type { Schema } from "../core/validation/schema.js";
 
+/** Error response. */
 export type SecurityResult = {
   errorCode?: string;
   errorMessage?: string;

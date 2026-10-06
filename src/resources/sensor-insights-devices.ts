@@ -1,9 +1,10 @@
 import type { AuthSchemes } from "../auth-schemes.js";
+import { ApiError, type Declared, type ErrorDecoders, type ErrorPayload } from "../core/api-error.js";
 import type { ApiPromise } from "../core/api-promise.js";
 import type { RequestOptions } from "../core/api-request.js";
 import { allAuth } from "../core/auth/schemes.js";
 import type { RawClient } from "../core/raw-client.js";
-import { ResponseError, type Declared, type ErrorDecoders } from "../core/response-error.js";
+import { uuid } from "../core/uuid.js";
 import * as s from "../core/validation/index.js";
 import {
   dtoDeviceActionSetResponseSchema,
@@ -57,6 +58,9 @@ import {
 } from "../models/user-network-experience-history.js";
 import type { Servers } from "../servers.js";
 
+/**
+ * Device tasks and information
+ */
 export class SensorInsightsDevices {
   readonly #rawClient: RawClient;
   readonly #servers: Servers;
@@ -68,6 +72,18 @@ export class SensorInsightsDevices {
     this.#auth = auth;
   }
 
+  /**
+   * Set device configuration
+   *
+   * @returns OK
+   *
+   * @throws {@link SensorInsightsDevices.SensorInsightsDeviceActionSetRequestError} when the API
+   * answers with an error status — narrow on `err.payload.kind`
+   *
+   * @throws {@link VerizonError} when no usable response was produced: a connection failure, a
+   * timeout, a body that would not decode, a value that would not encode, or a credential that
+   * could not be obtained
+   */
   sensorInsightsDeviceActionSetRequest(
     request: SensorInsightsDevices.SensorInsightsDeviceActionSetRequestRequest,
     options?: RequestOptions,
@@ -75,8 +91,11 @@ export class SensorInsightsDevices {
     return this.#rawClient.execute(
       {
         method: "POST",
-        url: this.#servers.hyperPreciseCredentials("/dm/v1/devices/actions/set"),
+        urlTemplate: this.#servers.thingspace("/dm/v1/devices/actions/set"),
         auth: allAuth(this.#auth.thingspaceOauth, this.#auth.vzM2MToken),
+        pathParams: [],
+        query: [],
+        headers: [{ name: "Idempotency-Key", value: uuid(), schema: s.string() }],
         body: { kind: "json", value: request.body, schema: dmV1DevicesActionsSetRequestSchema },
       },
       {
@@ -87,6 +106,18 @@ export class SensorInsightsDevices {
     );
   }
 
+  /**
+   * Get last reported information for a device
+   *
+   * @returns OK
+   *
+   * @throws {@link SensorInsightsDevices.SensorInsightsLastReportedTimeRequestError} when the API
+   * answers with an error status — narrow on `err.payload.kind`
+   *
+   * @throws {@link VerizonError} when no usable response was produced: a connection failure, a
+   * timeout, a body that would not decode, a value that would not encode, or a credential that
+   * could not be obtained
+   */
   sensorInsightsLastReportedTimeRequest(
     request: SensorInsightsDevices.SensorInsightsLastReportedTimeRequestRequest,
     options?: RequestOptions,
@@ -97,8 +128,11 @@ export class SensorInsightsDevices {
     return this.#rawClient.execute(
       {
         method: "POST",
-        url: this.#servers.hyperPreciseCredentials("/dm/v1/devices/lastreported"),
+        urlTemplate: this.#servers.thingspace("/dm/v1/devices/lastreported"),
         auth: allAuth(this.#auth.thingspaceOauth, this.#auth.vzM2MToken),
+        pathParams: [],
+        query: [],
+        headers: [{ name: "Idempotency-Key", value: uuid(), schema: s.string() }],
         body: { kind: "json", value: request.body, schema: dtoLastReportedTimeRequestSchema },
       },
       {
@@ -109,6 +143,18 @@ export class SensorInsightsDevices {
     );
   }
 
+  /**
+   * List the device experience
+   *
+   * @returns OK
+   *
+   * @throws {@link SensorInsightsDevices.SensorInsightsListDeviceExperienceHistoryRequestError}
+   * when the API answers with an error status — narrow on `err.payload.kind`
+   *
+   * @throws {@link VerizonError} when no usable response was produced: a connection failure, a
+   * timeout, a body that would not decode, a value that would not encode, or a credential that
+   * could not be obtained
+   */
   sensorInsightsListDeviceExperienceHistoryRequest(
     request: SensorInsightsDevices.SensorInsightsListDeviceExperienceHistoryRequestRequest,
     options?: RequestOptions,
@@ -119,8 +165,11 @@ export class SensorInsightsDevices {
     return this.#rawClient.execute(
       {
         method: "POST",
-        url: this.#servers.hyperPreciseCredentials("/dm/v1/devices/experience/actions/query"),
+        urlTemplate: this.#servers.thingspace("/dm/v1/devices/experience/actions/query"),
         auth: allAuth(this.#auth.thingspaceOauth, this.#auth.vzM2MToken),
+        pathParams: [],
+        query: [],
+        headers: [{ name: "Idempotency-Key", value: uuid(), schema: s.string() }],
         body: { kind: "json", value: request.body, schema: dtoListDeviceExperienceHistoryRequestSchema },
       },
       {
@@ -131,6 +180,18 @@ export class SensorInsightsDevices {
     );
   }
 
+  /**
+   * List all device details on the account
+   *
+   * @returns OK
+   *
+   * @throws {@link SensorInsightsDevices.SensorInsightsListDevicesRequestError} when the API
+   * answers with an error status — narrow on `err.payload.kind`
+   *
+   * @throws {@link VerizonError} when no usable response was produced: a connection failure, a
+   * timeout, a body that would not decode, a value that would not encode, or a credential that
+   * could not be obtained
+   */
   sensorInsightsListDevicesRequest(
     request: SensorInsightsDevices.SensorInsightsListDevicesRequestRequest,
     options?: RequestOptions,
@@ -138,8 +199,11 @@ export class SensorInsightsDevices {
     return this.#rawClient.execute(
       {
         method: "POST",
-        url: this.#servers.hyperPreciseCredentials("/dm/v1/devices/actions/query"),
+        urlTemplate: this.#servers.thingspace("/dm/v1/devices/actions/query"),
         auth: allAuth(this.#auth.thingspaceOauth, this.#auth.vzM2MToken),
+        pathParams: [],
+        query: [],
+        headers: [{ name: "Idempotency-Key", value: uuid(), schema: s.string() }],
         body: { kind: "json", value: request.body, schema: dtoListDevicesRequestSchema },
       },
       {
@@ -150,6 +214,18 @@ export class SensorInsightsDevices {
     );
   }
 
+  /**
+   * List the network experience
+   *
+   * @returns OK
+   *
+   * @throws {@link SensorInsightsDevices.SensorInsightsListNetworkExperienceHistoryRequestError}
+   * when the API answers with an error status — narrow on `err.payload.kind`
+   *
+   * @throws {@link VerizonError} when no usable response was produced: a connection failure, a
+   * timeout, a body that would not decode, a value that would not encode, or a credential that
+   * could not be obtained
+   */
   sensorInsightsListNetworkExperienceHistoryRequest(
     request: SensorInsightsDevices.SensorInsightsListNetworkExperienceHistoryRequestRequest,
     options?: RequestOptions,
@@ -160,8 +236,11 @@ export class SensorInsightsDevices {
     return this.#rawClient.execute(
       {
         method: "POST",
-        url: this.#servers.hyperPreciseCredentials("/dm/v1/devices/networkexperience/actions/query"),
+        urlTemplate: this.#servers.thingspace("/dm/v1/devices/networkexperience/actions/query"),
         auth: allAuth(this.#auth.thingspaceOauth, this.#auth.vzM2MToken),
+        pathParams: [],
+        query: [],
+        headers: [{ name: "Idempotency-Key", value: uuid(), schema: s.string() }],
         body: { kind: "json", value: request.body, schema: dtoListNetworkExperienceHistoryRequestSchema },
       },
       {
@@ -172,6 +251,18 @@ export class SensorInsightsDevices {
     );
   }
 
+  /**
+   * Partially update a device
+   *
+   * @returns OK
+   *
+   * @throws {@link SensorInsightsDevices.SensorInsightsPatchDeviceRequestError} when the API
+   * answers with an error status — narrow on `err.payload.kind`
+   *
+   * @throws {@link VerizonError} when no usable response was produced: a connection failure, a
+   * timeout, a body that would not decode, a value that would not encode, or a credential that
+   * could not be obtained
+   */
   sensorInsightsPatchDeviceRequest(
     request: SensorInsightsDevices.SensorInsightsPatchDeviceRequestRequest,
     options?: RequestOptions,
@@ -179,8 +270,11 @@ export class SensorInsightsDevices {
     return this.#rawClient.execute(
       {
         method: "PATCH",
-        url: this.#servers.hyperPreciseCredentials("/dm/v1/devices"),
+        urlTemplate: this.#servers.thingspace("/dm/v1/devices"),
         auth: allAuth(this.#auth.thingspaceOauth, this.#auth.vzM2MToken),
+        pathParams: [],
+        query: [],
+        headers: [{ name: "Idempotency-Key", value: uuid(), schema: s.string() }],
         body: { kind: "json", value: request.body, schema: dtoPatchDeviceRequestSchema },
       },
       {
@@ -194,14 +288,17 @@ export class SensorInsightsDevices {
 
 export namespace SensorInsightsDevices {
   export type SensorInsightsDeviceActionSetRequestRequest = {
+    /** Set device configuration */
     body: DmV1DevicesActionsSetRequest;
   };
 
-  export class SensorInsightsDeviceActionSetRequestError extends ResponseError<
-    | Declared<"managementError400", ManagementError400>
-    | Declared<"managementError403", ManagementError403>
-    | Declared<"managementError404", ManagementError404>
-  > {
+  export class SensorInsightsDeviceActionSetRequestError extends ApiError {
+    declare readonly payload: ErrorPayload<
+      | Declared<"managementError400", ManagementError400>
+      | Declared<"managementError403", ManagementError403>
+      | Declared<"managementError404", ManagementError404>
+    >;
+
     static readonly errors: ErrorDecoders<SensorInsightsDeviceActionSetRequestError> = [
       { on: 400, kind: "managementError400", decode: { kind: "json", schema: managementError400Schema } },
       { on: 403, kind: "managementError403", decode: { kind: "json", schema: managementError403Schema } },
@@ -210,14 +307,17 @@ export namespace SensorInsightsDevices {
   }
 
   export type SensorInsightsLastReportedTimeRequestRequest = {
+    /** Get the last reported information for a device */
     body: DtoLastReportedTimeRequest;
   };
 
-  export class SensorInsightsLastReportedTimeRequestError extends ResponseError<
-    | Declared<"managementError400", ManagementError400>
-    | Declared<"managementError403", ManagementError403>
-    | Declared<"managementError404", ManagementError404>
-  > {
+  export class SensorInsightsLastReportedTimeRequestError extends ApiError {
+    declare readonly payload: ErrorPayload<
+      | Declared<"managementError400", ManagementError400>
+      | Declared<"managementError403", ManagementError403>
+      | Declared<"managementError404", ManagementError404>
+    >;
+
     static readonly errors: ErrorDecoders<SensorInsightsLastReportedTimeRequestError> = [
       { on: 400, kind: "managementError400", decode: { kind: "json", schema: managementError400Schema } },
       { on: 403, kind: "managementError403", decode: { kind: "json", schema: managementError403Schema } },
@@ -226,20 +326,23 @@ export namespace SensorInsightsDevices {
   }
 
   export type SensorInsightsListDeviceExperienceHistoryRequestRequest = {
+    /** List the device experience */
     body: DtoListDeviceExperienceHistoryRequest;
   };
 
-  export class SensorInsightsListDeviceExperienceHistoryRequestError extends ResponseError<
-    | Declared<"managementError400", ManagementError400>
-    | Declared<"managementError", ManagementError>
-    | Declared<"managementError403", ManagementError403>
-    | Declared<"managementError404", ManagementError404>
-    | Declared<"managementError2", ManagementError>
-    | Declared<"managementError3", ManagementError>
-    | Declared<"managementError4", ManagementError>
-    | Declared<"managementError500", ManagementError500>
-    | Declared<"managementError5", ManagementError>
-  > {
+  export class SensorInsightsListDeviceExperienceHistoryRequestError extends ApiError {
+    declare readonly payload: ErrorPayload<
+      | Declared<"managementError400", ManagementError400>
+      | Declared<"managementError", ManagementError>
+      | Declared<"managementError403", ManagementError403>
+      | Declared<"managementError404", ManagementError404>
+      | Declared<"managementError2", ManagementError>
+      | Declared<"managementError3", ManagementError>
+      | Declared<"managementError4", ManagementError>
+      | Declared<"managementError500", ManagementError500>
+      | Declared<"managementError5", ManagementError>
+    >;
+
     static readonly errors: ErrorDecoders<SensorInsightsListDeviceExperienceHistoryRequestError> = [
       { on: 400, kind: "managementError400", decode: { kind: "json", schema: managementError400Schema } },
       { on: 401, kind: "managementError", decode: { kind: "json", schema: managementErrorSchema } },
@@ -249,25 +352,28 @@ export namespace SensorInsightsDevices {
       { on: 415, kind: "managementError3", decode: { kind: "json", schema: managementErrorSchema } },
       { on: 429, kind: "managementError4", decode: { kind: "json", schema: managementErrorSchema } },
       { on: 500, kind: "managementError500", decode: { kind: "json", schema: managementError500Schema } },
-      { on: [400, 599], kind: "managementError5", decode: { kind: "json", schema: managementErrorSchema } },
+      { on: "default", kind: "managementError5", decode: { kind: "json", schema: managementErrorSchema } },
     ];
   }
 
   export type SensorInsightsListDevicesRequestRequest = {
+    /** List all device details on an account */
     body: DtoListDevicesRequest;
   };
 
-  export class SensorInsightsListDevicesRequestError extends ResponseError<
-    | Declared<"managementError", ManagementError>
-    | Declared<"managementError2", ManagementError>
-    | Declared<"managementError3", ManagementError>
-    | Declared<"managementError4", ManagementError>
-    | Declared<"managementError5", ManagementError>
-    | Declared<"managementError6", ManagementError>
-    | Declared<"managementError7", ManagementError>
-    | Declared<"managementError8", ManagementError>
-    | Declared<"managementError9", ManagementError>
-  > {
+  export class SensorInsightsListDevicesRequestError extends ApiError {
+    declare readonly payload: ErrorPayload<
+      | Declared<"managementError", ManagementError>
+      | Declared<"managementError2", ManagementError>
+      | Declared<"managementError3", ManagementError>
+      | Declared<"managementError4", ManagementError>
+      | Declared<"managementError5", ManagementError>
+      | Declared<"managementError6", ManagementError>
+      | Declared<"managementError7", ManagementError>
+      | Declared<"managementError8", ManagementError>
+      | Declared<"managementError9", ManagementError>
+    >;
+
     static readonly errors: ErrorDecoders<SensorInsightsListDevicesRequestError> = [
       { on: 400, kind: "managementError", decode: { kind: "json", schema: managementErrorSchema } },
       { on: 401, kind: "managementError2", decode: { kind: "json", schema: managementErrorSchema } },
@@ -277,25 +383,28 @@ export namespace SensorInsightsDevices {
       { on: 415, kind: "managementError6", decode: { kind: "json", schema: managementErrorSchema } },
       { on: 429, kind: "managementError7", decode: { kind: "json", schema: managementErrorSchema } },
       { on: 500, kind: "managementError8", decode: { kind: "json", schema: managementErrorSchema } },
-      { on: [400, 599], kind: "managementError9", decode: { kind: "json", schema: managementErrorSchema } },
+      { on: "default", kind: "managementError9", decode: { kind: "json", schema: managementErrorSchema } },
     ];
   }
 
   export type SensorInsightsListNetworkExperienceHistoryRequestRequest = {
+    /** List the network experience */
     body: DtoListNetworkExperienceHistoryRequest;
   };
 
-  export class SensorInsightsListNetworkExperienceHistoryRequestError extends ResponseError<
-    | Declared<"managementError400", ManagementError400>
-    | Declared<"managementError", ManagementError>
-    | Declared<"managementError403", ManagementError403>
-    | Declared<"managementError404", ManagementError404>
-    | Declared<"managementError2", ManagementError>
-    | Declared<"managementError3", ManagementError>
-    | Declared<"managementError4", ManagementError>
-    | Declared<"managementError500", ManagementError500>
-    | Declared<"managementError5", ManagementError>
-  > {
+  export class SensorInsightsListNetworkExperienceHistoryRequestError extends ApiError {
+    declare readonly payload: ErrorPayload<
+      | Declared<"managementError400", ManagementError400>
+      | Declared<"managementError", ManagementError>
+      | Declared<"managementError403", ManagementError403>
+      | Declared<"managementError404", ManagementError404>
+      | Declared<"managementError2", ManagementError>
+      | Declared<"managementError3", ManagementError>
+      | Declared<"managementError4", ManagementError>
+      | Declared<"managementError500", ManagementError500>
+      | Declared<"managementError5", ManagementError>
+    >;
+
     static readonly errors: ErrorDecoders<SensorInsightsListNetworkExperienceHistoryRequestError> = [
       { on: 400, kind: "managementError400", decode: { kind: "json", schema: managementError400Schema } },
       { on: 401, kind: "managementError", decode: { kind: "json", schema: managementErrorSchema } },
@@ -305,25 +414,28 @@ export namespace SensorInsightsDevices {
       { on: 415, kind: "managementError3", decode: { kind: "json", schema: managementErrorSchema } },
       { on: 429, kind: "managementError4", decode: { kind: "json", schema: managementErrorSchema } },
       { on: 500, kind: "managementError500", decode: { kind: "json", schema: managementError500Schema } },
-      { on: [400, 599], kind: "managementError5", decode: { kind: "json", schema: managementErrorSchema } },
+      { on: "default", kind: "managementError5", decode: { kind: "json", schema: managementErrorSchema } },
     ];
   }
 
   export type SensorInsightsPatchDeviceRequestRequest = {
+    /** Partially update a device's details */
     body: DtoPatchDeviceRequest;
   };
 
-  export class SensorInsightsPatchDeviceRequestError extends ResponseError<
-    | Declared<"managementError400", ManagementError400>
-    | Declared<"managementError", ManagementError>
-    | Declared<"managementError403", ManagementError403>
-    | Declared<"managementError404", ManagementError404>
-    | Declared<"managementError2", ManagementError>
-    | Declared<"managementError3", ManagementError>
-    | Declared<"managementError4", ManagementError>
-    | Declared<"managementError500", ManagementError500>
-    | Declared<"managementError5", ManagementError>
-  > {
+  export class SensorInsightsPatchDeviceRequestError extends ApiError {
+    declare readonly payload: ErrorPayload<
+      | Declared<"managementError400", ManagementError400>
+      | Declared<"managementError", ManagementError>
+      | Declared<"managementError403", ManagementError403>
+      | Declared<"managementError404", ManagementError404>
+      | Declared<"managementError2", ManagementError>
+      | Declared<"managementError3", ManagementError>
+      | Declared<"managementError4", ManagementError>
+      | Declared<"managementError500", ManagementError500>
+      | Declared<"managementError5", ManagementError>
+    >;
+
     static readonly errors: ErrorDecoders<SensorInsightsPatchDeviceRequestError> = [
       { on: 400, kind: "managementError400", decode: { kind: "json", schema: managementError400Schema } },
       { on: 401, kind: "managementError", decode: { kind: "json", schema: managementErrorSchema } },
@@ -333,7 +445,7 @@ export namespace SensorInsightsDevices {
       { on: 415, kind: "managementError3", decode: { kind: "json", schema: managementErrorSchema } },
       { on: 429, kind: "managementError4", decode: { kind: "json", schema: managementErrorSchema } },
       { on: 500, kind: "managementError500", decode: { kind: "json", schema: managementError500Schema } },
-      { on: [400, 599], kind: "managementError5", decode: { kind: "json", schema: managementErrorSchema } },
+      { on: "default", kind: "managementError5", decode: { kind: "json", schema: managementErrorSchema } },
     ];
   }
 }

@@ -1,6 +1,11 @@
 import * as s from "../core/validation/index.js";
 import type { EnumSchema } from "../core/validation/schema.js";
 
+/**
+ * The distribution types:
+ *   - Targeted: Generate targeted messages to the road users that are affected by the zone rules
+ *   - Broadcast: Broadcast messages to regions based on the Geofence.
+ */
 export const DistributionTypes = {
   Targeted: "Targeted",
   Broadcast: "Broadcast",

@@ -1,6 +1,7 @@
 import * as s from "../core/validation/index.js";
 import type { EnumSchema } from "../core/validation/schema.js";
 
+/** The boolean of the comparison. `gt` is Greater Than, `lt` is Less Than and `eq` is Equal To */
 export const Comparitor = {
   Gt: "gt",
   Lt: "lt",

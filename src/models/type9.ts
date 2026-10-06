@@ -1,6 +1,7 @@
 import * as s from "../core/validation/index.js";
 import type { EnumSchema } from "../core/validation/schema.js";
 
+/** Indicates the surface of the roadway is grass with low speed limit. */
 export const Type9 = {
   LessThan30Mph: "lessThan30Mph",
 } as const;

@@ -4,17 +4,18 @@
 
 Accessor: `client.deviceActions` · Source: `src/resources/device-actions.ts` · 7 operations · Request and error types: namespace `DeviceActions`
 
-**Type sources**: every type an operation names, with the file that declares it and the schema value exported beside it. Import every name from `verizon`; the `Source` path is where to **read** the shape, never what to import. `ResponseError` and the runtime error family are excluded — see sdk-map.md.
+**Type sources**: every type an operation names, with the file that declares it and the schema value exported beside it. Import every name from `verizon`; the `Source` path is where to **read** the shape, never what to import. `ApiError`, the runtime error family and the file vocabulary are excluded — see sdk-map.md.
 
 ### accountInformation
 
+- **Server**: `thingspace` — not the `hyperPreciseCredentials` group; see Servers & auth in sdk-map.md
 - **Signature**: `accountInformation(request: DeviceActions.AccountInformationRequest, options?: RequestOptions): ApiPromise<AccountDetails, DeviceActions.AccountInformationError>`
 - **Wire**: `GET /v1/accounts/{accountName}`
 - **Auth**: all of `thingspaceOauth`, `vzM2MToken` — both are sent
 - **Request body**: none — no `Content-Type` header is sent
 - **Returns**: `AccountDetails`
-- **Error**: `DeviceActions.AccountInformationError` — **typed arms**, narrowed on `err.payload.kind`
-- **Error arms**: `"gioRestErrorResponse"` [400–599] `GioRestErrorResponse` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
+- **Error**: `VerizonError` with `kind: "api"`, an instance of `DeviceActions.AccountInformationError` — **typed arms**, narrowed on `err.payload.kind`
+- **Error arms**: `"gioRestErrorResponse"` [default — any status no arm above covers] `GioRestErrorResponse` · `"undeclared"` [a `default`-matched body that did not fit `GioRestErrorResponse`] `rawBody: ArrayBuffer`
 
 **Fields** — `DeviceActions.AccountInformationRequest` (1):
 
@@ -29,13 +30,15 @@ Accessor: `client.deviceActions` · Source: `src/resources/device-actions.ts` ·
 
 ### aggregateUsage
 
+- **Server**: `thingspace` — not the `hyperPreciseCredentials` group; see Servers & auth in sdk-map.md
 - **Signature**: `aggregateUsage(request: DeviceActions.AggregateUsageRequest, options?: RequestOptions): ApiPromise<GioRequestResponse, DeviceActions.AggregateUsageApiError>`
 - **Wire**: `POST /v1/devices/usage/actions/list/aggregate`
 - **Auth**: all of `thingspaceOauth`, `vzM2MToken` — both are sent
 - **Request body**: `application/json` — the `body` field
+- **SDK-sent**: `header Idempotency-Key` (minted per call)
 - **Returns**: `GioRequestResponse`
-- **Error**: `DeviceActions.AggregateUsageApiError` — **typed arms**, narrowed on `err.payload.kind`
-- **Error arms**: `"gioRestErrorResponse"` [400–599] `GioRestErrorResponse` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
+- **Error**: `VerizonError` with `kind: "api"`, an instance of `DeviceActions.AggregateUsageApiError` — **typed arms**, narrowed on `err.payload.kind`
+- **Error arms**: `"gioRestErrorResponse"` [default — any status no arm above covers] `GioRestErrorResponse` · `"undeclared"` [a `default`-matched body that did not fit `GioRestErrorResponse`] `rawBody: ArrayBuffer`
 
 **Fields** — `DeviceActions.AggregateUsageRequest` (1):
 
@@ -51,13 +54,15 @@ Accessor: `client.deviceActions` · Source: `src/resources/device-actions.ts` ·
 
 ### dailyUsage
 
+- **Server**: `thingspace` — not the `hyperPreciseCredentials` group; see Servers & auth in sdk-map.md
 - **Signature**: `dailyUsage(request: DeviceActions.DailyUsageRequest, options?: RequestOptions): ApiPromise<DailyUsageResponse, DeviceActions.DailyUsageError>`
 - **Wire**: `POST /v1/devices/usage/actions/list`
 - **Auth**: all of `thingspaceOauth`, `vzM2MToken` — both are sent
 - **Request body**: `application/json` — the `body` field
+- **SDK-sent**: `header Idempotency-Key` (minted per call)
 - **Returns**: `DailyUsageResponse`
-- **Error**: `DeviceActions.DailyUsageError` — **typed arms**, narrowed on `err.payload.kind`
-- **Error arms**: `"gioRestErrorResponse"` [400–599] `GioRestErrorResponse` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
+- **Error**: `VerizonError` with `kind: "api"`, an instance of `DeviceActions.DailyUsageError` — **typed arms**, narrowed on `err.payload.kind`
+- **Error arms**: `"gioRestErrorResponse"` [default — any status no arm above covers] `GioRestErrorResponse` · `"undeclared"` [a `default`-matched body that did not fit `GioRestErrorResponse`] `rawBody: ArrayBuffer`
 
 **Fields** — `DeviceActions.DailyUsageRequest` (1):
 
@@ -73,13 +78,14 @@ Accessor: `client.deviceActions` · Source: `src/resources/device-actions.ts` ·
 
 ### getAsynchronousRequestStatus
 
+- **Server**: `thingspace` — not the `hyperPreciseCredentials` group; see Servers & auth in sdk-map.md
 - **Signature**: `getAsynchronousRequestStatus(request: DeviceActions.GetAsynchronousRequestStatusRequest, options?: RequestOptions): ApiPromise<StatusResponse, DeviceActions.GetAsynchronousRequestStatusError>`
 - **Wire**: `GET /m2m/v2/accounts/{accountName}/requests/{requestID}/status`
 - **Auth**: all of `thingspaceOauth`, `vzM2MToken` — both are sent
 - **Request body**: none — no `Content-Type` header is sent
 - **Returns**: `StatusResponse`
-- **Error**: `DeviceActions.GetAsynchronousRequestStatusError` — **typed arms**, narrowed on `err.payload.kind`
-- **Error arms**: `"gioRestErrorResponse"` [400–599] `GioRestErrorResponse` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
+- **Error**: `VerizonError` with `kind: "api"`, an instance of `DeviceActions.GetAsynchronousRequestStatusError` — **typed arms**, narrowed on `err.payload.kind`
+- **Error arms**: `"gioRestErrorResponse"` [default — any status no arm above covers] `GioRestErrorResponse` · `"undeclared"` [a `default`-matched body that did not fit `GioRestErrorResponse`] `rawBody: ArrayBuffer`
 
 **Fields** — `DeviceActions.GetAsynchronousRequestStatusRequest` (2):
 
@@ -95,13 +101,15 @@ Accessor: `client.deviceActions` · Source: `src/resources/device-actions.ts` ·
 
 ### retrieveDeviceProvisioningHistory
 
+- **Server**: `thingspace` — not the `hyperPreciseCredentials` group; see Servers & auth in sdk-map.md
 - **Signature**: `retrieveDeviceProvisioningHistory(request: DeviceActions.RetrieveDeviceProvisioningHistoryRequest, options?: RequestOptions): ApiPromise<GioRequestResponse, DeviceActions.RetrieveDeviceProvisioningHistoryError>`
 - **Wire**: `POST /m2m/v2/devices/history/actions/list`
 - **Auth**: all of `thingspaceOauth`, `vzM2MToken` — both are sent
 - **Request body**: `application/json` — the `body` field
+- **SDK-sent**: `header Idempotency-Key` (minted per call)
 - **Returns**: `GioRequestResponse`
-- **Error**: `DeviceActions.RetrieveDeviceProvisioningHistoryError` — **typed arms**, narrowed on `err.payload.kind`
-- **Error arms**: `"gioRestErrorResponse"` [400–599] `GioRestErrorResponse` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
+- **Error**: `VerizonError` with `kind: "api"`, an instance of `DeviceActions.RetrieveDeviceProvisioningHistoryError` — **typed arms**, narrowed on `err.payload.kind`
+- **Error arms**: `"gioRestErrorResponse"` [default — any status no arm above covers] `GioRestErrorResponse` · `"undeclared"` [a `default`-matched body that did not fit `GioRestErrorResponse`] `rawBody: ArrayBuffer`
 
 **Fields** — `DeviceActions.RetrieveDeviceProvisioningHistoryRequest` (1):
 
@@ -117,13 +125,15 @@ Accessor: `client.deviceActions` · Source: `src/resources/device-actions.ts` ·
 
 ### retrieveTheGlobalDeviceList
 
+- **Server**: `thingspace` — not the `hyperPreciseCredentials` group; see Servers & auth in sdk-map.md
 - **Signature**: `retrieveTheGlobalDeviceList(request: DeviceActions.RetrieveTheGlobalDeviceListRequest, options?: RequestOptions): ApiPromise<GioRequestResponse, DeviceActions.RetrieveTheGlobalDeviceListError>`
 - **Wire**: `POST /m2m/v2/devices/actions/list`
 - **Auth**: all of `thingspaceOauth`, `vzM2MToken` — both are sent
 - **Request body**: `application/json` — the `body` field
+- **SDK-sent**: `header Idempotency-Key` (minted per call)
 - **Returns**: `GioRequestResponse`
-- **Error**: `DeviceActions.RetrieveTheGlobalDeviceListError` — **typed arms**, narrowed on `err.payload.kind`
-- **Error arms**: `"gioRestErrorResponse"` [400–599] `GioRestErrorResponse` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
+- **Error**: `VerizonError` with `kind: "api"`, an instance of `DeviceActions.RetrieveTheGlobalDeviceListError` — **typed arms**, narrowed on `err.payload.kind`
+- **Error arms**: `"gioRestErrorResponse"` [default — any status no arm above covers] `GioRestErrorResponse` · `"undeclared"` [a `default`-matched body that did not fit `GioRestErrorResponse`] `rawBody: ArrayBuffer`
 
 **Fields** — `DeviceActions.RetrieveTheGlobalDeviceListRequest` (1):
 
@@ -139,13 +149,14 @@ Accessor: `client.deviceActions` · Source: `src/resources/device-actions.ts` ·
 
 ### servicePlanList
 
+- **Server**: `thingspace` — not the `hyperPreciseCredentials` group; see Servers & auth in sdk-map.md
 - **Signature**: `servicePlanList(request: DeviceActions.ServicePlanListRequest, options?: RequestOptions): ApiPromise<AccountDetails, DeviceActions.ServicePlanListError>`
 - **Wire**: `GET /v1/plans/{accountName}`
 - **Auth**: all of `thingspaceOauth`, `vzM2MToken` — both are sent
 - **Request body**: none — no `Content-Type` header is sent
 - **Returns**: `AccountDetails`
-- **Error**: `DeviceActions.ServicePlanListError` — **typed arms**, narrowed on `err.payload.kind`
-- **Error arms**: `"gioRestErrorResponse"` [400–599] `GioRestErrorResponse` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
+- **Error**: `VerizonError` with `kind: "api"`, an instance of `DeviceActions.ServicePlanListError` — **typed arms**, narrowed on `err.payload.kind`
+- **Error arms**: `"gioRestErrorResponse"` [default — any status no arm above covers] `GioRestErrorResponse` · `"undeclared"` [a `default`-matched body that did not fit `GioRestErrorResponse`] `rawBody: ArrayBuffer`
 
 **Fields** — `DeviceActions.ServicePlanListRequest` (1):
 

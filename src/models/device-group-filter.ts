@@ -4,6 +4,7 @@ import type { Schema } from "../core/validation/schema.js";
 export type DeviceGroupFilter = {
   deviceGroupName?: string;
   individualOrCombined?: string;
+  /** The numeric name of the account and must include leading zeroes */
   accountName?: string;
 };
 

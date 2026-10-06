@@ -4,7 +4,7 @@
 
 Accessor: `client.mapMessageController` · Source: `src/resources/map-message-controller.ts` · 4 operations · Request and error types: namespace `MapMessageController`
 
-**Type sources**: every type an operation names, with the file that declares it and the schema value exported beside it. Import every name from `verizon`; the `Source` path is where to **read** the shape, never what to import. `ResponseError` and the runtime error family are excluded — see sdk-map.md.
+**Type sources**: every type an operation names, with the file that declares it and the schema value exported beside it. Import every name from `verizon`; the `Source` path is where to **read** the shape, never what to import. `ApiError`, the runtime error family and the file vocabulary are excluded — see sdk-map.md.
 
 ### deleteMapMessage
 
@@ -13,9 +13,10 @@ Accessor: `client.mapMessageController` · Source: `src/resources/map-message-co
 - **Wire**: `DELETE /api/v2/mapdata/regionid/{regionId}/i10nid/{i10nid}`
 - **Auth**: all of `thingspaceOauth`, `sessionToken` — both are sent
 - **Request body**: none — no `Content-Type` header is sent
+- **SDK-sent**: `header Idempotency-Key` (minted per call)
 - **Returns**: `undefined` — the operation resolves to nothing
-- **Error**: `MapMessageController.DeleteMapMessageError` — **typed arms**, narrowed on `err.payload.kind`
-- **Error arms**: `"mdmErrorResponse"` [400] `MdmErrorResponse` · `"mdmErrorResponse2"` [401] `MdmErrorResponse` · `"mdmErrorResponse3"` [403] `MdmErrorResponse` · `"mdmErrorResponse4"` [404] `MdmErrorResponse` · `"mdmErrorResponse5"` [429] `MdmErrorResponse` · `"mdmErrorResponse6"` [503] `MdmErrorResponse` · `"mdmErrorResponse7"` [400–599] `MdmErrorResponse` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
+- **Error**: `VerizonError` with `kind: "api"`, an instance of `MapMessageController.DeleteMapMessageError` — **typed arms**, narrowed on `err.payload.kind`
+- **Error arms**: `"mdmErrorResponse"` [400] `MdmErrorResponse` · `"mdmErrorResponse2"` [401] `MdmErrorResponse` · `"mdmErrorResponse3"` [403] `MdmErrorResponse` · `"mdmErrorResponse4"` [404] `MdmErrorResponse` · `"mdmErrorResponse5"` [429] `MdmErrorResponse` · `"mdmErrorResponse6"` [503] `MdmErrorResponse` · `"mdmErrorResponse7"` [default — any status no arm above covers] `MdmErrorResponse` · `"undeclared"` [a `default`-matched body that did not fit `MdmErrorResponse`] `rawBody: ArrayBuffer`
 
 **Fields** — `MapMessageController.DeleteMapMessageRequest` (2):
 
@@ -32,12 +33,13 @@ Accessor: `client.mapMessageController` · Source: `src/resources/map-message-co
 
 - **Server**: `impServer` — not the `hyperPreciseCredentials` group; see Servers & auth in sdk-map.md
 - **Signature**: `downloadMapMessages(request: MapMessageController.DownloadMapMessagesRequest, options?: RequestOptions): ApiPromise<string, MapMessageController.DownloadMapMessagesError>`
+- **Deprecated**: the method carries `@deprecated`, so an IDE strikes the call site through; it still works
 - **Wire**: `GET /api/v2/mapdata`
 - **Auth**: all of `thingspaceOauth`, `sessionToken` — both are sent
 - **Request body**: none — no `Content-Type` header is sent
 - **Returns**: `string` — `text/plain;charset=utf-8`, decoded by the plain-text scalar decoder, not by a model
-- **Error**: `MapMessageController.DownloadMapMessagesError` — **typed arms**, narrowed on `err.payload.kind`
-- **Error arms**: `"mdmErrorResponse"` [400] `MdmErrorResponse` · `"mdmErrorResponse2"` [401] `MdmErrorResponse` · `"mdmErrorResponse3"` [403] `MdmErrorResponse` · `"mdmErrorResponse4"` [404] `MdmErrorResponse` · `"mdmErrorResponse5"` [429] `MdmErrorResponse` · `"mdmErrorResponse6"` [503] `MdmErrorResponse` · `"mdmErrorResponse7"` [400–599] `MdmErrorResponse` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
+- **Error**: `VerizonError` with `kind: "api"`, an instance of `MapMessageController.DownloadMapMessagesError` — **typed arms**, narrowed on `err.payload.kind`
+- **Error arms**: `"mdmErrorResponse"` [400] `MdmErrorResponse` · `"mdmErrorResponse2"` [401] `MdmErrorResponse` · `"mdmErrorResponse3"` [403] `MdmErrorResponse` · `"mdmErrorResponse4"` [404] `MdmErrorResponse` · `"mdmErrorResponse5"` [429] `MdmErrorResponse` · `"mdmErrorResponse6"` [503] `MdmErrorResponse` · `"mdmErrorResponse7"` [default — any status no arm above covers] `MdmErrorResponse` · `"undeclared"` [a `default`-matched body that did not fit `MdmErrorResponse`] `rawBody: ArrayBuffer`
 
 **Fields** — `MapMessageController.DownloadMapMessagesRequest` (2):
 
@@ -58,9 +60,10 @@ Accessor: `client.mapMessageController` · Source: `src/resources/map-message-co
 - **Wire**: `POST /api/v2/mapdata`
 - **Auth**: all of `thingspaceOauth`, `sessionToken` — both are sent
 - **Request body**: `application/json` — the `body` field
+- **SDK-sent**: `header Idempotency-Key` (minted per call)
 - **Returns**: `string` — `text/plain;charset=utf-8`, decoded by the plain-text scalar decoder, not by a model
-- **Error**: `MapMessageController.IngestMapMessagesError` — **typed arms**, narrowed on `err.payload.kind`
-- **Error arms**: `"mdmErrorResponse"` [400] `MdmErrorResponse` · `"mdmErrorResponse2"` [401] `MdmErrorResponse` · `"mdmErrorResponse3"` [403] `MdmErrorResponse` · `"mdmErrorResponse4"` [405] `MdmErrorResponse` · `"mdmErrorResponse5"` [429] `MdmErrorResponse` · `"mdmErrorResponse6"` [503] `MdmErrorResponse` · `"mdmErrorResponse7"` [400–599] `MdmErrorResponse` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
+- **Error**: `VerizonError` with `kind: "api"`, an instance of `MapMessageController.IngestMapMessagesError` — **typed arms**, narrowed on `err.payload.kind`
+- **Error arms**: `"mdmErrorResponse"` [400] `MdmErrorResponse` · `"mdmErrorResponse2"` [401] `MdmErrorResponse` · `"mdmErrorResponse3"` [403] `MdmErrorResponse` · `"mdmErrorResponse4"` [405] `MdmErrorResponse` · `"mdmErrorResponse5"` [429] `MdmErrorResponse` · `"mdmErrorResponse6"` [503] `MdmErrorResponse` · `"mdmErrorResponse7"` [default — any status no arm above covers] `MdmErrorResponse` · `"undeclared"` [a `default`-matched body that did not fit `MdmErrorResponse`] `rawBody: ArrayBuffer`
 
 **Fields** — `MapMessageController.IngestMapMessagesRequest` (3):
 
@@ -83,9 +86,10 @@ Accessor: `client.mapMessageController` · Source: `src/resources/map-message-co
 - **Wire**: `POST /api/v2/mapdata/query`
 - **Auth**: all of `thingspaceOauth`, `sessionToken` — both are sent
 - **Request body**: `application/json` — the `body` field
+- **SDK-sent**: `header Idempotency-Key` (minted per call)
 - **Returns**: `Record<string, unknown>[]` — a bare `application/json` array; the success type *is* the array, not a wrapper model
-- **Error**: `MapMessageController.QueryMapMessagesError` — **typed arms**, narrowed on `err.payload.kind`
-- **Error arms**: `"mdmErrorResponse"` [400] `MdmErrorResponse` · `"mdmErrorResponse2"` [401] `MdmErrorResponse` · `"mdmErrorResponse3"` [403] `MdmErrorResponse` · `"mdmErrorResponse4"` [405] `MdmErrorResponse` · `"mdmErrorResponse5"` [429] `MdmErrorResponse` · `"mdmErrorResponse6"` [503] `MdmErrorResponse` · `"mdmErrorResponse7"` [400–599] `MdmErrorResponse` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
+- **Error**: `VerizonError` with `kind: "api"`, an instance of `MapMessageController.QueryMapMessagesError` — **typed arms**, narrowed on `err.payload.kind`
+- **Error arms**: `"mdmErrorResponse"` [400] `MdmErrorResponse` · `"mdmErrorResponse2"` [401] `MdmErrorResponse` · `"mdmErrorResponse3"` [403] `MdmErrorResponse` · `"mdmErrorResponse4"` [405] `MdmErrorResponse` · `"mdmErrorResponse5"` [429] `MdmErrorResponse` · `"mdmErrorResponse6"` [503] `MdmErrorResponse` · `"mdmErrorResponse7"` [default — any status no arm above covers] `MdmErrorResponse` · `"undeclared"` [a `default`-matched body that did not fit `MdmErrorResponse`] `rawBody: ArrayBuffer`
 
 **Fields** — `MapMessageController.QueryMapMessagesRequest` (2):
 

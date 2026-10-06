@@ -3,10 +3,15 @@ import type { Schema } from "../core/validation/schema.js";
 import { errorResponseCodeSchema, type ErrorResponseCode } from "./error-response-code.js";
 import { httpStatusCodeSchema, type HttpStatusCode } from "./http-status-code.js";
 
+/** Error message. */
 export type IErrorMessage = {
+  /** Error Code. */
   errorCode?: ErrorResponseCode;
+  /** Details and additional information about the error code. */
   errorMessage?: string;
+  /** HTML error code and description. */
   httpStatusCode?: HttpStatusCode;
+  /** More detail and information about the HTML error code. */
   detailErrorMessage?: string;
 };
 

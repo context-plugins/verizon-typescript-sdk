@@ -6,6 +6,7 @@ import {
 } from "./unions/description-of-road-surface.js";
 
 export type FrictionInformation = {
+  /** Indicates the composition of the surface of the roadway for use in estimation of friction. */
   roadSurfaceDescription: DescriptionOfRoadSurface;
 };
 

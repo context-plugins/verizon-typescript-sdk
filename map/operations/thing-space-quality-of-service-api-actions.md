@@ -4,17 +4,19 @@
 
 Accessor: `client.thingSpaceQualityOfServiceApiActions` · Source: `src/resources/thing-space-quality-of-service-api-actions.ts` · 2 operations · Request and error types: namespace `ThingSpaceQualityOfServiceApiActions`
 
-**Type sources**: every type an operation names, with the file that declares it and the schema value exported beside it. Import every name from `verizon`; the `Source` path is where to **read** the shape, never what to import. `ResponseError` and the runtime error family are excluded — see sdk-map.md.
+**Type sources**: every type an operation names, with the file that declares it and the schema value exported beside it. Import every name from `verizon`; the `Source` path is where to **read** the shape, never what to import. `ApiError`, the runtime error family and the file vocabulary are excluded — see sdk-map.md.
 
 ### createAThingSpaceQualityOfServiceApiSubscription
 
+- **Server**: `thingspace` — not the `hyperPreciseCredentials` group; see Servers & auth in sdk-map.md
 - **Signature**: `createAThingSpaceQualityOfServiceApiSubscription(request: ThingSpaceQualityOfServiceApiActions.CreateAThingSpaceQualityOfServiceApiSubscriptionRequest, options?: RequestOptions): ApiPromise<Success201, ThingSpaceQualityOfServiceApiActions.CreateAThingSpaceQualityOfServiceApiSubscriptionError>`
 - **Wire**: `POST /m2m/v1/devices/actions/enhanceQoS`
 - **Auth**: all of `thingspaceOauth`, `vzM2MToken` — both are sent
 - **Request body**: `application/json` — the `body` field
+- **SDK-sent**: `header Idempotency-Key` (minted per call)
 - **Returns**: `Success201`
-- **Error**: `ThingSpaceQualityOfServiceApiActions.CreateAThingSpaceQualityOfServiceApiSubscriptionError` — **typed arms**, narrowed on `err.payload.kind`
-- **Error arms**: `"defaultResponse"` [400–599] `DefaultResponse` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
+- **Error**: `VerizonError` with `kind: "api"`, an instance of `ThingSpaceQualityOfServiceApiActions.CreateAThingSpaceQualityOfServiceApiSubscriptionError` — **typed arms**, narrowed on `err.payload.kind`
+- **Error arms**: `"defaultResponse"` [default — any status no arm above covers] `DefaultResponse` · `"undeclared"` [a `default`-matched body that did not fit `DefaultResponse`] `rawBody: ArrayBuffer`
 
 **Fields** — `ThingSpaceQualityOfServiceApiActions.CreateAThingSpaceQualityOfServiceApiSubscriptionRequest` (1):
 
@@ -30,13 +32,15 @@ Accessor: `client.thingSpaceQualityOfServiceApiActions` · Source: `src/resource
 
 ### stopAThingSpaceQualityOfServiceApiSubscription
 
+- **Server**: `thingspace` — not the `hyperPreciseCredentials` group; see Servers & auth in sdk-map.md
 - **Signature**: `stopAThingSpaceQualityOfServiceApiSubscription(request: ThingSpaceQualityOfServiceApiActions.StopAThingSpaceQualityOfServiceApiSubscriptionRequest, options?: RequestOptions): ApiPromise<Success201, ThingSpaceQualityOfServiceApiActions.StopAThingSpaceQualityOfServiceApiSubscriptionError>`
 - **Wire**: `DELETE /m2m/v1/devices/actions/enhanceQoS`
 - **Auth**: all of `thingspaceOauth`, `vzM2MToken` — both are sent
 - **Request body**: none — no `Content-Type` header is sent
+- **SDK-sent**: `header Idempotency-Key` (minted per call)
 - **Returns**: `Success201`
-- **Error**: `ThingSpaceQualityOfServiceApiActions.StopAThingSpaceQualityOfServiceApiSubscriptionError` — **typed arms**, narrowed on `err.payload.kind`
-- **Error arms**: `"defaultResponse"` [400–599] `DefaultResponse` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
+- **Error**: `VerizonError` with `kind: "api"`, an instance of `ThingSpaceQualityOfServiceApiActions.StopAThingSpaceQualityOfServiceApiSubscriptionError` — **typed arms**, narrowed on `err.payload.kind`
+- **Error arms**: `"defaultResponse"` [default — any status no arm above covers] `DefaultResponse` · `"undeclared"` [a `default`-matched body that did not fit `DefaultResponse`] `rawBody: ArrayBuffer`
 
 **Fields** — `ThingSpaceQualityOfServiceApiActions.StopAThingSpaceQualityOfServiceApiSubscriptionRequest` (2):
 

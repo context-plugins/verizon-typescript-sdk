@@ -4,16 +4,18 @@
 
 Accessor: `client.sensorInsightsDeviceProfile` · Source: `src/resources/sensor-insights-device-profile.ts` · 4 operations · Request and error types: namespace `SensorInsightsDeviceProfile`
 
-**Type sources**: every type an operation names, with the file that declares it and the schema value exported beside it. Import every name from `verizon`; the `Source` path is where to **read** the shape, never what to import. `ResponseError` and the runtime error family are excluded — see sdk-map.md.
+**Type sources**: every type an operation names, with the file that declares it and the schema value exported beside it. Import every name from `verizon`; the `Source` path is where to **read** the shape, never what to import. `ApiError`, the runtime error family and the file vocabulary are excluded — see sdk-map.md.
 
 ### createAProfile
 
+- **Server**: `thingspace` — not the `hyperPreciseCredentials` group; see Servers & auth in sdk-map.md
 - **Signature**: `createAProfile(request: SensorInsightsDeviceProfile.CreateAProfileRequest, options?: RequestOptions): ApiPromise<DtoProfileResponse[], SensorInsightsDeviceProfile.CreateAProfileError>`
 - **Wire**: `POST /dm/v1/deviceConfigurationProfiles`
 - **Auth**: all of `thingspaceOauth`, `vzM2MToken` — both are sent
 - **Request body**: `application/json` — the `body` field
+- **SDK-sent**: `header Idempotency-Key` (minted per call)
 - **Returns**: `DtoProfileResponse[]` — a bare `application/json` array; the success type *is* the array, not a wrapper model
-- **Error**: `SensorInsightsDeviceProfile.CreateAProfileError` — **typed arms**, narrowed on `err.payload.kind`
+- **Error**: `VerizonError` with `kind: "api"`, an instance of `SensorInsightsDeviceProfile.CreateAProfileError` — **typed arms**, narrowed on `err.payload.kind`
 - **Error arms**: `"managementError400"` [400] `ManagementError400` · `"managementError"` [401] `ManagementError` · `"managementError403"` [403] `ManagementError403` · `"managementError500"` [500] `ManagementError500` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
 
 **Fields** — `SensorInsightsDeviceProfile.CreateAProfileRequest` (1):
@@ -33,12 +35,14 @@ Accessor: `client.sensorInsightsDeviceProfile` · Source: `src/resources/sensor-
 
 ### deleteAProfile
 
+- **Server**: `thingspace` — not the `hyperPreciseCredentials` group; see Servers & auth in sdk-map.md
 - **Signature**: `deleteAProfile(request: SensorInsightsDeviceProfile.DeleteAProfileRequest, options?: RequestOptions): ApiPromise<DtoProfileResponse[], SensorInsightsDeviceProfile.DeleteAProfileError>`
 - **Wire**: `DELETE /dm/v1/deviceConfigurationProfiles`
 - **Auth**: all of `thingspaceOauth`, `vzM2MToken` — both are sent
 - **Request body**: none — no `Content-Type` header is sent
+- **SDK-sent**: `header Idempotency-Key` (minted per call)
 - **Returns**: `DtoProfileResponse[]` — a bare `application/json` array; the success type *is* the array, not a wrapper model
-- **Error**: `SensorInsightsDeviceProfile.DeleteAProfileError` — **typed arms**, narrowed on `err.payload.kind`
+- **Error**: `VerizonError` with `kind: "api"`, an instance of `SensorInsightsDeviceProfile.DeleteAProfileError` — **typed arms**, narrowed on `err.payload.kind`
 - **Error arms**: `"managementError400"` [400] `ManagementError400` · `"managementError"` [401] `ManagementError` · `"managementError403"` [403] `ManagementError403` · `"managementError500"` [500] `ManagementError500` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
 
 **Fields** — `SensorInsightsDeviceProfile.DeleteAProfileRequest` (1):
@@ -58,12 +62,14 @@ Accessor: `client.sensorInsightsDeviceProfile` · Source: `src/resources/sensor-
 
 ### queryAProfile
 
+- **Server**: `thingspace` — not the `hyperPreciseCredentials` group; see Servers & auth in sdk-map.md
 - **Signature**: `queryAProfile(request: SensorInsightsDeviceProfile.QueryAProfileRequest, options?: RequestOptions): ApiPromise<DtoProfileResponse[], SensorInsightsDeviceProfile.QueryAProfileError>`
 - **Wire**: `POST /dm/v1/deviceConfigurationProfiles/actions/query`
 - **Auth**: all of `thingspaceOauth`, `vzM2MToken` — both are sent
 - **Request body**: `application/json` — the `body` field
+- **SDK-sent**: `header Idempotency-Key` (minted per call)
 - **Returns**: `DtoProfileResponse[]` — a bare `application/json` array; the success type *is* the array, not a wrapper model
-- **Error**: `SensorInsightsDeviceProfile.QueryAProfileError` — **typed arms**, narrowed on `err.payload.kind`
+- **Error**: `VerizonError` with `kind: "api"`, an instance of `SensorInsightsDeviceProfile.QueryAProfileError` — **typed arms**, narrowed on `err.payload.kind`
 - **Error arms**: `"managementError400"` [400] `ManagementError400` · `"managementError"` [401] `ManagementError` · `"managementError403"` [403] `ManagementError403` · `"managementError500"` [500] `ManagementError500` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
 
 **Fields** — `SensorInsightsDeviceProfile.QueryAProfileRequest` (1):
@@ -83,12 +89,14 @@ Accessor: `client.sensorInsightsDeviceProfile` · Source: `src/resources/sensor-
 
 ### updateAProfile
 
+- **Server**: `thingspace` — not the `hyperPreciseCredentials` group; see Servers & auth in sdk-map.md
 - **Signature**: `updateAProfile(request: SensorInsightsDeviceProfile.UpdateAProfileRequest, options?: RequestOptions): ApiPromise<DtoProfileResponse[], SensorInsightsDeviceProfile.UpdateAProfileError>`
 - **Wire**: `PATCH /dm/v1/deviceConfigurationProfiles`
 - **Auth**: all of `thingspaceOauth`, `vzM2MToken` — both are sent
 - **Request body**: `application/json` — the `body` field
+- **SDK-sent**: `header Idempotency-Key` (minted per call)
 - **Returns**: `DtoProfileResponse[]` — a bare `application/json` array; the success type *is* the array, not a wrapper model
-- **Error**: `SensorInsightsDeviceProfile.UpdateAProfileError` — **typed arms**, narrowed on `err.payload.kind`
+- **Error**: `VerizonError` with `kind: "api"`, an instance of `SensorInsightsDeviceProfile.UpdateAProfileError` — **typed arms**, narrowed on `err.payload.kind`
 - **Error arms**: `"managementError400"` [400] `ManagementError400` · `"managementError"` [401] `ManagementError` · `"managementError403"` [403] `ManagementError403` · `"managementError500"` [500] `ManagementError500` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
 
 **Fields** — `SensorInsightsDeviceProfile.UpdateAProfileRequest` (1):

@@ -6,7 +6,9 @@ import { suspenddetailsobjectSchema, type Suspenddetailsobject } from "./suspend
 export type Actionobject = {
   suspend?: boolean;
   suspendDetails?: Suspenddetailsobject;
+  /** a flag to set if the trigger changes service plans, true, or not, false */
   changePlan?: boolean;
+  /** The service plan code to switch to */
   changePlanDetails?: ChangePlanDetails;
 };
 

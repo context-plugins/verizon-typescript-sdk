@@ -4,6 +4,10 @@ import { dailyUsageHistorySchema, type DailyUsageHistory } from "./daily-usage-h
 import { gioDeviceIdSchema, type GioDeviceId } from "./gio-device-id.js";
 
 export type DailyUsageResponse = {
+  /**
+   * A flag set to indicate if there is more than one page of data returned by the query (true) or
+   * if only one page of data returned (false)
+   */
   hasMoreData?: boolean;
   deviceId?: GioDeviceId;
   usageHistory?: DailyUsageHistory[];

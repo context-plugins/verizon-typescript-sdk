@@ -8,5 +8,5 @@ export type NoOfDaysB4PromoExp = {
 
 export const noOfDaysB4PromoExpSchema: Schema<NoOfDaysB4PromoExp> = s.object<NoOfDaysB4PromoExp>({
   key: s.optional(s.string()),
-  value: s.optional(s.number()),
+  value: s.optional(s.int()),
 });

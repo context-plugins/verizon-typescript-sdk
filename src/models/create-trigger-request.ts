@@ -7,6 +7,7 @@ import { smsTriggerRequestSchema, type SmsTriggerRequest } from "./sms-trigger-r
 
 export type CreateTriggerRequest = {
   accountName?: string;
+  /** The details of the UsageAnomaly trigger. */
   anomalyTriggerRequest?: AnomalyTriggerRequest;
   dataTriggerRequest?: DataTriggerRequest;
   groupName?: string;

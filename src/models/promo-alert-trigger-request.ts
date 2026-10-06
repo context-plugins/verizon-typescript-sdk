@@ -16,7 +16,7 @@ export const promoAlertTriggerRequestSchema: Schema<PromoAlertTriggerRequest> =
     dataPercentage50: s.optional(s.boolean()),
     dataPercentage75: s.optional(s.boolean()),
     dataPercentage90: s.optional(s.boolean()),
-    noOfDaysB4PromoExp: s.optional(s.number()),
+    noOfDaysB4PromoExp: s.optional(s.int()),
     smsPercentage50: s.optional(s.boolean()),
     smsPercentage75: s.optional(s.boolean()),
     smsPercentage90: s.optional(s.boolean()),

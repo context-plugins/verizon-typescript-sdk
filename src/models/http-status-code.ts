@@ -1,6 +1,7 @@
 import * as s from "../core/validation/index.js";
 import type { EnumSchema } from "../core/validation/schema.js";
 
+/** HTML error code and description. */
 export const HttpStatusCode = {
   _100Continue: "100 CONTINUE",
   _101SwitchingProtocols: "101 SWITCHING_PROTOCOLS",

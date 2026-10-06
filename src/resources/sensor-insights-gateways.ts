@@ -1,9 +1,10 @@
 import type { AuthSchemes } from "../auth-schemes.js";
+import { ApiError, type Declared, type ErrorDecoders, type ErrorPayload } from "../core/api-error.js";
 import type { ApiPromise } from "../core/api-promise.js";
 import type { RequestOptions } from "../core/api-request.js";
 import { allAuth } from "../core/auth/schemes.js";
 import type { RawClient } from "../core/raw-client.js";
-import { ResponseError, type Declared, type ErrorDecoders } from "../core/response-error.js";
+import { uuid } from "../core/uuid.js";
 import * as s from "../core/validation/index.js";
 import {
   dtoListDevicesRequestSchema,
@@ -17,6 +18,9 @@ import { managementError500Schema, type ManagementError500 } from "../models/man
 import { resourceDeviceSchema, type ResourceDevice } from "../models/resource-device.js";
 import type { Servers } from "../servers.js";
 
+/**
+ * Query gateway information
+ */
 export class SensorInsightsGateways {
   readonly #rawClient: RawClient;
   readonly #servers: Servers;
@@ -28,6 +32,18 @@ export class SensorInsightsGateways {
     this.#auth = auth;
   }
 
+  /**
+   * Get gateway information
+   *
+   * @returns OK
+   *
+   * @throws {@link SensorInsightsGateways.SensorInsightsListGatewayDevicesRequestError} when the
+   * API answers with an error status — narrow on `err.payload.kind`
+   *
+   * @throws {@link VerizonError} when no usable response was produced: a connection failure, a
+   * timeout, a body that would not decode, a value that would not encode, or a credential that
+   * could not be obtained
+   */
   sensorInsightsListGatewayDevicesRequest(
     request: SensorInsightsGateways.SensorInsightsListGatewayDevicesRequestRequest,
     options?: RequestOptions,
@@ -35,8 +51,11 @@ export class SensorInsightsGateways {
     return this.#rawClient.execute(
       {
         method: "POST",
-        url: this.#servers.hyperPreciseCredentials("/dm/v1/devices/gateways/actions/query"),
+        urlTemplate: this.#servers.thingspace("/dm/v1/devices/gateways/actions/query"),
         auth: allAuth(this.#auth.thingspaceOauth, this.#auth.vzM2MToken),
+        pathParams: [],
+        query: [],
+        headers: [{ name: "Idempotency-Key", value: uuid(), schema: s.string() }],
         body: { kind: "json", value: request.body, schema: dtoListDevicesRequestSchema },
       },
       {
@@ -50,20 +69,23 @@ export class SensorInsightsGateways {
 
 export namespace SensorInsightsGateways {
   export type SensorInsightsListGatewayDevicesRequestRequest = {
+    /** Get gateway information */
     body: DtoListDevicesRequest;
   };
 
-  export class SensorInsightsListGatewayDevicesRequestError extends ResponseError<
-    | Declared<"managementError400", ManagementError400>
-    | Declared<"managementError", ManagementError>
-    | Declared<"managementError403", ManagementError403>
-    | Declared<"managementError404", ManagementError404>
-    | Declared<"managementError2", ManagementError>
-    | Declared<"managementError3", ManagementError>
-    | Declared<"managementError4", ManagementError>
-    | Declared<"managementError500", ManagementError500>
-    | Declared<"managementError5", ManagementError>
-  > {
+  export class SensorInsightsListGatewayDevicesRequestError extends ApiError {
+    declare readonly payload: ErrorPayload<
+      | Declared<"managementError400", ManagementError400>
+      | Declared<"managementError", ManagementError>
+      | Declared<"managementError403", ManagementError403>
+      | Declared<"managementError404", ManagementError404>
+      | Declared<"managementError2", ManagementError>
+      | Declared<"managementError3", ManagementError>
+      | Declared<"managementError4", ManagementError>
+      | Declared<"managementError500", ManagementError500>
+      | Declared<"managementError5", ManagementError>
+    >;
+
     static readonly errors: ErrorDecoders<SensorInsightsListGatewayDevicesRequestError> = [
       { on: 400, kind: "managementError400", decode: { kind: "json", schema: managementError400Schema } },
       { on: 401, kind: "managementError", decode: { kind: "json", schema: managementErrorSchema } },
@@ -73,7 +95,7 @@ export namespace SensorInsightsGateways {
       { on: 415, kind: "managementError3", decode: { kind: "json", schema: managementErrorSchema } },
       { on: 429, kind: "managementError4", decode: { kind: "json", schema: managementErrorSchema } },
       { on: 500, kind: "managementError500", decode: { kind: "json", schema: managementError500Schema } },
-      { on: [400, 599], kind: "managementError5", decode: { kind: "json", schema: managementErrorSchema } },
+      { on: "default", kind: "managementError5", decode: { kind: "json", schema: managementErrorSchema } },
     ];
   }
 }

@@ -1,9 +1,11 @@
 import type { AuthSchemes } from "../auth-schemes.js";
+import { ApiError, type Declared, type ErrorDecoders, type ErrorPayload } from "../core/api-error.js";
 import type { ApiPromise } from "../core/api-promise.js";
 import type { RequestOptions } from "../core/api-request.js";
 import { allAuth } from "../core/auth/schemes.js";
 import type { RawClient } from "../core/raw-client.js";
-import { ResponseError, type Declared, type ErrorDecoders } from "../core/response-error.js";
+import { uuid } from "../core/uuid.js";
+import * as s from "../core/validation/index.js";
 import {
   activateDeviceProfileRequestSchema,
   type ActivateDeviceProfileRequest,
@@ -32,6 +34,21 @@ export class DeviceProfileManagement {
     this.#auth = auth;
   }
 
+  /**
+   * Activate a device for a profile.
+   *
+   * @remarks
+   * Uses the profile to bring the device under management.
+   *
+   * @returns Request ID
+   *
+   * @throws {@link DeviceProfileManagement.ActivateDeviceThroughProfileError} when the API answers
+   * with an error status — narrow on `err.payload.kind`
+   *
+   * @throws {@link VerizonError} when no usable response was produced: a connection failure, a
+   * timeout, a body that would not decode, a value that would not encode, or a credential that
+   * could not be obtained
+   */
   activateDeviceThroughProfile(
     request: DeviceProfileManagement.ActivateDeviceThroughProfileRequest,
     options?: RequestOptions,
@@ -39,8 +56,11 @@ export class DeviceProfileManagement {
     return this.#rawClient.execute(
       {
         method: "POST",
-        url: this.#servers.hyperPreciseCredentials("/m2m/v1/devices/profile/actions/activate_enable"),
+        urlTemplate: this.#servers.thingspace("/m2m/v1/devices/profile/actions/activate_enable"),
         auth: allAuth(this.#auth.thingspaceOauth, this.#auth.vzM2MToken),
+        pathParams: [],
+        query: [],
+        headers: [{ name: "Idempotency-Key", value: uuid(), schema: s.string() }],
         body: { kind: "json", value: request.body, schema: activateDeviceProfileRequestSchema },
       },
       {
@@ -51,6 +71,21 @@ export class DeviceProfileManagement {
     );
   }
 
+  /**
+   * Activate a device.
+   *
+   * @remarks
+   * Uses the profile to activate the device.
+   *
+   * @returns Request ID
+   *
+   * @throws {@link DeviceProfileManagement.ProfileToActivateDeviceError} when the API answers with
+   * an error status — narrow on `err.payload.kind`
+   *
+   * @throws {@link VerizonError} when no usable response was produced: a connection failure, a
+   * timeout, a body that would not decode, a value that would not encode, or a credential that
+   * could not be obtained
+   */
   profileToActivateDevice(
     request: DeviceProfileManagement.ProfileToActivateDeviceRequest,
     options?: RequestOptions,
@@ -58,8 +93,11 @@ export class DeviceProfileManagement {
     return this.#rawClient.execute(
       {
         method: "POST",
-        url: this.#servers.hyperPreciseCredentials("/m2m/v1/devices/profile/actions/activate"),
+        urlTemplate: this.#servers.thingspace("/m2m/v1/devices/profile/actions/activate"),
         auth: allAuth(this.#auth.thingspaceOauth, this.#auth.vzM2MToken),
+        pathParams: [],
+        query: [],
+        headers: [{ name: "Idempotency-Key", value: uuid(), schema: s.string() }],
         body: { kind: "json", value: request.body, schema: profileRequestSchema },
       },
       {
@@ -70,6 +108,21 @@ export class DeviceProfileManagement {
     );
   }
 
+  /**
+   * Deactivate a device.
+   *
+   * @remarks
+   * Uses the profile to deactivate the device.
+   *
+   * @returns Request ID
+   *
+   * @throws {@link DeviceProfileManagement.ProfileToDeactivateDeviceError} when the API answers
+   * with an error status — narrow on `err.payload.kind`
+   *
+   * @throws {@link VerizonError} when no usable response was produced: a connection failure, a
+   * timeout, a body that would not decode, a value that would not encode, or a credential that
+   * could not be obtained
+   */
   profileToDeactivateDevice(
     request: DeviceProfileManagement.ProfileToDeactivateDeviceRequest,
     options?: RequestOptions,
@@ -77,8 +130,11 @@ export class DeviceProfileManagement {
     return this.#rawClient.execute(
       {
         method: "POST",
-        url: this.#servers.hyperPreciseCredentials("/m2m/v1/devices/profile/actions/deactivate"),
+        urlTemplate: this.#servers.thingspace("/m2m/v1/devices/profile/actions/deactivate"),
         auth: allAuth(this.#auth.thingspaceOauth, this.#auth.vzM2MToken),
+        pathParams: [],
+        query: [],
+        headers: [{ name: "Idempotency-Key", value: uuid(), schema: s.string() }],
         body: { kind: "json", value: request.body, schema: deactivateDeviceProfileRequestSchema },
       },
       {
@@ -89,6 +145,21 @@ export class DeviceProfileManagement {
     );
   }
 
+  /**
+   * Set the fallback attribute.
+   *
+   * @remarks
+   * Allows the profile to set the fallback attribute to the device.
+   *
+   * @returns Request ID
+   *
+   * @throws {@link DeviceProfileManagement.ProfileToSetFallbackAttributeError} when the API answers
+   * with an error status — narrow on `err.payload.kind`
+   *
+   * @throws {@link VerizonError} when no usable response was produced: a connection failure, a
+   * timeout, a body that would not decode, a value that would not encode, or a credential that
+   * could not be obtained
+   */
   profileToSetFallbackAttribute(
     request: DeviceProfileManagement.ProfileToSetFallbackAttributeRequest,
     options?: RequestOptions,
@@ -96,8 +167,11 @@ export class DeviceProfileManagement {
     return this.#rawClient.execute(
       {
         method: "POST",
-        url: this.#servers.hyperPreciseCredentials("/m2m/v1/devices/profile/actions/setfallbackattribute"),
+        urlTemplate: this.#servers.thingspace("/m2m/v1/devices/profile/actions/setfallbackattribute"),
         auth: allAuth(this.#auth.thingspaceOauth, this.#auth.vzM2MToken),
+        pathParams: [],
+        query: [],
+        headers: [{ name: "Idempotency-Key", value: uuid(), schema: s.string() }],
         body: { kind: "json", value: request.body, schema: setFallbackAttributeRequestSchema },
       },
       {
@@ -111,48 +185,52 @@ export class DeviceProfileManagement {
 
 export namespace DeviceProfileManagement {
   export type ActivateDeviceThroughProfileRequest = {
+    /** Device Profile Query */
     body: ActivateDeviceProfileRequest;
   };
 
-  export class ActivateDeviceThroughProfileError extends ResponseError<
-    Declared<"restErrorResponse", RestErrorResponse>
-  > {
+  export class ActivateDeviceThroughProfileError extends ApiError {
+    declare readonly payload: ErrorPayload<Declared<"restErrorResponse", RestErrorResponse>>;
+
     static readonly errors: ErrorDecoders<ActivateDeviceThroughProfileError> = [
       { on: 400, kind: "restErrorResponse", decode: { kind: "json", schema: restErrorResponseSchema } },
     ];
   }
 
   export type ProfileToActivateDeviceRequest = {
+    /** Device Profile Query */
     body: ProfileRequest;
   };
 
-  export class ProfileToActivateDeviceError extends ResponseError<
-    Declared<"restErrorResponse", RestErrorResponse>
-  > {
+  export class ProfileToActivateDeviceError extends ApiError {
+    declare readonly payload: ErrorPayload<Declared<"restErrorResponse", RestErrorResponse>>;
+
     static readonly errors: ErrorDecoders<ProfileToActivateDeviceError> = [
       { on: 400, kind: "restErrorResponse", decode: { kind: "json", schema: restErrorResponseSchema } },
     ];
   }
 
   export type ProfileToDeactivateDeviceRequest = {
+    /** Device Profile Query */
     body: DeactivateDeviceProfileRequest;
   };
 
-  export class ProfileToDeactivateDeviceError extends ResponseError<
-    Declared<"restErrorResponse", RestErrorResponse>
-  > {
+  export class ProfileToDeactivateDeviceError extends ApiError {
+    declare readonly payload: ErrorPayload<Declared<"restErrorResponse", RestErrorResponse>>;
+
     static readonly errors: ErrorDecoders<ProfileToDeactivateDeviceError> = [
       { on: 400, kind: "restErrorResponse", decode: { kind: "json", schema: restErrorResponseSchema } },
     ];
   }
 
   export type ProfileToSetFallbackAttributeRequest = {
+    /** Device Profile Query */
     body: SetFallbackAttributeRequest;
   };
 
-  export class ProfileToSetFallbackAttributeError extends ResponseError<
-    Declared<"restErrorResponse", RestErrorResponse>
-  > {
+  export class ProfileToSetFallbackAttributeError extends ApiError {
+    declare readonly payload: ErrorPayload<Declared<"restErrorResponse", RestErrorResponse>>;
+
     static readonly errors: ErrorDecoders<ProfileToSetFallbackAttributeError> = [
       { on: 400, kind: "restErrorResponse", decode: { kind: "json", schema: restErrorResponseSchema } },
     ];

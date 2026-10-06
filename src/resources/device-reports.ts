@@ -1,9 +1,11 @@
 import type { AuthSchemes } from "../auth-schemes.js";
+import { ApiError, type Declared, type ErrorDecoders, type ErrorPayload } from "../core/api-error.js";
 import type { ApiPromise } from "../core/api-promise.js";
 import type { RequestOptions } from "../core/api-request.js";
 import { allAuth } from "../core/auth/schemes.js";
 import type { RawClient } from "../core/raw-client.js";
-import { ResponseError, type Declared, type ErrorDecoders } from "../core/response-error.js";
+import { uuid } from "../core/uuid.js";
+import * as s from "../core/validation/index.js";
 import {
   aggregateSessionReportRequestSchema,
   type AggregateSessionReportRequest,
@@ -24,6 +26,9 @@ import { sessionReportRequestSchema, type SessionReportRequest } from "../models
 import { sessionReportSchema, type SessionReport } from "../models/session-report.js";
 import type { Servers } from "../servers.js";
 
+/**
+ * Check device usage
+ */
 export class DeviceReports {
   readonly #rawClient: RawClient;
   readonly #servers: Servers;
@@ -35,6 +40,25 @@ export class DeviceReports {
     this.#auth = auth;
   }
 
+  /**
+   * An aggregated asynchronous sessions and usage report for a user specified selection of devices
+   * and date range
+   *
+   * @remarks
+   * Calculate aggregated report per day with number of sessions and usage information. User will
+   * receive an asynchronous callback for the specified list of devices (Max 10000) and date range
+   * (Max 180 days).
+   *
+   * @returns A successful response shows the request is queued with a unique `txid` to identify the
+   * report data with.
+   *
+   * @throws {@link DeviceReports.CalculateAggregatedReportAsynchronousError} when the API answers
+   * with an error status — narrow on `err.payload.kind`
+   *
+   * @throws {@link VerizonError} when no usable response was produced: a connection failure, a
+   * timeout, a body that would not decode, a value that would not encode, or a credential that
+   * could not be obtained
+   */
   calculateAggregatedReportAsynchronous(
     request: DeviceReports.CalculateAggregatedReportAsynchronousRequest,
     options?: RequestOptions,
@@ -42,8 +66,11 @@ export class DeviceReports {
     return this.#rawClient.execute(
       {
         method: "POST",
-        url: this.#servers.hyperPreciseLocation("/report/async/aggregate"),
+        urlTemplate: this.#servers.hyperPreciseLocation("/report/async/aggregate"),
         auth: allAuth(this.#auth.thingspaceOauth, this.#auth.vzM2MToken),
+        pathParams: [],
+        query: [],
+        headers: [{ name: "Idempotency-Key", value: uuid(), schema: s.string() }],
         body: { kind: "json", value: request.body, schema: aggregateSessionReportRequestSchema },
       },
       {
@@ -54,6 +81,24 @@ export class DeviceReports {
     );
   }
 
+  /**
+   * An aggregated sessions and usage report for a user specified selection of devices and date
+   * range
+   *
+   * @remarks
+   * Calculate aggregated report per day with number of sessions and usage information. User will
+   * receive synchronous response for specified list of devices (Max 10) and date range (Max 180
+   * days).
+   *
+   * @returns A successful response shows session and usage details for up to 10 devices.
+   *
+   * @throws {@link DeviceReports.CalculateAggregatedReportSynchronousError} when the API answers
+   * with an error status — narrow on `err.payload.kind`
+   *
+   * @throws {@link VerizonError} when no usable response was produced: a connection failure, a
+   * timeout, a body that would not decode, a value that would not encode, or a credential that
+   * could not be obtained
+   */
   calculateAggregatedReportSynchronous(
     request: DeviceReports.CalculateAggregatedReportSynchronousRequest,
     options?: RequestOptions,
@@ -61,8 +106,11 @@ export class DeviceReports {
     return this.#rawClient.execute(
       {
         method: "POST",
-        url: this.#servers.hyperPreciseLocation("/report/aggregate"),
+        urlTemplate: this.#servers.hyperPreciseLocation("/report/aggregate"),
         auth: allAuth(this.#auth.thingspaceOauth, this.#auth.vzM2MToken),
+        pathParams: [],
+        query: [],
+        headers: [{ name: "Idempotency-Key", value: uuid(), schema: s.string() }],
         body: { kind: "json", value: request.body, schema: aggregateSessionReportRequestSchema },
       },
       {
@@ -73,6 +121,21 @@ export class DeviceReports {
     );
   }
 
+  /**
+   * A daily usage report for a single device for a specified date range (up to 180 days).
+   *
+   * @remarks
+   * Detailed report of session duration and number of bytes transferred per day.
+   *
+   * @returns A successful response includes the session information for an individual device.
+   *
+   * @throws {@link DeviceReports.GetSessionsReportError} when the API answers with an error status
+   * — narrow on `err.payload.kind`
+   *
+   * @throws {@link VerizonError} when no usable response was produced: a connection failure, a
+   * timeout, a body that would not decode, a value that would not encode, or a credential that
+   * could not be obtained
+   */
   getSessionsReport(
     request: DeviceReports.GetSessionsReportRequest,
     options?: RequestOptions,
@@ -80,8 +143,11 @@ export class DeviceReports {
     return this.#rawClient.execute(
       {
         method: "POST",
-        url: this.#servers.hyperPreciseLocation("/report/sessions"),
+        urlTemplate: this.#servers.hyperPreciseLocation("/report/sessions"),
         auth: allAuth(this.#auth.thingspaceOauth, this.#auth.vzM2MToken),
+        pathParams: [],
+        query: [],
+        headers: [{ name: "Idempotency-Key", value: uuid(), schema: s.string() }],
         body: { kind: "json", value: request.body, schema: sessionReportRequestSchema },
       },
       {
@@ -95,17 +161,20 @@ export class DeviceReports {
 
 export namespace DeviceReports {
   export type CalculateAggregatedReportAsynchronousRequest = {
+    /** Aggregated session report request. */
     body: AggregateSessionReportRequest;
   };
 
-  export class CalculateAggregatedReportAsynchronousError extends ResponseError<
-    | Declared<"hyperPreciseLocationResult", HyperPreciseLocationResult>
-    | Declared<"hyperPreciseLocationResult2", HyperPreciseLocationResult>
-    | Declared<"hyperPreciseLocationResult3", HyperPreciseLocationResult>
-    | Declared<"hyperPreciseLocationResult4", HyperPreciseLocationResult>
-    | Declared<"hyperPreciseLocationResult5", HyperPreciseLocationResult>
-    | Declared<"hyperPreciseLocationResult6", HyperPreciseLocationResult>
-  > {
+  export class CalculateAggregatedReportAsynchronousError extends ApiError {
+    declare readonly payload: ErrorPayload<
+      | Declared<"hyperPreciseLocationResult", HyperPreciseLocationResult>
+      | Declared<"hyperPreciseLocationResult2", HyperPreciseLocationResult>
+      | Declared<"hyperPreciseLocationResult3", HyperPreciseLocationResult>
+      | Declared<"hyperPreciseLocationResult4", HyperPreciseLocationResult>
+      | Declared<"hyperPreciseLocationResult5", HyperPreciseLocationResult>
+      | Declared<"hyperPreciseLocationResult6", HyperPreciseLocationResult>
+    >;
+
     static readonly errors: ErrorDecoders<CalculateAggregatedReportAsynchronousError> = [
       {
         on: 400,
@@ -141,17 +210,20 @@ export namespace DeviceReports {
   }
 
   export type CalculateAggregatedReportSynchronousRequest = {
+    /** Aggregated report request. */
     body: AggregateSessionReportRequest;
   };
 
-  export class CalculateAggregatedReportSynchronousError extends ResponseError<
-    | Declared<"hyperPreciseLocationResult", HyperPreciseLocationResult>
-    | Declared<"hyperPreciseLocationResult2", HyperPreciseLocationResult>
-    | Declared<"hyperPreciseLocationResult3", HyperPreciseLocationResult>
-    | Declared<"hyperPreciseLocationResult4", HyperPreciseLocationResult>
-    | Declared<"hyperPreciseLocationResult5", HyperPreciseLocationResult>
-    | Declared<"hyperPreciseLocationResult6", HyperPreciseLocationResult>
-  > {
+  export class CalculateAggregatedReportSynchronousError extends ApiError {
+    declare readonly payload: ErrorPayload<
+      | Declared<"hyperPreciseLocationResult", HyperPreciseLocationResult>
+      | Declared<"hyperPreciseLocationResult2", HyperPreciseLocationResult>
+      | Declared<"hyperPreciseLocationResult3", HyperPreciseLocationResult>
+      | Declared<"hyperPreciseLocationResult4", HyperPreciseLocationResult>
+      | Declared<"hyperPreciseLocationResult5", HyperPreciseLocationResult>
+      | Declared<"hyperPreciseLocationResult6", HyperPreciseLocationResult>
+    >;
+
     static readonly errors: ErrorDecoders<CalculateAggregatedReportSynchronousError> = [
       {
         on: 400,
@@ -187,17 +259,20 @@ export namespace DeviceReports {
   }
 
   export type GetSessionsReportRequest = {
+    /** Request for sessions report. */
     body: SessionReportRequest;
   };
 
-  export class GetSessionsReportError extends ResponseError<
-    | Declared<"hyperPreciseLocationResult", HyperPreciseLocationResult>
-    | Declared<"hyperPreciseLocationResult2", HyperPreciseLocationResult>
-    | Declared<"hyperPreciseLocationResult3", HyperPreciseLocationResult>
-    | Declared<"hyperPreciseLocationResult4", HyperPreciseLocationResult>
-    | Declared<"hyperPreciseLocationResult5", HyperPreciseLocationResult>
-    | Declared<"hyperPreciseLocationResult6", HyperPreciseLocationResult>
-  > {
+  export class GetSessionsReportError extends ApiError {
+    declare readonly payload: ErrorPayload<
+      | Declared<"hyperPreciseLocationResult", HyperPreciseLocationResult>
+      | Declared<"hyperPreciseLocationResult2", HyperPreciseLocationResult>
+      | Declared<"hyperPreciseLocationResult3", HyperPreciseLocationResult>
+      | Declared<"hyperPreciseLocationResult4", HyperPreciseLocationResult>
+      | Declared<"hyperPreciseLocationResult5", HyperPreciseLocationResult>
+      | Declared<"hyperPreciseLocationResult6", HyperPreciseLocationResult>
+    >;
+
     static readonly errors: ErrorDecoders<GetSessionsReportError> = [
       {
         on: 400,

@@ -3,7 +3,9 @@ import type { Schema } from "../core/validation/schema.js";
 import { sensorinsightsconfigSchema, type Sensorinsightsconfig } from "./sensorinsightsconfig.js";
 
 export type DtoOffBoardSensorRequest = {
+  /** The numeric account name, which must include leading zeros */
   accountname?: string;
+  /** The configuration of the remove request */
   configuration?: Sensorinsightsconfig;
 };
 

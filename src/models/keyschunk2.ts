@@ -22,7 +22,7 @@ export const keyschunk2Schema: Schema<Keyschunk2> = s.object<Keyschunk2>({
   smsPercentage75: s.optional(s.boolean()),
   smsPercentage90: s.optional(s.boolean()),
   smsPercentage100: s.optional(s.boolean()),
-  noOfDaysB4PromoExp: s.optional(s.number()),
+  noOfDaysB4PromoExp: s.optional(s.int()),
   _keysMap: {
     noOfDaysB4PromoExp: "NoOfDaysB4PromoExp",
   },

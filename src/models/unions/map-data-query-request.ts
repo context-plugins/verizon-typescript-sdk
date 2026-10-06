@@ -9,6 +9,10 @@ import {
   type EtxMapMessageIntersectionCoordinates,
 } from "../etx-map-message-intersection-coordinates.js";
 
+/**
+ * Request structure for querying MAP records. Provide either regionIntersectionPairs (coordinates)
+ * or geoJson, not both.
+ */
 export type MapDataQueryRequest = EtxMapMessageIntersectionCoordinates | EtxMapMessageGeoJsonPolygon;
 
 export const mapDataQueryRequestSchema: Schema<MapDataQueryRequest> = s.of<MapDataQueryRequest>(

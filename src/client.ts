@@ -1,6 +1,9 @@
 import { buildAuthSchemes, type AuthSchemes } from "./auth-schemes.js";
-import { DEFAULT_CLIENT_OPTIONS, type ClientOptions } from "./client-options.js";
+import type { ClientOptions } from "./client-options.js";
+import { buildCoreClientOptions } from "./core/client-options.js";
 import { RawClient } from "./core/raw-client.js";
+import * as host from "./core/runtime-environment.js";
+import * as s from "./core/validation/index.js";
 import { AccountDevices } from "./resources/account-devices.js";
 import { AccountRequests } from "./resources/account-requests.js";
 import { AccountServiceController } from "./resources/account-service-controller.js";
@@ -91,6 +94,13 @@ import { UsageTriggerManagement } from "./resources/usage-trigger-management.js"
 import { WirelessNetworkPerformance } from "./resources/wireless-network-performance.js";
 import { buildServers, type Servers } from "./servers.js";
 
+/**
+ * "The Connection Planner is a service that provides devices windows to connect to their backend
+ * APIs. The service validates device access permissions and processes valid devices asynchronously.
+ * For each batch, it retrieves device connectivity windows from the RAN KPI Data Application, and
+ * sends callbacks back to customers via UWS-Callback for both successful and failed device
+ * requests."
+ */
 export class VerizonClient {
   readonly #rawClient: RawClient;
   readonly #servers: Servers;
@@ -184,22 +194,29 @@ export class VerizonClient {
   #sensorInsightsDeviceProfile?: SensorInsightsDeviceProfile;
   #sensorInsightsSmartAlertMetrics?: SensorInsightsSmartAlertMetrics;
 
-  constructor(clientOptions: Partial<ClientOptions> = {}) {
-    const options = { ...DEFAULT_CLIENT_OPTIONS, ...clientOptions };
-
+  constructor(options: ClientOptions = {}) {
     this.#rawClient = new RawClient({
-      timeout: options.timeout,
-      defaultHeaders: [],
+      ...buildCoreClientOptions(options),
+      defaultHeaders: [
+        { name: "User-Agent", value: "VerizonClient/1.0.0 TypeScript", schema: s.string() },
+        { name: "X-APIMatic-Lang", value: "TypeScript", schema: s.string() },
+        { name: "X-APIMatic-Package-Version", value: "1.0.0", schema: s.string() },
+        { name: "X-APIMatic-Gen-Version", value: "4.0.0", schema: s.string() },
+        { name: "X-APIMatic-OS", value: host.operatingSystem(), schema: s.optional(s.string()) },
+        { name: "X-APIMatic-Runtime", value: host.runtimeDescription(), schema: s.optional(s.string()) },
+      ],
       defaultQuery: [],
       defaultPathParams: [],
-      fetch: options.fetch,
     });
 
-    this.#servers = buildServers(options.serverEnvironment, options.serverOptions);
+    this.#servers = buildServers(options);
 
     this.#auth = buildAuthSchemes(options, this.#servers, this.#rawClient);
   }
 
+  /**
+   * Account Information for a specified Account Name.
+   */
   get accountServiceController(): AccountServiceController {
     return (this.#accountServiceController ??= new AccountServiceController(
       this.#rawClient,
@@ -208,6 +225,9 @@ export class VerizonClient {
     ));
   }
 
+  /**
+   * ThingSpace Intelligence is an offering of integrated connectivity and service management.
+   */
   get intelligenceServiceController(): IntelligenceServiceController {
     return (this.#intelligenceServiceController ??= new IntelligenceServiceController(
       this.#rawClient,
@@ -216,26 +236,44 @@ export class VerizonClient {
     ));
   }
 
+  /**
+   * Manage device connectivity and get device history.
+   */
   get deviceManagement(): DeviceManagement {
     return (this.#deviceManagement ??= new DeviceManagement(this.#rawClient, this.#servers, this.#auth));
   }
 
+  /**
+   * Get information about an account or account leads.
+   */
   get accounts(): Accounts {
     return (this.#accounts ??= new Accounts(this.#rawClient, this.#servers, this.#auth));
   }
 
+  /**
+   * Manage device groups.
+   */
   get deviceGroups(): DeviceGroups {
     return (this.#deviceGroups ??= new DeviceGroups(this.#rawClient, this.#servers, this.#auth));
   }
 
+  /**
+   * Exchange Short Message Service (SMS) messages with devices.
+   */
   get sms(): Sms {
     return (this.#sms ??= new Sms(this.#rawClient, this.#servers, this.#auth));
   }
 
+  /**
+   * Start and end Connectivity Management sessions.
+   */
   get sessionManagement(): SessionManagement {
     return (this.#sessionManagement ??= new SessionManagement(this.#rawClient, this.#servers, this.#auth));
   }
 
+  /**
+   * Manage subscriptions to asynchronous webhook messages.
+   */
   get connectivityCallbacks(): ConnectivityCallbacks {
     return (this.#connectivityCallbacks ??= new ConnectivityCallbacks(
       this.#rawClient,
@@ -244,18 +282,30 @@ export class VerizonClient {
     ));
   }
 
+  /**
+   * Get the status of asynchronous reqeusts.
+   */
   get accountRequests(): AccountRequests {
     return (this.#accountRequests ??= new AccountRequests(this.#rawClient, this.#servers, this.#auth));
   }
 
+  /**
+   * Get a list of service plans in an account.
+   */
   get servicePlans(): ServicePlans {
     return (this.#servicePlans ??= new ServicePlans(this.#rawClient, this.#servers, this.#auth));
   }
 
+  /**
+   * Helps to create & manage diagnostics
+   */
   get deviceDiagnostics(): DeviceDiagnostics {
     return (this.#deviceDiagnostics ??= new DeviceDiagnostics(this.#rawClient, this.#servers, this.#auth));
   }
 
+  /**
+   * Monitor device reachability and connection status.
+   */
   get deviceMonitoring(): DeviceMonitoring {
     return (this.#deviceMonitoring ??= new DeviceMonitoring(this.#rawClient, this.#servers, this.#auth));
   }
@@ -276,14 +326,23 @@ export class VerizonClient {
     ));
   }
 
+  /**
+   * Locate devices.
+   */
   get devicesLocations(): DevicesLocations {
     return (this.#devicesLocations ??= new DevicesLocations(this.#rawClient, this.#servers, this.#auth));
   }
 
+  /**
+   * Exclude devices from location services.
+   */
   get exclusions(): Exclusions {
     return (this.#exclusions ??= new Exclusions(this.#rawClient, this.#servers, this.#auth));
   }
 
+  /**
+   * Get an account's location service subscription status and usage.
+   */
   get devicesLocationSubscriptions(): DevicesLocationSubscriptions {
     return (this.#devicesLocationSubscriptions ??= new DevicesLocationSubscriptions(
       this.#rawClient,
@@ -292,6 +351,9 @@ export class VerizonClient {
     ));
   }
 
+  /**
+   * Receive notifications from the API.
+   */
   get deviceLocationCallbacks(): DeviceLocationCallbacks {
     return (this.#deviceLocationCallbacks ??= new DeviceLocationCallbacks(
       this.#rawClient,
@@ -312,6 +374,9 @@ export class VerizonClient {
     return (this.#billing ??= new Billing(this.#rawClient, this.#servers, this.#auth));
   }
 
+  /**
+   * View Software Management Services subscription status.
+   */
   get softwareManagementSubscriptionsV1(): SoftwareManagementSubscriptionsV1 {
     return (this.#softwareManagementSubscriptionsV1 ??= new SoftwareManagementSubscriptionsV1(
       this.#rawClient,
@@ -320,6 +385,10 @@ export class VerizonClient {
     ));
   }
 
+  /**
+   * Assign Software Management Services license to devices **Note:**These endpoints have been
+   * deprecated. Please use the **v3** endpoints.
+   */
   get softwareManagementLicensesV1(): SoftwareManagementLicensesV1 {
     return (this.#softwareManagementLicensesV1 ??= new SoftwareManagementLicensesV1(
       this.#rawClient,
@@ -328,10 +397,16 @@ export class VerizonClient {
     ));
   }
 
+  /**
+   * Schedule and monitor firmware upgrades.
+   */
   get firmwareV1(): FirmwareV1 {
     return (this.#firmwareV1 ??= new FirmwareV1(this.#rawClient, this.#servers, this.#auth));
   }
 
+  /**
+   * Register and deregister callback endpoints.
+   */
   get softwareManagementCallbacksV1(): SoftwareManagementCallbacksV1 {
     return (this.#softwareManagementCallbacksV1 ??= new SoftwareManagementCallbacksV1(
       this.#rawClient,
@@ -340,6 +415,9 @@ export class VerizonClient {
     ));
   }
 
+  /**
+   * Status and history information.
+   */
   get softwareManagementReportsV1(): SoftwareManagementReportsV1 {
     return (this.#softwareManagementReportsV1 ??= new SoftwareManagementReportsV1(
       this.#rawClient,
@@ -348,6 +426,9 @@ export class VerizonClient {
     ));
   }
 
+  /**
+   * Information about current FOTA subscriptions.
+   */
   get softwareManagementSubscriptionsV2(): SoftwareManagementSubscriptionsV2 {
     return (this.#softwareManagementSubscriptionsV2 ??= new SoftwareManagementSubscriptionsV2(
       this.#rawClient,
@@ -356,6 +437,9 @@ export class VerizonClient {
     ));
   }
 
+  /**
+   * License status and assignment.
+   */
   get softwareManagementLicensesV2(): SoftwareManagementLicensesV2 {
     return (this.#softwareManagementLicensesV2 ??= new SoftwareManagementLicensesV2(
       this.#rawClient,
@@ -364,10 +448,16 @@ export class VerizonClient {
     ));
   }
 
+  /**
+   * Schedule, retrieve or cancel scheduled FOTA campaigns.
+   */
   get campaignsV2(): CampaignsV2 {
     return (this.#campaignsV2 ??= new CampaignsV2(this.#rawClient, this.#servers, this.#auth));
   }
 
+  /**
+   * Find registered callbacks or create, update and delete a registered callback.
+   */
   get softwareManagementCallbacksV2(): SoftwareManagementCallbacksV2 {
     return (this.#softwareManagementCallbacksV2 ??= new SoftwareManagementCallbacksV2(
       this.#rawClient,
@@ -376,6 +466,9 @@ export class VerizonClient {
     ));
   }
 
+  /**
+   * Status of a campaign per device.
+   */
   get softwareManagementReportsV2(): SoftwareManagementReportsV2 {
     return (this.#softwareManagementReportsV2 ??= new SoftwareManagementReportsV2(
       this.#rawClient,
@@ -384,10 +477,16 @@ export class VerizonClient {
     ));
   }
 
+  /**
+   * Device logs stored on the device itself.
+   */
   get clientLogging(): ClientLogging {
     return (this.#clientLogging ??= new ClientLogging(this.#rawClient, this.#servers, this.#auth));
   }
 
+  /**
+   * Device logs on the server.
+   */
   get serverLogging(): ServerLogging {
     return (this.#serverLogging ??= new ServerLogging(this.#rawClient, this.#servers, this.#auth));
   }
@@ -396,6 +495,9 @@ export class VerizonClient {
     return (this.#configurationFiles ??= new ConfigurationFiles(this.#rawClient, this.#servers, this.#auth));
   }
 
+  /**
+   * Information about current FOTA subscriptions.
+   */
   get softwareManagementSubscriptionsV3(): SoftwareManagementSubscriptionsV3 {
     return (this.#softwareManagementSubscriptionsV3 ??= new SoftwareManagementSubscriptionsV3(
       this.#rawClient,
@@ -404,6 +506,9 @@ export class VerizonClient {
     ));
   }
 
+  /**
+   * License status and assignment.
+   */
   get softwareManagementLicensesV3(): SoftwareManagementLicensesV3 {
     return (this.#softwareManagementLicensesV3 ??= new SoftwareManagementLicensesV3(
       this.#rawClient,
@@ -412,10 +517,16 @@ export class VerizonClient {
     ));
   }
 
+  /**
+   * Schedule, retrieve or cancel scheduled FOTA campaigns.
+   */
   get campaignsV3(): CampaignsV3 {
     return (this.#campaignsV3 ??= new CampaignsV3(this.#rawClient, this.#servers, this.#auth));
   }
 
+  /**
+   * Status of a campaign per device.
+   */
   get softwareManagementReportsV3(): SoftwareManagementReportsV3 {
     return (this.#softwareManagementReportsV3 ??= new SoftwareManagementReportsV3(
       this.#rawClient,
@@ -424,14 +535,23 @@ export class VerizonClient {
     ));
   }
 
+  /**
+   * State of Firmware across devices in the account.
+   */
   get firmwareV3(): FirmwareV3 {
     return (this.#firmwareV3 ??= new FirmwareV3(this.#rawClient, this.#servers, this.#auth));
   }
 
+  /**
+   * Device information for an account.
+   */
   get accountDevices(): AccountDevices {
     return (this.#accountDevices ??= new AccountDevices(this.#rawClient, this.#servers, this.#auth));
   }
 
+  /**
+   * Find registered callbacks or create, update and delete a registered callback.
+   */
   get softwareManagementCallbacksV3(): SoftwareManagementCallbacksV3 {
     return (this.#softwareManagementCallbacksV3 ??= new SoftwareManagementCallbacksV3(
       this.#rawClient,
@@ -520,6 +640,9 @@ export class VerizonClient {
     ));
   }
 
+  /**
+   * Manage the devices on the account
+   */
   get hplDeviceManagement(): HplDeviceManagement {
     return (this.#hplDeviceManagement ??= new HplDeviceManagement(
       this.#rawClient,
@@ -528,6 +651,9 @@ export class VerizonClient {
     ));
   }
 
+  /**
+   * Check status and enable or disable service for Hyper Precise
+   */
   get deviceServiceManagement(): DeviceServiceManagement {
     return (this.#deviceServiceManagement ??= new DeviceServiceManagement(
       this.#rawClient,
@@ -536,10 +662,16 @@ export class VerizonClient {
     ));
   }
 
+  /**
+   * Check device usage
+   */
   get deviceReports(): DeviceReports {
     return (this.#deviceReports ??= new DeviceReports(this.#rawClient, this.#servers, this.#auth));
   }
 
+  /**
+   * Manage callback listeners for Hyper Precise
+   */
   get hyperPreciseLocationCallbacks(): HyperPreciseLocationCallbacks {
     return (this.#hyperPreciseLocationCallbacks ??= new HyperPreciseLocationCallbacks(
       this.#rawClient,
@@ -548,6 +680,9 @@ export class VerizonClient {
     ));
   }
 
+  /**
+   * API endpoints for managing HPL device credentials
+   */
   get deviceCredentialManagement(): DeviceCredentialManagement {
     return (this.#deviceCredentialManagement ??= new DeviceCredentialManagement(
       this.#rawClient,
@@ -556,10 +691,16 @@ export class VerizonClient {
     ));
   }
 
+  /**
+   * Choose what level and interval of alerting for anomalies detected.
+   */
   get anomalySettings(): AnomalySettings {
     return (this.#anomalySettings ??= new AnomalySettings(this.#rawClient, this.#servers, this.#auth));
   }
 
+  /**
+   * Set the threshold of notification for anomalies detected.
+   */
   get anomalyTriggers(): AnomalyTriggers {
     return (this.#anomalyTriggers ??= new AnomalyTriggers(this.#rawClient, this.#servers, this.#auth));
   }
@@ -568,6 +709,10 @@ export class VerizonClient {
     return (this.#anomalyTriggersV2 ??= new AnomalyTriggersV2(this.#rawClient, this.#servers, this.#auth));
   }
 
+  /**
+   * Run reports to query current network conditions, historic network conditions, see what wireless
+   * technologies are supported in your area or qualify and address for Fixed Wireless Access (FWA).
+   */
   get wirelessNetworkPerformance(): WirelessNetworkPerformance {
     return (this.#wirelessNetworkPerformance ??= new WirelessNetworkPerformance(
       this.#rawClient,
@@ -576,6 +721,9 @@ export class VerizonClient {
     ));
   }
 
+  /**
+   * Manage Global IoT Orchestration device profiles for either Verizon (lead) or Global (local).
+   */
   get managingESimProfiles(): ManagingESimProfiles {
     return (this.#managingESimProfiles ??= new ManagingESimProfiles(
       this.#rawClient,
@@ -584,14 +732,23 @@ export class VerizonClient {
     ));
   }
 
+  /**
+   * Send Short Message Service (SMS) messages to devices
+   */
   get deviceSmsMessaging(): DeviceSmsMessaging {
     return (this.#deviceSmsMessaging ??= new DeviceSmsMessaging(this.#rawClient, this.#servers, this.#auth));
   }
 
+  /**
+   * Device management for either Verizon (lead) or Global (local) profiles.
+   */
   get deviceActions(): DeviceActions {
     return (this.#deviceActions ??= new DeviceActions(this.#rawClient, this.#servers, this.#auth));
   }
 
+  /**
+   * Subscribe or Unsubscribe to the ThingSpace Quality of Service API.
+   */
   get thingSpaceQualityOfServiceApiActions(): ThingSpaceQualityOfServiceApiActions {
     return (this.#thingSpaceQualityOfServiceApiActions ??= new ThingSpaceQualityOfServiceApiActions(
       this.#rawClient,
@@ -604,6 +761,10 @@ export class VerizonClient {
     return (this.#pwn ??= new Pwn(this.#rawClient, this.#servers, this.#auth));
   }
 
+  /**
+   * Retrieve status and information about the promotion period for using a pseudo-MDN (Mobile
+   * Device Number))
+   */
   get promotionPeriodInformation(): PromotionPeriodInformation {
     return (this.#promotionPeriodInformation ??= new PromotionPeriodInformation(
       this.#rawClient,
@@ -612,6 +773,9 @@ export class VerizonClient {
     ));
   }
 
+  /**
+   * Retrieve the triggers associated with the feature and the account.
+   */
   get retrieveTheTriggers(): RetrieveTheTriggers {
     return (this.#retrieveTheTriggers ??= new RetrieveTheTriggers(
       this.#rawClient,
@@ -620,14 +784,23 @@ export class VerizonClient {
     ));
   }
 
+  /**
+   * Updates the trigger threshold values for alerts.
+   */
   get updateTriggers(): UpdateTriggers {
     return (this.#updateTriggers ??= new UpdateTriggers(this.#rawClient, this.#servers, this.#auth));
   }
 
+  /**
+   * Activate and Deactivate the SIM.
+   */
   get simActions(): SimActions {
     return (this.#simActions ??= new SimActions(this.#rawClient, this.#servers, this.#auth));
   }
 
+  /**
+   * Use these endpoints to determine the status of requests or the history of device provisioning.
+   */
   get globalReporting(): GlobalReporting {
     return (this.#globalReporting ??= new GlobalReporting(this.#rawClient, this.#servers, this.#auth));
   }
@@ -640,6 +813,9 @@ export class VerizonClient {
     ));
   }
 
+  /**
+   * Manage geofence-based application configurations.
+   */
   get etxAppConfiguration(): EtxAppConfiguration {
     return (this.#etxAppConfiguration ??= new EtxAppConfiguration(
       this.#rawClient,
@@ -648,10 +824,16 @@ export class VerizonClient {
     ));
   }
 
+  /**
+   * Manage device registration and connection.
+   */
   get etxRegistration(): EtxRegistration {
     return (this.#etxRegistration ??= new EtxRegistration(this.#rawClient, this.#servers, this.#auth));
   }
 
+  /**
+   * Endpoints for ingesting, querying, and deleting V2X MAP messages.
+   */
   get mapMessageController(): MapMessageController {
     return (this.#mapMessageController ??= new MapMessageController(
       this.#rawClient,
@@ -660,6 +842,9 @@ export class VerizonClient {
     ));
   }
 
+  /**
+   * Retrive a list of the rate plans associated with the account
+   */
   get retrieveRatePlanList(): RetrieveRatePlanList {
     return (this.#retrieveRatePlanList ??= new RetrieveRatePlanList(
       this.#rawClient,
@@ -668,6 +853,9 @@ export class VerizonClient {
     ));
   }
 
+  /**
+   * Create rules to trigger changes for price plans based on usage
+   */
   get createPricePlanTriggers(): CreatePricePlanTriggers {
     return (this.#createPricePlanTriggers ??= new CreatePricePlanTriggers(
       this.#rawClient,
@@ -676,6 +864,9 @@ export class VerizonClient {
     ));
   }
 
+  /**
+   * Update rules to trigger changes for price plans based on usage
+   */
   get updatePricePlanTriggers(): UpdatePricePlanTriggers {
     return (this.#updatePricePlanTriggers ??= new UpdatePricePlanTriggers(
       this.#rawClient,
@@ -684,10 +875,16 @@ export class VerizonClient {
     ));
   }
 
+  /**
+   * Activate devices or retrieve device attributes.
+   */
   get gbiDeviceActions5(): GbiDeviceActions5 {
     return (this.#gbiDeviceActions5 ??= new GbiDeviceActions5(this.#rawClient, this.#servers, this.#auth));
   }
 
+  /**
+   * Sensor tasks and information
+   */
   get sensorInsightsSensors(): SensorInsightsSensors {
     return (this.#sensorInsightsSensors ??= new SensorInsightsSensors(
       this.#rawClient,
@@ -696,6 +893,9 @@ export class VerizonClient {
     ));
   }
 
+  /**
+   * Device tasks and information
+   */
   get sensorInsightsDevices(): SensorInsightsDevices {
     return (this.#sensorInsightsDevices ??= new SensorInsightsDevices(
       this.#rawClient,
@@ -704,6 +904,9 @@ export class VerizonClient {
     ));
   }
 
+  /**
+   * Query gateway information
+   */
   get sensorInsightsGateways(): SensorInsightsGateways {
     return (this.#sensorInsightsGateways ??= new SensorInsightsGateways(
       this.#rawClient,
@@ -712,6 +915,9 @@ export class VerizonClient {
     ));
   }
 
+  /**
+   * Rules based alerts
+   */
   get sensorInsightsSmartAlerts(): SensorInsightsSmartAlerts {
     return (this.#sensorInsightsSmartAlerts ??= new SensorInsightsSmartAlerts(
       this.#rawClient,
@@ -720,6 +926,9 @@ export class VerizonClient {
     ));
   }
 
+  /**
+   * Create and manage rules
+   */
   get sensorInsightsRules(): SensorInsightsRules {
     return (this.#sensorInsightsRules ??= new SensorInsightsRules(
       this.#rawClient,
@@ -728,6 +937,9 @@ export class VerizonClient {
     ));
   }
 
+  /**
+   * Monitor the health of devices and the network
+   */
   get sensorInsightsHealthScore(): SensorInsightsHealthScore {
     return (this.#sensorInsightsHealthScore ??= new SensorInsightsHealthScore(
       this.#rawClient,
@@ -736,6 +948,9 @@ export class VerizonClient {
     ));
   }
 
+  /**
+   * Create and manage groups to recieve notifications and alerts
+   */
   get sensorInsightsNotificationGroups(): SensorInsightsNotificationGroups {
     return (this.#sensorInsightsNotificationGroups ??= new SensorInsightsNotificationGroups(
       this.#rawClient,
@@ -744,6 +959,9 @@ export class VerizonClient {
     ));
   }
 
+  /**
+   * Create user accounts and manage user roles and permissions
+   */
   get sensorInsightsUsers(): SensorInsightsUsers {
     return (this.#sensorInsightsUsers ??= new SensorInsightsUsers(
       this.#rawClient,
@@ -752,6 +970,9 @@ export class VerizonClient {
     ));
   }
 
+  /**
+   * Create and manage device profile information
+   */
   get sensorInsightsDeviceProfile(): SensorInsightsDeviceProfile {
     return (this.#sensorInsightsDeviceProfile ??= new SensorInsightsDeviceProfile(
       this.#rawClient,
@@ -760,6 +981,9 @@ export class VerizonClient {
     ));
   }
 
+  /**
+   * Retrieve tallies of alerts from a recent daily period
+   */
   get sensorInsightsSmartAlertMetrics(): SensorInsightsSmartAlertMetrics {
     return (this.#sensorInsightsSmartAlertMetrics ??= new SensorInsightsSmartAlertMetrics(
       this.#rawClient,

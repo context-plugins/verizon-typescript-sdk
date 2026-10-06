@@ -4,7 +4,7 @@
 
 Accessor: `client.softwareManagementSubscriptionsV3` · Source: `src/resources/software-management-subscriptions-v3.ts` · 1 operation · Request and error types: namespace `SoftwareManagementSubscriptionsV3`
 
-**Type sources**: every type an operation names, with the file that declares it and the schema value exported beside it. Import every name from `verizon`; the `Source` path is where to **read** the shape, never what to import. `ResponseError` and the runtime error family are excluded — see sdk-map.md.
+**Type sources**: every type an operation names, with the file that declares it and the schema value exported beside it. Import every name from `verizon`; the `Source` path is where to **read** the shape, never what to import. `ApiError`, the runtime error family and the file vocabulary are excluded — see sdk-map.md.
 
 ### getAccountSubscriptionStatus3
 
@@ -14,7 +14,7 @@ Accessor: `client.softwareManagementSubscriptionsV3` · Source: `src/resources/s
 - **Auth**: all of `thingspaceOauth`, `vzM2MToken` — both are sent
 - **Request body**: none — no `Content-Type` header is sent
 - **Returns**: `FotaV3Subscription`
-- **Error**: `SoftwareManagementSubscriptionsV3.GetAccountSubscriptionStatus3Error` — **typed arms**, narrowed on `err.payload.kind`
+- **Error**: `VerizonError` with `kind: "api"`, an instance of `SoftwareManagementSubscriptionsV3.GetAccountSubscriptionStatus3Error` — **typed arms**, narrowed on `err.payload.kind`
 - **Error arms**: `"fotaV3Result"` [400] `FotaV3Result` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
 
 **Fields** — `SoftwareManagementSubscriptionsV3.GetAccountSubscriptionStatus3Request` (1):

@@ -2,13 +2,24 @@ import * as s from "../core/validation/index.js";
 import type { Schema } from "../core/validation/schema.js";
 
 export type RetrievesAvailableFilesResponse = {
+  /**
+   * ThingSpace-generated name of the file. You will use this name when listing or scheduling
+   * campaigns for the file.
+   */
   fileName?: string;
+  /** Version of the file. */
   fileVersion?: string;
+  /** Software release note. */
   releaseNote?: string;
+  /** The software-applicable device make. */
   make?: string;
+  /** The software-applicable device model. */
   model?: string;
+  /** Local target path on the device. */
   localTargetPath?: string;
+  /** Valid values */
   distributionType?: string;
+  /** The platform (Android, iOS, etc.,) that the software can be applied to. */
   devicePlatformId?: string;
 };
 

@@ -4,17 +4,18 @@
 
 Accessor: `client.cloudConnectorDevices` · Source: `src/resources/cloud-connector-devices.ts` · 6 operations · Request types: namespace `CloudConnectorDevices`
 
-**Type sources**: every type an operation names, with the file that declares it and the schema value exported beside it. Import every name from `verizon`; the `Source` path is where to **read** the shape, never what to import. `ResponseError` and the runtime error family are excluded — see sdk-map.md.
+**Type sources**: every type an operation names, with the file that declares it and the schema value exported beside it. Import every name from `verizon`; the `Source` path is where to **read** the shape, never what to import. `ApiError`, the runtime error family and the file vocabulary are excluded — see sdk-map.md.
 
 ### deleteDeviceFromAccount
 
 - **Server**: `cloudConnector` — not the `hyperPreciseCredentials` group; see Servers & auth in sdk-map.md
-- **Signature**: `deleteDeviceFromAccount(request: CloudConnectorDevices.DeleteDeviceFromAccountRequest, options?: RequestOptions): ApiPromise<undefined, ResponseError>`
+- **Signature**: `deleteDeviceFromAccount(request: CloudConnectorDevices.DeleteDeviceFromAccountRequest, options?: RequestOptions): ApiPromise<undefined, ApiError>`
 - **Wire**: `POST /devices/actions/delete`
 - **Auth**: all of `thingspaceOauth`, `vzM2MToken` — both are sent
 - **Request body**: `application/json` — the `body` field
+- **SDK-sent**: `header Idempotency-Key` (minted per call)
 - **Returns**: `undefined` — the operation resolves to nothing
-- **Error**: `ResponseError` — untyped, `payload.kind` always `"undeclared"`
+- **Error**: `VerizonError` with `kind: "api"` — untyped, `payload.kind` always `"undeclared"`
 
 **Fields** — `CloudConnectorDevices.DeleteDeviceFromAccountRequest` (1):
 
@@ -29,12 +30,13 @@ Accessor: `client.cloudConnectorDevices` · Source: `src/resources/cloud-connect
 ### findDeviceByPropertyValues
 
 - **Server**: `cloudConnector` — not the `hyperPreciseCredentials` group; see Servers & auth in sdk-map.md
-- **Signature**: `findDeviceByPropertyValues(request: CloudConnectorDevices.FindDeviceByPropertyValuesRequest, options?: RequestOptions): ApiPromise<FindDeviceByPropertyResponseList, ResponseError>`
+- **Signature**: `findDeviceByPropertyValues(request: CloudConnectorDevices.FindDeviceByPropertyValuesRequest, options?: RequestOptions): ApiPromise<FindDeviceByPropertyResponseList, ApiError>`
 - **Wire**: `POST /devices/actions/query`
 - **Auth**: all of `thingspaceOauth`, `vzM2MToken` — both are sent
 - **Request body**: `application/json` — the `body` field
+- **SDK-sent**: `header Idempotency-Key` (minted per call)
 - **Returns**: `FindDeviceByPropertyResponseList`
-- **Error**: `ResponseError` — untyped, `payload.kind` always `"undeclared"`
+- **Error**: `VerizonError` with `kind: "api"` — untyped, `payload.kind` always `"undeclared"`
 
 **Fields** — `CloudConnectorDevices.FindDeviceByPropertyValuesRequest` (1):
 
@@ -50,12 +52,13 @@ Accessor: `client.cloudConnectorDevices` · Source: `src/resources/cloud-connect
 ### searchDeviceEventHistory
 
 - **Server**: `cloudConnector` — not the `hyperPreciseCredentials` group; see Servers & auth in sdk-map.md
-- **Signature**: `searchDeviceEventHistory(request: CloudConnectorDevices.SearchDeviceEventHistoryRequestParams, options?: RequestOptions): ApiPromise<SearchDeviceEventHistoryResponseList, ResponseError>`
+- **Signature**: `searchDeviceEventHistory(request: CloudConnectorDevices.SearchDeviceEventHistoryRequestParams, options?: RequestOptions): ApiPromise<SearchDeviceEventHistoryResponseList, ApiError>`
 - **Wire**: `POST /devices/fields/actions/history/search`
 - **Auth**: all of `thingspaceOauth`, `vzM2MToken` — both are sent
 - **Request body**: `application/json` — the `body` field
+- **SDK-sent**: `header Idempotency-Key` (minted per call)
 - **Returns**: `SearchDeviceEventHistoryResponseList`
-- **Error**: `ResponseError` — untyped, `payload.kind` always `"undeclared"`
+- **Error**: `VerizonError` with `kind: "api"` — untyped, `payload.kind` always `"undeclared"`
 
 **Fields** — `CloudConnectorDevices.SearchDeviceEventHistoryRequestParams` (1):
 
@@ -71,12 +74,13 @@ Accessor: `client.cloudConnectorDevices` · Source: `src/resources/cloud-connect
 ### searchDevicesResourcesByPropertyValues
 
 - **Server**: `cloudConnector` — not the `hyperPreciseCredentials` group; see Servers & auth in sdk-map.md
-- **Signature**: `searchDevicesResourcesByPropertyValues(request: CloudConnectorDevices.SearchDevicesResourcesByPropertyValuesRequest, options?: RequestOptions): ApiPromise<SearchDeviceByPropertyResponseList, ResponseError>`
+- **Signature**: `searchDevicesResourcesByPropertyValues(request: CloudConnectorDevices.SearchDevicesResourcesByPropertyValuesRequest, options?: RequestOptions): ApiPromise<SearchDeviceByPropertyResponseList, ApiError>`
 - **Wire**: `POST /devices/actions/search`
 - **Auth**: all of `thingspaceOauth`, `vzM2MToken` — both are sent
 - **Request body**: `application/json` — the `body` field
+- **SDK-sent**: `header Idempotency-Key` (minted per call)
 - **Returns**: `SearchDeviceByPropertyResponseList`
-- **Error**: `ResponseError` — untyped, `payload.kind` always `"undeclared"`
+- **Error**: `VerizonError` with `kind: "api"` — untyped, `payload.kind` always `"undeclared"`
 
 **Fields** — `CloudConnectorDevices.SearchDevicesResourcesByPropertyValuesRequest` (1):
 
@@ -92,12 +96,13 @@ Accessor: `client.cloudConnectorDevices` · Source: `src/resources/cloud-connect
 ### searchSensorReadings
 
 - **Server**: `cloudConnector` — not the `hyperPreciseCredentials` group; see Servers & auth in sdk-map.md
-- **Signature**: `searchSensorReadings(request: CloudConnectorDevices.SearchSensorReadingsRequest, options?: RequestOptions): ApiPromise<SearchSensorHistoryResponseList, ResponseError>`
+- **Signature**: `searchSensorReadings(request: CloudConnectorDevices.SearchSensorReadingsRequest, options?: RequestOptions): ApiPromise<SearchSensorHistoryResponseList, ApiError>`
 - **Wire**: `POST /devices/fields/{fieldname}/actions/history`
 - **Auth**: all of `thingspaceOauth`, `vzM2MToken` — both are sent
 - **Request body**: `application/json` — the `body` field
+- **SDK-sent**: `header Idempotency-Key` (minted per call)
 - **Returns**: `SearchSensorHistoryResponseList`
-- **Error**: `ResponseError` — untyped, `payload.kind` always `"undeclared"`
+- **Error**: `VerizonError` with `kind: "api"` — untyped, `payload.kind` always `"undeclared"`
 
 **Fields** — `CloudConnectorDevices.SearchSensorReadingsRequest` (2):
 
@@ -114,12 +119,13 @@ Accessor: `client.cloudConnectorDevices` · Source: `src/resources/cloud-connect
 ### updateDevicesConfigurationValue
 
 - **Server**: `cloudConnector` — not the `hyperPreciseCredentials` group; see Servers & auth in sdk-map.md
-- **Signature**: `updateDevicesConfigurationValue(request: CloudConnectorDevices.UpdateDevicesConfigurationValueRequest, options?: RequestOptions): ApiPromise<ChangeConfigurationResponse, ResponseError>`
+- **Signature**: `updateDevicesConfigurationValue(request: CloudConnectorDevices.UpdateDevicesConfigurationValueRequest, options?: RequestOptions): ApiPromise<ChangeConfigurationResponse, ApiError>`
 - **Wire**: `POST /devices/configuration/actions/set`
 - **Auth**: all of `thingspaceOauth`, `vzM2MToken` — both are sent
 - **Request body**: `application/json` — the `body` field
+- **SDK-sent**: `header Idempotency-Key` (minted per call)
 - **Returns**: `ChangeConfigurationResponse`
-- **Error**: `ResponseError` — untyped, `payload.kind` always `"undeclared"`
+- **Error**: `VerizonError` with `kind: "api"` — untyped, `payload.kind` always `"undeclared"`
 
 **Fields** — `CloudConnectorDevices.UpdateDevicesConfigurationValueRequest` (1):
 

@@ -1,6 +1,7 @@
 import * as s from "../core/validation/index.js";
 import type { EnumSchema } from "../core/validation/schema.js";
 
+/** Location cache mode. */
 export const CacheMode = {
   _0: "0",
   _1: "1",

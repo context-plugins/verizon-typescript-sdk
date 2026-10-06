@@ -2,9 +2,13 @@ import * as s from "../core/validation/index.js";
 import type { Schema } from "../core/validation/schema.js";
 import { v3DeviceListItemSchema, type V3DeviceListItem } from "./v3-device-list-item.js";
 
+/** Add or remove devices to existing upgrade information. */
 export type V3AddOrRemoveDeviceResult = {
+  /** Account identifier. */
   accountName: string;
+  /** Campaign identifier. */
   campaignId: string;
+  /** Array of devices changed. */
   deviceList: V3DeviceListItem[];
 };
 

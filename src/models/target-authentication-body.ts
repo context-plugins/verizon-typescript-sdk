@@ -10,10 +10,15 @@ import {
 } from "./target-authentication-body-host.js";
 
 export type TargetAuthenticationBody = {
+  /** Authentication grant type. */
   grantType?: string;
+  /** Refresh token. */
   refreshToken?: string;
+  /** Authentication scopes. */
   scope?: string;
+  /** Authentication headers. */
   headers?: TargetAuthenticationBodyHeaders;
+  /** Host information. */
   host?: TargetAuthenticationBodyHost;
 };
 

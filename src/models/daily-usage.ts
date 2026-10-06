@@ -4,7 +4,9 @@ import { gioDeviceIdSchema, type GioDeviceId } from "./gio-device-id.js";
 
 export type DailyUsage = {
   deviceId?: GioDeviceId;
+  /** The start date of the time period queried as "$datetime" */
   earliest?: string;
+  /** The end date of the time period being queried as "$datetime" */
   latest?: string;
 };
 

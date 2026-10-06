@@ -5,6 +5,7 @@ import {
   type SearchDeviceByPropertyResponse,
 } from "./search-device-by-property-response.js";
 
+/** A success response includes an array of all matching devices. */
 export type SearchDeviceByPropertyResponseList = {
   deviceProperty?: SearchDeviceByPropertyResponse[];
 };

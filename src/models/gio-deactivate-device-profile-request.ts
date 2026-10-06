@@ -6,6 +6,7 @@ export type GioDeactivateDeviceProfileRequest = {
   devices?: GioDeviceList[];
   accountName?: string;
   servicePlan?: string;
+  /** @default false */
   etfWaiver?: boolean;
   reasonCode?: string;
 };
@@ -15,6 +16,6 @@ export const gioDeactivateDeviceProfileRequestSchema: Schema<GioDeactivateDevice
     devices: s.optional(s.array(s.lazy(() => gioDeviceListSchema))),
     accountName: s.optional(s.string()),
     servicePlan: s.optional(s.string()),
-    etfWaiver: s.optional(s.boolean()),
+    etfWaiver: s.defaulted(s.boolean(), false),
     reasonCode: s.optional(s.string()),
   });

@@ -4,16 +4,17 @@
 
 Accessor: `client.accountRequests` · Source: `src/resources/account-requests.ts` · 1 operation · Request and error types: namespace `AccountRequests`
 
-**Type sources**: every type an operation names, with the file that declares it and the schema value exported beside it. Import every name from `verizon`; the `Source` path is where to **read** the shape, never what to import. `ResponseError` and the runtime error family are excluded — see sdk-map.md.
+**Type sources**: every type an operation names, with the file that declares it and the schema value exported beside it. Import every name from `verizon`; the `Source` path is where to **read** the shape, never what to import. `ApiError`, the runtime error family and the file vocabulary are excluded — see sdk-map.md.
 
 ### getCurrentAsynchronousRequestStatus
 
+- **Server**: `thingspace` — not the `hyperPreciseCredentials` group; see Servers & auth in sdk-map.md
 - **Signature**: `getCurrentAsynchronousRequestStatus(request: AccountRequests.GetCurrentAsynchronousRequestStatusRequest, options?: RequestOptions): ApiPromise<AsynchronousRequestResult, AccountRequests.GetCurrentAsynchronousRequestStatusError>`
 - **Wire**: `GET /m2m/v1/accounts/{aname}/requests/{requestId}/status`
 - **Auth**: all of `thingspaceOauth`, `vzM2MToken` — both are sent
 - **Request body**: none — no `Content-Type` header is sent
 - **Returns**: `AsynchronousRequestResult`
-- **Error**: `AccountRequests.GetCurrentAsynchronousRequestStatusError` — **typed arms**, narrowed on `err.payload.kind`
+- **Error**: `VerizonError` with `kind: "api"`, an instance of `AccountRequests.GetCurrentAsynchronousRequestStatusError` — **typed arms**, narrowed on `err.payload.kind`
 - **Error arms**: `"connectivityManagementResult"` [400] `ConnectivityManagementResult` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
 
 **Fields** — `AccountRequests.GetCurrentAsynchronousRequestStatusRequest` (2):

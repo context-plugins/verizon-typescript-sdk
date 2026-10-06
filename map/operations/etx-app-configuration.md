@@ -4,7 +4,7 @@
 
 Accessor: `client.etxAppConfiguration` · Source: `src/resources/etx-app-configuration.ts` · 5 operations · Request and error types: namespace `EtxAppConfiguration`
 
-**Type sources**: every type an operation names, with the file that declares it and the schema value exported beside it. Import every name from `verizon`; the `Source` path is where to **read** the shape, never what to import. `ResponseError` and the runtime error family are excluded — see sdk-map.md.
+**Type sources**: every type an operation names, with the file that declares it and the schema value exported beside it. Import every name from `verizon`; the `Source` path is where to **read** the shape, never what to import. `ApiError`, the runtime error family and the file vocabulary are excluded — see sdk-map.md.
 
 ### createConfiguration
 
@@ -13,9 +13,10 @@ Accessor: `client.etxAppConfiguration` · Source: `src/resources/etx-app-configu
 - **Wire**: `POST /api/v1/application/configurations/geofence`
 - **Auth**: all of `thingspaceOauth`, `sessionToken` — both are sent
 - **Request body**: `application/json` — the `body` field
+- **SDK-sent**: `header Idempotency-Key` (minted per call)
 - **Returns**: `GeoFenceConfigurationResponse`
-- **Error**: `EtxAppConfiguration.CreateConfigurationError` — **typed arms**, narrowed on `err.payload.kind`
-- **Error arms**: `"responseErrorModel"` [400] `ResponseErrorModel` · `"responseErrorModel2"` [403] `ResponseErrorModel` · `"responseErrorModel3"` [429] `ResponseErrorModel` · `"responseErrorModel4"` [400–599] `ResponseErrorModel` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
+- **Error**: `VerizonError` with `kind: "api"`, an instance of `EtxAppConfiguration.CreateConfigurationError` — **typed arms**, narrowed on `err.payload.kind`
+- **Error arms**: `"responseErrorModel"` [400] `ResponseErrorModel` · `"responseErrorModel2"` [403] `ResponseErrorModel` · `"responseErrorModel3"` [429] `ResponseErrorModel` · `"responseErrorModel4"` [default — any status no arm above covers] `ResponseErrorModel` · `"undeclared"` [a `default`-matched body that did not fit `ResponseErrorModel`] `rawBody: ArrayBuffer`
 
 **Fields** — `EtxAppConfiguration.CreateConfigurationRequest` (2):
 
@@ -37,9 +38,10 @@ Accessor: `client.etxAppConfiguration` · Source: `src/resources/etx-app-configu
 - **Wire**: `DELETE /api/v1/application/configurations/geofence`
 - **Auth**: all of `thingspaceOauth`, `sessionToken` — both are sent
 - **Request body**: none — no `Content-Type` header is sent
+- **SDK-sent**: `header Idempotency-Key` (minted per call)
 - **Returns**: `undefined` — the operation resolves to nothing
-- **Error**: `EtxAppConfiguration.DeleteConfigurationError` — **typed arms**, narrowed on `err.payload.kind`
-- **Error arms**: `"responseErrorModel"` [403] `ResponseErrorModel` · `"responseErrorModel2"` [429] `ResponseErrorModel` · `"responseErrorModel3"` [400–599] `ResponseErrorModel` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
+- **Error**: `VerizonError` with `kind: "api"`, an instance of `EtxAppConfiguration.DeleteConfigurationError` — **typed arms**, narrowed on `err.payload.kind`
+- **Error arms**: `"responseErrorModel"` [403] `ResponseErrorModel` · `"responseErrorModel2"` [429] `ResponseErrorModel` · `"responseErrorModel3"` [default — any status no arm above covers] `ResponseErrorModel` · `"undeclared"` [a `default`-matched body that did not fit `ResponseErrorModel`] `rawBody: ArrayBuffer`
 
 **Fields** — `EtxAppConfiguration.DeleteConfigurationRequest` (2):
 
@@ -60,8 +62,8 @@ Accessor: `client.etxAppConfiguration` · Source: `src/resources/etx-app-configu
 - **Auth**: all of `thingspaceOauth`, `sessionToken` — both are sent
 - **Request body**: none — no `Content-Type` header is sent
 - **Returns**: `GeoFenceConfigurationResponse`
-- **Error**: `EtxAppConfiguration.GetConfigurationError` — **typed arms**, narrowed on `err.payload.kind`
-- **Error arms**: `"responseErrorModel"` [403] `ResponseErrorModel` · `"responseErrorModel2"` [404] `ResponseErrorModel` · `"responseErrorModel3"` [429] `ResponseErrorModel` · `"responseErrorModel4"` [400–599] `ResponseErrorModel` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
+- **Error**: `VerizonError` with `kind: "api"`, an instance of `EtxAppConfiguration.GetConfigurationError` — **typed arms**, narrowed on `err.payload.kind`
+- **Error arms**: `"responseErrorModel"` [403] `ResponseErrorModel` · `"responseErrorModel2"` [404] `ResponseErrorModel` · `"responseErrorModel3"` [429] `ResponseErrorModel` · `"responseErrorModel4"` [default — any status no arm above covers] `ResponseErrorModel` · `"undeclared"` [a `default`-matched body that did not fit `ResponseErrorModel`] `rawBody: ArrayBuffer`
 
 **Fields** — `EtxAppConfiguration.GetConfigurationRequest` (2):
 
@@ -83,8 +85,8 @@ Accessor: `client.etxAppConfiguration` · Source: `src/resources/etx-app-configu
 - **Auth**: all of `thingspaceOauth`, `sessionToken` — both are sent
 - **Request body**: none — no `Content-Type` header is sent
 - **Returns**: `ConfigurationListItem[]` — a bare `application/json` array; the success type *is* the array, not a wrapper model
-- **Error**: `EtxAppConfiguration.GetConfigurationListError` — **typed arms**, narrowed on `err.payload.kind`
-- **Error arms**: `"responseErrorModel"` [403] `ResponseErrorModel` · `"responseErrorModel2"` [404] `ResponseErrorModel` · `"responseErrorModel3"` [429] `ResponseErrorModel` · `"responseErrorModel4"` [400–599] `ResponseErrorModel` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
+- **Error**: `VerizonError` with `kind: "api"`, an instance of `EtxAppConfiguration.GetConfigurationListError` — **typed arms**, narrowed on `err.payload.kind`
+- **Error arms**: `"responseErrorModel"` [403] `ResponseErrorModel` · `"responseErrorModel2"` [404] `ResponseErrorModel` · `"responseErrorModel3"` [429] `ResponseErrorModel` · `"responseErrorModel4"` [default — any status no arm above covers] `ResponseErrorModel` · `"undeclared"` [a `default`-matched body that did not fit `ResponseErrorModel`] `rawBody: ArrayBuffer`
 
 **Fields** — `EtxAppConfiguration.GetConfigurationListRequest` (1):
 
@@ -104,9 +106,10 @@ Accessor: `client.etxAppConfiguration` · Source: `src/resources/etx-app-configu
 - **Wire**: `PUT /api/v1/application/configurations/geofence`
 - **Auth**: all of `thingspaceOauth`, `sessionToken` — both are sent
 - **Request body**: `application/json` — the `body` field
+- **SDK-sent**: `header Idempotency-Key` (minted per call)
 - **Returns**: `undefined` — the operation resolves to nothing
-- **Error**: `EtxAppConfiguration.UpdateConfigurationError` — **typed arms**, narrowed on `err.payload.kind`
-- **Error arms**: `"responseErrorModel"` [400] `ResponseErrorModel` · `"responseErrorModel2"` [403] `ResponseErrorModel` · `"responseErrorModel3"` [404] `ResponseErrorModel` · `"responseErrorModel4"` [429] `ResponseErrorModel` · `"responseErrorModel5"` [400–599] `ResponseErrorModel` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
+- **Error**: `VerizonError` with `kind: "api"`, an instance of `EtxAppConfiguration.UpdateConfigurationError` — **typed arms**, narrowed on `err.payload.kind`
+- **Error arms**: `"responseErrorModel"` [400] `ResponseErrorModel` · `"responseErrorModel2"` [403] `ResponseErrorModel` · `"responseErrorModel3"` [404] `ResponseErrorModel` · `"responseErrorModel4"` [429] `ResponseErrorModel` · `"responseErrorModel5"` [default — any status no arm above covers] `ResponseErrorModel` · `"undeclared"` [a `default`-matched body that did not fit `ResponseErrorModel`] `rawBody: ArrayBuffer`
 
 **Fields** — `EtxAppConfiguration.UpdateConfigurationRequest` (3):
 

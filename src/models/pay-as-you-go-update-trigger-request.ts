@@ -9,12 +9,17 @@ import {
 import { triggerCategorySchema, type TriggerCategory } from "./trigger-category.js";
 
 export type PayAsYouGoUpdateTriggerRequest = {
+  /** The system assigned UUID of the trigger */
   triggerId?: string;
+  /** The user defined name of the trigger */
   triggerName?: string;
+  /** The Enterprise Customer Profile Database ID */
   ecpdId?: string;
+  /** The type of trigger being created or modified */
   triggerCategory?: TriggerCategory;
   pricePlanTrigger?: PayAsYouGoPricePlanTrigger;
   notification?: Notificationarray;
+  /** A flag to indicate of the trigger is active, true, or not, false */
   active?: Active;
 };
 

@@ -9,11 +9,15 @@ import { notificationarraySchema, type Notificationarray } from "./notificationa
 import { triggerCategorySchema, type TriggerCategory } from "./trigger-category.js";
 
 export type AccountShareCreateTriggerRequest = {
+  /** The user defined name of the trigger */
   triggerName?: string;
+  /** The Enterprise Customer Profile Database ID */
   ecpdId?: string;
+  /** The type of trigger being created or modified */
   triggerCategory?: TriggerCategory;
   pricePlanTrigger?: AccountSharePricePlanTrigger;
   notification?: Notificationarray;
+  /** A flag to indicate of the trigger is active, true, or not, false */
   active?: Active;
 };
 

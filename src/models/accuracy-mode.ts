@@ -1,6 +1,7 @@
 import * as s from "../core/validation/index.js";
 import type { EnumSchema } from "../core/validation/schema.js";
 
+/** Accurary, currently only 0-coarse supported. */
 export const AccuracyMode = {
   _0: "0",
 } as const;

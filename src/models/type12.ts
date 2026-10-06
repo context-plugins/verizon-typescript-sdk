@@ -1,6 +1,7 @@
 import * as s from "../core/validation/index.js";
 import type { EnumSchema } from "../core/validation/schema.js";
 
+/** Indicates the type of ice. */
 export const Type12 = {
   Smooth: "smooth",
 } as const;

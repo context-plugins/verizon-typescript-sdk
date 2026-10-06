@@ -1,7 +1,9 @@
 import * as s from "../core/validation/index.js";
 import type { Schema } from "../core/validation/schema.js";
 
+/** Callback URL registration. */
 export type FotaV2CallbackRegistrationRequest = {
+  /** Callback URL for an subscribed service. */
   url?: string;
 };
 

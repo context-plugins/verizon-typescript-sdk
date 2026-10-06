@@ -8,12 +8,18 @@ import {
 
 export type GetAccountInformationResponseforplanner = {
   accountName?: string;
+  /** The numeric name of the account, including leading zeros. */
   accountNumber?: string | null;
+  /** The list of carrier names with profiles. */
   carriers?: string[];
+  /** a list of features associated with the resident profiles. */
   features?: string[];
   ipPools?: IpPoolforplanner[];
+  /** A flag indicating if provisioning is allowed (true) or provisioning is locked (false). */
   isProvisioningAllowed?: boolean;
+  /** The user assigned organization name. */
   organizationName?: string;
+  /** A list of service plans associated with the resident profiles. */
   servicePlans?: ServicePlanResponseforplanner[];
 };
 

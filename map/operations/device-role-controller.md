@@ -4,7 +4,7 @@
 
 Accessor: `client.deviceRoleController` · Source: `src/resources/device-role-controller.ts` · 1 operation · Request and error types: namespace `DeviceRoleController`
 
-**Type sources**: every type an operation names, with the file that declares it and the schema value exported beside it. Import every name from `verizon`; the `Source` path is where to **read** the shape, never what to import. `ResponseError` and the runtime error family are excluded — see sdk-map.md.
+**Type sources**: every type an operation names, with the file that declares it and the schema value exported beside it. Import every name from `verizon`; the `Source` path is where to **read** the shape, never what to import. `ApiError`, the runtime error family and the file vocabulary are excluded — see sdk-map.md.
 
 ### getAclRulesByVendorId
 
@@ -14,8 +14,8 @@ Accessor: `client.deviceRoleController` · Source: `src/resources/device-role-co
 - **Auth**: all of `thingspaceOauth`, `sessionToken` — both are sent
 - **Request body**: none — no `Content-Type` header is sent
 - **Returns**: `DeviceRole[]` — a bare `application/json` array; the success type *is* the array, not a wrapper model
-- **Error**: `DeviceRoleController.GetAclRulesByVendorIdError` — **typed arms**, narrowed on `err.payload.kind`
-- **Error arms**: `"error401"` [401] `string` · `"error400"` [400] `string` · `"error403"` [403] `string` · `"error406"` [406] `string` · `"error429"` [429] `string` · `"errorDefault"` [400–599] `string` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
+- **Error**: `VerizonError` with `kind: "api"`, an instance of `DeviceRoleController.GetAclRulesByVendorIdError` — **typed arms**, narrowed on `err.payload.kind`
+- **Error arms**: `"error401"` [401] `string` · `"error400"` [400] `string` · `"error403"` [403] `string` · `"error406"` [406] `string` · `"error429"` [429] `string` · `"errorDefault"` [default — any status no arm above covers] `string` · `"undeclared"` [never — every other status reaches `default` as `string`] `rawBody: ArrayBuffer`
 
 **Fields** — `DeviceRoleController.GetAclRulesByVendorIdRequest` (1):
 

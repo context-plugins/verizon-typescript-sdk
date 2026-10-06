@@ -7,5 +7,5 @@ export type AccountGroupShareFilter = {
 
 export const accountGroupShareFilterSchema: Schema<AccountGroupShareFilter> =
   s.object<AccountGroupShareFilter>({
-    ratePlanGroupId: s.optional(s.number()),
+    ratePlanGroupId: s.optional(s.int()),
   });

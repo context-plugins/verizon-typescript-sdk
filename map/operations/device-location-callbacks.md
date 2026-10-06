@@ -4,7 +4,7 @@
 
 Accessor: `client.deviceLocationCallbacks` · Source: `src/resources/device-location-callbacks.ts` · 4 operations · Request and error types: namespace `DeviceLocationCallbacks`
 
-**Type sources**: every type an operation names, with the file that declares it and the schema value exported beside it. Import every name from `verizon`; the `Source` path is where to **read** the shape, never what to import. `ResponseError` and the runtime error family are excluded — see sdk-map.md.
+**Type sources**: every type an operation names, with the file that declares it and the schema value exported beside it. Import every name from `verizon`; the `Source` path is where to **read** the shape, never what to import. `ApiError`, the runtime error family and the file vocabulary are excluded — see sdk-map.md.
 
 ### cancelAsyncReport
 
@@ -13,9 +13,10 @@ Accessor: `client.deviceLocationCallbacks` · Source: `src/resources/device-loca
 - **Wire**: `DELETE /devicelocations/{txid}`
 - **Auth**: all of `thingspaceOauth`, `vzM2MToken` — both are sent
 - **Request body**: none — no `Content-Type` header is sent
+- **SDK-sent**: `header Idempotency-Key` (minted per call)
 - **Returns**: `TransactionId`
-- **Error**: `DeviceLocationCallbacks.CancelAsyncReportError` — **typed arms**, narrowed on `err.payload.kind`
-- **Error arms**: `"deviceLocationResult"` [400–599] `DeviceLocationResult` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
+- **Error**: `VerizonError` with `kind: "api"`, an instance of `DeviceLocationCallbacks.CancelAsyncReportError` — **typed arms**, narrowed on `err.payload.kind`
+- **Error arms**: `"deviceLocationResult"` [default — any status no arm above covers] `DeviceLocationResult` · `"undeclared"` [a `default`-matched body that did not fit `DeviceLocationResult`] `rawBody: ArrayBuffer`
 
 **Fields** — `DeviceLocationCallbacks.CancelAsyncReportRequest` (2):
 
@@ -36,8 +37,9 @@ Accessor: `client.deviceLocationCallbacks` · Source: `src/resources/device-loca
 - **Wire**: `DELETE /callbacks/{accountName}/name/{service}`
 - **Auth**: all of `thingspaceOauth`, `vzM2MToken` — both are sent
 - **Request body**: none — no `Content-Type` header is sent
+- **SDK-sent**: `header Idempotency-Key` (minted per call)
 - **Returns**: `DeviceLocationSuccessResult`
-- **Error**: `DeviceLocationCallbacks.DeregisterCallback2Error` — **typed arms**, narrowed on `err.payload.kind`
+- **Error**: `VerizonError` with `kind: "api"`, an instance of `DeviceLocationCallbacks.DeregisterCallback2Error` — **typed arms**, narrowed on `err.payload.kind`
 - **Error arms**: `"deviceLocationResult"` [400] `DeviceLocationResult` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
 
 **Fields** — `DeviceLocationCallbacks.DeregisterCallback2Request` (2):
@@ -61,7 +63,7 @@ Accessor: `client.deviceLocationCallbacks` · Source: `src/resources/device-loca
 - **Auth**: all of `thingspaceOauth`, `vzM2MToken` — both are sent
 - **Request body**: none — no `Content-Type` header is sent
 - **Returns**: `DeviceLocationCallback[]` — a bare `application/json` array; the success type *is* the array, not a wrapper model
-- **Error**: `DeviceLocationCallbacks.ListRegisteredCallbacks2Error` — **typed arms**, narrowed on `err.payload.kind`
+- **Error**: `VerizonError` with `kind: "api"`, an instance of `DeviceLocationCallbacks.ListRegisteredCallbacks2Error` — **typed arms**, narrowed on `err.payload.kind`
 - **Error arms**: `"deviceLocationResult"` [400] `DeviceLocationResult` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
 
 **Fields** — `DeviceLocationCallbacks.ListRegisteredCallbacks2Request` (1):
@@ -82,8 +84,9 @@ Accessor: `client.deviceLocationCallbacks` · Source: `src/resources/device-loca
 - **Wire**: `POST /callbacks/{accountName}`
 - **Auth**: all of `thingspaceOauth`, `vzM2MToken` — both are sent
 - **Request body**: none — no `Content-Type` header is sent
+- **SDK-sent**: `header Idempotency-Key` (minted per call)
 - **Returns**: `CallbackRegistrationResult`
-- **Error**: `DeviceLocationCallbacks.RegisterCallback2Error` — **typed arms**, narrowed on `err.payload.kind`
+- **Error**: `VerizonError` with `kind: "api"`, an instance of `DeviceLocationCallbacks.RegisterCallback2Error` — **typed arms**, narrowed on `err.payload.kind`
 - **Error arms**: `"deviceLocationResult"` [400] `DeviceLocationResult` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
 
 **Fields** — `DeviceLocationCallbacks.RegisterCallback2Request` (1):

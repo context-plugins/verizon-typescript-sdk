@@ -4,7 +4,7 @@
 
 Accessor: `client.billing` · Source: `src/resources/billing.ts` · 4 operations · Request and error types: namespace `Billing`
 
-**Type sources**: every type an operation names, with the file that declares it and the schema value exported beside it. Import every name from `verizon`; the `Source` path is where to **read** the shape, never what to import. `ResponseError` and the runtime error family are excluded — see sdk-map.md.
+**Type sources**: every type an operation names, with the file that declares it and the schema value exported beside it. Import every name from `verizon`; the `Source` path is where to **read** the shape, never what to import. `ApiError`, the runtime error family and the file vocabulary are excluded — see sdk-map.md.
 
 ### addAccount
 
@@ -13,8 +13,9 @@ Accessor: `client.billing` · Source: `src/resources/billing.ts` · 4 operations
 - **Wire**: `POST /managedaccounts/actions/add`
 - **Auth**: all of `thingspaceOauth`, `vzM2MToken` — both are sent
 - **Request body**: `application/json` — the `body` field
+- **SDK-sent**: `header Idempotency-Key` (minted per call)
 - **Returns**: `ManagedAccountsAddResponse`
-- **Error**: `Billing.AddAccountError` — **typed arms**, narrowed on `err.payload.kind`
+- **Error**: `VerizonError` with `kind: "api"`, an instance of `Billing.AddAccountError` — **typed arms**, narrowed on `err.payload.kind`
 - **Error arms**: `"deviceLocationResult"` [400] `DeviceLocationResult` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
 
 **Fields** — `Billing.AddAccountRequest` (1):
@@ -36,8 +37,9 @@ Accessor: `client.billing` · Source: `src/resources/billing.ts` · 4 operations
 - **Wire**: `POST /managedaccounts/actions/cancel`
 - **Auth**: all of `thingspaceOauth`, `vzM2MToken` — both are sent
 - **Request body**: `application/json` — the `body` field
+- **SDK-sent**: `header Idempotency-Key` (minted per call)
 - **Returns**: `ManagedAccountCancelResponse`
-- **Error**: `Billing.CancelManagedAccountActionError` — **typed arms**, narrowed on `err.payload.kind`
+- **Error**: `VerizonError` with `kind: "api"`, an instance of `Billing.CancelManagedAccountActionError` — **typed arms**, narrowed on `err.payload.kind`
 - **Error arms**: `"deviceLocationResult"` [400] `DeviceLocationResult` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
 
 **Fields** — `Billing.CancelManagedAccountActionRequest` (1):
@@ -60,7 +62,7 @@ Accessor: `client.billing` · Source: `src/resources/billing.ts` · 4 operations
 - **Auth**: all of `thingspaceOauth`, `vzM2MToken` — both are sent
 - **Request body**: none — no `Content-Type` header is sent
 - **Returns**: `ManagedAccountsGetAllResponse`
-- **Error**: `Billing.ListManagedAccountError` — **typed arms**, narrowed on `err.payload.kind`
+- **Error**: `VerizonError` with `kind: "api"`, an instance of `Billing.ListManagedAccountError` — **typed arms**, narrowed on `err.payload.kind`
 - **Error arms**: `"deviceLocationResult"` [400] `DeviceLocationResult` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
 
 **Fields** — `Billing.ListManagedAccountRequest` (2):
@@ -82,8 +84,9 @@ Accessor: `client.billing` · Source: `src/resources/billing.ts` · 4 operations
 - **Wire**: `POST /managedaccounts/actions/provision`
 - **Auth**: all of `thingspaceOauth`, `vzM2MToken` — both are sent
 - **Request body**: `application/json` — the `body` field
+- **SDK-sent**: `header Idempotency-Key` (minted per call)
 - **Returns**: `ManagedAccountsProvisionResponse`
-- **Error**: `Billing.ManagedAccountActionError` — **typed arms**, narrowed on `err.payload.kind`
+- **Error**: `VerizonError` with `kind: "api"`, an instance of `Billing.ManagedAccountActionError` — **typed arms**, narrowed on `err.payload.kind`
 - **Error arms**: `"deviceLocationResult"` [400] `DeviceLocationResult` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
 
 **Fields** — `Billing.ManagedAccountActionRequest` (1):

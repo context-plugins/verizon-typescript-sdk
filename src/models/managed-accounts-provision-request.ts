@@ -1,12 +1,17 @@
 import * as s from "../core/validation/index.js";
 import type { Schema } from "../core/validation/schema.js";
-import { serviceNameSchema, type ServiceName } from "./service-name.js";
+import { ServiceName, serviceNameSchema } from "./service-name.js";
 
 export type ManagedAccountsProvisionRequest = {
+  /** Managed account identifier */
   accountName: string;
+  /** Primary Account identifier */
   paccountName: string;
-  serviceName: ServiceName;
+  /** Service name @default ServiceName.Location */
+  serviceName?: ServiceName;
+  /** SKU name */
   type: string;
+  /** Transaction identifier returned by add request */
   txid: string;
 };
 
@@ -14,7 +19,7 @@ export const managedAccountsProvisionRequestSchema: Schema<ManagedAccountsProvis
   s.object<ManagedAccountsProvisionRequest>({
     accountName: s.string(),
     paccountName: s.string(),
-    serviceName: serviceNameSchema,
+    serviceName: s.defaulted(serviceNameSchema, ServiceName.Location),
     type: s.string(),
     txid: s.string(),
   });

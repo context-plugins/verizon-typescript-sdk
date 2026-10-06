@@ -1,9 +1,9 @@
 import type { AuthSchemes } from "../auth-schemes.js";
+import { ApiError, type Declared, type ErrorDecoders, type ErrorPayload } from "../core/api-error.js";
 import type { ApiPromise } from "../core/api-promise.js";
 import type { RequestOptions } from "../core/api-request.js";
 import { allAuth } from "../core/auth/schemes.js";
 import type { RawClient } from "../core/raw-client.js";
-import { ResponseError, type Declared, type ErrorDecoders } from "../core/response-error.js";
 import * as s from "../core/validation/index.js";
 import { accountLicenseInfoSchema, type AccountLicenseInfo } from "../models/account-license-info.js";
 import { fotaV1ResultSchema, type FotaV1Result } from "../models/fota-v1-result.js";
@@ -13,6 +13,9 @@ import {
 } from "../models/v1-account-subscription.js";
 import type { Servers } from "../servers.js";
 
+/**
+ * View Software Management Services subscription status.
+ */
 export class SoftwareManagementSubscriptionsV1 {
   readonly #rawClient: RawClient;
   readonly #servers: Servers;
@@ -24,6 +27,22 @@ export class SoftwareManagementSubscriptionsV1 {
     this.#auth = auth;
   }
 
+  /**
+   * Get account license information
+   *
+   * @remarks
+   * Returns information about an account's Software Management Services licenses and a list of
+   * licensed devices.
+   *
+   * @returns Account license information.
+   *
+   * @throws {@link SoftwareManagementSubscriptionsV1.GetAccountLicenseStatusError} when the API
+   * answers with an error status — narrow on `err.payload.kind`
+   *
+   * @throws {@link VerizonError} when no usable response was produced: a connection failure, a
+   * timeout, a body that would not decode, a value that would not encode, or a credential that
+   * could not be obtained
+   */
   getAccountLicenseStatus(
     request: SoftwareManagementSubscriptionsV1.GetAccountLicenseStatusRequest,
     options?: RequestOptions,
@@ -31,12 +50,14 @@ export class SoftwareManagementSubscriptionsV1 {
     return this.#rawClient.execute(
       {
         method: "GET",
-        url: this.#servers.softwareManagementV1("/licenses/{account}/index/{startIndex}"),
+        urlTemplate: this.#servers.softwareManagementV1("/licenses/{account}/index/{startIndex}"),
         auth: allAuth(this.#auth.thingspaceOauth, this.#auth.vzM2MToken),
         pathParams: [
           { name: "account", value: request.account, schema: s.string() },
           { name: "startIndex", value: request.startIndex, schema: s.string() },
         ],
+        query: [],
+        headers: [],
         body: { kind: "empty" },
       },
       {
@@ -47,6 +68,22 @@ export class SoftwareManagementSubscriptionsV1 {
     );
   }
 
+  /**
+   * Get account subscription status
+   *
+   * @remarks
+   * This subscriptions endpoint retrieves an account's current Software Management Service
+   * subscription status.
+   *
+   * @returns Account subscription information.
+   *
+   * @throws {@link SoftwareManagementSubscriptionsV1.GetAccountSubscriptionStatusError} when the
+   * API answers with an error status — narrow on `err.payload.kind`
+   *
+   * @throws {@link VerizonError} when no usable response was produced: a connection failure, a
+   * timeout, a body that would not decode, a value that would not encode, or a credential that
+   * could not be obtained
+   */
   getAccountSubscriptionStatus(
     request: SoftwareManagementSubscriptionsV1.GetAccountSubscriptionStatusRequest,
     options?: RequestOptions,
@@ -54,9 +91,11 @@ export class SoftwareManagementSubscriptionsV1 {
     return this.#rawClient.execute(
       {
         method: "GET",
-        url: this.#servers.softwareManagementV1("/subscriptions/{account}"),
+        urlTemplate: this.#servers.softwareManagementV1("/subscriptions/{account}"),
         auth: allAuth(this.#auth.thingspaceOauth, this.#auth.vzM2MToken),
         pathParams: [{ name: "account", value: request.account, schema: s.string() }],
+        query: [],
+        headers: [],
         body: { kind: "empty" },
       },
       {
@@ -70,23 +109,32 @@ export class SoftwareManagementSubscriptionsV1 {
 
 export namespace SoftwareManagementSubscriptionsV1 {
   export type GetAccountLicenseStatusRequest = {
+    /** Account identifier in "##########-#####". */
     account: string;
+    /**
+     * The zero-based number of the first record to return. Set startIndex=0 for the first request.
+     * If there are more than 1,000 devices in the response, set startIndex=1000 for the second
+     * request, 2000 for the third request, etc.
+     */
     startIndex: string;
   };
 
-  export class GetAccountLicenseStatusError extends ResponseError<Declared<"fotaV1Result", FotaV1Result>> {
+  export class GetAccountLicenseStatusError extends ApiError {
+    declare readonly payload: ErrorPayload<Declared<"fotaV1Result", FotaV1Result>>;
+
     static readonly errors: ErrorDecoders<GetAccountLicenseStatusError> = [
       { on: 400, kind: "fotaV1Result", decode: { kind: "json", schema: fotaV1ResultSchema } },
     ];
   }
 
   export type GetAccountSubscriptionStatusRequest = {
+    /** Account identifier in "##########-#####". */
     account: string;
   };
 
-  export class GetAccountSubscriptionStatusError extends ResponseError<
-    Declared<"fotaV1Result", FotaV1Result>
-  > {
+  export class GetAccountSubscriptionStatusError extends ApiError {
+    declare readonly payload: ErrorPayload<Declared<"fotaV1Result", FotaV1Result>>;
+
     static readonly errors: ErrorDecoders<GetAccountSubscriptionStatusError> = [
       { on: 400, kind: "fotaV1Result", decode: { kind: "json", schema: fotaV1ResultSchema } },
     ];

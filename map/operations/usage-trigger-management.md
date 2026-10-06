@@ -4,7 +4,7 @@
 
 Accessor: `client.usageTriggerManagement` · Source: `src/resources/usage-trigger-management.ts` · 3 operations · Request and error types: namespace `UsageTriggerManagement`
 
-**Type sources**: every type an operation names, with the file that declares it and the schema value exported beside it. Import every name from `verizon`; the `Source` path is where to **read** the shape, never what to import. `ResponseError` and the runtime error family are excluded — see sdk-map.md.
+**Type sources**: every type an operation names, with the file that declares it and the schema value exported beside it. Import every name from `verizon`; the `Source` path is where to **read** the shape, never what to import. `ApiError`, the runtime error family and the file vocabulary are excluded — see sdk-map.md.
 
 ### createNewTrigger
 
@@ -12,9 +12,10 @@ Accessor: `client.usageTriggerManagement` · Source: `src/resources/usage-trigge
 - **Signature**: `createNewTrigger(request: UsageTriggerManagement.CreateNewTriggerRequest, options?: RequestOptions): ApiPromise<UsageTriggerResponse, UsageTriggerManagement.CreateNewTriggerError>`
 - **Wire**: `POST /usage/triggers`
 - **Auth**: all of `thingspaceOauth`, `vzM2MToken` — both are sent
-- **Request body**: `application/json` — the `body` field
+- **Request body**: `application/json` — the `body` field. **Optional**: omit it and the request carries no body and no `Content-Type` header at all
+- **SDK-sent**: `header Idempotency-Key` (minted per call)
 - **Returns**: `UsageTriggerResponse`
-- **Error**: `UsageTriggerManagement.CreateNewTriggerError` — **typed arms**, narrowed on `err.payload.kind`
+- **Error**: `VerizonError` with `kind: "api"`, an instance of `UsageTriggerManagement.CreateNewTriggerError` — **typed arms**, narrowed on `err.payload.kind`
 - **Error arms**: `"deviceLocationResult"` [400] `DeviceLocationResult` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
 
 **Fields** — `UsageTriggerManagement.CreateNewTriggerRequest` (1):
@@ -36,8 +37,9 @@ Accessor: `client.usageTriggerManagement` · Source: `src/resources/usage-trigge
 - **Wire**: `DELETE /usage/accounts/{accountName}/triggers/{triggerId}`
 - **Auth**: all of `thingspaceOauth`, `vzM2MToken` — both are sent
 - **Request body**: none — no `Content-Type` header is sent
+- **SDK-sent**: `header Idempotency-Key` (minted per call)
 - **Returns**: `DeviceLocationSuccessResult`
-- **Error**: `UsageTriggerManagement.DeleteTriggerError` — **typed arms**, narrowed on `err.payload.kind`
+- **Error**: `VerizonError` with `kind: "api"`, an instance of `UsageTriggerManagement.DeleteTriggerError` — **typed arms**, narrowed on `err.payload.kind`
 - **Error arms**: `"deviceLocationResult"` [400] `DeviceLocationResult` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
 
 **Fields** — `UsageTriggerManagement.DeleteTriggerRequest` (2):
@@ -58,9 +60,10 @@ Accessor: `client.usageTriggerManagement` · Source: `src/resources/usage-trigge
 - **Signature**: `updateTrigger(request: UsageTriggerManagement.UpdateTriggerRequestParams, options?: RequestOptions): ApiPromise<UsageTriggerResponse, UsageTriggerManagement.UpdateTriggerError>`
 - **Wire**: `POST /usage/triggers/{triggerId}`
 - **Auth**: all of `thingspaceOauth`, `vzM2MToken` — both are sent
-- **Request body**: `application/json` — the `body` field
+- **Request body**: `application/json` — the `body` field. **Optional**: omit it and the request carries no body and no `Content-Type` header at all
+- **SDK-sent**: `header Idempotency-Key` (minted per call)
 - **Returns**: `UsageTriggerResponse`
-- **Error**: `UsageTriggerManagement.UpdateTriggerError` — **typed arms**, narrowed on `err.payload.kind`
+- **Error**: `VerizonError` with `kind: "api"`, an instance of `UsageTriggerManagement.UpdateTriggerError` — **typed arms**, narrowed on `err.payload.kind`
 - **Error arms**: `"deviceLocationResult"` [400] `DeviceLocationResult` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
 
 **Fields** — `UsageTriggerManagement.UpdateTriggerRequestParams` (2):

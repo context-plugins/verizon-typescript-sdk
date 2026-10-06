@@ -1,8 +1,11 @@
 import * as s from "../core/validation/index.js";
 import type { Schema } from "../core/validation/schema.js";
 
+/** Devices to add or remove from existing software upgrade information. */
 export type V3AddOrRemoveDeviceRequest = {
+  /** Operation either 'append' or 'remove' */
   type: string;
+  /** Device IMEI list. */
   deviceList: string[];
 };
 

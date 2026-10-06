@@ -5,9 +5,13 @@ import { notificationarraySchema, type Notificationarray } from "./notificationa
 import { triggerCategorySchema, type TriggerCategory } from "./trigger-category.js";
 
 export type DeviceLevelUpdateTrigger = {
+  /** The system assigned UUID of the trigger */
   triggerId?: string;
+  /** The user defined name of the trigger */
   triggerName?: string;
+  /** The Enterprise Customer Profile Database ID */
   ecpdId?: string;
+  /** The type of trigger being created or modified */
   triggerCategory?: TriggerCategory;
   dataTrigger?: DataTrigger2;
   notification?: Notificationarray;

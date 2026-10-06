@@ -4,7 +4,7 @@
 
 Accessor: `client.serverLogging` · Source: `src/resources/server-logging.ts` · 1 operation · Request and error types: namespace `ServerLogging`
 
-**Type sources**: every type an operation names, with the file that declares it and the schema value exported beside it. Import every name from `verizon`; the `Source` path is where to **read** the shape, never what to import. `ResponseError` and the runtime error family are excluded — see sdk-map.md.
+**Type sources**: every type an operation names, with the file that declares it and the schema value exported beside it. Import every name from `verizon`; the `Source` path is where to **read** the shape, never what to import. `ApiError`, the runtime error family and the file vocabulary are excluded — see sdk-map.md.
 
 ### getDeviceCheckInHistory
 
@@ -14,7 +14,7 @@ Accessor: `client.serverLogging` · Source: `src/resources/server-logging.ts` ·
 - **Auth**: all of `thingspaceOauth`, `vzM2MToken` — both are sent
 - **Request body**: none — no `Content-Type` header is sent
 - **Returns**: `CheckInHistoryItem[]` — a bare `application/json` array; the success type *is* the array, not a wrapper model
-- **Error**: `ServerLogging.GetDeviceCheckInHistoryError` — **typed arms**, narrowed on `err.payload.kind`
+- **Error**: `VerizonError` with `kind: "api"`, an instance of `ServerLogging.GetDeviceCheckInHistoryError` — **typed arms**, narrowed on `err.payload.kind`
 - **Error arms**: `"fotaV2Result"` [400] `FotaV2Result` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
 
 **Fields** — `ServerLogging.GetDeviceCheckInHistoryRequest` (2):

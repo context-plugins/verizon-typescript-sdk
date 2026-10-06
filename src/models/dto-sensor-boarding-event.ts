@@ -3,10 +3,15 @@ import type { Schema } from "../core/validation/schema.js";
 import { dtoFieldsSchema, type DtoFields } from "./dto-fields.js";
 
 export type DtoSensorBoardingEvent = {
+  /** Timestamp of the record */
   createdon?: Date;
+  /** Error message */
   errmsg?: string;
+  /** Fields to return needed by search */
   fields?: DtoFields;
+  /** The current status of the device or transaction and will be `success` or `failed` */
   state?: string;
+  /** The system-generated UUID of the transaction */
   transactionid?: string;
 };
 

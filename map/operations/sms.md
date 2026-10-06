@@ -4,16 +4,17 @@
 
 Accessor: `client.sms` · Source: `src/resources/sms.ts` · 3 operations · Request and error types: namespace `Sms`
 
-**Type sources**: every type an operation names, with the file that declares it and the schema value exported beside it. Import every name from `verizon`; the `Source` path is where to **read** the shape, never what to import. `ResponseError` and the runtime error family are excluded — see sdk-map.md.
+**Type sources**: every type an operation names, with the file that declares it and the schema value exported beside it. Import every name from `verizon`; the `Source` path is where to **read** the shape, never what to import. `ApiError`, the runtime error family and the file vocabulary are excluded — see sdk-map.md.
 
 ### listDevicesSmsMessages
 
+- **Server**: `thingspace` — not the `hyperPreciseCredentials` group; see Servers & auth in sdk-map.md
 - **Signature**: `listDevicesSmsMessages(request: Sms.ListDevicesSmsMessagesRequest, options?: RequestOptions): ApiPromise<SmsMessagesQueryResult, Sms.ListDevicesSmsMessagesError>`
 - **Wire**: `GET /m2m/v1/sms/{aname}/history`
 - **Auth**: all of `thingspaceOauth`, `vzM2MToken` — both are sent
 - **Request body**: none — no `Content-Type` header is sent
 - **Returns**: `SmsMessagesQueryResult`
-- **Error**: `Sms.ListDevicesSmsMessagesError` — **typed arms**, narrowed on `err.payload.kind`
+- **Error**: `VerizonError` with `kind: "api"`, an instance of `Sms.ListDevicesSmsMessagesError` — **typed arms**, narrowed on `err.payload.kind`
 - **Error arms**: `"connectivityManagementResult"` [400] `ConnectivityManagementResult` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
 
 **Fields** — `Sms.ListDevicesSmsMessagesRequest` (2):
@@ -30,12 +31,14 @@ Accessor: `client.sms` · Source: `src/resources/sms.ts` · 3 operations · Requ
 
 ### sendSmsToDevice
 
+- **Server**: `thingspace` — not the `hyperPreciseCredentials` group; see Servers & auth in sdk-map.md
 - **Signature**: `sendSmsToDevice(request: Sms.SendSmsToDeviceRequest, options?: RequestOptions): ApiPromise<DeviceManagementResult, Sms.SendSmsToDeviceError>`
 - **Wire**: `POST /m2m/v1/sms`
 - **Auth**: all of `thingspaceOauth`, `vzM2MToken` — both are sent
 - **Request body**: `application/json` — the `body` field
+- **SDK-sent**: `header Idempotency-Key` (minted per call)
 - **Returns**: `DeviceManagementResult`
-- **Error**: `Sms.SendSmsToDeviceError` — **typed arms**, narrowed on `err.payload.kind`
+- **Error**: `VerizonError` with `kind: "api"`, an instance of `Sms.SendSmsToDeviceError` — **typed arms**, narrowed on `err.payload.kind`
 - **Error arms**: `"connectivityManagementResult"` [400] `ConnectivityManagementResult` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
 
 **Fields** — `Sms.SendSmsToDeviceRequest` (1):
@@ -52,12 +55,14 @@ Accessor: `client.sms` · Source: `src/resources/sms.ts` · 3 operations · Requ
 
 ### startQueuedSmsDelivery
 
+- **Server**: `thingspace` — not the `hyperPreciseCredentials` group; see Servers & auth in sdk-map.md
 - **Signature**: `startQueuedSmsDelivery(request: Sms.StartQueuedSmsDeliveryRequest, options?: RequestOptions): ApiPromise<ConnectivityManagementSuccessResult, Sms.StartQueuedSmsDeliveryError>`
 - **Wire**: `PUT /m2m/v1/sms/{aname}/startCallbacks`
 - **Auth**: all of `thingspaceOauth`, `vzM2MToken` — both are sent
 - **Request body**: none — no `Content-Type` header is sent
+- **SDK-sent**: `header Idempotency-Key` (minted per call)
 - **Returns**: `ConnectivityManagementSuccessResult`
-- **Error**: `Sms.StartQueuedSmsDeliveryError` — **typed arms**, narrowed on `err.payload.kind`
+- **Error**: `VerizonError` with `kind: "api"`, an instance of `Sms.StartQueuedSmsDeliveryError` — **typed arms**, narrowed on `err.payload.kind`
 - **Error arms**: `"connectivityManagementResult"` [400] `ConnectivityManagementResult` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
 
 **Fields** — `Sms.StartQueuedSmsDeliveryRequest` (1):

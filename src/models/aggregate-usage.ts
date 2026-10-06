@@ -4,8 +4,14 @@ import { gioDeviceIdSchema, type GioDeviceId } from "./gio-device-id.js";
 
 export type AggregateUsage = {
   deviceId?: GioDeviceId;
+  /**
+   * The numeric name of the account, in the format "0000123456-00001". Leading zeros must be
+   * included.
+   */
   accountName?: string;
+  /** The start date of the time period queried as "$datetime" */
   startTime?: string;
+  /** The end date of the time period being queried as "$datetime" */
   endTime?: string;
 };
 

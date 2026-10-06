@@ -1,9 +1,10 @@
 import type { AuthSchemes } from "../auth-schemes.js";
+import { ApiError, type Declared, type ErrorDecoders, type ErrorPayload } from "../core/api-error.js";
 import type { ApiPromise } from "../core/api-promise.js";
 import type { RequestOptions } from "../core/api-request.js";
 import { allAuth } from "../core/auth/schemes.js";
 import type { RawClient } from "../core/raw-client.js";
-import { ResponseError, type Declared, type ErrorDecoders } from "../core/response-error.js";
+import { uuid } from "../core/uuid.js";
 import * as s from "../core/validation/index.js";
 import { dtoCreateUserRequestSchema, type DtoCreateUserRequest } from "../models/dto-create-user-request.js";
 import { dtoDeleteUserRequestSchema, type DtoDeleteUserRequest } from "../models/dto-delete-user-request.js";
@@ -17,6 +18,9 @@ import { managementError500Schema, type ManagementError500 } from "../models/man
 import { resourceUserSchema, type ResourceUser } from "../models/resource-user.js";
 import type { Servers } from "../servers.js";
 
+/**
+ * Create user accounts and manage user roles and permissions
+ */
 export class SensorInsightsUsers {
   readonly #rawClient: RawClient;
   readonly #servers: Servers;
@@ -28,6 +32,18 @@ export class SensorInsightsUsers {
     this.#auth = auth;
   }
 
+  /**
+   * Create a user profile
+   *
+   * @returns OK
+   *
+   * @throws {@link SensorInsightsUsers.SensorInsightsCreateUserRequestError} when the API answers
+   * with an error status — narrow on `err.payload.kind`
+   *
+   * @throws {@link VerizonError} when no usable response was produced: a connection failure, a
+   * timeout, a body that would not decode, a value that would not encode, or a credential that
+   * could not be obtained
+   */
   sensorInsightsCreateUserRequest(
     request: SensorInsightsUsers.SensorInsightsCreateUserRequestRequest,
     options?: RequestOptions,
@@ -35,8 +51,11 @@ export class SensorInsightsUsers {
     return this.#rawClient.execute(
       {
         method: "POST",
-        url: this.#servers.hyperPreciseCredentials("/dm/v1/users"),
+        urlTemplate: this.#servers.thingspace("/dm/v1/users"),
         auth: allAuth(this.#auth.thingspaceOauth, this.#auth.vzM2MToken),
+        pathParams: [],
+        query: [],
+        headers: [{ name: "Idempotency-Key", value: uuid(), schema: s.string() }],
         body: { kind: "json", value: request.body, schema: dtoCreateUserRequestSchema },
       },
       {
@@ -47,6 +66,18 @@ export class SensorInsightsUsers {
     );
   }
 
+  /**
+   * Delete a user profile
+   *
+   * @returns No Content
+   *
+   * @throws {@link SensorInsightsUsers.SensorInsightsDeleteUserError} when the API answers with an
+   * error status — narrow on `err.payload.kind`
+   *
+   * @throws {@link VerizonError} when no usable response was produced: a connection failure, a
+   * timeout, a body that would not decode, a value that would not encode, or a credential that
+   * could not be obtained
+   */
   sensorInsightsDeleteUser(
     request: SensorInsightsUsers.SensorInsightsDeleteUserRequest,
     options?: RequestOptions,
@@ -54,8 +85,9 @@ export class SensorInsightsUsers {
     return this.#rawClient.execute(
       {
         method: "DELETE",
-        url: this.#servers.hyperPreciseCredentials("/dm/v1/users"),
+        urlTemplate: this.#servers.thingspace("/dm/v1/users"),
         auth: allAuth(this.#auth.thingspaceOauth, this.#auth.vzM2MToken),
+        pathParams: [],
         query: [
           {
             name: "deleterequestpayload",
@@ -63,6 +95,7 @@ export class SensorInsightsUsers {
             schema: dtoDeleteUserRequestSchema,
           },
         ],
+        headers: [{ name: "Idempotency-Key", value: uuid(), schema: s.string() }],
         body: { kind: "empty" },
       },
       {
@@ -73,6 +106,18 @@ export class SensorInsightsUsers {
     );
   }
 
+  /**
+   * A summary of user profile records on an account
+   *
+   * @returns OK
+   *
+   * @throws {@link SensorInsightsUsers.SensorInsightsListUserRequestError} when the API answers
+   * with an error status — narrow on `err.payload.kind`
+   *
+   * @throws {@link VerizonError} when no usable response was produced: a connection failure, a
+   * timeout, a body that would not decode, a value that would not encode, or a credential that
+   * could not be obtained
+   */
   sensorInsightsListUserRequest(
     request: SensorInsightsUsers.SensorInsightsListUserRequestRequest,
     options?: RequestOptions,
@@ -80,8 +125,11 @@ export class SensorInsightsUsers {
     return this.#rawClient.execute(
       {
         method: "POST",
-        url: this.#servers.hyperPreciseCredentials("/dm/v1/users/actions/query"),
+        urlTemplate: this.#servers.thingspace("/dm/v1/users/actions/query"),
         auth: allAuth(this.#auth.thingspaceOauth, this.#auth.vzM2MToken),
+        pathParams: [],
+        query: [],
+        headers: [{ name: "Idempotency-Key", value: uuid(), schema: s.string() }],
         body: { kind: "json", value: request.body, schema: dtoListUserRequestSchema },
       },
       {
@@ -92,6 +140,18 @@ export class SensorInsightsUsers {
     );
   }
 
+  /**
+   * Partially update a user profile
+   *
+   * @returns OK
+   *
+   * @throws {@link SensorInsightsUsers.SensorInsightsUpdateUserRequestError} when the API answers
+   * with an error status — narrow on `err.payload.kind`
+   *
+   * @throws {@link VerizonError} when no usable response was produced: a connection failure, a
+   * timeout, a body that would not decode, a value that would not encode, or a credential that
+   * could not be obtained
+   */
   sensorInsightsUpdateUserRequest(
     request: SensorInsightsUsers.SensorInsightsUpdateUserRequestRequest,
     options?: RequestOptions,
@@ -99,8 +159,11 @@ export class SensorInsightsUsers {
     return this.#rawClient.execute(
       {
         method: "PATCH",
-        url: this.#servers.hyperPreciseCredentials("/dm/v1/users"),
+        urlTemplate: this.#servers.thingspace("/dm/v1/users"),
         auth: allAuth(this.#auth.thingspaceOauth, this.#auth.vzM2MToken),
+        pathParams: [],
+        query: [],
+        headers: [{ name: "Idempotency-Key", value: uuid(), schema: s.string() }],
         body: { kind: "json", value: request.body, schema: dtoUpdateUserRequestSchema },
       },
       {
@@ -114,19 +177,22 @@ export class SensorInsightsUsers {
 
 export namespace SensorInsightsUsers {
   export type SensorInsightsCreateUserRequestRequest = {
+    /** Create a user profile */
     body: DtoCreateUserRequest;
   };
 
-  export class SensorInsightsCreateUserRequestError extends ResponseError<
-    | Declared<"managementError400", ManagementError400>
-    | Declared<"managementError", ManagementError>
-    | Declared<"managementError403", ManagementError403>
-    | Declared<"managementError2", ManagementError>
-    | Declared<"managementError3", ManagementError>
-    | Declared<"managementError4", ManagementError>
-    | Declared<"managementError500", ManagementError500>
-    | Declared<"managementError5", ManagementError>
-  > {
+  export class SensorInsightsCreateUserRequestError extends ApiError {
+    declare readonly payload: ErrorPayload<
+      | Declared<"managementError400", ManagementError400>
+      | Declared<"managementError", ManagementError>
+      | Declared<"managementError403", ManagementError403>
+      | Declared<"managementError2", ManagementError>
+      | Declared<"managementError3", ManagementError>
+      | Declared<"managementError4", ManagementError>
+      | Declared<"managementError500", ManagementError500>
+      | Declared<"managementError5", ManagementError>
+    >;
+
     static readonly errors: ErrorDecoders<SensorInsightsCreateUserRequestError> = [
       { on: 400, kind: "managementError400", decode: { kind: "json", schema: managementError400Schema } },
       { on: 401, kind: "managementError", decode: { kind: "json", schema: managementErrorSchema } },
@@ -135,20 +201,23 @@ export namespace SensorInsightsUsers {
       { on: 415, kind: "managementError3", decode: { kind: "json", schema: managementErrorSchema } },
       { on: 429, kind: "managementError4", decode: { kind: "json", schema: managementErrorSchema } },
       { on: 500, kind: "managementError500", decode: { kind: "json", schema: managementError500Schema } },
-      { on: [400, 599], kind: "managementError5", decode: { kind: "json", schema: managementErrorSchema } },
+      { on: "default", kind: "managementError5", decode: { kind: "json", schema: managementErrorSchema } },
     ];
   }
 
   export type SensorInsightsDeleteUserRequest = {
+    /** Payload for the delete user request. */
     deleterequestpayload: DtoDeleteUserRequest;
   };
 
-  export class SensorInsightsDeleteUserError extends ResponseError<
-    | Declared<"managementError400", ManagementError400>
-    | Declared<"managementError", ManagementError>
-    | Declared<"managementError403", ManagementError403>
-    | Declared<"managementError404", ManagementError404>
-  > {
+  export class SensorInsightsDeleteUserError extends ApiError {
+    declare readonly payload: ErrorPayload<
+      | Declared<"managementError400", ManagementError400>
+      | Declared<"managementError", ManagementError>
+      | Declared<"managementError403", ManagementError403>
+      | Declared<"managementError404", ManagementError404>
+    >;
+
     static readonly errors: ErrorDecoders<SensorInsightsDeleteUserError> = [
       { on: 400, kind: "managementError400", decode: { kind: "json", schema: managementError400Schema } },
       { on: 401, kind: "managementError", decode: { kind: "json", schema: managementErrorSchema } },
@@ -158,20 +227,23 @@ export namespace SensorInsightsUsers {
   }
 
   export type SensorInsightsListUserRequestRequest = {
+    /** A summary of user profile records on an account */
     body: DtoListUserRequest;
   };
 
-  export class SensorInsightsListUserRequestError extends ResponseError<
-    | Declared<"managementError400", ManagementError400>
-    | Declared<"managementError", ManagementError>
-    | Declared<"managementError403", ManagementError403>
-    | Declared<"managementError404", ManagementError404>
-    | Declared<"managementError2", ManagementError>
-    | Declared<"managementError3", ManagementError>
-    | Declared<"managementError4", ManagementError>
-    | Declared<"managementError500", ManagementError500>
-    | Declared<"managementError5", ManagementError>
-  > {
+  export class SensorInsightsListUserRequestError extends ApiError {
+    declare readonly payload: ErrorPayload<
+      | Declared<"managementError400", ManagementError400>
+      | Declared<"managementError", ManagementError>
+      | Declared<"managementError403", ManagementError403>
+      | Declared<"managementError404", ManagementError404>
+      | Declared<"managementError2", ManagementError>
+      | Declared<"managementError3", ManagementError>
+      | Declared<"managementError4", ManagementError>
+      | Declared<"managementError500", ManagementError500>
+      | Declared<"managementError5", ManagementError>
+    >;
+
     static readonly errors: ErrorDecoders<SensorInsightsListUserRequestError> = [
       { on: 400, kind: "managementError400", decode: { kind: "json", schema: managementError400Schema } },
       { on: 401, kind: "managementError", decode: { kind: "json", schema: managementErrorSchema } },
@@ -181,25 +253,28 @@ export namespace SensorInsightsUsers {
       { on: 415, kind: "managementError3", decode: { kind: "json", schema: managementErrorSchema } },
       { on: 429, kind: "managementError4", decode: { kind: "json", schema: managementErrorSchema } },
       { on: 500, kind: "managementError500", decode: { kind: "json", schema: managementError500Schema } },
-      { on: [400, 599], kind: "managementError5", decode: { kind: "json", schema: managementErrorSchema } },
+      { on: "default", kind: "managementError5", decode: { kind: "json", schema: managementErrorSchema } },
     ];
   }
 
   export type SensorInsightsUpdateUserRequestRequest = {
+    /** Partially update a user profile */
     body: DtoUpdateUserRequest;
   };
 
-  export class SensorInsightsUpdateUserRequestError extends ResponseError<
-    | Declared<"managementError400", ManagementError400>
-    | Declared<"managementError", ManagementError>
-    | Declared<"managementError403", ManagementError403>
-    | Declared<"managementError404", ManagementError404>
-    | Declared<"managementError2", ManagementError>
-    | Declared<"managementError3", ManagementError>
-    | Declared<"managementError4", ManagementError>
-    | Declared<"managementError500", ManagementError500>
-    | Declared<"managementError5", ManagementError>
-  > {
+  export class SensorInsightsUpdateUserRequestError extends ApiError {
+    declare readonly payload: ErrorPayload<
+      | Declared<"managementError400", ManagementError400>
+      | Declared<"managementError", ManagementError>
+      | Declared<"managementError403", ManagementError403>
+      | Declared<"managementError404", ManagementError404>
+      | Declared<"managementError2", ManagementError>
+      | Declared<"managementError3", ManagementError>
+      | Declared<"managementError4", ManagementError>
+      | Declared<"managementError500", ManagementError500>
+      | Declared<"managementError5", ManagementError>
+    >;
+
     static readonly errors: ErrorDecoders<SensorInsightsUpdateUserRequestError> = [
       { on: 400, kind: "managementError400", decode: { kind: "json", schema: managementError400Schema } },
       { on: 401, kind: "managementError", decode: { kind: "json", schema: managementErrorSchema } },
@@ -209,7 +284,7 @@ export namespace SensorInsightsUsers {
       { on: 415, kind: "managementError3", decode: { kind: "json", schema: managementErrorSchema } },
       { on: 429, kind: "managementError4", decode: { kind: "json", schema: managementErrorSchema } },
       { on: 500, kind: "managementError500", decode: { kind: "json", schema: managementError500Schema } },
-      { on: [400, 599], kind: "managementError5", decode: { kind: "json", schema: managementErrorSchema } },
+      { on: "default", kind: "managementError5", decode: { kind: "json", schema: managementErrorSchema } },
     ];
   }
 }

@@ -5,6 +5,7 @@ import {
   type TargetAuthenticationBody,
 } from "./target-authentication-body.js";
 
+/** OAuth 2 token and refresh token for TS to stream events to Target. */
 export type TargetAuthentication = {
   body?: TargetAuthenticationBody;
   version?: string;

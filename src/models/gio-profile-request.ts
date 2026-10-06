@@ -5,6 +5,10 @@ import { gioDeviceListSchema, type GioDeviceList } from "./gio-device-list.js";
 export type GioProfileRequest = {
   devices: GioDeviceList[];
   accountName: string;
+  /**
+   * The Subscription Manager Secure Router Object ID, used for remote SIM provisioning. SMSR
+   * securely routes the download and management of eSIM profiles.
+   */
   smrsOid?: string;
   mdnZipCode?: string;
   servicePlan?: string;

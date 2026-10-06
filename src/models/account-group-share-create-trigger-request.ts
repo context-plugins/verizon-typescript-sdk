@@ -6,11 +6,15 @@ import { notificationarraySchema, type Notificationarray } from "./notificationa
 import { triggerCategorySchema, type TriggerCategory } from "./trigger-category.js";
 
 export type AccountGroupShareCreateTriggerRequest = {
+  /** The user defined name of the trigger */
   triggerName?: string;
+  /** The numeric name of the account and must include leading zeroes */
   accountName?: string;
+  /** The type of trigger being created or modified */
   triggerCategory?: TriggerCategory;
   pricePlanTrigger?: AccountGroupShareObject;
   notification?: Notificationarray;
+  /** A flag to indicate of the trigger is active, true, or not, false */
   active?: Active;
 };
 

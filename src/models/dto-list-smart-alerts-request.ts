@@ -4,6 +4,7 @@ import { dtoFilterSchema, type DtoFilter } from "./dto-filter.js";
 import { dtoResourceidentifierSchema, type DtoResourceidentifier } from "./dto-resourceidentifier.js";
 
 export type DtoListSmartAlertsRequest = {
+  /** The numeric account name, which must include leading zeros */
   accountname?: string;
   filter?: DtoFilter;
   resourceidentifier?: DtoResourceidentifier;

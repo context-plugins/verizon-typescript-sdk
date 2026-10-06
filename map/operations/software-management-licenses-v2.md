@@ -4,17 +4,19 @@
 
 Accessor: `client.softwareManagementLicensesV2` · Source: `src/resources/software-management-licenses-v2.ts` · 6 operations · Request and error types: namespace `SoftwareManagementLicensesV2`
 
-**Type sources**: every type an operation names, with the file that declares it and the schema value exported beside it. Import every name from `verizon`; the `Source` path is where to **read** the shape, never what to import. `ResponseError` and the runtime error family are excluded — see sdk-map.md.
+**Type sources**: every type an operation names, with the file that declares it and the schema value exported beside it. Import every name from `verizon`; the `Source` path is where to **read** the shape, never what to import. `ApiError`, the runtime error family and the file vocabulary are excluded — see sdk-map.md.
 
 ### assignLicensesToDevices2
 
 - **Server**: `softwareManagementV2` — not the `hyperPreciseCredentials` group; see Servers & auth in sdk-map.md
 - **Signature**: `assignLicensesToDevices2(request: SoftwareManagementLicensesV2.AssignLicensesToDevices2Request, options?: RequestOptions): ApiPromise<V2LicensesAssignedRemovedResult, SoftwareManagementLicensesV2.AssignLicensesToDevices2Error>`
+- **Deprecated**: the method carries `@deprecated`, so an IDE strikes the call site through; it still works
 - **Wire**: `POST /licenses/{account}/assign`
 - **Auth**: all of `thingspaceOauth`, `vzM2MToken` — both are sent
 - **Request body**: none — no `Content-Type` header is sent
+- **SDK-sent**: `header Idempotency-Key` (minted per call)
 - **Returns**: `V2LicensesAssignedRemovedResult`
-- **Error**: `SoftwareManagementLicensesV2.AssignLicensesToDevices2Error` — **typed arms**, narrowed on `err.payload.kind`
+- **Error**: `VerizonError` with `kind: "api"`, an instance of `SoftwareManagementLicensesV2.AssignLicensesToDevices2Error` — **typed arms**, narrowed on `err.payload.kind`
 - **Error arms**: `"fotaV2Result"` [400] `FotaV2Result` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
 
 **Fields** — `SoftwareManagementLicensesV2.AssignLicensesToDevices2Request` (1):
@@ -32,11 +34,13 @@ Accessor: `client.softwareManagementLicensesV2` · Source: `src/resources/softwa
 
 - **Server**: `softwareManagementV2` — not the `hyperPreciseCredentials` group; see Servers & auth in sdk-map.md
 - **Signature**: `createListOfLicensesToRemove2(request: SoftwareManagementLicensesV2.CreateListOfLicensesToRemove2Request, options?: RequestOptions): ApiPromise<V2ListOfLicensesToRemoveResult, SoftwareManagementLicensesV2.CreateListOfLicensesToRemove2Error>`
+- **Deprecated**: the method carries `@deprecated`, so an IDE strikes the call site through; it still works
 - **Wire**: `POST /licenses/{account}/cancel`
 - **Auth**: all of `thingspaceOauth`, `vzM2MToken` — both are sent
 - **Request body**: none — no `Content-Type` header is sent
+- **SDK-sent**: `header Idempotency-Key` (minted per call)
 - **Returns**: `V2ListOfLicensesToRemoveResult`
-- **Error**: `SoftwareManagementLicensesV2.CreateListOfLicensesToRemove2Error` — **typed arms**, narrowed on `err.payload.kind`
+- **Error**: `VerizonError` with `kind: "api"`, an instance of `SoftwareManagementLicensesV2.CreateListOfLicensesToRemove2Error` — **typed arms**, narrowed on `err.payload.kind`
 - **Error arms**: `"fotaV2Result"` [400] `FotaV2Result` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
 
 **Fields** — `SoftwareManagementLicensesV2.CreateListOfLicensesToRemove2Request` (1):
@@ -54,11 +58,13 @@ Accessor: `client.softwareManagementLicensesV2` · Source: `src/resources/softwa
 
 - **Server**: `softwareManagementV2` — not the `hyperPreciseCredentials` group; see Servers & auth in sdk-map.md
 - **Signature**: `deleteListOfLicensesToRemove2(request: SoftwareManagementLicensesV2.DeleteListOfLicensesToRemove2Request, options?: RequestOptions): ApiPromise<FotaV2SuccessResult, SoftwareManagementLicensesV2.DeleteListOfLicensesToRemove2Error>`
+- **Deprecated**: the method carries `@deprecated`, so an IDE strikes the call site through; it still works
 - **Wire**: `DELETE /licenses/{account}/cancel`
 - **Auth**: all of `thingspaceOauth`, `vzM2MToken` — both are sent
 - **Request body**: none — no `Content-Type` header is sent
+- **SDK-sent**: `header Idempotency-Key` (minted per call)
 - **Returns**: `FotaV2SuccessResult`
-- **Error**: `SoftwareManagementLicensesV2.DeleteListOfLicensesToRemove2Error` — **typed arms**, narrowed on `err.payload.kind`
+- **Error**: `VerizonError` with `kind: "api"`, an instance of `SoftwareManagementLicensesV2.DeleteListOfLicensesToRemove2Error` — **typed arms**, narrowed on `err.payload.kind`
 - **Error arms**: `"fotaV2Result"` [400] `FotaV2Result` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
 
 **Fields** — `SoftwareManagementLicensesV2.DeleteListOfLicensesToRemove2Request` (1):
@@ -80,7 +86,7 @@ Accessor: `client.softwareManagementLicensesV2` · Source: `src/resources/softwa
 - **Auth**: all of `thingspaceOauth`, `vzM2MToken` — both are sent
 - **Request body**: none — no `Content-Type` header is sent
 - **Returns**: `V2LicenseSummary`
-- **Error**: `SoftwareManagementLicensesV2.GetAccountLicenseStatus2Error` — **typed arms**, narrowed on `err.payload.kind`
+- **Error**: `VerizonError` with `kind: "api"`, an instance of `SoftwareManagementLicensesV2.GetAccountLicenseStatus2Error` — **typed arms**, narrowed on `err.payload.kind`
 - **Error arms**: `"fotaV2Result"` [400] `FotaV2Result` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
 
 **Fields** — `SoftwareManagementLicensesV2.GetAccountLicenseStatus2Request` (2):
@@ -99,11 +105,12 @@ Accessor: `client.softwareManagementLicensesV2` · Source: `src/resources/softwa
 
 - **Server**: `softwareManagementV2` — not the `hyperPreciseCredentials` group; see Servers & auth in sdk-map.md
 - **Signature**: `listLicensesToRemove2(request: SoftwareManagementLicensesV2.ListLicensesToRemove2Request, options?: RequestOptions): ApiPromise<V2ListOfLicensesToRemove, SoftwareManagementLicensesV2.ListLicensesToRemove2Error>`
+- **Deprecated**: the method carries `@deprecated`, so an IDE strikes the call site through; it still works
 - **Wire**: `GET /licenses/{account}/cancel`
 - **Auth**: all of `thingspaceOauth`, `vzM2MToken` — both are sent
 - **Request body**: none — no `Content-Type` header is sent
 - **Returns**: `V2ListOfLicensesToRemove`
-- **Error**: `SoftwareManagementLicensesV2.ListLicensesToRemove2Error` — **typed arms**, narrowed on `err.payload.kind`
+- **Error**: `VerizonError` with `kind: "api"`, an instance of `SoftwareManagementLicensesV2.ListLicensesToRemove2Error` — **typed arms**, narrowed on `err.payload.kind`
 - **Error arms**: `"fotaV2Result"` [400] `FotaV2Result` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
 
 **Fields** — `SoftwareManagementLicensesV2.ListLicensesToRemove2Request` (2):
@@ -122,11 +129,13 @@ Accessor: `client.softwareManagementLicensesV2` · Source: `src/resources/softwa
 
 - **Server**: `softwareManagementV2` — not the `hyperPreciseCredentials` group; see Servers & auth in sdk-map.md
 - **Signature**: `removeLicensesFromDevices2(request: SoftwareManagementLicensesV2.RemoveLicensesFromDevices2Request, options?: RequestOptions): ApiPromise<V2LicensesAssignedRemovedResult, SoftwareManagementLicensesV2.RemoveLicensesFromDevices2Error>`
+- **Deprecated**: the method carries `@deprecated`, so an IDE strikes the call site through; it still works
 - **Wire**: `POST /licenses/{account}/remove`
 - **Auth**: all of `thingspaceOauth`, `vzM2MToken` — both are sent
 - **Request body**: none — no `Content-Type` header is sent
+- **SDK-sent**: `header Idempotency-Key` (minted per call)
 - **Returns**: `V2LicensesAssignedRemovedResult`
-- **Error**: `SoftwareManagementLicensesV2.RemoveLicensesFromDevices2Error` — **typed arms**, narrowed on `err.payload.kind`
+- **Error**: `VerizonError` with `kind: "api"`, an instance of `SoftwareManagementLicensesV2.RemoveLicensesFromDevices2Error` — **typed arms**, narrowed on `err.payload.kind`
 - **Error arms**: `"fotaV2Result"` [400] `FotaV2Result` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
 
 **Fields** — `SoftwareManagementLicensesV2.RemoveLicensesFromDevices2Request` (1):

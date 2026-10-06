@@ -1,6 +1,7 @@
 import * as s from "../core/validation/index.js";
 import type { EnumSchema } from "../core/validation/schema.js";
 
+/** The last status of the device as a list filter. */
 export const ProvisioningStatusFilter = {
   Unknown: "UNKNOWN",
   Deactivated: "DEACTIVATED",

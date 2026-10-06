@@ -3,6 +3,7 @@ import type { Schema } from "../core/validation/schema.js";
 
 export type PayAsYouGoFilterCriteria1 = {
   carrierServicePlanCode?: string;
+  /** An array of account names */
   accountNameList?: string[];
 };
 

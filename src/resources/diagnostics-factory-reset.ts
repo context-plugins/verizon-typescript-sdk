@@ -1,9 +1,11 @@
 import type { AuthSchemes } from "../auth-schemes.js";
+import { ApiError, type Declared, type ErrorDecoders, type ErrorPayload } from "../core/api-error.js";
 import type { ApiPromise } from "../core/api-promise.js";
 import type { RequestOptions } from "../core/api-request.js";
 import { allAuth } from "../core/auth/schemes.js";
 import type { RawClient } from "../core/raw-client.js";
-import { ResponseError, type Declared, type ErrorDecoders } from "../core/response-error.js";
+import { uuid } from "../core/uuid.js";
+import * as s from "../core/validation/index.js";
 import {
   deviceDiagnosticsResultSchema,
   type DeviceDiagnosticsResult,
@@ -26,6 +28,21 @@ export class DiagnosticsFactoryReset {
     this.#auth = auth;
   }
 
+  /**
+   * Performs a device reboot or a factory reset on the modem portion of the device.
+   *
+   * @remarks
+   * Performs a device reboot or a factory reset on the modem portion of the device.
+   *
+   * @returns Diagnostics observation result.
+   *
+   * @throws {@link DiagnosticsFactoryReset.DecivesRestartError} when the API answers with an error
+   * status — narrow on `err.payload.kind`
+   *
+   * @throws {@link VerizonError} when no usable response was produced: a connection failure, a
+   * timeout, a body that would not decode, a value that would not encode, or a credential that
+   * could not be obtained
+   */
   decivesRestart(
     request: DiagnosticsFactoryReset.DecivesRestartRequest,
     options?: RequestOptions,
@@ -33,8 +50,11 @@ export class DiagnosticsFactoryReset {
     return this.#rawClient.execute(
       {
         method: "POST",
-        url: this.#servers.deviceDiagnostics("/devices/actions/restart"),
+        urlTemplate: this.#servers.deviceDiagnostics("/devices/actions/restart"),
         auth: allAuth(this.#auth.thingspaceOauth, this.#auth.vzM2MToken),
+        pathParams: [],
+        query: [],
+        headers: [{ name: "Idempotency-Key", value: uuid(), schema: s.string() }],
         body: { kind: "json", value: request.body, schema: deviceResetRequestSchema },
       },
       {
@@ -48,15 +68,16 @@ export class DiagnosticsFactoryReset {
 
 export namespace DiagnosticsFactoryReset {
   export type DecivesRestartRequest = {
+    /** A request to perform a device reboot. */
     body: DeviceResetRequest;
   };
 
-  export class DecivesRestartError extends ResponseError<
-    Declared<"deviceDiagnosticsResult", DeviceDiagnosticsResult>
-  > {
+  export class DecivesRestartError extends ApiError {
+    declare readonly payload: ErrorPayload<Declared<"deviceDiagnosticsResult", DeviceDiagnosticsResult>>;
+
     static readonly errors: ErrorDecoders<DecivesRestartError> = [
       {
-        on: [400, 599],
+        on: "default",
         kind: "deviceDiagnosticsResult",
         decode: { kind: "json", schema: deviceDiagnosticsResultSchema },
       },

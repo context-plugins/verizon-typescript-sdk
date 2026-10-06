@@ -4,16 +4,18 @@
 
 Accessor: `client.deviceMonitoring` · Source: `src/resources/device-monitoring.ts` · 2 operations · Request and error types: namespace `DeviceMonitoring`
 
-**Type sources**: every type an operation names, with the file that declares it and the schema value exported beside it. Import every name from `verizon`; the `Source` path is where to **read** the shape, never what to import. `ResponseError` and the runtime error family are excluded — see sdk-map.md.
+**Type sources**: every type an operation names, with the file that declares it and the schema value exported beside it. Import every name from `verizon`; the `Source` path is where to **read** the shape, never what to import. `ApiError`, the runtime error family and the file vocabulary are excluded — see sdk-map.md.
 
 ### deviceReachability
 
+- **Server**: `thingspace` — not the `hyperPreciseCredentials` group; see Servers & auth in sdk-map.md
 - **Signature**: `deviceReachability(request: DeviceMonitoring.DeviceReachabilityRequest, options?: RequestOptions): ApiPromise<RequestResponse, DeviceMonitoring.DeviceReachabilityError>`
 - **Wire**: `POST /m2m/v1/diagnostics/basic/devicereachability`
 - **Auth**: all of `thingspaceOauth`, `vzM2MToken` — both are sent
 - **Request body**: `application/json` — the `body` field
+- **SDK-sent**: `header Idempotency-Key` (minted per call)
 - **Returns**: `RequestResponse`
-- **Error**: `DeviceMonitoring.DeviceReachabilityError` — **typed arms**, narrowed on `err.payload.kind`
+- **Error**: `VerizonError` with `kind: "api"`, an instance of `DeviceMonitoring.DeviceReachabilityError` — **typed arms**, narrowed on `err.payload.kind`
 - **Error arms**: `"restErrorResponse"` [400] `RestErrorResponse` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
 
 **Fields** — `DeviceMonitoring.DeviceReachabilityRequest` (1):
@@ -30,12 +32,14 @@ Accessor: `client.deviceMonitoring` · Source: `src/resources/device-monitoring.
 
 ### stopDeviceReachability
 
+- **Server**: `thingspace` — not the `hyperPreciseCredentials` group; see Servers & auth in sdk-map.md
 - **Signature**: `stopDeviceReachability(request: DeviceMonitoring.StopDeviceReachabilityRequest, options?: RequestOptions): ApiPromise<RequestResponse, DeviceMonitoring.StopDeviceReachabilityError>`
 - **Wire**: `DELETE /m2m/v1/diagnostics/basic/devicereachability`
 - **Auth**: all of `thingspaceOauth`, `vzM2MToken` — both are sent
 - **Request body**: none — no `Content-Type` header is sent
+- **SDK-sent**: `header Idempotency-Key` (minted per call)
 - **Returns**: `RequestResponse`
-- **Error**: `DeviceMonitoring.StopDeviceReachabilityError` — **typed arms**, narrowed on `err.payload.kind`
+- **Error**: `VerizonError` with `kind: "api"`, an instance of `DeviceMonitoring.StopDeviceReachabilityError` — **typed arms**, narrowed on `err.payload.kind`
 - **Error arms**: `"restErrorResponse"` [400] `RestErrorResponse` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
 
 **Fields** — `DeviceMonitoring.StopDeviceReachabilityRequest` (1):

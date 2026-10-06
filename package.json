@@ -1,6 +1,6 @@
 {
   "name": "verizon",
-  "version": "v1.0",
+  "version": "1.0.0",
   "description": "\"The Connection Planner is a service that provides devices windows to connect to their backend APIs. The service validates device access permissions and processes valid devices asynchronously. For each batch, it retrieves device connectivity windows from the RAN KPI Data Application, and sends callbacks back to customers via UWS-Callback for both successful and failed device requests.\"",
   "type": "module",
   "exports": {
@@ -43,7 +43,7 @@
   ],
   "sideEffects": false,
   "engines": {
-    "node": ">=20"
+    "node": ">=20.3"
   },
   "scripts": {
     "prepare": "tshy",

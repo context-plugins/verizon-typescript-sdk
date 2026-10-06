@@ -1,9 +1,13 @@
 import * as s from "../core/validation/index.js";
 import type { Schema } from "../core/validation/schema.js";
 
+/** Device changed. */
 export type V3DeviceListItem = {
+  /** Device IMEI. */
   deviceId?: string;
+  /** Success or failure. */
   status?: string;
+  /** Result reason. */
   reason?: string;
 };
 

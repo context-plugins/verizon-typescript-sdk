@@ -6,7 +6,9 @@ import { privateNetworkApnsSchema, type PrivateNetworkApns } from "./private-net
 export type DeviceListforplanner = {
   deviceIds?: DeviceIdforplanner[] | null;
   privateNetworkApns?: PrivateNetworkApns[] | null;
+  /** A IPv4 address */
   ipAddress?: string | null;
+  /** The activation code value. */
   activationCode?: string | null;
 };
 

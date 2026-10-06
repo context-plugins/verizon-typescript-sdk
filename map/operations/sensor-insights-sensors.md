@@ -4,17 +4,19 @@
 
 Accessor: `client.sensorInsightsSensors` · Source: `src/resources/sensor-insights-sensors.ts` · 5 operations · Request and error types: namespace `SensorInsightsSensors`
 
-**Type sources**: every type an operation names, with the file that declares it and the schema value exported beside it. Import every name from `verizon`; the `Source` path is where to **read** the shape, never what to import. `ResponseError` and the runtime error family are excluded — see sdk-map.md.
+**Type sources**: every type an operation names, with the file that declares it and the schema value exported beside it. Import every name from `verizon`; the `Source` path is where to **read** the shape, never what to import. `ApiError`, the runtime error family and the file vocabulary are excluded — see sdk-map.md.
 
 ### sensorInsightsListSensorDevicesRequest
 
+- **Server**: `thingspace` — not the `hyperPreciseCredentials` group; see Servers & auth in sdk-map.md
 - **Signature**: `sensorInsightsListSensorDevicesRequest(request: SensorInsightsSensors.SensorInsightsListSensorDevicesRequestRequest, options?: RequestOptions): ApiPromise<ResourceDevice[], SensorInsightsSensors.SensorInsightsListSensorDevicesRequestError>`
 - **Wire**: `POST /dm/v1/devices/sensors/actions/query`
 - **Auth**: all of `thingspaceOauth`, `vzM2MToken` — both are sent
 - **Request body**: `application/json` — the `body` field
+- **SDK-sent**: `header Idempotency-Key` (minted per call)
 - **Returns**: `ResourceDevice[]` — a bare `application/json` array; the success type *is* the array, not a wrapper model
-- **Error**: `SensorInsightsSensors.SensorInsightsListSensorDevicesRequestError` — **typed arms**, narrowed on `err.payload.kind`
-- **Error arms**: `"managementError400"` [400] `ManagementError400` · `"managementError"` [401] `ManagementError` · `"managementError403"` [403] `ManagementError403` · `"managementError404"` [404] `ManagementError404` · `"managementError2"` [406] `ManagementError` · `"managementError3"` [415] `ManagementError` · `"managementError4"` [429] `ManagementError` · `"managementError500"` [500] `ManagementError500` · `"managementError5"` [400–599] `ManagementError` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
+- **Error**: `VerizonError` with `kind: "api"`, an instance of `SensorInsightsSensors.SensorInsightsListSensorDevicesRequestError` — **typed arms**, narrowed on `err.payload.kind`
+- **Error arms**: `"managementError400"` [400] `ManagementError400` · `"managementError"` [401] `ManagementError` · `"managementError403"` [403] `ManagementError403` · `"managementError404"` [404] `ManagementError404` · `"managementError2"` [406] `ManagementError` · `"managementError3"` [415] `ManagementError` · `"managementError4"` [429] `ManagementError` · `"managementError500"` [500] `ManagementError500` · `"managementError5"` [default — any status no arm above covers] `ManagementError` · `"undeclared"` [a `default`-matched body that did not fit `ManagementError`] `rawBody: ArrayBuffer`
 
 **Fields** — `SensorInsightsSensors.SensorInsightsListSensorDevicesRequestRequest` (1):
 
@@ -34,12 +36,14 @@ Accessor: `client.sensorInsightsSensors` · Source: `src/resources/sensor-insigh
 
 ### sensorInsightsOffBoardSensorRequest
 
+- **Server**: `thingspace` — not the `hyperPreciseCredentials` group; see Servers & auth in sdk-map.md
 - **Signature**: `sensorInsightsOffBoardSensorRequest(request: SensorInsightsSensors.SensorInsightsOffBoardSensorRequestRequest, options?: RequestOptions): ApiPromise<undefined, SensorInsightsSensors.SensorInsightsOffBoardSensorRequestError>`
 - **Wire**: `POST /dm/v1/devices/sensors/offboard`
 - **Auth**: all of `thingspaceOauth`, `vzM2MToken` — both are sent
 - **Request body**: `application/json` — the `body` field
+- **SDK-sent**: `header Idempotency-Key` (minted per call)
 - **Returns**: `undefined` — the operation resolves to nothing
-- **Error**: `SensorInsightsSensors.SensorInsightsOffBoardSensorRequestError` — **typed arms**, narrowed on `err.payload.kind`
+- **Error**: `VerizonError` with `kind: "api"`, an instance of `SensorInsightsSensors.SensorInsightsOffBoardSensorRequestError` — **typed arms**, narrowed on `err.payload.kind`
 - **Error arms**: `"managementError400"` [400] `ManagementError400` · `"managementError"` [401] `ManagementError` · `"managementError403"` [403] `ManagementError403` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
 
 **Fields** — `SensorInsightsSensors.SensorInsightsOffBoardSensorRequestRequest` (1):
@@ -57,13 +61,15 @@ Accessor: `client.sensorInsightsSensors` · Source: `src/resources/sensor-insigh
 
 ### sensorInsightsOnBoardSensorRequest
 
+- **Server**: `thingspace` — not the `hyperPreciseCredentials` group; see Servers & auth in sdk-map.md
 - **Signature**: `sensorInsightsOnBoardSensorRequest(request: SensorInsightsSensors.SensorInsightsOnBoardSensorRequestRequest, options?: RequestOptions): ApiPromise<undefined, SensorInsightsSensors.SensorInsightsOnBoardSensorRequestError>`
 - **Wire**: `POST /dm/v1/devices/sensors/onboard`
 - **Auth**: all of `thingspaceOauth`, `vzM2MToken` — both are sent
 - **Request body**: `application/json` — the `body` field
+- **SDK-sent**: `header Idempotency-Key` (minted per call)
 - **Returns**: `undefined` — the operation resolves to nothing
-- **Error**: `SensorInsightsSensors.SensorInsightsOnBoardSensorRequestError` — **typed arms**, narrowed on `err.payload.kind`
-- **Error arms**: `"managementError400"` [400] `ManagementError400` · `"managementError"` [401] `ManagementError` · `"managementError403"` [403] `ManagementError403` · `"managementError2"` [406] `ManagementError` · `"managementError3"` [415] `ManagementError` · `"managementError4"` [429] `ManagementError` · `"managementError500"` [500] `ManagementError500` · `"managementError5"` [400–599] `ManagementError` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
+- **Error**: `VerizonError` with `kind: "api"`, an instance of `SensorInsightsSensors.SensorInsightsOnBoardSensorRequestError` — **typed arms**, narrowed on `err.payload.kind`
+- **Error arms**: `"managementError400"` [400] `ManagementError400` · `"managementError"` [401] `ManagementError` · `"managementError403"` [403] `ManagementError403` · `"managementError2"` [406] `ManagementError` · `"managementError3"` [415] `ManagementError` · `"managementError4"` [429] `ManagementError` · `"managementError500"` [500] `ManagementError500` · `"managementError5"` [default — any status no arm above covers] `ManagementError` · `"undeclared"` [a `default`-matched body that did not fit `ManagementError`] `rawBody: ArrayBuffer`
 
 **Fields** — `SensorInsightsSensors.SensorInsightsOnBoardSensorRequestRequest` (1):
 
@@ -81,13 +87,15 @@ Accessor: `client.sensorInsightsSensors` · Source: `src/resources/sensor-insigh
 
 ### sensorInsightsSensorOffBoardingStatusRequest
 
+- **Server**: `thingspace` — not the `hyperPreciseCredentials` group; see Servers & auth in sdk-map.md
 - **Signature**: `sensorInsightsSensorOffBoardingStatusRequest(request: SensorInsightsSensors.SensorInsightsSensorOffBoardingStatusRequestRequest, options?: RequestOptions): ApiPromise<DtoSensorOffBoardingStatusResponse, SensorInsightsSensors.SensorInsightsSensorOffBoardingStatusRequestError>`
 - **Wire**: `POST /dm/v1/devices/sensors/offboard/status/actions/query`
 - **Auth**: all of `thingspaceOauth`, `vzM2MToken` — both are sent
 - **Request body**: `application/json` — the `body` field
+- **SDK-sent**: `header Idempotency-Key` (minted per call)
 - **Returns**: `DtoSensorOffBoardingStatusResponse`
-- **Error**: `SensorInsightsSensors.SensorInsightsSensorOffBoardingStatusRequestError` — **typed arms**, narrowed on `err.payload.kind`
-- **Error arms**: `"managementError400"` [400] `ManagementError400` · `"managementError"` [401] `ManagementError` · `"managementError403"` [403] `ManagementError403` · `"managementError404"` [404] `ManagementError404` · `"managementError2"` [406] `ManagementError` · `"managementError3"` [415] `ManagementError` · `"managementError4"` [429] `ManagementError` · `"managementError500"` [500] `ManagementError500` · `"managementError5"` [400–599] `ManagementError` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
+- **Error**: `VerizonError` with `kind: "api"`, an instance of `SensorInsightsSensors.SensorInsightsSensorOffBoardingStatusRequestError` — **typed arms**, narrowed on `err.payload.kind`
+- **Error arms**: `"managementError400"` [400] `ManagementError400` · `"managementError"` [401] `ManagementError` · `"managementError403"` [403] `ManagementError403` · `"managementError404"` [404] `ManagementError404` · `"managementError2"` [406] `ManagementError` · `"managementError3"` [415] `ManagementError` · `"managementError4"` [429] `ManagementError` · `"managementError500"` [500] `ManagementError500` · `"managementError5"` [default — any status no arm above covers] `ManagementError` · `"undeclared"` [a `default`-matched body that did not fit `ManagementError`] `rawBody: ArrayBuffer`
 
 **Fields** — `SensorInsightsSensors.SensorInsightsSensorOffBoardingStatusRequestRequest` (1):
 
@@ -107,13 +115,15 @@ Accessor: `client.sensorInsightsSensors` · Source: `src/resources/sensor-insigh
 
 ### sensorInsightsSensorOnBoardStatusRequest
 
+- **Server**: `thingspace` — not the `hyperPreciseCredentials` group; see Servers & auth in sdk-map.md
 - **Signature**: `sensorInsightsSensorOnBoardStatusRequest(request: SensorInsightsSensors.SensorInsightsSensorOnBoardStatusRequestRequest, options?: RequestOptions): ApiPromise<DtoSensorOnBoardingStatusResponse, SensorInsightsSensors.SensorInsightsSensorOnBoardStatusRequestError>`
 - **Wire**: `POST /dm/v1/devices/sensors/onboard/status/actions/query`
 - **Auth**: all of `thingspaceOauth`, `vzM2MToken` — both are sent
 - **Request body**: `application/json` — the `body` field
+- **SDK-sent**: `header Idempotency-Key` (minted per call)
 - **Returns**: `DtoSensorOnBoardingStatusResponse`
-- **Error**: `SensorInsightsSensors.SensorInsightsSensorOnBoardStatusRequestError` — **typed arms**, narrowed on `err.payload.kind`
-- **Error arms**: `"managementError400"` [400] `ManagementError400` · `"managementError"` [401] `ManagementError` · `"managementError403"` [403] `ManagementError403` · `"managementError404"` [404] `ManagementError404` · `"managementError2"` [406] `ManagementError` · `"managementError3"` [415] `ManagementError` · `"managementError4"` [429] `ManagementError` · `"managementError500"` [500] `ManagementError500` · `"managementError5"` [400–599] `ManagementError` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
+- **Error**: `VerizonError` with `kind: "api"`, an instance of `SensorInsightsSensors.SensorInsightsSensorOnBoardStatusRequestError` — **typed arms**, narrowed on `err.payload.kind`
+- **Error arms**: `"managementError400"` [400] `ManagementError400` · `"managementError"` [401] `ManagementError` · `"managementError403"` [403] `ManagementError403` · `"managementError404"` [404] `ManagementError404` · `"managementError2"` [406] `ManagementError` · `"managementError3"` [415] `ManagementError` · `"managementError4"` [429] `ManagementError` · `"managementError500"` [500] `ManagementError500` · `"managementError5"` [default — any status no arm above covers] `ManagementError` · `"undeclared"` [a `default`-matched body that did not fit `ManagementError`] `rawBody: ArrayBuffer`
 
 **Fields** — `SensorInsightsSensors.SensorInsightsSensorOnBoardStatusRequestRequest` (1):
 

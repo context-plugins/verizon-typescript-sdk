@@ -33,6 +33,7 @@ import {
   type DescriptionOfRoadSurfaceSnow,
 } from "../description-of-road-surface-snow.js";
 
+/** Indicates the composition of the surface of the roadway for use in estimation of friction. */
 export type DescriptionOfRoadSurface =
   | DescriptionOfRoadSurfacePortlandCement
   | DescriptionOfRoadSurfaceAsphaltOrTar

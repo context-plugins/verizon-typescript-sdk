@@ -7,6 +7,7 @@ import {
 } from "./the-idresourceand-device-id.js";
 
 export type DtoBulkUpdate = {
+  /** The numeric account name, which must include leading zeros */
   accountname?: string;
   resourceidentifiers?: TheIDresourceandDeviceId[];
   smartalert?: BulkUpdateSmartalert;

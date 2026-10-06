@@ -6,6 +6,7 @@ import {
 } from "./dto-notification-group-request-entity.js";
 
 export type DtoCreateNotificationGroupRequest = {
+  /** The numeric account name, which must include leading zeros */
   accountname?: string;
   group: DtoNotificationGroupRequestEntity;
   userids?: string[];

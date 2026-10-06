@@ -6,9 +6,16 @@ import {
   type DeviceServiceInformation,
 } from "./device-service-information.js";
 
+/** Status of Hyper Precise Location on the device. */
 export type BullseyeServiceResult = {
+  /**
+   * The numeric ID of the account and must include leading zeroes. This value is indentical to
+   * `accountName`.
+   */
   accountNumber?: string;
+  /** List of devices. */
   deviceList?: DeviceServiceInformation[];
+  /** ResponseCode and/or a message indicating success or failure of the request. */
   responseType?: ApiResponseCode;
 };
 

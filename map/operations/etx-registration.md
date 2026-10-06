@@ -4,7 +4,7 @@
 
 Accessor: `client.etxRegistration` · Source: `src/resources/etx-registration.ts` · 7 operations · Request and error types: namespace `EtxRegistration`
 
-**Type sources**: every type an operation names, with the file that declares it and the schema value exported beside it. Import every name from `verizon`; the `Source` path is where to **read** the shape, never what to import. `ResponseError` and the runtime error family are excluded — see sdk-map.md.
+**Type sources**: every type an operation names, with the file that declares it and the schema value exported beside it. Import every name from `verizon`; the `Source` path is where to **read** the shape, never what to import. `ApiError`, the runtime error family and the file vocabulary are excluded — see sdk-map.md.
 
 ### getEtxClientCertificate
 
@@ -14,8 +14,8 @@ Accessor: `client.etxRegistration` · Source: `src/resources/etx-registration.ts
 - **Auth**: all of `thingspaceOauth`, `sessionToken` — both are sent
 - **Request body**: none — no `Content-Type` header is sent
 - **Returns**: `ClientPersistenceResponse`
-- **Error**: `EtxRegistration.GetEtxClientCertificateError` — **typed arms**, narrowed on `err.payload.kind`
-- **Error arms**: `"etxRespondingError"` [400] `EtxRespondingError` · `"etxRespondingError2"` [401] `EtxRespondingError` · `"etxRespondingError3"` [403] `EtxRespondingError` · `"etxRespondingError4"` [404] `EtxRespondingError` · `"etxRespondingError5"` [429] `EtxRespondingError` · `"etxRespondingError6"` [500] `EtxRespondingError` · `"etxRespondingError7"` [400–599] `EtxRespondingError` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
+- **Error**: `VerizonError` with `kind: "api"`, an instance of `EtxRegistration.GetEtxClientCertificateError` — **typed arms**, narrowed on `err.payload.kind`
+- **Error arms**: `"etxRespondingError"` [400] `EtxRespondingError` · `"etxRespondingError2"` [401] `EtxRespondingError` · `"etxRespondingError3"` [403] `EtxRespondingError` · `"etxRespondingError4"` [404] `EtxRespondingError` · `"etxRespondingError5"` [429] `EtxRespondingError` · `"etxRespondingError6"` [500] `EtxRespondingError` · `"etxRespondingError7"` [default — any status no arm above covers] `EtxRespondingError` · `"undeclared"` [a `default`-matched body that did not fit `EtxRespondingError`] `rawBody: ArrayBuffer`
 
 **Fields** — `EtxRegistration.GetEtxClientCertificateRequest` (3):
 
@@ -38,9 +38,10 @@ Accessor: `client.etxRegistration` · Source: `src/resources/etx-registration.ts
 - **Wire**: `POST /api/v2/clients/connection`
 - **Auth**: all of `thingspaceOauth`, `sessionToken` — both are sent
 - **Request body**: `application/json` — the `body` field
+- **SDK-sent**: `header Idempotency-Key` (minted per call)
 - **Returns**: `ConnectionResponse`
-- **Error**: `EtxRegistration.GetEtxConnectionUrlError` — **typed arms**, narrowed on `err.payload.kind`
-- **Error arms**: `"etxRespondingError"` [400] `EtxRespondingError` · `"etxRespondingError2"` [401] `EtxRespondingError` · `"etxRespondingError3"` [403] `EtxRespondingError` · `"etxRespondingError4"` [429] `EtxRespondingError` · `"etxRespondingError5"` [503] `EtxRespondingError` · `"etxRespondingError6"` [400–599] `EtxRespondingError` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
+- **Error**: `VerizonError` with `kind: "api"`, an instance of `EtxRegistration.GetEtxConnectionUrlError` — **typed arms**, narrowed on `err.payload.kind`
+- **Error arms**: `"etxRespondingError"` [400] `EtxRespondingError` · `"etxRespondingError2"` [401] `EtxRespondingError` · `"etxRespondingError3"` [403] `EtxRespondingError` · `"etxRespondingError4"` [429] `EtxRespondingError` · `"etxRespondingError5"` [503] `EtxRespondingError` · `"etxRespondingError6"` [default — any status no arm above covers] `EtxRespondingError` · `"undeclared"` [a `default`-matched body that did not fit `EtxRespondingError`] `rawBody: ArrayBuffer`
 
 **Fields** — `EtxRegistration.GetEtxConnectionUrlRequest` (3):
 
@@ -63,9 +64,10 @@ Accessor: `client.etxRegistration` · Source: `src/resources/etx-registration.ts
 - **Wire**: `POST /api/v3/clients/connection`
 - **Auth**: all of `thingspaceOauth`, `sessionToken` — both are sent
 - **Request body**: `application/json` — the `body` field
+- **SDK-sent**: `header Idempotency-Key` (minted per call)
 - **Returns**: `ConnectionResponseV3`
-- **Error**: `EtxRegistration.GetEtxConnectionUrlMultiMecError` — **typed arms**, narrowed on `err.payload.kind`
-- **Error arms**: `"etxRespondingError"` [400] `EtxRespondingError` · `"etxRespondingError2"` [401] `EtxRespondingError` · `"etxRespondingError3"` [403] `EtxRespondingError` · `"etxRespondingError4"` [429] `EtxRespondingError` · `"etxRespondingError5"` [503] `EtxRespondingError` · `"etxRespondingError6"` [400–599] `EtxRespondingError` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
+- **Error**: `VerizonError` with `kind: "api"`, an instance of `EtxRegistration.GetEtxConnectionUrlMultiMecError` — **typed arms**, narrowed on `err.payload.kind`
+- **Error arms**: `"etxRespondingError"` [400] `EtxRespondingError` · `"etxRespondingError2"` [401] `EtxRespondingError` · `"etxRespondingError3"` [403] `EtxRespondingError` · `"etxRespondingError4"` [429] `EtxRespondingError` · `"etxRespondingError5"` [503] `EtxRespondingError` · `"etxRespondingError6"` [default — any status no arm above covers] `EtxRespondingError` · `"undeclared"` [a `default`-matched body that did not fit `EtxRespondingError`] `rawBody: ArrayBuffer`
 
 **Fields** — `EtxRegistration.GetEtxConnectionUrlMultiMecRequest` (3):
 
@@ -88,9 +90,10 @@ Accessor: `client.etxRegistration` · Source: `src/resources/etx-registration.ts
 - **Wire**: `POST /api/v1/clients/query`
 - **Auth**: all of `thingspaceOauth`, `sessionToken` — both are sent
 - **Request body**: `application/json` — the `body` field
+- **SDK-sent**: `header Idempotency-Key` (minted per call)
 - **Returns**: `DevicesResponse[]` — a bare `application/json` array; the success type *is* the array, not a wrapper model
-- **Error**: `EtxRegistration.QueryEtxDevicesError` — **typed arms**, narrowed on `err.payload.kind`
-- **Error arms**: `"etxRespondingError"` [400] `EtxRespondingError` · `"etxRespondingError2"` [401] `EtxRespondingError` · `"etxRespondingError3"` [500] `EtxRespondingError` · `"etxRespondingError4"` [400–599] `EtxRespondingError` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
+- **Error**: `VerizonError` with `kind: "api"`, an instance of `EtxRegistration.QueryEtxDevicesError` — **typed arms**, narrowed on `err.payload.kind`
+- **Error arms**: `"etxRespondingError"` [400] `EtxRespondingError` · `"etxRespondingError2"` [401] `EtxRespondingError` · `"etxRespondingError3"` [500] `EtxRespondingError` · `"etxRespondingError4"` [default — any status no arm above covers] `EtxRespondingError` · `"undeclared"` [a `default`-matched body that did not fit `EtxRespondingError`] `rawBody: ArrayBuffer`
 
 **Fields** — `EtxRegistration.QueryEtxDevicesRequest` (2):
 
@@ -112,9 +115,10 @@ Accessor: `client.etxRegistration` · Source: `src/resources/etx-registration.ts
 - **Wire**: `POST /api/v2/clients/registration`
 - **Auth**: all of `thingspaceOauth`, `sessionToken` — both are sent
 - **Request body**: `application/json` — the `body` field
+- **SDK-sent**: `header Idempotency-Key` (minted per call)
 - **Returns**: `ClientRegistrationResponse`
-- **Error**: `EtxRegistration.RegisterEtxClientError` — **typed arms**, narrowed on `err.payload.kind`
-- **Error arms**: `"etxRespondingError"` [400] `EtxRespondingError` · `"etxRespondingError2"` [401] `EtxRespondingError` · `"etxRespondingError3"` [403] `EtxRespondingError` · `"etxRespondingError4"` [429] `EtxRespondingError` · `"etxRespondingError5"` [503] `EtxRespondingError` · `"etxRespondingError6"` [400–599] `EtxRespondingError` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
+- **Error**: `VerizonError` with `kind: "api"`, an instance of `EtxRegistration.RegisterEtxClientError` — **typed arms**, narrowed on `err.payload.kind`
+- **Error arms**: `"etxRespondingError"` [400] `EtxRespondingError` · `"etxRespondingError2"` [401] `EtxRespondingError` · `"etxRespondingError3"` [403] `EtxRespondingError` · `"etxRespondingError4"` [429] `EtxRespondingError` · `"etxRespondingError5"` [503] `EtxRespondingError` · `"etxRespondingError6"` [default — any status no arm above covers] `EtxRespondingError` · `"undeclared"` [a `default`-matched body that did not fit `EtxRespondingError`] `rawBody: ArrayBuffer`
 
 **Fields** — `EtxRegistration.RegisterEtxClientRequest` (2):
 
@@ -135,10 +139,11 @@ Accessor: `client.etxRegistration` · Source: `src/resources/etx-registration.ts
 - **Signature**: `renewEtxClientCertificate(request: EtxRegistration.RenewEtxClientCertificateRequest, options?: RequestOptions): ApiPromise<ClientRegistrationResponse, EtxRegistration.RenewEtxClientCertificateError>`
 - **Wire**: `PUT /api/v2/clients/registration`
 - **Auth**: all of `thingspaceOauth`, `sessionToken` — both are sent
-- **Request body**: `application/json` — the `body` field, a bare top-level JSON map with no fixed keys
+- **Request body**: `application/json` — the `body` field, a bare top-level JSON map with no fixed keys. **Optional**: omit it and the request carries no body and no `Content-Type` header at all
+- **SDK-sent**: `header Idempotency-Key` (minted per call)
 - **Returns**: `ClientRegistrationResponse`
-- **Error**: `EtxRegistration.RenewEtxClientCertificateError` — **typed arms**, narrowed on `err.payload.kind`
-- **Error arms**: `"etxRespondingError"` [400] `EtxRespondingError` · `"etxRespondingError2"` [401] `EtxRespondingError` · `"etxRespondingError3"` [403] `EtxRespondingError` · `"etxRespondingError4"` [429] `EtxRespondingError` · `"etxRespondingError5"` [503] `EtxRespondingError` · `"etxRespondingError6"` [400–599] `EtxRespondingError` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
+- **Error**: `VerizonError` with `kind: "api"`, an instance of `EtxRegistration.RenewEtxClientCertificateError` — **typed arms**, narrowed on `err.payload.kind`
+- **Error arms**: `"etxRespondingError"` [400] `EtxRespondingError` · `"etxRespondingError2"` [401] `EtxRespondingError` · `"etxRespondingError3"` [403] `EtxRespondingError` · `"etxRespondingError4"` [429] `EtxRespondingError` · `"etxRespondingError5"` [503] `EtxRespondingError` · `"etxRespondingError6"` [default — any status no arm above covers] `EtxRespondingError` · `"undeclared"` [a `default`-matched body that did not fit `EtxRespondingError`] `rawBody: ArrayBuffer`
 
 **Fields** — `EtxRegistration.RenewEtxClientCertificateRequest` (4):
 
@@ -161,9 +166,10 @@ Accessor: `client.etxRegistration` · Source: `src/resources/etx-registration.ts
 - **Wire**: `DELETE /api/v2/clients/registration`
 - **Auth**: all of `thingspaceOauth`, `sessionToken` — both are sent
 - **Request body**: none — no `Content-Type` header is sent
+- **SDK-sent**: `header Idempotency-Key` (minted per call)
 - **Returns**: `undefined` — the operation resolves to nothing
-- **Error**: `EtxRegistration.UnregisterEtxClientsError` — **typed arms**, narrowed on `err.payload.kind`
-- **Error arms**: `"etxRespondingError"` [400] `EtxRespondingError` · `"etxRespondingError2"` [401] `EtxRespondingError` · `"etxRespondingError3"` [403] `EtxRespondingError` · `"etxRespondingError4"` [429] `EtxRespondingError` · `"etxRespondingError5"` [503] `EtxRespondingError` · `"etxRespondingError6"` [400–599] `EtxRespondingError` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
+- **Error**: `VerizonError` with `kind: "api"`, an instance of `EtxRegistration.UnregisterEtxClientsError` — **typed arms**, narrowed on `err.payload.kind`
+- **Error arms**: `"etxRespondingError"` [400] `EtxRespondingError` · `"etxRespondingError2"` [401] `EtxRespondingError` · `"etxRespondingError3"` [403] `EtxRespondingError` · `"etxRespondingError4"` [429] `EtxRespondingError` · `"etxRespondingError5"` [503] `EtxRespondingError` · `"etxRespondingError6"` [default — any status no arm above covers] `EtxRespondingError` · `"undeclared"` [a `default`-matched body that did not fit `EtxRespondingError`] `rawBody: ArrayBuffer`
 
 **Fields** — `EtxRegistration.UnregisterEtxClientsRequest` (3):
 

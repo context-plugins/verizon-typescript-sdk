@@ -4,17 +4,19 @@
 
 Accessor: `client.sensorInsightsRules` · Source: `src/resources/sensor-insights-rules.ts` · 2 operations · Request and error types: namespace `SensorInsightsRules`
 
-**Type sources**: every type an operation names, with the file that declares it and the schema value exported beside it. Import every name from `verizon`; the `Source` path is where to **read** the shape, never what to import. `ResponseError` and the runtime error family are excluded — see sdk-map.md.
+**Type sources**: every type an operation names, with the file that declares it and the schema value exported beside it. Import every name from `verizon`; the `Source` path is where to **read** the shape, never what to import. `ApiError`, the runtime error family and the file vocabulary are excluded — see sdk-map.md.
 
 ### sensorInsightsListRulesRequest
 
+- **Server**: `thingspace` — not the `hyperPreciseCredentials` group; see Servers & auth in sdk-map.md
 - **Signature**: `sensorInsightsListRulesRequest(request: SensorInsightsRules.SensorInsightsListRulesRequestRequest, options?: RequestOptions): ApiPromise<ResourceRule[], SensorInsightsRules.SensorInsightsListRulesRequestError>`
 - **Wire**: `POST /dm/v1/rules/actions/query`
 - **Auth**: all of `thingspaceOauth`, `vzM2MToken` — both are sent
 - **Request body**: `application/json` — the `body` field
+- **SDK-sent**: `header Idempotency-Key` (minted per call)
 - **Returns**: `ResourceRule[]` — a bare `application/json` array; the success type *is* the array, not a wrapper model
-- **Error**: `SensorInsightsRules.SensorInsightsListRulesRequestError` — **typed arms**, narrowed on `err.payload.kind`
-- **Error arms**: `"managementError400"` [400] `ManagementError400` · `"managementError"` [401] `ManagementError` · `"managementError403"` [403] `ManagementError403` · `"managementError404"` [404] `ManagementError404` · `"managementError2"` [406] `ManagementError` · `"managementError3"` [415] `ManagementError` · `"managementError4"` [429] `ManagementError` · `"managementError500"` [500] `ManagementError500` · `"managementError5"` [400–599] `ManagementError` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
+- **Error**: `VerizonError` with `kind: "api"`, an instance of `SensorInsightsRules.SensorInsightsListRulesRequestError` — **typed arms**, narrowed on `err.payload.kind`
+- **Error arms**: `"managementError400"` [400] `ManagementError400` · `"managementError"` [401] `ManagementError` · `"managementError403"` [403] `ManagementError403` · `"managementError404"` [404] `ManagementError404` · `"managementError2"` [406] `ManagementError` · `"managementError3"` [415] `ManagementError` · `"managementError4"` [429] `ManagementError` · `"managementError500"` [500] `ManagementError500` · `"managementError5"` [default — any status no arm above covers] `ManagementError` · `"undeclared"` [a `default`-matched body that did not fit `ManagementError`] `rawBody: ArrayBuffer`
 
 **Fields** — `SensorInsightsRules.SensorInsightsListRulesRequestRequest` (1):
 
@@ -34,13 +36,15 @@ Accessor: `client.sensorInsightsRules` · Source: `src/resources/sensor-insights
 
 ### sensorInsightsOverwriteRuleRequest
 
+- **Server**: `thingspace` — not the `hyperPreciseCredentials` group; see Servers & auth in sdk-map.md
 - **Signature**: `sensorInsightsOverwriteRuleRequest(request: SensorInsightsRules.SensorInsightsOverwriteRuleRequestRequest, options?: RequestOptions): ApiPromise<ResourceRule, SensorInsightsRules.SensorInsightsOverwriteRuleRequestError>`
 - **Wire**: `POST /dm/v1/rules`
 - **Auth**: all of `thingspaceOauth`, `vzM2MToken` — both are sent
 - **Request body**: `application/json` — the `body` field
+- **SDK-sent**: `header Idempotency-Key` (minted per call)
 - **Returns**: `ResourceRule`
-- **Error**: `SensorInsightsRules.SensorInsightsOverwriteRuleRequestError` — **typed arms**, narrowed on `err.payload.kind`
-- **Error arms**: `"managementError400"` [400] `ManagementError400` · `"managementError"` [401] `ManagementError` · `"managementError403"` [403] `ManagementError403` · `"managementError404"` [404] `ManagementError404` · `"managementError2"` [406] `ManagementError` · `"managementError3"` [415] `ManagementError` · `"managementError4"` [429] `ManagementError` · `"managementError500"` [500] `ManagementError500` · `"managementError5"` [400–599] `ManagementError` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
+- **Error**: `VerizonError` with `kind: "api"`, an instance of `SensorInsightsRules.SensorInsightsOverwriteRuleRequestError` — **typed arms**, narrowed on `err.payload.kind`
+- **Error arms**: `"managementError400"` [400] `ManagementError400` · `"managementError"` [401] `ManagementError` · `"managementError403"` [403] `ManagementError403` · `"managementError404"` [404] `ManagementError404` · `"managementError2"` [406] `ManagementError` · `"managementError3"` [415] `ManagementError` · `"managementError4"` [429] `ManagementError` · `"managementError500"` [500] `ManagementError500` · `"managementError5"` [default — any status no arm above covers] `ManagementError` · `"undeclared"` [a `default`-matched body that did not fit `ManagementError`] `rawBody: ArrayBuffer`
 
 **Fields** — `SensorInsightsRules.SensorInsightsOverwriteRuleRequestRequest` (1):
 

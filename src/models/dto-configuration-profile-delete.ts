@@ -3,6 +3,7 @@ import type { Schema } from "../core/validation/schema.js";
 import { dtoResourceidentifierSchema, type DtoResourceidentifier } from "./dto-resourceidentifier.js";
 
 export type DtoConfigurationProfileDelete = {
+  /** The numeric account name, which must include leading zeros */
   accountName?: string;
   resourceidentifier?: DtoResourceidentifier;
 };

@@ -4,16 +4,18 @@
 
 Accessor: `client.deviceProfileManagement` · Source: `src/resources/device-profile-management.ts` · 4 operations · Request and error types: namespace `DeviceProfileManagement`
 
-**Type sources**: every type an operation names, with the file that declares it and the schema value exported beside it. Import every name from `verizon`; the `Source` path is where to **read** the shape, never what to import. `ResponseError` and the runtime error family are excluded — see sdk-map.md.
+**Type sources**: every type an operation names, with the file that declares it and the schema value exported beside it. Import every name from `verizon`; the `Source` path is where to **read** the shape, never what to import. `ApiError`, the runtime error family and the file vocabulary are excluded — see sdk-map.md.
 
 ### activateDeviceThroughProfile
 
+- **Server**: `thingspace` — not the `hyperPreciseCredentials` group; see Servers & auth in sdk-map.md
 - **Signature**: `activateDeviceThroughProfile(request: DeviceProfileManagement.ActivateDeviceThroughProfileRequest, options?: RequestOptions): ApiPromise<RequestResponse, DeviceProfileManagement.ActivateDeviceThroughProfileError>`
 - **Wire**: `POST /m2m/v1/devices/profile/actions/activate_enable`
 - **Auth**: all of `thingspaceOauth`, `vzM2MToken` — both are sent
 - **Request body**: `application/json` — the `body` field
+- **SDK-sent**: `header Idempotency-Key` (minted per call)
 - **Returns**: `RequestResponse`
-- **Error**: `DeviceProfileManagement.ActivateDeviceThroughProfileError` — **typed arms**, narrowed on `err.payload.kind`
+- **Error**: `VerizonError` with `kind: "api"`, an instance of `DeviceProfileManagement.ActivateDeviceThroughProfileError` — **typed arms**, narrowed on `err.payload.kind`
 - **Error arms**: `"restErrorResponse"` [400] `RestErrorResponse` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
 
 **Fields** — `DeviceProfileManagement.ActivateDeviceThroughProfileRequest` (1):
@@ -30,12 +32,14 @@ Accessor: `client.deviceProfileManagement` · Source: `src/resources/device-prof
 
 ### profileToActivateDevice
 
+- **Server**: `thingspace` — not the `hyperPreciseCredentials` group; see Servers & auth in sdk-map.md
 - **Signature**: `profileToActivateDevice(request: DeviceProfileManagement.ProfileToActivateDeviceRequest, options?: RequestOptions): ApiPromise<RequestResponse, DeviceProfileManagement.ProfileToActivateDeviceError>`
 - **Wire**: `POST /m2m/v1/devices/profile/actions/activate`
 - **Auth**: all of `thingspaceOauth`, `vzM2MToken` — both are sent
 - **Request body**: `application/json` — the `body` field
+- **SDK-sent**: `header Idempotency-Key` (minted per call)
 - **Returns**: `RequestResponse`
-- **Error**: `DeviceProfileManagement.ProfileToActivateDeviceError` — **typed arms**, narrowed on `err.payload.kind`
+- **Error**: `VerizonError` with `kind: "api"`, an instance of `DeviceProfileManagement.ProfileToActivateDeviceError` — **typed arms**, narrowed on `err.payload.kind`
 - **Error arms**: `"restErrorResponse"` [400] `RestErrorResponse` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
 
 **Fields** — `DeviceProfileManagement.ProfileToActivateDeviceRequest` (1):
@@ -52,12 +56,14 @@ Accessor: `client.deviceProfileManagement` · Source: `src/resources/device-prof
 
 ### profileToDeactivateDevice
 
+- **Server**: `thingspace` — not the `hyperPreciseCredentials` group; see Servers & auth in sdk-map.md
 - **Signature**: `profileToDeactivateDevice(request: DeviceProfileManagement.ProfileToDeactivateDeviceRequest, options?: RequestOptions): ApiPromise<RequestResponse, DeviceProfileManagement.ProfileToDeactivateDeviceError>`
 - **Wire**: `POST /m2m/v1/devices/profile/actions/deactivate`
 - **Auth**: all of `thingspaceOauth`, `vzM2MToken` — both are sent
 - **Request body**: `application/json` — the `body` field
+- **SDK-sent**: `header Idempotency-Key` (minted per call)
 - **Returns**: `RequestResponse`
-- **Error**: `DeviceProfileManagement.ProfileToDeactivateDeviceError` — **typed arms**, narrowed on `err.payload.kind`
+- **Error**: `VerizonError` with `kind: "api"`, an instance of `DeviceProfileManagement.ProfileToDeactivateDeviceError` — **typed arms**, narrowed on `err.payload.kind`
 - **Error arms**: `"restErrorResponse"` [400] `RestErrorResponse` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
 
 **Fields** — `DeviceProfileManagement.ProfileToDeactivateDeviceRequest` (1):
@@ -74,12 +80,14 @@ Accessor: `client.deviceProfileManagement` · Source: `src/resources/device-prof
 
 ### profileToSetFallbackAttribute
 
+- **Server**: `thingspace` — not the `hyperPreciseCredentials` group; see Servers & auth in sdk-map.md
 - **Signature**: `profileToSetFallbackAttribute(request: DeviceProfileManagement.ProfileToSetFallbackAttributeRequest, options?: RequestOptions): ApiPromise<RequestResponse, DeviceProfileManagement.ProfileToSetFallbackAttributeError>`
 - **Wire**: `POST /m2m/v1/devices/profile/actions/setfallbackattribute`
 - **Auth**: all of `thingspaceOauth`, `vzM2MToken` — both are sent
 - **Request body**: `application/json` — the `body` field
+- **SDK-sent**: `header Idempotency-Key` (minted per call)
 - **Returns**: `RequestResponse`
-- **Error**: `DeviceProfileManagement.ProfileToSetFallbackAttributeError` — **typed arms**, narrowed on `err.payload.kind`
+- **Error**: `VerizonError` with `kind: "api"`, an instance of `DeviceProfileManagement.ProfileToSetFallbackAttributeError` — **typed arms**, narrowed on `err.payload.kind`
 - **Error arms**: `"restErrorResponse"` [400] `RestErrorResponse` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
 
 **Fields** — `DeviceProfileManagement.ProfileToSetFallbackAttributeRequest` (1):

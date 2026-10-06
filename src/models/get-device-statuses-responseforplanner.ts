@@ -6,6 +6,7 @@ import {
 } from "./device-status-itemforplanner.js";
 
 export type GetDeviceStatusesResponseforplanner = {
+  /** The numeric name of the account, including leading zeros. */
   accountNumber?: string | null;
   requestId?: string | null;
   deviceStatusList?: DeviceStatusItemforplanner[] | null;

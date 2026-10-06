@@ -1,9 +1,9 @@
 import type { AuthSchemes } from "../auth-schemes.js";
+import { ApiError, type Declared, type ErrorDecoders, type ErrorPayload } from "../core/api-error.js";
 import type { ApiPromise } from "../core/api-promise.js";
 import type { RequestOptions } from "../core/api-request.js";
 import { allAuth } from "../core/auth/schemes.js";
 import type { RawClient } from "../core/raw-client.js";
-import { ResponseError, type Declared, type ErrorDecoders } from "../core/response-error.js";
 import * as s from "../core/validation/index.js";
 import {
   deviceDiagnosticsResultSchema,
@@ -26,6 +26,21 @@ export class DiagnosticsSubscriptions {
     this.#auth = auth;
   }
 
+  /**
+   * Get diagnostics service subscription information
+   *
+   * @remarks
+   * This endpoint retrieves a diagnostics subscription by account.
+   *
+   * @returns Diagnostics subscription response.
+   *
+   * @throws {@link DiagnosticsSubscriptions.GetDiagnosticsSubscriptionError} when the API answers
+   * with an error status — narrow on `err.payload.kind`
+   *
+   * @throws {@link VerizonError} when no usable response was produced: a connection failure, a
+   * timeout, a body that would not decode, a value that would not encode, or a credential that
+   * could not be obtained
+   */
   getDiagnosticsSubscription(
     request: DiagnosticsSubscriptions.GetDiagnosticsSubscriptionRequest,
     options?: RequestOptions,
@@ -33,9 +48,11 @@ export class DiagnosticsSubscriptions {
     return this.#rawClient.execute(
       {
         method: "GET",
-        url: this.#servers.deviceDiagnostics("/subscriptions"),
+        urlTemplate: this.#servers.deviceDiagnostics("/subscriptions"),
         auth: allAuth(this.#auth.thingspaceOauth, this.#auth.vzM2MToken),
+        pathParams: [],
         query: [{ name: "accountName", value: request.accountName, schema: s.string() }],
+        headers: [],
         body: { kind: "empty" },
       },
       {
@@ -49,15 +66,16 @@ export class DiagnosticsSubscriptions {
 
 export namespace DiagnosticsSubscriptions {
   export type GetDiagnosticsSubscriptionRequest = {
+    /** Account identifier. */
     accountName: string;
   };
 
-  export class GetDiagnosticsSubscriptionError extends ResponseError<
-    Declared<"deviceDiagnosticsResult", DeviceDiagnosticsResult>
-  > {
+  export class GetDiagnosticsSubscriptionError extends ApiError {
+    declare readonly payload: ErrorPayload<Declared<"deviceDiagnosticsResult", DeviceDiagnosticsResult>>;
+
     static readonly errors: ErrorDecoders<GetDiagnosticsSubscriptionError> = [
       {
-        on: [400, 599],
+        on: "default",
         kind: "deviceDiagnosticsResult",
         decode: { kind: "json", schema: deviceDiagnosticsResultSchema },
       },

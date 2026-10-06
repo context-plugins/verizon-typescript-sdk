@@ -1,10 +1,25 @@
 import * as s from "../core/validation/index.js";
 import type { Schema } from "../core/validation/schema.js";
 
+/** Cause code wrapper for accident events. */
 export type AccidentCauseCode = {
+  /**
+   * The value shall be set to:
+   * - 0 `unavailable` - in case the information on the sub cause of the accident is unavailable,
+   * - 1 `multiVehicleAccident` - in case more than two vehicles are involved in accident,
+   * - 2 `heavyAccident` - in case the airbag of the vehicle involved in the accident is triggered,
+   * * the accident requires important rescue and/or recovery work,
+   * - 3 `accidentInvolvingLorry` - in case the accident involves a lorry,
+   * - 4 `accidentInvolvingBus` - in case the accident involves a bus,
+   * - 5 `accidentInvolvingHazardousMaterials`- in case the accident involves hazardous material,
+   * - 6 `accidentOnOppositeLane` - in case the accident happens on opposite lanes,
+   * - 7 `unsecuredAccident` - in case the accident is not secured,
+   * - 8 `assistanceRequested` - in case rescue and assistance are requested,
+   * - 9-255 - reserved for future usage.
+   */
   accident2: number;
 };
 
 export const accidentCauseCodeSchema: Schema<AccidentCauseCode> = s.object<AccidentCauseCode>({
-  accident2: s.number(),
+  accident2: s.int(),
 });

@@ -4,7 +4,7 @@
 
 Accessor: `client.softwareManagementCallbacksV2` · Source: `src/resources/software-management-callbacks-v2.ts` · 4 operations · Request and error types: namespace `SoftwareManagementCallbacksV2`
 
-**Type sources**: every type an operation names, with the file that declares it and the schema value exported beside it. Import every name from `verizon`; the `Source` path is where to **read** the shape, never what to import. `ResponseError` and the runtime error family are excluded — see sdk-map.md.
+**Type sources**: every type an operation names, with the file that declares it and the schema value exported beside it. Import every name from `verizon`; the `Source` path is where to **read** the shape, never what to import. `ApiError`, the runtime error family and the file vocabulary are excluded — see sdk-map.md.
 
 ### deregisterCallback4
 
@@ -13,8 +13,9 @@ Accessor: `client.softwareManagementCallbacksV2` · Source: `src/resources/softw
 - **Wire**: `DELETE /callbacks/{account}`
 - **Auth**: all of `thingspaceOauth`, `vzM2MToken` — both are sent
 - **Request body**: none — no `Content-Type` header is sent
+- **SDK-sent**: `header Idempotency-Key` (minted per call)
 - **Returns**: `FotaV2SuccessResult`
-- **Error**: `SoftwareManagementCallbacksV2.DeregisterCallback4Error` — **typed arms**, narrowed on `err.payload.kind`
+- **Error**: `VerizonError` with `kind: "api"`, an instance of `SoftwareManagementCallbacksV2.DeregisterCallback4Error` — **typed arms**, narrowed on `err.payload.kind`
 - **Error arms**: `"fotaV2Result"` [400] `FotaV2Result` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
 
 **Fields** — `SoftwareManagementCallbacksV2.DeregisterCallback4Request` (1):
@@ -36,7 +37,7 @@ Accessor: `client.softwareManagementCallbacksV2` · Source: `src/resources/softw
 - **Auth**: all of `thingspaceOauth`, `vzM2MToken` — both are sent
 - **Request body**: none — no `Content-Type` header is sent
 - **Returns**: `CallbackSummary`
-- **Error**: `SoftwareManagementCallbacksV2.ListRegisteredCallbacks4Error` — **typed arms**, narrowed on `err.payload.kind`
+- **Error**: `VerizonError` with `kind: "api"`, an instance of `SoftwareManagementCallbacksV2.ListRegisteredCallbacks4Error` — **typed arms**, narrowed on `err.payload.kind`
 - **Error arms**: `"fotaV2Result"` [400] `FotaV2Result` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
 
 **Fields** — `SoftwareManagementCallbacksV2.ListRegisteredCallbacks4Request` (1):
@@ -57,8 +58,9 @@ Accessor: `client.softwareManagementCallbacksV2` · Source: `src/resources/softw
 - **Wire**: `POST /callbacks/{account}`
 - **Auth**: all of `thingspaceOauth`, `vzM2MToken` — both are sent
 - **Request body**: none — no `Content-Type` header is sent
+- **SDK-sent**: `header Idempotency-Key` (minted per call)
 - **Returns**: `FotaV2CallbackRegistrationResult`
-- **Error**: `SoftwareManagementCallbacksV2.RegisterCallback4Error` — **typed arms**, narrowed on `err.payload.kind`
+- **Error**: `VerizonError` with `kind: "api"`, an instance of `SoftwareManagementCallbacksV2.RegisterCallback4Error` — **typed arms**, narrowed on `err.payload.kind`
 - **Error arms**: `"fotaV2Result"` [400] `FotaV2Result` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
 
 **Fields** — `SoftwareManagementCallbacksV2.RegisterCallback4Request` (1):
@@ -79,8 +81,9 @@ Accessor: `client.softwareManagementCallbacksV2` · Source: `src/resources/softw
 - **Wire**: `PUT /callbacks/{account}`
 - **Auth**: all of `thingspaceOauth`, `vzM2MToken` — both are sent
 - **Request body**: none — no `Content-Type` header is sent
+- **SDK-sent**: `header Idempotency-Key` (minted per call)
 - **Returns**: `FotaV2CallbackRegistrationResult`
-- **Error**: `SoftwareManagementCallbacksV2.UpdateCallbackError` — **typed arms**, narrowed on `err.payload.kind`
+- **Error**: `VerizonError` with `kind: "api"`, an instance of `SoftwareManagementCallbacksV2.UpdateCallbackError` — **typed arms**, narrowed on `err.payload.kind`
 - **Error arms**: `"fotaV2Result"` [400] `FotaV2Result` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
 
 **Fields** — `SoftwareManagementCallbacksV2.UpdateCallbackRequest` (1):

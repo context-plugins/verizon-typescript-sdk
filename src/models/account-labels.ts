@@ -3,6 +3,7 @@ import type { Schema } from "../core/validation/schema.js";
 import { deviceLabelsSchema, type DeviceLabels } from "./device-labels.js";
 import { deviceListSchema, type DeviceList } from "./device-list.js";
 
+/** Maximum of 2,000 objects are allowed in the array. */
 export type AccountLabels = {
   devices: DeviceList[];
   label?: DeviceLabels[];

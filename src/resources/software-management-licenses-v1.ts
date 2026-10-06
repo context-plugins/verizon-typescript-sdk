@@ -1,9 +1,10 @@
 import type { AuthSchemes } from "../auth-schemes.js";
+import { ApiError, type Declared, type ErrorDecoders, type ErrorPayload } from "../core/api-error.js";
 import type { ApiPromise } from "../core/api-promise.js";
 import type { RequestOptions } from "../core/api-request.js";
 import { allAuth } from "../core/auth/schemes.js";
 import type { RawClient } from "../core/raw-client.js";
-import { ResponseError, type Declared, type ErrorDecoders } from "../core/response-error.js";
+import { uuid } from "../core/uuid.js";
 import * as s from "../core/validation/index.js";
 import { fotaV1ResultSchema, type FotaV1Result } from "../models/fota-v1-result.js";
 import {
@@ -28,6 +29,10 @@ import {
 } from "../models/v1-list-of-licenses-to-remove.js";
 import type { Servers } from "../servers.js";
 
+/**
+ * Assign Software Management Services license to devices **Note:**These endpoints have been
+ * deprecated. Please use the **v3** endpoints.
+ */
 export class SoftwareManagementLicensesV1 {
   readonly #rawClient: RawClient;
   readonly #servers: Servers;
@@ -39,6 +44,24 @@ export class SoftwareManagementLicensesV1 {
     this.#auth = auth;
   }
 
+  /**
+   * Assign licenses to devices
+   *
+   * @remarks
+   * Assigns licenses to a specified list of devices so that firmware upgrades can be scheduled for
+   * those devices.
+   *
+   * @returns List of licenses assigned.
+   *
+   * @throws {@link SoftwareManagementLicensesV1.AssignLicensesToDevicesError} when the API answers
+   * with an error status — narrow on `err.payload.kind`
+   *
+   * @throws {@link VerizonError} when no usable response was produced: a connection failure, a
+   * timeout, a body that would not decode, a value that would not encode, or a credential that
+   * could not be obtained
+   *
+   * @deprecated
+   */
   assignLicensesToDevices(
     request: SoftwareManagementLicensesV1.AssignLicensesToDevicesRequest,
     options?: RequestOptions,
@@ -46,9 +69,11 @@ export class SoftwareManagementLicensesV1 {
     return this.#rawClient.execute(
       {
         method: "POST",
-        url: this.#servers.softwareManagementV1("/licenses/{account}/assign"),
+        urlTemplate: this.#servers.softwareManagementV1("/licenses/{account}/assign"),
         auth: allAuth(this.#auth.thingspaceOauth, this.#auth.vzM2MToken),
         pathParams: [{ name: "account", value: request.account, schema: s.string() }],
+        query: [],
+        headers: [{ name: "Idempotency-Key", value: uuid(), schema: s.string() }],
         body: { kind: "json", value: request.body, schema: v1LicensesAssignedRemovedRequestSchema },
       },
       {
@@ -59,6 +84,21 @@ export class SoftwareManagementLicensesV1 {
     );
   }
 
+  /**
+   * Creates a list of devices from which licenses will be removed if the number of MRC licenses
+   * becomes less than the number of assigned licenses.
+   *
+   * @returns List of licenses assigned.
+   *
+   * @throws {@link SoftwareManagementLicensesV1.CreateListOfLicensesToRemoveError} when the API
+   * answers with an error status — narrow on `err.payload.kind`
+   *
+   * @throws {@link VerizonError} when no usable response was produced: a connection failure, a
+   * timeout, a body that would not decode, a value that would not encode, or a credential that
+   * could not be obtained
+   *
+   * @deprecated
+   */
   createListOfLicensesToRemove(
     request: SoftwareManagementLicensesV1.CreateListOfLicensesToRemoveRequest,
     options?: RequestOptions,
@@ -69,9 +109,11 @@ export class SoftwareManagementLicensesV1 {
     return this.#rawClient.execute(
       {
         method: "POST",
-        url: this.#servers.softwareManagementV1("/licenses/{account}/cancel"),
+        urlTemplate: this.#servers.softwareManagementV1("/licenses/{account}/cancel"),
         auth: allAuth(this.#auth.thingspaceOauth, this.#auth.vzM2MToken),
         pathParams: [{ name: "account", value: request.account, schema: s.string() }],
+        query: [],
+        headers: [{ name: "Idempotency-Key", value: uuid(), schema: s.string() }],
         body: { kind: "json", value: request.body, schema: v1ListOfLicensesToRemoveRequestSchema },
       },
       {
@@ -82,6 +124,23 @@ export class SoftwareManagementLicensesV1 {
     );
   }
 
+  /**
+   * Remove all devices from the cancellation candidate list
+   *
+   * @remarks
+   * Deletes the entire list of cancellation candidate devices.
+   *
+   * @returns Upgrade canceled.
+   *
+   * @throws {@link SoftwareManagementLicensesV1.DeleteListOfLicensesToRemoveError} when the API
+   * answers with an error status — narrow on `err.payload.kind`
+   *
+   * @throws {@link VerizonError} when no usable response was produced: a connection failure, a
+   * timeout, a body that would not decode, a value that would not encode, or a credential that
+   * could not be obtained
+   *
+   * @deprecated
+   */
   deleteListOfLicensesToRemove(
     request: SoftwareManagementLicensesV1.DeleteListOfLicensesToRemoveRequest,
     options?: RequestOptions,
@@ -89,9 +148,11 @@ export class SoftwareManagementLicensesV1 {
     return this.#rawClient.execute(
       {
         method: "DELETE",
-        url: this.#servers.softwareManagementV1("/licenses/{account}/cancel"),
+        urlTemplate: this.#servers.softwareManagementV1("/licenses/{account}/cancel"),
         auth: allAuth(this.#auth.thingspaceOauth, this.#auth.vzM2MToken),
         pathParams: [{ name: "account", value: request.account, schema: s.string() }],
+        query: [],
+        headers: [{ name: "Idempotency-Key", value: uuid(), schema: s.string() }],
         body: { kind: "empty" },
       },
       {
@@ -102,6 +163,24 @@ export class SoftwareManagementLicensesV1 {
     );
   }
 
+  /**
+   * Get cancellation candidate list
+   *
+   * @remarks
+   * Returns a list of devices from which licenses will be removed if the number of MRC licenses
+   * becomes less than the number of assigned licenses.
+   *
+   * @returns List of cancellation candidate devices.
+   *
+   * @throws {@link SoftwareManagementLicensesV1.ListLicensesToRemoveError} when the API answers
+   * with an error status — narrow on `err.payload.kind`
+   *
+   * @throws {@link VerizonError} when no usable response was produced: a connection failure, a
+   * timeout, a body that would not decode, a value that would not encode, or a credential that
+   * could not be obtained
+   *
+   * @deprecated
+   */
   listLicensesToRemove(
     request: SoftwareManagementLicensesV1.ListLicensesToRemoveRequest,
     options?: RequestOptions,
@@ -109,12 +188,14 @@ export class SoftwareManagementLicensesV1 {
     return this.#rawClient.execute(
       {
         method: "GET",
-        url: this.#servers.softwareManagementV1("/licenses/{account}/cancel/index/{startIndex}"),
+        urlTemplate: this.#servers.softwareManagementV1("/licenses/{account}/cancel/index/{startIndex}"),
         auth: allAuth(this.#auth.thingspaceOauth, this.#auth.vzM2MToken),
         pathParams: [
           { name: "account", value: request.account, schema: s.string() },
           { name: "startIndex", value: request.startIndex, schema: s.string() },
         ],
+        query: [],
+        headers: [],
         body: { kind: "empty" },
       },
       {
@@ -125,6 +206,23 @@ export class SoftwareManagementLicensesV1 {
     );
   }
 
+  /**
+   * Remove licenses from device
+   *
+   * @remarks
+   * Remove unused licenses from device.
+   *
+   * @returns List of devices with license removal status.
+   *
+   * @throws {@link SoftwareManagementLicensesV1.RemoveLicensesFromDevicesError} when the API
+   * answers with an error status — narrow on `err.payload.kind`
+   *
+   * @throws {@link VerizonError} when no usable response was produced: a connection failure, a
+   * timeout, a body that would not decode, a value that would not encode, or a credential that
+   * could not be obtained
+   *
+   * @deprecated
+   */
   removeLicensesFromDevices(
     request: SoftwareManagementLicensesV1.RemoveLicensesFromDevicesRequest,
     options?: RequestOptions,
@@ -135,9 +233,11 @@ export class SoftwareManagementLicensesV1 {
     return this.#rawClient.execute(
       {
         method: "POST",
-        url: this.#servers.softwareManagementV1("/licenses/{account}/remove"),
+        urlTemplate: this.#servers.softwareManagementV1("/licenses/{account}/remove"),
         auth: allAuth(this.#auth.thingspaceOauth, this.#auth.vzM2MToken),
         pathParams: [{ name: "account", value: request.account, schema: s.string() }],
+        query: [],
+        headers: [{ name: "Idempotency-Key", value: uuid(), schema: s.string() }],
         body: { kind: "json", value: request.body, schema: v1LicensesAssignedRemovedRequestSchema },
       },
       {
@@ -151,56 +251,77 @@ export class SoftwareManagementLicensesV1 {
 
 export namespace SoftwareManagementLicensesV1 {
   export type AssignLicensesToDevicesRequest = {
+    /** Account identifier in "##########-#####". */
     account: string;
+    /** IMEIs of the devices to assign licenses to. */
     body: V1LicensesAssignedRemovedRequest;
   };
 
-  export class AssignLicensesToDevicesError extends ResponseError<Declared<"fotaV1Result", FotaV1Result>> {
+  export class AssignLicensesToDevicesError extends ApiError {
+    declare readonly payload: ErrorPayload<Declared<"fotaV1Result", FotaV1Result>>;
+
     static readonly errors: ErrorDecoders<AssignLicensesToDevicesError> = [
       { on: 400, kind: "fotaV1Result", decode: { kind: "json", schema: fotaV1ResultSchema } },
     ];
   }
 
   export type CreateListOfLicensesToRemoveRequest = {
+    /** Account identifier in "##########-#####". */
     account: string;
+    /** Cancellation candidate device list. */
     body: V1ListOfLicensesToRemoveRequest;
   };
 
-  export class CreateListOfLicensesToRemoveError extends ResponseError<
-    Declared<"fotaV1Result", FotaV1Result>
-  > {
+  export class CreateListOfLicensesToRemoveError extends ApiError {
+    declare readonly payload: ErrorPayload<Declared<"fotaV1Result", FotaV1Result>>;
+
     static readonly errors: ErrorDecoders<CreateListOfLicensesToRemoveError> = [
       { on: 400, kind: "fotaV1Result", decode: { kind: "json", schema: fotaV1ResultSchema } },
     ];
   }
 
   export type DeleteListOfLicensesToRemoveRequest = {
+    /** Account identifier in "##########-#####". */
     account: string;
   };
 
-  export class DeleteListOfLicensesToRemoveError extends ResponseError<Declared<"error400", undefined>> {
+  export class DeleteListOfLicensesToRemoveError extends ApiError {
+    declare readonly payload: ErrorPayload<Declared<"error400", undefined>>;
+
     static readonly errors: ErrorDecoders<DeleteListOfLicensesToRemoveError> = [
       { on: 400, kind: "error400", decode: { kind: "empty" } },
     ];
   }
 
   export type ListLicensesToRemoveRequest = {
+    /** Account identifier in "##########-#####". */
     account: string;
+    /**
+     * The zero-based number of the first record to return. Set startIndex=0 for the first request.
+     * If there are more than 1,000 devices in the response, set startIndex=1000 for the second
+     * request, 2000 for the third request, etc.
+     */
     startIndex: string;
   };
 
-  export class ListLicensesToRemoveError extends ResponseError<Declared<"fotaV1Result", FotaV1Result>> {
+  export class ListLicensesToRemoveError extends ApiError {
+    declare readonly payload: ErrorPayload<Declared<"fotaV1Result", FotaV1Result>>;
+
     static readonly errors: ErrorDecoders<ListLicensesToRemoveError> = [
       { on: 400, kind: "fotaV1Result", decode: { kind: "json", schema: fotaV1ResultSchema } },
     ];
   }
 
   export type RemoveLicensesFromDevicesRequest = {
+    /** Account identifier in "##########-#####". */
     account: string;
+    /** IMEIs of the devices to remove licenses from. */
     body: V1LicensesAssignedRemovedRequest;
   };
 
-  export class RemoveLicensesFromDevicesError extends ResponseError<Declared<"fotaV1Result", FotaV1Result>> {
+  export class RemoveLicensesFromDevicesError extends ApiError {
+    declare readonly payload: ErrorPayload<Declared<"fotaV1Result", FotaV1Result>>;
+
     static readonly errors: ErrorDecoders<RemoveLicensesFromDevicesError> = [
       { on: 400, kind: "fotaV1Result", decode: { kind: "json", schema: fotaV1ResultSchema } },
     ];

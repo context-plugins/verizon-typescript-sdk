@@ -6,8 +6,11 @@ import {
 } from "./device-credential-request-item.js";
 
 export type CredentialsRequest = {
+  /** Enterprise Customer Profile ID */
   ecpd: string;
+  /** Billing Account Number */
   accountNumber: string;
+  /** List of devices (1-50 items) */
   items: DeviceCredentialRequestItem[];
 };
 

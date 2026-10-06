@@ -3,6 +3,7 @@ import type { Schema } from "../core/validation/schema.js";
 import { ratePlanGroupSchema, type RatePlanGroup } from "./unions/rate-plan-group.js";
 
 export type Rateplan = {
+  /** An array of rate plan group names */
   ratePlanGroup?: RatePlanGroup[];
 };
 

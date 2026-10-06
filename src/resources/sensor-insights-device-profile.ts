@@ -1,9 +1,10 @@
 import type { AuthSchemes } from "../auth-schemes.js";
+import { ApiError, type Declared, type ErrorDecoders, type ErrorPayload } from "../core/api-error.js";
 import type { ApiPromise } from "../core/api-promise.js";
 import type { RequestOptions } from "../core/api-request.js";
 import { allAuth } from "../core/auth/schemes.js";
 import type { RawClient } from "../core/raw-client.js";
-import { ResponseError, type Declared, type ErrorDecoders } from "../core/response-error.js";
+import { uuid } from "../core/uuid.js";
 import * as s from "../core/validation/index.js";
 import {
   dtoConfigurationProfileDeleteSchema,
@@ -28,6 +29,9 @@ import {
 } from "../models/resource-resource-query.js";
 import type { Servers } from "../servers.js";
 
+/**
+ * Create and manage device profile information
+ */
 export class SensorInsightsDeviceProfile {
   readonly #rawClient: RawClient;
   readonly #servers: Servers;
@@ -39,6 +43,21 @@ export class SensorInsightsDeviceProfile {
     this.#auth = auth;
   }
 
+  /**
+   * Create device profile
+   *
+   * @remarks
+   * Create a device profile
+   *
+   * @returns OK
+   *
+   * @throws {@link SensorInsightsDeviceProfile.CreateAProfileError} when the API answers with an
+   * error status — narrow on `err.payload.kind`
+   *
+   * @throws {@link VerizonError} when no usable response was produced: a connection failure, a
+   * timeout, a body that would not decode, a value that would not encode, or a credential that
+   * could not be obtained
+   */
   createAProfile(
     request: SensorInsightsDeviceProfile.CreateAProfileRequest,
     options?: RequestOptions,
@@ -46,8 +65,11 @@ export class SensorInsightsDeviceProfile {
     return this.#rawClient.execute(
       {
         method: "POST",
-        url: this.#servers.hyperPreciseCredentials("/dm/v1/deviceConfigurationProfiles"),
+        urlTemplate: this.#servers.thingspace("/dm/v1/deviceConfigurationProfiles"),
         auth: allAuth(this.#auth.thingspaceOauth, this.#auth.vzM2MToken),
+        pathParams: [],
+        query: [],
+        headers: [{ name: "Idempotency-Key", value: uuid(), schema: s.string() }],
         body: { kind: "json", value: request.body, schema: dtoConfigurationProfileSchema },
       },
       {
@@ -58,6 +80,21 @@ export class SensorInsightsDeviceProfile {
     );
   }
 
+  /**
+   * Delete device profile
+   *
+   * @remarks
+   * Delete a device profile
+   *
+   * @returns OK
+   *
+   * @throws {@link SensorInsightsDeviceProfile.DeleteAProfileError} when the API answers with an
+   * error status — narrow on `err.payload.kind`
+   *
+   * @throws {@link VerizonError} when no usable response was produced: a connection failure, a
+   * timeout, a body that would not decode, a value that would not encode, or a credential that
+   * could not be obtained
+   */
   deleteAProfile(
     request: SensorInsightsDeviceProfile.DeleteAProfileRequest,
     options?: RequestOptions,
@@ -65,14 +102,17 @@ export class SensorInsightsDeviceProfile {
     return this.#rawClient.execute(
       {
         method: "DELETE",
-        url: this.#servers.hyperPreciseCredentials("/dm/v1/deviceConfigurationProfiles"),
+        urlTemplate: this.#servers.thingspace("/dm/v1/deviceConfigurationProfiles"),
         auth: allAuth(this.#auth.thingspaceOauth, this.#auth.vzM2MToken),
+        pathParams: [],
+        query: [],
         headers: [
           {
             name: "deleterequest",
             value: request.deleterequest,
             schema: dtoConfigurationProfileDeleteSchema,
           },
+          { name: "Idempotency-Key", value: uuid(), schema: s.string() },
         ],
         body: { kind: "empty" },
       },
@@ -84,6 +124,21 @@ export class SensorInsightsDeviceProfile {
     );
   }
 
+  /**
+   * Query device profile
+   *
+   * @remarks
+   * Query a device profile for an individual device
+   *
+   * @returns OK
+   *
+   * @throws {@link SensorInsightsDeviceProfile.QueryAProfileError} when the API answers with an
+   * error status — narrow on `err.payload.kind`
+   *
+   * @throws {@link VerizonError} when no usable response was produced: a connection failure, a
+   * timeout, a body that would not decode, a value that would not encode, or a credential that
+   * could not be obtained
+   */
   queryAProfile(
     request: SensorInsightsDeviceProfile.QueryAProfileRequest,
     options?: RequestOptions,
@@ -91,8 +146,11 @@ export class SensorInsightsDeviceProfile {
     return this.#rawClient.execute(
       {
         method: "POST",
-        url: this.#servers.hyperPreciseCredentials("/dm/v1/deviceConfigurationProfiles/actions/query"),
+        urlTemplate: this.#servers.thingspace("/dm/v1/deviceConfigurationProfiles/actions/query"),
         auth: allAuth(this.#auth.thingspaceOauth, this.#auth.vzM2MToken),
+        pathParams: [],
+        query: [],
+        headers: [{ name: "Idempotency-Key", value: uuid(), schema: s.string() }],
         body: { kind: "json", value: request.body, schema: resourceResourceQuerySchema },
       },
       {
@@ -103,6 +161,21 @@ export class SensorInsightsDeviceProfile {
     );
   }
 
+  /**
+   * Partially update device profile
+   *
+   * @remarks
+   * Partially update a device profile
+   *
+   * @returns OK
+   *
+   * @throws {@link SensorInsightsDeviceProfile.UpdateAProfileError} when the API answers with an
+   * error status — narrow on `err.payload.kind`
+   *
+   * @throws {@link VerizonError} when no usable response was produced: a connection failure, a
+   * timeout, a body that would not decode, a value that would not encode, or a credential that
+   * could not be obtained
+   */
   updateAProfile(
     request: SensorInsightsDeviceProfile.UpdateAProfileRequest,
     options?: RequestOptions,
@@ -110,8 +183,11 @@ export class SensorInsightsDeviceProfile {
     return this.#rawClient.execute(
       {
         method: "PATCH",
-        url: this.#servers.hyperPreciseCredentials("/dm/v1/deviceConfigurationProfiles"),
+        urlTemplate: this.#servers.thingspace("/dm/v1/deviceConfigurationProfiles"),
         auth: allAuth(this.#auth.thingspaceOauth, this.#auth.vzM2MToken),
+        pathParams: [],
+        query: [],
+        headers: [{ name: "Idempotency-Key", value: uuid(), schema: s.string() }],
         body: { kind: "json", value: request.body, schema: dtoConfigurationProfilePathSchema },
       },
       {
@@ -128,12 +204,14 @@ export namespace SensorInsightsDeviceProfile {
     body: DtoConfigurationProfile;
   };
 
-  export class CreateAProfileError extends ResponseError<
-    | Declared<"managementError400", ManagementError400>
-    | Declared<"managementError", ManagementError>
-    | Declared<"managementError403", ManagementError403>
-    | Declared<"managementError500", ManagementError500>
-  > {
+  export class CreateAProfileError extends ApiError {
+    declare readonly payload: ErrorPayload<
+      | Declared<"managementError400", ManagementError400>
+      | Declared<"managementError", ManagementError>
+      | Declared<"managementError403", ManagementError403>
+      | Declared<"managementError500", ManagementError500>
+    >;
+
     static readonly errors: ErrorDecoders<CreateAProfileError> = [
       { on: 400, kind: "managementError400", decode: { kind: "json", schema: managementError400Schema } },
       { on: 401, kind: "managementError", decode: { kind: "json", schema: managementErrorSchema } },
@@ -143,15 +221,18 @@ export namespace SensorInsightsDeviceProfile {
   }
 
   export type DeleteAProfileRequest = {
+    /** payload for the delete request */
     deleterequest: DtoConfigurationProfileDelete;
   };
 
-  export class DeleteAProfileError extends ResponseError<
-    | Declared<"managementError400", ManagementError400>
-    | Declared<"managementError", ManagementError>
-    | Declared<"managementError403", ManagementError403>
-    | Declared<"managementError500", ManagementError500>
-  > {
+  export class DeleteAProfileError extends ApiError {
+    declare readonly payload: ErrorPayload<
+      | Declared<"managementError400", ManagementError400>
+      | Declared<"managementError", ManagementError>
+      | Declared<"managementError403", ManagementError403>
+      | Declared<"managementError500", ManagementError500>
+    >;
+
     static readonly errors: ErrorDecoders<DeleteAProfileError> = [
       { on: 400, kind: "managementError400", decode: { kind: "json", schema: managementError400Schema } },
       { on: 401, kind: "managementError", decode: { kind: "json", schema: managementErrorSchema } },
@@ -161,15 +242,18 @@ export namespace SensorInsightsDeviceProfile {
   }
 
   export type QueryAProfileRequest = {
+    /** body */
     body: ResourceResourceQuery;
   };
 
-  export class QueryAProfileError extends ResponseError<
-    | Declared<"managementError400", ManagementError400>
-    | Declared<"managementError", ManagementError>
-    | Declared<"managementError403", ManagementError403>
-    | Declared<"managementError500", ManagementError500>
-  > {
+  export class QueryAProfileError extends ApiError {
+    declare readonly payload: ErrorPayload<
+      | Declared<"managementError400", ManagementError400>
+      | Declared<"managementError", ManagementError>
+      | Declared<"managementError403", ManagementError403>
+      | Declared<"managementError500", ManagementError500>
+    >;
+
     static readonly errors: ErrorDecoders<QueryAProfileError> = [
       { on: 400, kind: "managementError400", decode: { kind: "json", schema: managementError400Schema } },
       { on: 401, kind: "managementError", decode: { kind: "json", schema: managementErrorSchema } },
@@ -182,12 +266,14 @@ export namespace SensorInsightsDeviceProfile {
     body: DtoConfigurationProfilePath;
   };
 
-  export class UpdateAProfileError extends ResponseError<
-    | Declared<"managementError400", ManagementError400>
-    | Declared<"managementError", ManagementError>
-    | Declared<"managementError403", ManagementError403>
-    | Declared<"managementError500", ManagementError500>
-  > {
+  export class UpdateAProfileError extends ApiError {
+    declare readonly payload: ErrorPayload<
+      | Declared<"managementError400", ManagementError400>
+      | Declared<"managementError", ManagementError>
+      | Declared<"managementError403", ManagementError403>
+      | Declared<"managementError500", ManagementError500>
+    >;
+
     static readonly errors: ErrorDecoders<UpdateAProfileError> = [
       { on: 400, kind: "managementError400", decode: { kind: "json", schema: managementError400Schema } },
       { on: 401, kind: "managementError", decode: { kind: "json", schema: managementErrorSchema } },

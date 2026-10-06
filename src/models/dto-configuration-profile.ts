@@ -3,6 +3,7 @@ import type { Schema } from "../core/validation/schema.js";
 import { dtoProfileSchema, type DtoProfile } from "./dto-profile.js";
 
 export type DtoConfigurationProfile = {
+  /** The numeric account name, which must include leading zeros */
   accountname?: string;
   profiles?: DtoProfile[];
 };

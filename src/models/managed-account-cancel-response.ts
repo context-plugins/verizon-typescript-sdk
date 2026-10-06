@@ -1,13 +1,19 @@
 import * as s from "../core/validation/index.js";
 import type { Schema } from "../core/validation/schema.js";
-import { serviceNameSchema, type ServiceName } from "./service-name.js";
+import { ServiceName, serviceNameSchema } from "./service-name.js";
 
 export type ManagedAccountCancelResponse = {
+  /** Transaction identifier */
   txid: string;
+  /** Managed account identifier */
   accountName: string;
+  /** Primary account identifier */
   paccountName: string;
-  serviceName: ServiceName;
+  /** Service name @default ServiceName.Location */
+  serviceName?: ServiceName;
+  /** Deactivate/cancel status, Success or Fail */
   status: string;
+  /** Detailed reason */
   reason: string;
 };
 
@@ -16,7 +22,7 @@ export const managedAccountCancelResponseSchema: Schema<ManagedAccountCancelResp
     txid: s.string(),
     accountName: s.string(),
     paccountName: s.string(),
-    serviceName: serviceNameSchema,
+    serviceName: s.defaulted(serviceNameSchema, ServiceName.Location),
     status: s.string(),
     reason: s.string(),
   });

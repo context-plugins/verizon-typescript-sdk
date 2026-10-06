@@ -1,6 +1,7 @@
 import * as s from "../core/validation/index.js";
 import type { EnumSchema } from "../core/validation/schema.js";
 
+/** The last status of the device's profile as a filter. */
 export const ProfileStatusFilter = {
   Enable: "ENABLE",
   Disable: "DISABLE",

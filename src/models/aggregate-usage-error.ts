@@ -2,9 +2,13 @@ import * as s from "../core/validation/index.js";
 import type { Schema } from "../core/validation/schema.js";
 import { iErrorMessageSchema, type IErrorMessage } from "./ierror-message.js";
 
+/** Error reported by a device. */
 export type AggregateUsageError = {
+  /** The International Mobile Equipment Identifier of the device. */
   imei?: string;
+  /** A general error message. */
   errorMessage?: string;
+  /** Error message. */
   errorResponse?: IErrorMessage;
 };
 

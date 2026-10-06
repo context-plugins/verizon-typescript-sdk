@@ -4,7 +4,7 @@
 
 Accessor: `client.exclusions` · Source: `src/resources/exclusions.ts` · 6 operations · Request and error types: namespace `Exclusions`
 
-**Type sources**: every type an operation names, with the file that declares it and the schema value exported beside it. Import every name from `verizon`; the `Source` path is where to **read** the shape, never what to import. `ResponseError` and the runtime error family are excluded — see sdk-map.md.
+**Type sources**: every type an operation names, with the file that declares it and the schema value exported beside it. Import every name from `verizon`; the `Source` path is where to **read** the shape, never what to import. `ApiError`, the runtime error family and the file vocabulary are excluded — see sdk-map.md.
 
 ### devicesLocationGetConsentAsync
 
@@ -14,8 +14,8 @@ Accessor: `client.exclusions` · Source: `src/resources/exclusions.ts` · 6 oper
 - **Auth**: all of `thingspaceOauth`, `vzM2MToken` — both are sent
 - **Request body**: none — no `Content-Type` header is sent
 - **Returns**: `GetAccountDeviceConsent`
-- **Error**: `Exclusions.DevicesLocationGetConsentAsyncError` — **typed arms**, narrowed on `err.payload.kind`
-- **Error arms**: `"deviceLocationResult"` [400–599] `DeviceLocationResult` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
+- **Error**: `VerizonError` with `kind: "api"`, an instance of `Exclusions.DevicesLocationGetConsentAsyncError` — **typed arms**, narrowed on `err.payload.kind`
+- **Error arms**: `"deviceLocationResult"` [default — any status no arm above covers] `DeviceLocationResult` · `"undeclared"` [a `default`-matched body that did not fit `DeviceLocationResult`] `rawBody: ArrayBuffer`
 
 **Fields** — `Exclusions.DevicesLocationGetConsentAsyncRequest` (2):
 
@@ -35,10 +35,11 @@ Accessor: `client.exclusions` · Source: `src/resources/exclusions.ts` · 6 oper
 - **Signature**: `devicesLocationGiveConsentAsync(request: Exclusions.DevicesLocationGiveConsentAsyncRequest, options?: RequestOptions): ApiPromise<ConsentTransactionId, Exclusions.DevicesLocationGiveConsentAsyncError>`
 - **Wire**: `POST /devicelocations/action/consents`
 - **Auth**: all of `thingspaceOauth`, `vzM2MToken` — both are sent
-- **Request body**: `application/json` — the `body` field
+- **Request body**: `application/json` — the `body` field. **Optional**: omit it and the request carries no body and no `Content-Type` header at all
+- **SDK-sent**: `header Idempotency-Key` (minted per call)
 - **Returns**: `ConsentTransactionId`
-- **Error**: `Exclusions.DevicesLocationGiveConsentAsyncError` — **typed arms**, narrowed on `err.payload.kind`
-- **Error arms**: `"deviceLocationResult"` [400–599] `DeviceLocationResult` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
+- **Error**: `VerizonError` with `kind: "api"`, an instance of `Exclusions.DevicesLocationGiveConsentAsyncError` — **typed arms**, narrowed on `err.payload.kind`
+- **Error arms**: `"deviceLocationResult"` [default — any status no arm above covers] `DeviceLocationResult` · `"undeclared"` [a `default`-matched body that did not fit `DeviceLocationResult`] `rawBody: ArrayBuffer`
 
 **Fields** — `Exclusions.DevicesLocationGiveConsentAsyncRequest` (1):
 
@@ -58,10 +59,11 @@ Accessor: `client.exclusions` · Source: `src/resources/exclusions.ts` · 6 oper
 - **Signature**: `devicesLocationUpdateConsent(request: Exclusions.DevicesLocationUpdateConsentRequest, options?: RequestOptions): ApiPromise<ConsentTransactionId, Exclusions.DevicesLocationUpdateConsentError>`
 - **Wire**: `PUT /devicelocations/action/consents`
 - **Auth**: all of `thingspaceOauth`, `vzM2MToken` — both are sent
-- **Request body**: `application/json` — the `body` field
+- **Request body**: `application/json` — the `body` field. **Optional**: omit it and the request carries no body and no `Content-Type` header at all
+- **SDK-sent**: `header Idempotency-Key` (minted per call)
 - **Returns**: `ConsentTransactionId`
-- **Error**: `Exclusions.DevicesLocationUpdateConsentError` — **typed arms**, narrowed on `err.payload.kind`
-- **Error arms**: `"deviceLocationResult"` [400–599] `DeviceLocationResult` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
+- **Error**: `VerizonError` with `kind: "api"`, an instance of `Exclusions.DevicesLocationUpdateConsentError` — **typed arms**, narrowed on `err.payload.kind`
+- **Error arms**: `"deviceLocationResult"` [default — any status no arm above covers] `DeviceLocationResult` · `"undeclared"` [a `default`-matched body that did not fit `DeviceLocationResult`] `rawBody: ArrayBuffer`
 
 **Fields** — `Exclusions.DevicesLocationUpdateConsentRequest` (1):
 
@@ -82,8 +84,9 @@ Accessor: `client.exclusions` · Source: `src/resources/exclusions.ts` · 6 oper
 - **Wire**: `POST /consents`
 - **Auth**: all of `thingspaceOauth`, `vzM2MToken` — both are sent
 - **Request body**: none — no `Content-Type` header is sent
+- **SDK-sent**: `header Idempotency-Key` (minted per call)
 - **Returns**: `DeviceLocationSuccessResult`
-- **Error**: `Exclusions.ExcludeDevicesError` — **typed arms**, narrowed on `err.payload.kind`
+- **Error**: `VerizonError` with `kind: "api"`, an instance of `Exclusions.ExcludeDevicesError` — **typed arms**, narrowed on `err.payload.kind`
 - **Error arms**: `"deviceLocationResult"` [400] `DeviceLocationResult` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
 
 | Type | Schema value | Source |
@@ -99,7 +102,7 @@ Accessor: `client.exclusions` · Source: `src/resources/exclusions.ts` · 6 oper
 - **Auth**: all of `thingspaceOauth`, `vzM2MToken` — both are sent
 - **Request body**: none — no `Content-Type` header is sent
 - **Returns**: `DevicesConsentResult`
-- **Error**: `Exclusions.ListExcludedDevicesError` — **typed arms**, narrowed on `err.payload.kind`
+- **Error**: `VerizonError` with `kind: "api"`, an instance of `Exclusions.ListExcludedDevicesError` — **typed arms**, narrowed on `err.payload.kind`
 - **Error arms**: `"deviceLocationResult"` [400] `DeviceLocationResult` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
 
 **Fields** — `Exclusions.ListExcludedDevicesRequest` (2):
@@ -121,8 +124,9 @@ Accessor: `client.exclusions` · Source: `src/resources/exclusions.ts` · 6 oper
 - **Wire**: `DELETE /consents`
 - **Auth**: all of `thingspaceOauth`, `vzM2MToken` — both are sent
 - **Request body**: none — no `Content-Type` header is sent
+- **SDK-sent**: `header Idempotency-Key` (minted per call)
 - **Returns**: `DeviceLocationSuccessResult`
-- **Error**: `Exclusions.RemoveDevicesFromExclusionListError` — **typed arms**, narrowed on `err.payload.kind`
+- **Error**: `VerizonError` with `kind: "api"`, an instance of `Exclusions.RemoveDevicesFromExclusionListError` — **typed arms**, narrowed on `err.payload.kind`
 - **Error arms**: `"deviceLocationResult"` [400] `DeviceLocationResult` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
 
 **Fields** — `Exclusions.RemoveDevicesFromExclusionListRequest` (2):

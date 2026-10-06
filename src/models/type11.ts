@@ -1,6 +1,7 @@
 import * as s from "../core/validation/index.js";
 import type { EnumSchema } from "../core/validation/schema.js";
 
+/** Indicates the type of rock. */
 export const Type11 = {
   Crushed: "crushed",
 } as const;

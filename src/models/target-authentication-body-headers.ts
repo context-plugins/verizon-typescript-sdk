@@ -1,8 +1,11 @@
 import * as s from "../core/validation/index.js";
 import type { Schema } from "../core/validation/schema.js";
 
+/** Authentication headers. */
 export type TargetAuthenticationBodyHeaders = {
+  /** Authorization header. */
   authorization?: string;
+  /** Content-Type header. */
   contentType?: string;
 };
 

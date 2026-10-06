@@ -6,9 +6,13 @@ import {
   type HyperPreciseLocationFault,
 } from "./hyper-precise-location-fault.js";
 
+/** Error response. */
 export type HyperPreciseLocationResult = {
+  /** Error Code. */
   responseCode?: ErrorResponseCode;
+  /** Error message. */
   message?: string;
+  /** Fault occurred while responding. */
   fault?: HyperPreciseLocationFault;
 };
 

@@ -4,7 +4,7 @@
 
 Accessor: `client.accountDevices` · Source: `src/resources/account-devices.ts` · 2 operations · Request and error types: namespace `AccountDevices`
 
-**Type sources**: every type an operation names, with the file that declares it and the schema value exported beside it. Import every name from `verizon`; the `Source` path is where to **read** the shape, never what to import. `ResponseError` and the runtime error family are excluded — see sdk-map.md.
+**Type sources**: every type an operation names, with the file that declares it and the schema value exported beside it. Import every name from `verizon`; the `Source` path is where to **read** the shape, never what to import. `ApiError`, the runtime error family and the file vocabulary are excluded — see sdk-map.md.
 
 ### getAccountDeviceInformation
 
@@ -14,7 +14,7 @@ Accessor: `client.accountDevices` · Source: `src/resources/account-devices.ts` 
 - **Auth**: all of `thingspaceOauth`, `vzM2MToken` — both are sent
 - **Request body**: none — no `Content-Type` header is sent
 - **Returns**: `V3AccountDeviceList`
-- **Error**: `AccountDevices.GetAccountDeviceInformationError` — **typed arms**, narrowed on `err.payload.kind`
+- **Error**: `VerizonError` with `kind: "api"`, an instance of `AccountDevices.GetAccountDeviceInformationError` — **typed arms**, narrowed on `err.payload.kind`
 - **Error arms**: `"fotaV3Result"` [400] `FotaV3Result` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
 
 **Fields** — `AccountDevices.GetAccountDeviceInformationRequest` (3):
@@ -38,8 +38,9 @@ Accessor: `client.accountDevices` · Source: `src/resources/account-devices.ts` 
 - **Wire**: `POST /devices/{acc}`
 - **Auth**: all of `thingspaceOauth`, `vzM2MToken` — both are sent
 - **Request body**: `application/json` — the `body` field
+- **SDK-sent**: `header Idempotency-Key` (minted per call)
 - **Returns**: `DeviceListResult`
-- **Error**: `AccountDevices.ListAccountDevicesInformationError` — **typed arms**, narrowed on `err.payload.kind`
+- **Error**: `VerizonError` with `kind: "api"`, an instance of `AccountDevices.ListAccountDevicesInformationError` — **typed arms**, narrowed on `err.payload.kind`
 - **Error arms**: `"fotaV3Result"` [400] `FotaV3Result` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
 
 **Fields** — `AccountDevices.ListAccountDevicesInformationRequest` (2):

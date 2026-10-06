@@ -11,6 +11,7 @@ export type ProfileRequest = {
   mdnZipCode?: string;
   primaryPlaceOfUse?: PrimaryPlaceOfUse[];
   smsrOid?: string;
+  /** The name of the pool of IP addresses assigned to the profile. */
   carrierIpPoolName?: string;
 };
 

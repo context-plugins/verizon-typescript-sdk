@@ -5,9 +5,19 @@ import { carrierSchema, type Carrier } from "./carrier.js";
 import { featureSchema, type Feature } from "./feature.js";
 
 export type AccountDetails = {
+  /**
+   * The numeric name of the account, in the format "0000123456-00001". Leading zeros must be
+   * included.
+   */
   accountName?: string;
+  /**
+   * The numeric name of the account, in the format "0000123456-00001". Leading zeros must be
+   * included.
+   */
   accountNumber?: string;
+  /** user defined name of organization */
   organizationName?: string;
+  /** Flag set to indicate if account details can be edited or not. Default is "true". */
   isProvisioningAllowed?: boolean;
   carriers?: Carrier[];
   features?: Feature[];

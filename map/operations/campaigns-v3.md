@@ -4,7 +4,7 @@
 
 Accessor: `client.campaignsV3` · Source: `src/resources/campaigns-v3.ts` · 5 operations · Request and error types: namespace `CampaignsV3`
 
-**Type sources**: every type an operation names, with the file that declares it and the schema value exported beside it. Import every name from `verizon`; the `Source` path is where to **read** the shape, never what to import. `ResponseError` and the runtime error family are excluded — see sdk-map.md.
+**Type sources**: every type an operation names, with the file that declares it and the schema value exported beside it. Import every name from `verizon`; the `Source` path is where to **read** the shape, never what to import. `ApiError`, the runtime error family and the file vocabulary are excluded — see sdk-map.md.
 
 ### cancelCampaign2
 
@@ -13,8 +13,9 @@ Accessor: `client.campaignsV3` · Source: `src/resources/campaigns-v3.ts` · 5 o
 - **Wire**: `DELETE /campaigns/{accountName}/{campaignId}`
 - **Auth**: all of `thingspaceOauth`, `vzM2MToken` — both are sent
 - **Request body**: none — no `Content-Type` header is sent
+- **SDK-sent**: `header Idempotency-Key` (minted per call)
 - **Returns**: `FotaV3SuccessResult`
-- **Error**: `CampaignsV3.CancelCampaign2Error` — **typed arms**, narrowed on `err.payload.kind`
+- **Error**: `VerizonError` with `kind: "api"`, an instance of `CampaignsV3.CancelCampaign2Error` — **typed arms**, narrowed on `err.payload.kind`
 - **Error arms**: `"fotaV3Result"` [400] `FotaV3Result` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
 
 **Fields** — `CampaignsV3.CancelCampaign2Request` (2):
@@ -37,7 +38,7 @@ Accessor: `client.campaignsV3` · Source: `src/resources/campaigns-v3.ts` · 5 o
 - **Auth**: all of `thingspaceOauth`, `vzM2MToken` — both are sent
 - **Request body**: none — no `Content-Type` header is sent
 - **Returns**: `Campaign`
-- **Error**: `CampaignsV3.GetCampaignInformation2Error` — **typed arms**, narrowed on `err.payload.kind`
+- **Error**: `VerizonError` with `kind: "api"`, an instance of `CampaignsV3.GetCampaignInformation2Error` — **typed arms**, narrowed on `err.payload.kind`
 - **Error arms**: `"fotaV3Result"` [400] `FotaV3Result` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
 
 **Fields** — `CampaignsV3.GetCampaignInformation2Request` (2):
@@ -59,8 +60,9 @@ Accessor: `client.campaignsV3` · Source: `src/resources/campaigns-v3.ts` · 5 o
 - **Wire**: `POST /campaigns/firmware/{accountName}`
 - **Auth**: all of `thingspaceOauth`, `vzM2MToken` — both are sent
 - **Request body**: `application/json` — the `body` field
+- **SDK-sent**: `header Idempotency-Key` (minted per call)
 - **Returns**: `FirmwareCampaign`
-- **Error**: `CampaignsV3.ScheduleCampaignFirmwareUpgrade2Error` — **typed arms**, narrowed on `err.payload.kind`
+- **Error**: `VerizonError` with `kind: "api"`, an instance of `CampaignsV3.ScheduleCampaignFirmwareUpgrade2Error` — **typed arms**, narrowed on `err.payload.kind`
 - **Error arms**: `"fotaV3Result"` [400] `FotaV3Result` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
 
 **Fields** — `CampaignsV3.ScheduleCampaignFirmwareUpgrade2Request` (2):
@@ -83,8 +85,9 @@ Accessor: `client.campaignsV3` · Source: `src/resources/campaigns-v3.ts` · 5 o
 - **Wire**: `PUT /campaigns/firmware/{acc}/{campaignId}/dates`
 - **Auth**: all of `thingspaceOauth`, `vzM2MToken` — both are sent
 - **Request body**: `application/json` — the `body` field
+- **SDK-sent**: `header Idempotency-Key` (minted per call)
 - **Returns**: `FirmwareCampaign`
-- **Error**: `CampaignsV3.UpdateCampaignDates2Error` — **typed arms**, narrowed on `err.payload.kind`
+- **Error**: `VerizonError` with `kind: "api"`, an instance of `CampaignsV3.UpdateCampaignDates2Error` — **typed arms**, narrowed on `err.payload.kind`
 - **Error arms**: `"fotaV3Result"` [400] `FotaV3Result` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
 
 **Fields** — `CampaignsV3.UpdateCampaignDates2Request` (3):
@@ -108,8 +111,9 @@ Accessor: `client.campaignsV3` · Source: `src/resources/campaigns-v3.ts` · 5 o
 - **Wire**: `PUT /campaigns/firmware/{acc}/{campaignId}`
 - **Auth**: all of `thingspaceOauth`, `vzM2MToken` — both are sent
 - **Request body**: `application/json` — the `body` field
+- **SDK-sent**: `header Idempotency-Key` (minted per call)
 - **Returns**: `V3AddOrRemoveDeviceResult`
-- **Error**: `CampaignsV3.UpdateCampaignFirmwareDevices2Error` — **typed arms**, narrowed on `err.payload.kind`
+- **Error**: `VerizonError` with `kind: "api"`, an instance of `CampaignsV3.UpdateCampaignFirmwareDevices2Error` — **typed arms**, narrowed on `err.payload.kind`
 - **Error arms**: `"fotaV3Result"` [400] `FotaV3Result` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
 
 **Fields** — `CampaignsV3.UpdateCampaignFirmwareDevices2Request` (3):

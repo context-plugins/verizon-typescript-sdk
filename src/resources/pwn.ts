@@ -1,9 +1,10 @@
 import type { AuthSchemes } from "../auth-schemes.js";
+import { ApiError } from "../core/api-error.js";
 import type { ApiPromise } from "../core/api-promise.js";
 import type { RequestOptions } from "../core/api-request.js";
 import { allAuth } from "../core/auth/schemes.js";
 import type { RawClient } from "../core/raw-client.js";
-import { ResponseError } from "../core/response-error.js";
+import { uuid } from "../core/uuid.js";
 import * as s from "../core/validation/index.js";
 import {
   changePwnDeviceIpAddressResponseSchema,
@@ -52,134 +53,229 @@ export class Pwn {
     this.#auth = auth;
   }
 
+  /**
+   * ChangePWNDeviceIPaddress
+   *
+   * @returns Request ID received on a successful response.
+   *
+   * @throws {@link ApiError} when the API answers with an error status
+   *
+   * @throws {@link VerizonError} when no usable response was produced: a connection failure, a
+   * timeout, a body that would not decode, a value that would not encode, or a credential that
+   * could not be obtained
+   */
   changePwnDeviceIPaddress(
     request: Pwn.ChangePwnDeviceIPaddressRequestParams,
     options?: RequestOptions,
-  ): ApiPromise<ChangePwnDeviceIpAddressResponse, ResponseError> {
-    return this.#rawClient.execute<ChangePwnDeviceIpAddressResponse, ResponseError>(
+  ): ApiPromise<ChangePwnDeviceIpAddressResponse, ApiError> {
+    return this.#rawClient.execute(
       {
         method: "PUT",
-        url: this.#servers.hyperPreciseCredentials("/m2m/v1/devices/pwn/actions/ipaddress"),
+        urlTemplate: this.#servers.thingspace("/m2m/v1/devices/pwn/actions/ipaddress"),
         auth: allAuth(this.#auth.thingspaceOauth, this.#auth.vzM2MToken),
+        pathParams: [],
+        query: [],
+        headers: [{ name: "Idempotency-Key", value: uuid(), schema: s.string() }],
         body: { kind: "json", value: request.body, schema: changePwnDeviceIPaddressRequestSchema },
       },
       {
         success: { kind: "json", schema: changePwnDeviceIpAddressResponseSchema },
-        errorFactory: ResponseError,
+        errorFactory: ApiError,
       },
       options,
     );
   }
 
+  /**
+   * ChangePWNDeviceProfile
+   *
+   * @returns Request ID received on a successful response.
+   *
+   * @throws {@link ApiError} when the API answers with an error status
+   *
+   * @throws {@link VerizonError} when no usable response was produced: a connection failure, a
+   * timeout, a body that would not decode, a value that would not encode, or a credential that
+   * could not be obtained
+   */
   changePwnDeviceProfile(
     request: Pwn.ChangePwnDeviceProfileRequestParams,
     options?: RequestOptions,
-  ): ApiPromise<ChangePwnDeviceProfileResponse, ResponseError> {
-    return this.#rawClient.execute<ChangePwnDeviceProfileResponse, ResponseError>(
+  ): ApiPromise<ChangePwnDeviceProfileResponse, ApiError> {
+    return this.#rawClient.execute(
       {
         method: "POST",
-        url: this.#servers.hyperPreciseCredentials("/m2m/v1/devices/pwn/actions/profile"),
+        urlTemplate: this.#servers.thingspace("/m2m/v1/devices/pwn/actions/profile"),
         auth: allAuth(this.#auth.thingspaceOauth, this.#auth.vzM2MToken),
+        pathParams: [],
+        query: [],
+        headers: [{ name: "Idempotency-Key", value: uuid(), schema: s.string() }],
         body: { kind: "json", value: request.body, schema: changePwnDeviceProfileRequestSchema },
       },
       {
         success: { kind: "json", schema: changePwnDeviceProfileResponseSchema },
-        errorFactory: ResponseError,
+        errorFactory: ApiError,
       },
       options,
     );
   }
 
+  /**
+   * ChangePWNDeviceState - Activate
+   *
+   * @returns Request ID received on a successful response.
+   *
+   * @throws {@link ApiError} when the API answers with an error status
+   *
+   * @throws {@link VerizonError} when no usable response was produced: a connection failure, a
+   * timeout, a body that would not decode, a value that would not encode, or a credential that
+   * could not be obtained
+   */
   changePwnDeviceStateActivate(
     request: Pwn.ChangePwnDeviceStateActivateRequestParams,
     options?: RequestOptions,
-  ): ApiPromise<ChangePwnDeviceStateResponse, ResponseError> {
-    return this.#rawClient.execute<ChangePwnDeviceStateResponse, ResponseError>(
+  ): ApiPromise<ChangePwnDeviceStateResponse, ApiError> {
+    return this.#rawClient.execute(
       {
         method: "POST",
-        url: this.#servers.hyperPreciseCredentials("/m2m/v1/devices/pwn/actions/state/activate"),
+        urlTemplate: this.#servers.thingspace("/m2m/v1/devices/pwn/actions/state/activate"),
         auth: allAuth(this.#auth.thingspaceOauth, this.#auth.vzM2MToken),
+        pathParams: [],
+        query: [],
+        headers: [{ name: "Idempotency-Key", value: uuid(), schema: s.string() }],
         body: { kind: "json", value: request.body, schema: changePwnDeviceStateActivateRequestSchema },
       },
       {
         success: { kind: "json", schema: changePwnDeviceStateResponseSchema },
-        errorFactory: ResponseError,
+        errorFactory: ApiError,
       },
       options,
     );
   }
 
+  /**
+   * ChangePWNDeviceState - Deactivate
+   *
+   * @returns Request ID received on a successful response.
+   *
+   * @throws {@link ApiError} when the API answers with an error status
+   *
+   * @throws {@link VerizonError} when no usable response was produced: a connection failure, a
+   * timeout, a body that would not decode, a value that would not encode, or a credential that
+   * could not be obtained
+   */
   changePwnDeviceStateDeactivate(
     request: Pwn.ChangePwnDeviceStateDeactivateRequestParams,
     options?: RequestOptions,
-  ): ApiPromise<ChangePwnDeviceStateResponse, ResponseError> {
-    return this.#rawClient.execute<ChangePwnDeviceStateResponse, ResponseError>(
+  ): ApiPromise<ChangePwnDeviceStateResponse, ApiError> {
+    return this.#rawClient.execute(
       {
         method: "POST",
-        url: this.#servers.hyperPreciseCredentials("/m2m/v1/devices/pwn/actions/state/deactivate"),
+        urlTemplate: this.#servers.thingspace("/m2m/v1/devices/pwn/actions/state/deactivate"),
         auth: allAuth(this.#auth.thingspaceOauth, this.#auth.vzM2MToken),
+        pathParams: [],
+        query: [],
+        headers: [{ name: "Idempotency-Key", value: uuid(), schema: s.string() }],
         body: { kind: "json", value: request.body, schema: changePwnDeviceStateDeactivateRequestSchema },
       },
       {
         success: { kind: "json", schema: changePwnDeviceStateResponseSchema },
-        errorFactory: ResponseError,
+        errorFactory: ApiError,
       },
       options,
     );
   }
 
+  /**
+   * GetPWNPerformanceConsent
+   *
+   * @returns consent received on a successful response.
+   *
+   * @throws {@link ApiError} when the API answers with an error status
+   *
+   * @throws {@link VerizonError} when no usable response was produced: a connection failure, a
+   * timeout, a body that would not decode, a value that would not encode, or a credential that
+   * could not be obtained
+   */
   getPwnPerformanceConsent(
     request: Pwn.GetPwnPerformanceConsentRequest,
     options?: RequestOptions,
-  ): ApiPromise<GetPwnPerformanceConsentResponse, ResponseError> {
-    return this.#rawClient.execute<GetPwnPerformanceConsentResponse, ResponseError>(
+  ): ApiPromise<GetPwnPerformanceConsentResponse, ApiError> {
+    return this.#rawClient.execute(
       {
         method: "GET",
-        url: this.#servers.hyperPreciseCredentials("/m2m/v1/devices/pwn/performance/consent/{aname}"),
+        urlTemplate: this.#servers.thingspace("/m2m/v1/devices/pwn/performance/consent/{aname}"),
         auth: allAuth(this.#auth.thingspaceOauth, this.#auth.vzM2MToken),
         pathParams: [{ name: "aname", value: request.aname, schema: s.string() }],
+        query: [],
+        headers: [],
         body: { kind: "empty" },
       },
       {
         success: { kind: "json", schema: getPwnPerformanceConsentResponseSchema },
-        errorFactory: ResponseError,
+        errorFactory: ApiError,
       },
       options,
     );
   }
 
+  /**
+   * Get Profile List
+   *
+   * @returns PWN profiles list received on a successful response.
+   *
+   * @throws {@link ApiError} when the API answers with an error status
+   *
+   * @throws {@link VerizonError} when no usable response was produced: a connection failure, a
+   * timeout, a body that would not decode, a value that would not encode, or a credential that
+   * could not be obtained
+   */
   getProfileList(
     request: Pwn.GetProfileListRequest,
     options?: RequestOptions,
-  ): ApiPromise<PwnProfileList, ResponseError> {
-    return this.#rawClient.execute<PwnProfileList, ResponseError>(
+  ): ApiPromise<PwnProfileList, ApiError> {
+    return this.#rawClient.execute(
       {
         method: "GET",
-        url: this.#servers.hyperPreciseCredentials("/m2m/v1/devices/pwn/profiles/list/{aname}"),
+        urlTemplate: this.#servers.thingspace("/m2m/v1/devices/pwn/profiles/list/{aname}"),
         auth: allAuth(this.#auth.thingspaceOauth, this.#auth.vzM2MToken),
         pathParams: [{ name: "aname", value: request.aname, schema: s.string() }],
+        query: [],
+        headers: [],
         body: { kind: "empty" },
       },
       {
         success: { kind: "json", schema: pwnProfileListSchema },
-        errorFactory: ResponseError,
+        errorFactory: ApiError,
       },
       options,
     );
   }
 
-  kpiList(request: Pwn.KpiListRequest, options?: RequestOptions): ApiPromise<KpiInfoList, ResponseError> {
-    return this.#rawClient.execute<KpiInfoList, ResponseError>(
+  /**
+   * KPI List
+   *
+   * @returns Kpi list received on a successful response.
+   *
+   * @throws {@link ApiError} when the API answers with an error status
+   *
+   * @throws {@link VerizonError} when no usable response was produced: a connection failure, a
+   * timeout, a body that would not decode, a value that would not encode, or a credential that
+   * could not be obtained
+   */
+  kpiList(request: Pwn.KpiListRequest, options?: RequestOptions): ApiPromise<KpiInfoList, ApiError> {
+    return this.#rawClient.execute(
       {
         method: "GET",
-        url: this.#servers.hyperPreciseCredentials("/m2m/v1/devices/pwn/kpi/list/{aname}"),
+        urlTemplate: this.#servers.thingspace("/m2m/v1/devices/pwn/kpi/list/{aname}"),
         auth: allAuth(this.#auth.thingspaceOauth, this.#auth.vzM2MToken),
         pathParams: [{ name: "aname", value: request.aname, schema: s.string() }],
+        query: [],
+        headers: [],
         body: { kind: "empty" },
       },
       {
         success: { kind: "json", schema: kpiInfoListSchema },
-        errorFactory: ResponseError,
+        errorFactory: ApiError,
       },
       options,
     );
@@ -204,14 +300,17 @@ export namespace Pwn {
   };
 
   export type GetPwnPerformanceConsentRequest = {
+    /** Account name. */
     aname: string;
   };
 
   export type GetProfileListRequest = {
+    /** Account name. */
     aname: string;
   };
 
   export type KpiListRequest = {
+    /** Account name. */
     aname: string;
   };
 }

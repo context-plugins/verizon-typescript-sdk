@@ -9,6 +9,10 @@ export type GiosmsSendRequest = {
   dataEncoding?: string;
   groupName?: string;
   servicePlan?: string;
+  /**
+   * A period of time the message remains valid or an end date for the message. This value would be
+   * less than the 5 day default.
+   */
   timeToLive?: string;
   deviceIds?: GioDeviceId[];
   smsMessage: string;

@@ -4,6 +4,7 @@ import { dtoResourceidentifierSchema, type DtoResourceidentifier } from "./dto-r
 import { userSmartAlertSchema, type UserSmartAlert } from "./user-smart-alert.js";
 
 export type DtoPatchSmartAlertRequest = {
+  /** The numeric account name, which must include leading zeros */
   accountname?: string;
   resourceidentifier?: DtoResourceidentifier;
   smartalert?: UserSmartAlert;

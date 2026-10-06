@@ -4,6 +4,7 @@ import { dtoProfileSchema, type DtoProfile } from "./dto-profile.js";
 import { dtoResourceidentifierSchema, type DtoResourceidentifier } from "./dto-resourceidentifier.js";
 
 export type DtoConfigurationProfilePath = {
+  /** The numeric account name, which must include leading zeros */
   accountName?: string;
   resourceidentifier?: DtoResourceidentifier;
   profile?: DtoProfile;

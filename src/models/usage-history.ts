@@ -12,11 +12,11 @@ export type UsageHistory = {
 };
 
 export const usageHistorySchema: Schema<UsageHistory> = s.object<UsageHistory>({
-  bytesUsed: s.optional(s.number()),
+  bytesUsed: s.optional(s.int()),
   serviceplan: s.optional(s.string()),
-  smsUsed: s.optional(s.number()),
-  moSms: s.optional(s.number()),
-  mtSms: s.optional(s.number()),
+  smsUsed: s.optional(s.int()),
+  moSms: s.optional(s.int()),
+  mtSms: s.optional(s.int()),
   source: s.optional(s.string()),
   eventDateTime: s.optional(s.dateTime()),
   _keysMap: {

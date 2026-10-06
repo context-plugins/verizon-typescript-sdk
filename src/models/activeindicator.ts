@@ -3,6 +3,7 @@ import type { Schema } from "../core/validation/schema.js";
 import { activeSchema, type Active } from "./active.js";
 
 export type Activeindicator = {
+  /** A flag to indicate of the trigger is active, true, or not, false */
   active?: Active;
 };
 

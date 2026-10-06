@@ -2,6 +2,7 @@ import * as s from "../core/validation/index.js";
 import type { Schema } from "../core/validation/schema.js";
 import { dtoHealthScoreMetricSchema, type DtoHealthScoreMetric } from "./dto-health-score-metric.js";
 
+/** The values measured are for sensors and gateways */
 export type DtoHealthScoreSummary = {
   overallsummary?: DtoHealthScoreMetric[];
 };

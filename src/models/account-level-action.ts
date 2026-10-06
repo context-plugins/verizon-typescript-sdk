@@ -1,6 +1,7 @@
 import * as s from "../core/validation/index.js";
 import type { EnumSchema } from "../core/validation/schema.js";
 
+/** The action taken when trigger conditions are met */
 export const AccountLevelAction = {
   Notify: "notify",
   Suspend: "suspend",

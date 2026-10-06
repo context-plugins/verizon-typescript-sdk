@@ -4,16 +4,18 @@
 
 Accessor: `client.deviceDiagnostics` · Source: `src/resources/device-diagnostics.ts` · 2 operations · Request and error types: namespace `DeviceDiagnostics`
 
-**Type sources**: every type an operation names, with the file that declares it and the schema value exported beside it. Import every name from `verizon`; the `Source` path is where to **read** the shape, never what to import. `ResponseError` and the runtime error family are excluded — see sdk-map.md.
+**Type sources**: every type an operation names, with the file that declares it and the schema value exported beside it. Import every name from `verizon`; the `Source` path is where to **read** the shape, never what to import. `ApiError`, the runtime error family and the file vocabulary are excluded — see sdk-map.md.
 
 ### deviceReachabilityStatusUsingPost
 
+- **Server**: `thingspace` — not the `hyperPreciseCredentials` group; see Servers & auth in sdk-map.md
 - **Signature**: `deviceReachabilityStatusUsingPost(request: DeviceDiagnostics.DeviceReachabilityStatusUsingPostRequest, options?: RequestOptions): ApiPromise<DeviceManagementResult, DeviceDiagnostics.DeviceReachabilityStatusUsingPostError>`
 - **Wire**: `POST /m2m/v1/diagnostics/basic/devicereachability/status`
 - **Auth**: all of `thingspaceOauth`, `vzM2MToken` — both are sent
 - **Request body**: `application/json` — the `body` field
+- **SDK-sent**: `header Idempotency-Key` (minted per call)
 - **Returns**: `DeviceManagementResult`
-- **Error**: `DeviceDiagnostics.DeviceReachabilityStatusUsingPostError` — **typed arms**, narrowed on `err.payload.kind`
+- **Error**: `VerizonError` with `kind: "api"`, an instance of `DeviceDiagnostics.DeviceReachabilityStatusUsingPostError` — **typed arms**, narrowed on `err.payload.kind`
 - **Error arms**: `"connectivityManagementResult"` [400] `ConnectivityManagementResult` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
 
 **Fields** — `DeviceDiagnostics.DeviceReachabilityStatusUsingPostRequest` (1):
@@ -30,12 +32,14 @@ Accessor: `client.deviceDiagnostics` · Source: `src/resources/device-diagnostic
 
 ### retrieveActiveMonitorsUsingPost
 
+- **Server**: `thingspace` — not the `hyperPreciseCredentials` group; see Servers & auth in sdk-map.md
 - **Signature**: `retrieveActiveMonitorsUsingPost(request: DeviceDiagnostics.RetrieveActiveMonitorsUsingPostRequest, options?: RequestOptions): ApiPromise<DeviceManagementResult, DeviceDiagnostics.RetrieveActiveMonitorsUsingPostError>`
 - **Wire**: `POST /m2m/v1/diagnostics/basic/devicereachability/monitors`
 - **Auth**: all of `thingspaceOauth`, `vzM2MToken` — both are sent
 - **Request body**: `application/json` — the `body` field
+- **SDK-sent**: `header Idempotency-Key` (minted per call)
 - **Returns**: `DeviceManagementResult`
-- **Error**: `DeviceDiagnostics.RetrieveActiveMonitorsUsingPostError` — **typed arms**, narrowed on `err.payload.kind`
+- **Error**: `VerizonError` with `kind: "api"`, an instance of `DeviceDiagnostics.RetrieveActiveMonitorsUsingPostError` — **typed arms**, narrowed on `err.payload.kind`
 - **Error arms**: `"connectivityManagementResult"` [400] `ConnectivityManagementResult` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
 
 **Fields** — `DeviceDiagnostics.RetrieveActiveMonitorsUsingPostRequest` (1):

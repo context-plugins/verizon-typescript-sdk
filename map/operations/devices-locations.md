@@ -4,7 +4,7 @@
 
 Accessor: `client.devicesLocations` · Source: `src/resources/devices-locations.ts` · 6 operations · Request and error types: namespace `DevicesLocations`
 
-**Type sources**: every type an operation names, with the file that declares it and the schema value exported beside it. Import every name from `verizon`; the `Source` path is where to **read** the shape, never what to import. `ResponseError` and the runtime error family are excluded — see sdk-map.md.
+**Type sources**: every type an operation names, with the file that declares it and the schema value exported beside it. Import every name from `verizon`; the `Source` path is where to **read** the shape, never what to import. `ApiError`, the runtime error family and the file vocabulary are excluded — see sdk-map.md.
 
 ### cancelQueuedLocationReportGeneration
 
@@ -13,9 +13,10 @@ Accessor: `client.devicesLocations` · Source: `src/resources/devices-locations.
 - **Wire**: `DELETE /locationreports/{accountName}/report/{txid}`
 - **Auth**: all of `thingspaceOauth`, `vzM2MToken` — both are sent
 - **Request body**: none — no `Content-Type` header is sent
+- **SDK-sent**: `header Idempotency-Key` (minted per call)
 - **Returns**: `TransactionId`
-- **Error**: `DevicesLocations.CancelQueuedLocationReportGenerationError` — **typed arms**, narrowed on `err.payload.kind`
-- **Error arms**: `"deviceLocationResult"` [400–599] `DeviceLocationResult` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
+- **Error**: `VerizonError` with `kind: "api"`, an instance of `DevicesLocations.CancelQueuedLocationReportGenerationError` — **typed arms**, narrowed on `err.payload.kind`
+- **Error arms**: `"deviceLocationResult"` [default — any status no arm above covers] `DeviceLocationResult` · `"undeclared"` [a `default`-matched body that did not fit `DeviceLocationResult`] `rawBody: ArrayBuffer`
 
 **Fields** — `DevicesLocations.CancelQueuedLocationReportGenerationRequest` (2):
 
@@ -36,9 +37,10 @@ Accessor: `client.devicesLocations` · Source: `src/resources/devices-locations.
 - **Wire**: `POST /locationreports`
 - **Auth**: all of `thingspaceOauth`, `vzM2MToken` — both are sent
 - **Request body**: none — no `Content-Type` header is sent
+- **SDK-sent**: `header Idempotency-Key` (minted per call)
 - **Returns**: `AsynchronousLocationRequestResult`
-- **Error**: `DevicesLocations.CreateLocationReportError` — **typed arms**, narrowed on `err.payload.kind`
-- **Error arms**: `"deviceLocationResult"` [400–599] `DeviceLocationResult` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
+- **Error**: `VerizonError` with `kind: "api"`, an instance of `DevicesLocations.CreateLocationReportError` — **typed arms**, narrowed on `err.payload.kind`
+- **Error arms**: `"deviceLocationResult"` [default — any status no arm above covers] `DeviceLocationResult` · `"undeclared"` [a `default`-matched body that did not fit `DeviceLocationResult`] `rawBody: ArrayBuffer`
 
 | Type | Schema value | Source |
 | --- | --- | --- |
@@ -53,8 +55,8 @@ Accessor: `client.devicesLocations` · Source: `src/resources/devices-locations.
 - **Auth**: all of `thingspaceOauth`, `vzM2MToken` — both are sent
 - **Request body**: none — no `Content-Type` header is sent
 - **Returns**: `LocationReportStatus`
-- **Error**: `DevicesLocations.GetLocationReportStatusError` — **typed arms**, narrowed on `err.payload.kind`
-- **Error arms**: `"deviceLocationResult"` [400–599] `DeviceLocationResult` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
+- **Error**: `VerizonError` with `kind: "api"`, an instance of `DevicesLocations.GetLocationReportStatusError` — **typed arms**, narrowed on `err.payload.kind`
+- **Error arms**: `"deviceLocationResult"` [default — any status no arm above covers] `DeviceLocationResult` · `"undeclared"` [a `default`-matched body that did not fit `DeviceLocationResult`] `rawBody: ArrayBuffer`
 
 **Fields** — `DevicesLocations.GetLocationReportStatusRequest` (2):
 
@@ -75,9 +77,10 @@ Accessor: `client.devicesLocations` · Source: `src/resources/devices-locations.
 - **Wire**: `POST /devicelocations`
 - **Auth**: all of `thingspaceOauth`, `vzM2MToken` — both are sent
 - **Request body**: none — no `Content-Type` header is sent
+- **SDK-sent**: `header Idempotency-Key` (minted per call)
 - **Returns**: `SynchronousLocationRequestResult`
-- **Error**: `DevicesLocations.ListDevicesLocationsAsynchronousError` — **typed arms**, narrowed on `err.payload.kind`
-- **Error arms**: `"deviceLocationResult"` [400–599] `DeviceLocationResult` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
+- **Error**: `VerizonError` with `kind: "api"`, an instance of `DevicesLocations.ListDevicesLocationsAsynchronousError` — **typed arms**, narrowed on `err.payload.kind`
+- **Error arms**: `"deviceLocationResult"` [default — any status no arm above covers] `DeviceLocationResult` · `"undeclared"` [a `default`-matched body that did not fit `DeviceLocationResult`] `rawBody: ArrayBuffer`
 
 | Type | Schema value | Source |
 | --- | --- | --- |
@@ -91,9 +94,10 @@ Accessor: `client.devicesLocations` · Source: `src/resources/devices-locations.
 - **Wire**: `POST /locations`
 - **Auth**: all of `thingspaceOauth`, `vzM2MToken` — both are sent
 - **Request body**: `application/json` — the `body` field
+- **SDK-sent**: `header Idempotency-Key` (minted per call)
 - **Returns**: `Location[]` — a bare `application/json` array; the success type *is* the array, not a wrapper model
-- **Error**: `DevicesLocations.ListDevicesLocationsSynchronousError` — **typed arms**, narrowed on `err.payload.kind`
-- **Error arms**: `"deviceLocationResult"` [400–599] `DeviceLocationResult` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
+- **Error**: `VerizonError` with `kind: "api"`, an instance of `DevicesLocations.ListDevicesLocationsSynchronousError` — **typed arms**, narrowed on `err.payload.kind`
+- **Error arms**: `"deviceLocationResult"` [default — any status no arm above covers] `DeviceLocationResult` · `"undeclared"` [a `default`-matched body that did not fit `DeviceLocationResult`] `rawBody: ArrayBuffer`
 
 **Fields** — `DevicesLocations.ListDevicesLocationsSynchronousRequest` (1):
 
@@ -115,8 +119,8 @@ Accessor: `client.devicesLocations` · Source: `src/resources/devices-locations.
 - **Auth**: all of `thingspaceOauth`, `vzM2MToken` — both are sent
 - **Request body**: none — no `Content-Type` header is sent
 - **Returns**: `LocationReport`
-- **Error**: `DevicesLocations.RetrieveLocationReportError` — **typed arms**, narrowed on `err.payload.kind`
-- **Error arms**: `"deviceLocationResult"` [400–599] `DeviceLocationResult` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
+- **Error**: `VerizonError` with `kind: "api"`, an instance of `DevicesLocations.RetrieveLocationReportError` — **typed arms**, narrowed on `err.payload.kind`
+- **Error arms**: `"deviceLocationResult"` [default — any status no arm above covers] `DeviceLocationResult` · `"undeclared"` [a `default`-matched body that did not fit `DeviceLocationResult`] `rawBody: ArrayBuffer`
 
 **Fields** — `DevicesLocations.RetrieveLocationReportRequest` (3):
 

@@ -4,7 +4,7 @@
 
 Accessor: `client.firmwareV1` · Source: `src/resources/firmware-v1.ts` · 5 operations · Request and error types: namespace `FirmwareV1`
 
-**Type sources**: every type an operation names, with the file that declares it and the schema value exported beside it. Import every name from `verizon`; the `Source` path is where to **read** the shape, never what to import. `ResponseError` and the runtime error family are excluded — see sdk-map.md.
+**Type sources**: every type an operation names, with the file that declares it and the schema value exported beside it. Import every name from `verizon`; the `Source` path is where to **read** the shape, never what to import. `ApiError`, the runtime error family and the file vocabulary are excluded — see sdk-map.md.
 
 ### cancelScheduledFirmwareUpgrade
 
@@ -13,8 +13,9 @@ Accessor: `client.firmwareV1` · Source: `src/resources/firmware-v1.ts` · 5 ope
 - **Wire**: `DELETE /upgrades/{accountName}/upgrade/{upgradeId}`
 - **Auth**: all of `thingspaceOauth`, `vzM2MToken` — both are sent
 - **Request body**: none — no `Content-Type` header is sent
+- **SDK-sent**: `header Idempotency-Key` (minted per call)
 - **Returns**: `FotaV1SuccessResult`
-- **Error**: `FirmwareV1.CancelScheduledFirmwareUpgradeError` — **typed arms**, narrowed on `err.payload.kind`
+- **Error**: `VerizonError` with `kind: "api"`, an instance of `FirmwareV1.CancelScheduledFirmwareUpgradeError` — **typed arms**, narrowed on `err.payload.kind`
 - **Error arms**: `"fotaV1Result"` [400] `FotaV1Result` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
 
 **Fields** — `FirmwareV1.CancelScheduledFirmwareUpgradeRequest` (2):
@@ -37,7 +38,7 @@ Accessor: `client.firmwareV1` · Source: `src/resources/firmware-v1.ts` · 5 ope
 - **Auth**: all of `thingspaceOauth`, `vzM2MToken` — both are sent
 - **Request body**: none — no `Content-Type` header is sent
 - **Returns**: `Firmware[]` — a bare `application/json` array; the success type *is* the array, not a wrapper model
-- **Error**: `FirmwareV1.ListAvailableFirmwareError` — **typed arms**, narrowed on `err.payload.kind`
+- **Error**: `VerizonError` with `kind: "api"`, an instance of `FirmwareV1.ListAvailableFirmwareError` — **typed arms**, narrowed on `err.payload.kind`
 - **Error arms**: `"fotaV1Result"` [400] `FotaV1Result` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
 
 **Fields** — `FirmwareV1.ListAvailableFirmwareRequest` (1):
@@ -59,7 +60,7 @@ Accessor: `client.firmwareV1` · Source: `src/resources/firmware-v1.ts` · 5 ope
 - **Auth**: all of `thingspaceOauth`, `vzM2MToken` — both are sent
 - **Request body**: none — no `Content-Type` header is sent
 - **Returns**: `FirmwareUpgrade`
-- **Error**: `FirmwareV1.ListFirmwareUpgradeDetailsError` — **typed arms**, narrowed on `err.payload.kind`
+- **Error**: `VerizonError` with `kind: "api"`, an instance of `FirmwareV1.ListFirmwareUpgradeDetailsError` — **typed arms**, narrowed on `err.payload.kind`
 - **Error arms**: `"fotaV1Result"` [400] `FotaV1Result` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
 
 **Fields** — `FirmwareV1.ListFirmwareUpgradeDetailsRequest` (2):
@@ -81,8 +82,9 @@ Accessor: `client.firmwareV1` · Source: `src/resources/firmware-v1.ts` · 5 ope
 - **Wire**: `POST /upgrades`
 - **Auth**: all of `thingspaceOauth`, `vzM2MToken` — both are sent
 - **Request body**: `application/json` — the `body` field
+- **SDK-sent**: `header Idempotency-Key` (minted per call)
 - **Returns**: `FirmwareUpgrade`
-- **Error**: `FirmwareV1.ScheduleFirmwareUpgradeError` — **typed arms**, narrowed on `err.payload.kind`
+- **Error**: `VerizonError` with `kind: "api"`, an instance of `FirmwareV1.ScheduleFirmwareUpgradeError` — **typed arms**, narrowed on `err.payload.kind`
 - **Error arms**: `"fotaV1Result"` [400] `FotaV1Result` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
 
 **Fields** — `FirmwareV1.ScheduleFirmwareUpgradeRequest` (1):
@@ -104,8 +106,9 @@ Accessor: `client.firmwareV1` · Source: `src/resources/firmware-v1.ts` · 5 ope
 - **Wire**: `PUT /upgrades/{accountName}/upgrade/{upgradeId}`
 - **Auth**: all of `thingspaceOauth`, `vzM2MToken` — both are sent
 - **Request body**: none — no `Content-Type` header is sent
+- **SDK-sent**: `header Idempotency-Key` (minted per call)
 - **Returns**: `FirmwareUpgradeChangeResult`
-- **Error**: `FirmwareV1.UpdateFirmwareUpgradeDevicesError` — **typed arms**, narrowed on `err.payload.kind`
+- **Error**: `VerizonError` with `kind: "api"`, an instance of `FirmwareV1.UpdateFirmwareUpgradeDevicesError` — **typed arms**, narrowed on `err.payload.kind`
 - **Error arms**: `"fotaV1Result"` [400] `FotaV1Result` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
 
 **Fields** — `FirmwareV1.UpdateFirmwareUpgradeDevicesRequest` (2):

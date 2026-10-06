@@ -4,16 +4,18 @@
 
 Accessor: `client.eUiccDeviceProfileManagement` · Source: `src/resources/euicc-device-profile-management.ts` · 5 operations · Request and error types: namespace `EUiccDeviceProfileManagement`
 
-**Type sources**: every type an operation names, with the file that declares it and the schema value exported beside it. Import every name from `verizon`; the `Source` path is where to **read** the shape, never what to import. `ResponseError` and the runtime error family are excluded — see sdk-map.md.
+**Type sources**: every type an operation names, with the file that declares it and the schema value exported beside it. Import every name from `verizon`; the `Source` path is where to **read** the shape, never what to import. `ApiError`, the runtime error family and the file vocabulary are excluded — see sdk-map.md.
 
 ### deleteLocalProfile
 
+- **Server**: `thingspace` — not the `hyperPreciseCredentials` group; see Servers & auth in sdk-map.md
 - **Signature**: `deleteLocalProfile(request: EUiccDeviceProfileManagement.DeleteLocalProfileRequest, options?: RequestOptions): ApiPromise<RequestResponse, EUiccDeviceProfileManagement.DeleteLocalProfileError>`
 - **Wire**: `POST /m2m/v1/devices/profile/actions/delete`
 - **Auth**: all of `thingspaceOauth`, `vzM2MToken` — both are sent
 - **Request body**: `application/json` — the `body` field
+- **SDK-sent**: `header Idempotency-Key` (minted per call)
 - **Returns**: `RequestResponse`
-- **Error**: `EUiccDeviceProfileManagement.DeleteLocalProfileError` — **typed arms**, narrowed on `err.payload.kind`
+- **Error**: `VerizonError` with `kind: "api"`, an instance of `EUiccDeviceProfileManagement.DeleteLocalProfileError` — **typed arms**, narrowed on `err.payload.kind`
 - **Error arms**: `"restErrorResponse"` [400] `RestErrorResponse` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
 
 **Fields** — `EUiccDeviceProfileManagement.DeleteLocalProfileRequest` (1):
@@ -30,12 +32,14 @@ Accessor: `client.eUiccDeviceProfileManagement` · Source: `src/resources/euicc-
 
 ### disableLocalProfile
 
+- **Server**: `thingspace` — not the `hyperPreciseCredentials` group; see Servers & auth in sdk-map.md
 - **Signature**: `disableLocalProfile(request: EUiccDeviceProfileManagement.DisableLocalProfileRequest, options?: RequestOptions): ApiPromise<RequestResponse, EUiccDeviceProfileManagement.DisableLocalProfileError>`
 - **Wire**: `POST /m2m/v1/devices/profile/actions/disable`
 - **Auth**: all of `thingspaceOauth`, `vzM2MToken` — both are sent
 - **Request body**: `application/json` — the `body` field
+- **SDK-sent**: `header Idempotency-Key` (minted per call)
 - **Returns**: `RequestResponse`
-- **Error**: `EUiccDeviceProfileManagement.DisableLocalProfileError` — **typed arms**, narrowed on `err.payload.kind`
+- **Error**: `VerizonError` with `kind: "api"`, an instance of `EUiccDeviceProfileManagement.DisableLocalProfileError` — **typed arms**, narrowed on `err.payload.kind`
 - **Error arms**: `"restErrorResponse"` [400] `RestErrorResponse` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
 
 **Fields** — `EUiccDeviceProfileManagement.DisableLocalProfileRequest` (1):
@@ -52,12 +56,14 @@ Accessor: `client.eUiccDeviceProfileManagement` · Source: `src/resources/euicc-
 
 ### downloadLocalProfileToDisable
 
+- **Server**: `thingspace` — not the `hyperPreciseCredentials` group; see Servers & auth in sdk-map.md
 - **Signature**: `downloadLocalProfileToDisable(request: EUiccDeviceProfileManagement.DownloadLocalProfileToDisableRequest, options?: RequestOptions): ApiPromise<DeviceManagementResult, EUiccDeviceProfileManagement.DownloadLocalProfileToDisableError>`
 - **Wire**: `POST /m2m/v1/devices/profile/actions/download_disable`
 - **Auth**: all of `thingspaceOauth`, `vzM2MToken` — both are sent
 - **Request body**: `application/json` — the `body` field
+- **SDK-sent**: `header Idempotency-Key` (minted per call)
 - **Returns**: `DeviceManagementResult`
-- **Error**: `EUiccDeviceProfileManagement.DownloadLocalProfileToDisableError` — **typed arms**, narrowed on `err.payload.kind`
+- **Error**: `VerizonError` with `kind: "api"`, an instance of `EUiccDeviceProfileManagement.DownloadLocalProfileToDisableError` — **typed arms**, narrowed on `err.payload.kind`
 - **Error arms**: `"connectivityManagementResult"` [400] `ConnectivityManagementResult` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
 
 **Fields** — `EUiccDeviceProfileManagement.DownloadLocalProfileToDisableRequest` (1):
@@ -74,12 +80,14 @@ Accessor: `client.eUiccDeviceProfileManagement` · Source: `src/resources/euicc-
 
 ### downloadLocalProfileToEnable
 
+- **Server**: `thingspace` — not the `hyperPreciseCredentials` group; see Servers & auth in sdk-map.md
 - **Signature**: `downloadLocalProfileToEnable(request: EUiccDeviceProfileManagement.DownloadLocalProfileToEnableRequest, options?: RequestOptions): ApiPromise<DeviceManagementResult, EUiccDeviceProfileManagement.DownloadLocalProfileToEnableError>`
 - **Wire**: `POST /m2m/v1/devices/profile/actions/download_enable`
 - **Auth**: all of `thingspaceOauth`, `vzM2MToken` — both are sent
 - **Request body**: `application/json` — the `body` field
+- **SDK-sent**: `header Idempotency-Key` (minted per call)
 - **Returns**: `DeviceManagementResult`
-- **Error**: `EUiccDeviceProfileManagement.DownloadLocalProfileToEnableError` — **typed arms**, narrowed on `err.payload.kind`
+- **Error**: `VerizonError` with `kind: "api"`, an instance of `EUiccDeviceProfileManagement.DownloadLocalProfileToEnableError` — **typed arms**, narrowed on `err.payload.kind`
 - **Error arms**: `"connectivityManagementResult"` [400] `ConnectivityManagementResult` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
 
 **Fields** — `EUiccDeviceProfileManagement.DownloadLocalProfileToEnableRequest` (1):
@@ -96,12 +104,14 @@ Accessor: `client.eUiccDeviceProfileManagement` · Source: `src/resources/euicc-
 
 ### enableLocalProfile
 
+- **Server**: `thingspace` — not the `hyperPreciseCredentials` group; see Servers & auth in sdk-map.md
 - **Signature**: `enableLocalProfile(request: EUiccDeviceProfileManagement.EnableLocalProfileRequest, options?: RequestOptions): ApiPromise<RequestResponse, EUiccDeviceProfileManagement.EnableLocalProfileError>`
 - **Wire**: `POST /m2m/v1/devices/profile/actions/enable`
 - **Auth**: all of `thingspaceOauth`, `vzM2MToken` — both are sent
 - **Request body**: `application/json` — the `body` field
+- **SDK-sent**: `header Idempotency-Key` (minted per call)
 - **Returns**: `RequestResponse`
-- **Error**: `EUiccDeviceProfileManagement.EnableLocalProfileError` — **typed arms**, narrowed on `err.payload.kind`
+- **Error**: `VerizonError` with `kind: "api"`, an instance of `EUiccDeviceProfileManagement.EnableLocalProfileError` — **typed arms**, narrowed on `err.payload.kind`
 - **Error arms**: `"restErrorResponse"` [400] `RestErrorResponse` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
 
 **Fields** — `EUiccDeviceProfileManagement.EnableLocalProfileRequest` (1):

@@ -1,9 +1,11 @@
 import type { AuthSchemes } from "../auth-schemes.js";
+import { ApiError, type Declared, type ErrorDecoders, type ErrorPayload } from "../core/api-error.js";
 import type { ApiPromise } from "../core/api-promise.js";
 import type { RequestOptions } from "../core/api-request.js";
 import { allAuth } from "../core/auth/schemes.js";
 import type { RawClient } from "../core/raw-client.js";
-import { ResponseError, type Declared, type ErrorDecoders } from "../core/response-error.js";
+import { uuid } from "../core/uuid.js";
+import * as s from "../core/validation/index.js";
 import {
   notificationReportRequestSchema,
   type NotificationReportRequest,
@@ -13,6 +15,9 @@ import { restErrorResponseSchema, type RestErrorResponse } from "../models/rest-
 import { stopMonitorRequestSchema, type StopMonitorRequest } from "../models/stop-monitor-request.js";
 import type { Servers } from "../servers.js";
 
+/**
+ * Monitor device reachability and connection status.
+ */
 export class DeviceMonitoring {
   readonly #rawClient: RawClient;
   readonly #servers: Servers;
@@ -24,6 +29,18 @@ export class DeviceMonitoring {
     this.#auth = auth;
   }
 
+  /**
+   * Register for notification reports based on the request type.
+   *
+   * @returns Request ID
+   *
+   * @throws {@link DeviceMonitoring.DeviceReachabilityError} when the API answers with an error
+   * status — narrow on `err.payload.kind`
+   *
+   * @throws {@link VerizonError} when no usable response was produced: a connection failure, a
+   * timeout, a body that would not decode, a value that would not encode, or a credential that
+   * could not be obtained
+   */
   deviceReachability(
     request: DeviceMonitoring.DeviceReachabilityRequest,
     options?: RequestOptions,
@@ -31,8 +48,11 @@ export class DeviceMonitoring {
     return this.#rawClient.execute(
       {
         method: "POST",
-        url: this.#servers.hyperPreciseCredentials("/m2m/v1/diagnostics/basic/devicereachability"),
+        urlTemplate: this.#servers.thingspace("/m2m/v1/diagnostics/basic/devicereachability"),
         auth: allAuth(this.#auth.thingspaceOauth, this.#auth.vzM2MToken),
+        pathParams: [],
+        query: [],
+        headers: [{ name: "Idempotency-Key", value: uuid(), schema: s.string() }],
         body: { kind: "json", value: request.body, schema: notificationReportRequestSchema },
       },
       {
@@ -43,6 +63,18 @@ export class DeviceMonitoring {
     );
   }
 
+  /**
+   * Stop Device Reachability monitors.
+   *
+   * @returns Request ID
+   *
+   * @throws {@link DeviceMonitoring.StopDeviceReachabilityError} when the API answers with an error
+   * status — narrow on `err.payload.kind`
+   *
+   * @throws {@link VerizonError} when no usable response was produced: a connection failure, a
+   * timeout, a body that would not decode, a value that would not encode, or a credential that
+   * could not be obtained
+   */
   stopDeviceReachability(
     request: DeviceMonitoring.StopDeviceReachabilityRequest,
     options?: RequestOptions,
@@ -50,8 +82,9 @@ export class DeviceMonitoring {
     return this.#rawClient.execute(
       {
         method: "DELETE",
-        url: this.#servers.hyperPreciseCredentials("/m2m/v1/diagnostics/basic/devicereachability"),
+        urlTemplate: this.#servers.thingspace("/m2m/v1/diagnostics/basic/devicereachability"),
         auth: allAuth(this.#auth.thingspaceOauth, this.#auth.vzM2MToken),
+        pathParams: [],
         query: [
           {
             name: "stopreachabilitypayload",
@@ -59,6 +92,7 @@ export class DeviceMonitoring {
             schema: stopMonitorRequestSchema,
           },
         ],
+        headers: [{ name: "Idempotency-Key", value: uuid(), schema: s.string() }],
         body: { kind: "empty" },
       },
       {
@@ -72,24 +106,26 @@ export class DeviceMonitoring {
 
 export namespace DeviceMonitoring {
   export type DeviceReachabilityRequest = {
+    /** Create Reachability Report Request */
     body: NotificationReportRequest;
   };
 
-  export class DeviceReachabilityError extends ResponseError<
-    Declared<"restErrorResponse", RestErrorResponse>
-  > {
+  export class DeviceReachabilityError extends ApiError {
+    declare readonly payload: ErrorPayload<Declared<"restErrorResponse", RestErrorResponse>>;
+
     static readonly errors: ErrorDecoders<DeviceReachabilityError> = [
       { on: 400, kind: "restErrorResponse", decode: { kind: "json", schema: restErrorResponseSchema } },
     ];
   }
 
   export type StopDeviceReachabilityRequest = {
+    /** Payload for the Stop Device Reachability monitors request. */
     stopreachabilitypayload: StopMonitorRequest;
   };
 
-  export class StopDeviceReachabilityError extends ResponseError<
-    Declared<"restErrorResponse", RestErrorResponse>
-  > {
+  export class StopDeviceReachabilityError extends ApiError {
+    declare readonly payload: ErrorPayload<Declared<"restErrorResponse", RestErrorResponse>>;
+
     static readonly errors: ErrorDecoders<StopDeviceReachabilityError> = [
       { on: 400, kind: "restErrorResponse", decode: { kind: "json", schema: restErrorResponseSchema } },
     ];

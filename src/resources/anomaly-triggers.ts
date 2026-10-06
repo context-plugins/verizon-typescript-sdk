@@ -1,9 +1,10 @@
 import type { AuthSchemes } from "../auth-schemes.js";
+import { ApiError, type Declared, type ErrorDecoders, type ErrorPayload } from "../core/api-error.js";
 import type { ApiPromise } from "../core/api-promise.js";
 import type { RequestOptions } from "../core/api-request.js";
 import { allAuth } from "../core/auth/schemes.js";
 import type { RawClient } from "../core/raw-client.js";
-import { ResponseError, type Declared, type ErrorDecoders } from "../core/response-error.js";
+import { uuid } from "../core/uuid.js";
 import * as s from "../core/validation/index.js";
 import {
   anomalyDetectionTriggerSchema,
@@ -18,6 +19,9 @@ import { intelligenceResultSchema, type IntelligenceResult } from "../models/int
 import { updateTriggerRequestSchema, type UpdateTriggerRequest } from "../models/update-trigger-request.js";
 import type { Servers } from "../servers.js";
 
+/**
+ * Set the threshold of notification for anomalies detected.
+ */
 export class AnomalyTriggers {
   readonly #rawClient: RawClient;
   readonly #servers: Servers;
@@ -29,6 +33,21 @@ export class AnomalyTriggers {
     this.#auth = auth;
   }
 
+  /**
+   * Create trigger based on the category.
+   *
+   * @remarks
+   * This corresponds to the M2M-MC SOAP interface, ```CreateTrigger```.
+   *
+   * @returns Trigger ID
+   *
+   * @throws {@link AnomalyTriggers.CreateAnomalyDetectionTriggerError} when the API answers with an
+   * error status — narrow on `err.payload.kind`
+   *
+   * @throws {@link VerizonError} when no usable response was produced: a connection failure, a
+   * timeout, a body that would not decode, a value that would not encode, or a credential that
+   * could not be obtained
+   */
   createAnomalyDetectionTrigger(
     request: AnomalyTriggers.CreateAnomalyDetectionTriggerRequest,
     options?: RequestOptions,
@@ -36,8 +55,11 @@ export class AnomalyTriggers {
     return this.#rawClient.execute(
       {
         method: "POST",
-        url: this.#servers.hyperPreciseCredentials("/m2m/v1/triggers"),
+        urlTemplate: this.#servers.thingspace("/m2m/v1/triggers"),
         auth: allAuth(this.#auth.thingspaceOauth, this.#auth.vzM2MToken),
+        pathParams: [],
+        query: [],
+        headers: [{ name: "Idempotency-Key", value: uuid(), schema: s.string() }],
         body: { kind: "json", value: request.body, schema: createTriggerRequestSchema },
       },
       {
@@ -48,6 +70,21 @@ export class AnomalyTriggers {
     );
   }
 
+  /**
+   * Delete a specific trigger value
+   *
+   * @remarks
+   * Deletes a specific trigger ID
+   *
+   * @returns The ID of the deleted trigger is returned
+   *
+   * @throws {@link AnomalyTriggers.DeleteAnomalyDetectionTriggerError} when the API answers with an
+   * error status — narrow on `err.payload.kind`
+   *
+   * @throws {@link VerizonError} when no usable response was produced: a connection failure, a
+   * timeout, a body that would not decode, a value that would not encode, or a credential that
+   * could not be obtained
+   */
   deleteAnomalyDetectionTrigger(
     request: AnomalyTriggers.DeleteAnomalyDetectionTriggerRequest,
     options?: RequestOptions,
@@ -55,9 +92,11 @@ export class AnomalyTriggers {
     return this.#rawClient.execute(
       {
         method: "DELETE",
-        url: this.#servers.hyperPreciseCredentials("/m2m/v1/triggers/{triggerId}"),
+        urlTemplate: this.#servers.thingspace("/m2m/v1/triggers/{triggerId}"),
         auth: allAuth(this.#auth.thingspaceOauth, this.#auth.vzM2MToken),
         pathParams: [{ name: "triggerId", value: request.triggerId, schema: s.string() }],
+        query: [],
+        headers: [{ name: "Idempotency-Key", value: uuid(), schema: s.string() }],
         body: { kind: "empty" },
       },
       {
@@ -68,6 +107,21 @@ export class AnomalyTriggers {
     );
   }
 
+  /**
+   * Gets the trigger information related to a triggerId
+   *
+   * @remarks
+   * This corresponds to the M2M-MC SOAP interface, ```GetTriggers```.
+   *
+   * @returns Trigger information associated to a Trigger Id
+   *
+   * @throws {@link AnomalyTriggers.ListAnomalyDetectionTriggerSettingsError} when the API answers
+   * with an error status — narrow on `err.payload.kind`
+   *
+   * @throws {@link VerizonError} when no usable response was produced: a connection failure, a
+   * timeout, a body that would not decode, a value that would not encode, or a credential that
+   * could not be obtained
+   */
   listAnomalyDetectionTriggerSettings(
     request: AnomalyTriggers.ListAnomalyDetectionTriggerSettingsRequest,
     options?: RequestOptions,
@@ -75,9 +129,11 @@ export class AnomalyTriggers {
     return this.#rawClient.execute(
       {
         method: "GET",
-        url: this.#servers.hyperPreciseCredentials("/m2m/v1/triggers/{triggerId}"),
+        urlTemplate: this.#servers.thingspace("/m2m/v1/triggers/{triggerId}"),
         auth: allAuth(this.#auth.thingspaceOauth, this.#auth.vzM2MToken),
         pathParams: [{ name: "triggerId", value: request.triggerId, schema: s.string() }],
+        query: [],
+        headers: [],
         body: { kind: "empty" },
       },
       {
@@ -88,14 +144,32 @@ export class AnomalyTriggers {
     );
   }
 
+  /**
+   * Get all the triggers related to a Contact
+   *
+   * @remarks
+   * This corresponds to the M2M-MC SOAP interface, ```GetTriggers```.
+   *
+   * @returns List of triggers associated to a Contact
+   *
+   * @throws {@link AnomalyTriggers.ListAnomalyDetectionTriggersError} when the API answers with an
+   * error status — narrow on `err.payload.kind`
+   *
+   * @throws {@link VerizonError} when no usable response was produced: a connection failure, a
+   * timeout, a body that would not decode, a value that would not encode, or a credential that
+   * could not be obtained
+   */
   listAnomalyDetectionTriggers(
     options?: RequestOptions,
   ): ApiPromise<GetTriggerResponseList[], AnomalyTriggers.ListAnomalyDetectionTriggersError> {
     return this.#rawClient.execute(
       {
         method: "GET",
-        url: this.#servers.hyperPreciseCredentials("/m2m/v1/triggers"),
+        urlTemplate: this.#servers.thingspace("/m2m/v1/triggers"),
         auth: allAuth(this.#auth.thingspaceOauth, this.#auth.vzM2MToken),
+        pathParams: [],
+        query: [],
+        headers: [],
         body: { kind: "empty" },
       },
       {
@@ -106,6 +180,21 @@ export class AnomalyTriggers {
     );
   }
 
+  /**
+   * Update trigger Operation.
+   *
+   * @remarks
+   * This corresponds to the M2M-MC SOAP interface, ```UpdateTriggerRequest```.
+   *
+   * @returns Trigger ID
+   *
+   * @throws {@link AnomalyTriggers.UpdateAnomalyDetectionTriggerError} when the API answers with an
+   * error status — narrow on `err.payload.kind`
+   *
+   * @throws {@link VerizonError} when no usable response was produced: a connection failure, a
+   * timeout, a body that would not decode, a value that would not encode, or a credential that
+   * could not be obtained
+   */
   updateAnomalyDetectionTrigger(
     request: AnomalyTriggers.UpdateAnomalyDetectionTriggerRequest,
     options?: RequestOptions,
@@ -113,8 +202,11 @@ export class AnomalyTriggers {
     return this.#rawClient.execute(
       {
         method: "PUT",
-        url: this.#servers.hyperPreciseCredentials("/m2m/v1/triggers"),
+        urlTemplate: this.#servers.thingspace("/m2m/v1/triggers"),
         auth: allAuth(this.#auth.thingspaceOauth, this.#auth.vzM2MToken),
+        pathParams: [],
+        query: [],
+        headers: [{ name: "Idempotency-Key", value: uuid(), schema: s.string() }],
         body: { kind: "json", value: request.body, schema: updateTriggerRequestSchema },
       },
       {
@@ -128,18 +220,21 @@ export class AnomalyTriggers {
 
 export namespace AnomalyTriggers {
   export type CreateAnomalyDetectionTriggerRequest = {
+    /** Create Trigger Request */
     body: CreateTriggerRequest;
   };
 
-  export class CreateAnomalyDetectionTriggerError extends ResponseError<
-    | Declared<"intelligenceResult", IntelligenceResult>
-    | Declared<"intelligenceResult2", IntelligenceResult>
-    | Declared<"intelligenceResult3", IntelligenceResult>
-    | Declared<"intelligenceResult4", IntelligenceResult>
-    | Declared<"intelligenceResult5", IntelligenceResult>
-    | Declared<"intelligenceResult6", IntelligenceResult>
-    | Declared<"intelligenceResult7", IntelligenceResult>
-  > {
+  export class CreateAnomalyDetectionTriggerError extends ApiError {
+    declare readonly payload: ErrorPayload<
+      | Declared<"intelligenceResult", IntelligenceResult>
+      | Declared<"intelligenceResult2", IntelligenceResult>
+      | Declared<"intelligenceResult3", IntelligenceResult>
+      | Declared<"intelligenceResult4", IntelligenceResult>
+      | Declared<"intelligenceResult5", IntelligenceResult>
+      | Declared<"intelligenceResult6", IntelligenceResult>
+      | Declared<"intelligenceResult7", IntelligenceResult>
+    >;
+
     static readonly errors: ErrorDecoders<CreateAnomalyDetectionTriggerError> = [
       { on: 400, kind: "intelligenceResult", decode: { kind: "json", schema: intelligenceResultSchema } },
       { on: 401, kind: "intelligenceResult2", decode: { kind: "json", schema: intelligenceResultSchema } },
@@ -148,7 +243,7 @@ export namespace AnomalyTriggers {
       { on: 406, kind: "intelligenceResult5", decode: { kind: "json", schema: intelligenceResultSchema } },
       { on: 429, kind: "intelligenceResult6", decode: { kind: "json", schema: intelligenceResultSchema } },
       {
-        on: [400, 599],
+        on: "default",
         kind: "intelligenceResult7",
         decode: { kind: "json", schema: intelligenceResultSchema },
       },
@@ -156,15 +251,16 @@ export namespace AnomalyTriggers {
   }
 
   export type DeleteAnomalyDetectionTriggerRequest = {
+    /** The trigger ID to be deleted */
     triggerId: string;
   };
 
-  export class DeleteAnomalyDetectionTriggerError extends ResponseError<
-    Declared<"intelligenceResult", IntelligenceResult>
-  > {
+  export class DeleteAnomalyDetectionTriggerError extends ApiError {
+    declare readonly payload: ErrorPayload<Declared<"intelligenceResult", IntelligenceResult>>;
+
     static readonly errors: ErrorDecoders<DeleteAnomalyDetectionTriggerError> = [
       {
-        on: [400, 599],
+        on: "default",
         kind: "intelligenceResult",
         decode: { kind: "json", schema: intelligenceResultSchema },
       },
@@ -172,18 +268,21 @@ export namespace AnomalyTriggers {
   }
 
   export type ListAnomalyDetectionTriggerSettingsRequest = {
+    /** trigger ID */
     triggerId: string;
   };
 
-  export class ListAnomalyDetectionTriggerSettingsError extends ResponseError<
-    | Declared<"intelligenceResult", IntelligenceResult>
-    | Declared<"intelligenceResult2", IntelligenceResult>
-    | Declared<"intelligenceResult3", IntelligenceResult>
-    | Declared<"intelligenceResult4", IntelligenceResult>
-    | Declared<"intelligenceResult5", IntelligenceResult>
-    | Declared<"intelligenceResult6", IntelligenceResult>
-    | Declared<"intelligenceResult7", IntelligenceResult>
-  > {
+  export class ListAnomalyDetectionTriggerSettingsError extends ApiError {
+    declare readonly payload: ErrorPayload<
+      | Declared<"intelligenceResult", IntelligenceResult>
+      | Declared<"intelligenceResult2", IntelligenceResult>
+      | Declared<"intelligenceResult3", IntelligenceResult>
+      | Declared<"intelligenceResult4", IntelligenceResult>
+      | Declared<"intelligenceResult5", IntelligenceResult>
+      | Declared<"intelligenceResult6", IntelligenceResult>
+      | Declared<"intelligenceResult7", IntelligenceResult>
+    >;
+
     static readonly errors: ErrorDecoders<ListAnomalyDetectionTriggerSettingsError> = [
       { on: 400, kind: "intelligenceResult", decode: { kind: "json", schema: intelligenceResultSchema } },
       { on: 401, kind: "intelligenceResult2", decode: { kind: "json", schema: intelligenceResultSchema } },
@@ -192,22 +291,24 @@ export namespace AnomalyTriggers {
       { on: 406, kind: "intelligenceResult5", decode: { kind: "json", schema: intelligenceResultSchema } },
       { on: 429, kind: "intelligenceResult6", decode: { kind: "json", schema: intelligenceResultSchema } },
       {
-        on: [400, 599],
+        on: "default",
         kind: "intelligenceResult7",
         decode: { kind: "json", schema: intelligenceResultSchema },
       },
     ];
   }
 
-  export class ListAnomalyDetectionTriggersError extends ResponseError<
-    | Declared<"intelligenceResult", IntelligenceResult>
-    | Declared<"intelligenceResult2", IntelligenceResult>
-    | Declared<"intelligenceResult3", IntelligenceResult>
-    | Declared<"intelligenceResult4", IntelligenceResult>
-    | Declared<"intelligenceResult5", IntelligenceResult>
-    | Declared<"intelligenceResult6", IntelligenceResult>
-    | Declared<"intelligenceResult7", IntelligenceResult>
-  > {
+  export class ListAnomalyDetectionTriggersError extends ApiError {
+    declare readonly payload: ErrorPayload<
+      | Declared<"intelligenceResult", IntelligenceResult>
+      | Declared<"intelligenceResult2", IntelligenceResult>
+      | Declared<"intelligenceResult3", IntelligenceResult>
+      | Declared<"intelligenceResult4", IntelligenceResult>
+      | Declared<"intelligenceResult5", IntelligenceResult>
+      | Declared<"intelligenceResult6", IntelligenceResult>
+      | Declared<"intelligenceResult7", IntelligenceResult>
+    >;
+
     static readonly errors: ErrorDecoders<ListAnomalyDetectionTriggersError> = [
       { on: 400, kind: "intelligenceResult", decode: { kind: "json", schema: intelligenceResultSchema } },
       { on: 401, kind: "intelligenceResult2", decode: { kind: "json", schema: intelligenceResultSchema } },
@@ -216,7 +317,7 @@ export namespace AnomalyTriggers {
       { on: 406, kind: "intelligenceResult5", decode: { kind: "json", schema: intelligenceResultSchema } },
       { on: 429, kind: "intelligenceResult6", decode: { kind: "json", schema: intelligenceResultSchema } },
       {
-        on: [400, 599],
+        on: "default",
         kind: "intelligenceResult7",
         decode: { kind: "json", schema: intelligenceResultSchema },
       },
@@ -224,18 +325,21 @@ export namespace AnomalyTriggers {
   }
 
   export type UpdateAnomalyDetectionTriggerRequest = {
+    /** Update Trigger Request */
     body: UpdateTriggerRequest;
   };
 
-  export class UpdateAnomalyDetectionTriggerError extends ResponseError<
-    | Declared<"intelligenceResult", IntelligenceResult>
-    | Declared<"intelligenceResult2", IntelligenceResult>
-    | Declared<"intelligenceResult3", IntelligenceResult>
-    | Declared<"intelligenceResult4", IntelligenceResult>
-    | Declared<"intelligenceResult5", IntelligenceResult>
-    | Declared<"intelligenceResult6", IntelligenceResult>
-    | Declared<"intelligenceResult7", IntelligenceResult>
-  > {
+  export class UpdateAnomalyDetectionTriggerError extends ApiError {
+    declare readonly payload: ErrorPayload<
+      | Declared<"intelligenceResult", IntelligenceResult>
+      | Declared<"intelligenceResult2", IntelligenceResult>
+      | Declared<"intelligenceResult3", IntelligenceResult>
+      | Declared<"intelligenceResult4", IntelligenceResult>
+      | Declared<"intelligenceResult5", IntelligenceResult>
+      | Declared<"intelligenceResult6", IntelligenceResult>
+      | Declared<"intelligenceResult7", IntelligenceResult>
+    >;
+
     static readonly errors: ErrorDecoders<UpdateAnomalyDetectionTriggerError> = [
       { on: 400, kind: "intelligenceResult", decode: { kind: "json", schema: intelligenceResultSchema } },
       { on: 401, kind: "intelligenceResult2", decode: { kind: "json", schema: intelligenceResultSchema } },
@@ -244,7 +348,7 @@ export namespace AnomalyTriggers {
       { on: 406, kind: "intelligenceResult5", decode: { kind: "json", schema: intelligenceResultSchema } },
       { on: 429, kind: "intelligenceResult6", decode: { kind: "json", schema: intelligenceResultSchema } },
       {
-        on: [400, 599],
+        on: "default",
         kind: "intelligenceResult7",
         decode: { kind: "json", schema: intelligenceResultSchema },
       },

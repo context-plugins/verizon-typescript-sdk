@@ -13,6 +13,7 @@ import { smsTriggerRequestSchema, type SmsTriggerRequest } from "./sms-trigger-r
 export type UpdateTriggerRequest = {
   accountName?: string;
   active?: boolean;
+  /** The details of the UsageAnomaly trigger. */
   anomalyTriggerRequest?: AnomalyTriggerRequest;
   cycleType?: CycleType;
   dataTriggerRequest?: DataTriggerRequest;

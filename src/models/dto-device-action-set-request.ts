@@ -10,8 +10,10 @@ import {
 } from "./dto-device-resource-identifier.js";
 
 export type DtoDeviceActionSetRequest = {
+  /** The numeric account name, which must include leading zeros */
   accountname?: string;
   configuration?: DtoDeviceActionSetConfiguration;
+  /** Device identifiers, one or more are required */
   resourceidentifier?: DtoDeviceResourceIdentifier;
 };
 

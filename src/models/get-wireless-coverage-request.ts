@@ -3,9 +3,13 @@ import type { Schema } from "../core/validation/schema.js";
 import { locationscoordSchema, type Locationscoord } from "./locationscoord.js";
 import { networkTypeObjectSchema, type NetworkTypeObject } from "./network-type-object.js";
 
+/** Get wireless coverage. */
 export type GetWirelessCoverageRequest = {
+  /** Account name. */
   accountName: string;
+  /** Type of request made. FWA for address qualification and NW for Nationwide coverage. */
   requestType: string;
+  /** Type of location detail. */
   locationType: string;
   locations: Locationscoord;
   networkTypesList: NetworkTypeObject[];

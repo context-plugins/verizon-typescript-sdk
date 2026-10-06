@@ -4,17 +4,18 @@
 
 Accessor: `client.targets` · Source: `src/resources/targets.ts` · 5 operations · Request types: namespace `Targets`
 
-**Type sources**: every type an operation names, with the file that declares it and the schema value exported beside it. Import every name from `verizon`; the `Source` path is where to **read** the shape, never what to import. `ResponseError` and the runtime error family are excluded — see sdk-map.md.
+**Type sources**: every type an operation names, with the file that declares it and the schema value exported beside it. Import every name from `verizon`; the `Source` path is where to **read** the shape, never what to import. `ApiError`, the runtime error family and the file vocabulary are excluded — see sdk-map.md.
 
 ### createAzureCentralIoTApplication
 
 - **Server**: `cloudConnector` — not the `hyperPreciseCredentials` group; see Servers & auth in sdk-map.md
-- **Signature**: `createAzureCentralIoTApplication(request: Targets.CreateAzureCentralIoTApplicationRequest, options?: RequestOptions): ApiPromise<CreateIoTApplicationResponse, ResponseError>`
+- **Signature**: `createAzureCentralIoTApplication(request: Targets.CreateAzureCentralIoTApplicationRequest, options?: RequestOptions): ApiPromise<CreateIoTApplicationResponse, ApiError>`
 - **Wire**: `POST /targets/actions/newaic`
 - **Auth**: all of `thingspaceOauth`, `vzM2MToken` — both are sent
 - **Request body**: `application/json` — the `body` field
+- **SDK-sent**: `header Idempotency-Key` (minted per call)
 - **Returns**: `CreateIoTApplicationResponse`
-- **Error**: `ResponseError` — untyped, `payload.kind` always `"undeclared"`
+- **Error**: `VerizonError` with `kind: "api"` — untyped, `payload.kind` always `"undeclared"`
 
 **Fields** — `Targets.CreateAzureCentralIoTApplicationRequest` (2):
 
@@ -31,12 +32,13 @@ Accessor: `client.targets` · Source: `src/resources/targets.ts` · 5 operations
 ### createTarget
 
 - **Server**: `cloudConnector` — not the `hyperPreciseCredentials` group; see Servers & auth in sdk-map.md
-- **Signature**: `createTarget(request: Targets.CreateTargetRequestParams, options?: RequestOptions): ApiPromise<Target, ResponseError>`
+- **Signature**: `createTarget(request: Targets.CreateTargetRequestParams, options?: RequestOptions): ApiPromise<Target, ApiError>`
 - **Wire**: `POST /targets`
 - **Auth**: all of `thingspaceOauth`, `vzM2MToken` — both are sent
 - **Request body**: `application/json` — the `body` field
+- **SDK-sent**: `header Idempotency-Key` (minted per call)
 - **Returns**: `Target`
-- **Error**: `ResponseError` — untyped, `payload.kind` always `"undeclared"`
+- **Error**: `VerizonError` with `kind: "api"` — untyped, `payload.kind` always `"undeclared"`
 
 **Fields** — `Targets.CreateTargetRequestParams` (1):
 
@@ -52,12 +54,13 @@ Accessor: `client.targets` · Source: `src/resources/targets.ts` · 5 operations
 ### deleteTarget
 
 - **Server**: `cloudConnector` — not the `hyperPreciseCredentials` group; see Servers & auth in sdk-map.md
-- **Signature**: `deleteTarget(request: Targets.DeleteTargetRequestParams, options?: RequestOptions): ApiPromise<undefined, ResponseError>`
+- **Signature**: `deleteTarget(request: Targets.DeleteTargetRequestParams, options?: RequestOptions): ApiPromise<undefined, ApiError>`
 - **Wire**: `POST /targets/actions/delete`
 - **Auth**: all of `thingspaceOauth`, `vzM2MToken` — both are sent
 - **Request body**: `application/json` — the `body` field
+- **SDK-sent**: `header Idempotency-Key` (minted per call)
 - **Returns**: `undefined` — the operation resolves to nothing
-- **Error**: `ResponseError` — untyped, `payload.kind` always `"undeclared"`
+- **Error**: `VerizonError` with `kind: "api"` — untyped, `payload.kind` always `"undeclared"`
 
 **Fields** — `Targets.DeleteTargetRequestParams` (1):
 
@@ -72,12 +75,13 @@ Accessor: `client.targets` · Source: `src/resources/targets.ts` · 5 operations
 ### generateTargetExternalId
 
 - **Server**: `cloudConnector` — not the `hyperPreciseCredentials` group; see Servers & auth in sdk-map.md
-- **Signature**: `generateTargetExternalId(request: Targets.GenerateTargetExternalIdRequest, options?: RequestOptions): ApiPromise<GenerateExternalIdResult, ResponseError>`
+- **Signature**: `generateTargetExternalId(request: Targets.GenerateTargetExternalIdRequest, options?: RequestOptions): ApiPromise<GenerateExternalIdResult, ApiError>`
 - **Wire**: `POST /targets/actions/newextid`
 - **Auth**: all of `thingspaceOauth`, `vzM2MToken` — both are sent
 - **Request body**: `application/json` — the `body` field
+- **SDK-sent**: `header Idempotency-Key` (minted per call)
 - **Returns**: `GenerateExternalIdResult`
-- **Error**: `ResponseError` — untyped, `payload.kind` always `"undeclared"`
+- **Error**: `VerizonError` with `kind: "api"` — untyped, `payload.kind` always `"undeclared"`
 
 **Fields** — `Targets.GenerateTargetExternalIdRequest` (1):
 
@@ -93,12 +97,13 @@ Accessor: `client.targets` · Source: `src/resources/targets.ts` · 5 operations
 ### queryTarget
 
 - **Server**: `cloudConnector` — not the `hyperPreciseCredentials` group; see Servers & auth in sdk-map.md
-- **Signature**: `queryTarget(request: Targets.QueryTargetRequestParams, options?: RequestOptions): ApiPromise<Target[], ResponseError>`
+- **Signature**: `queryTarget(request: Targets.QueryTargetRequestParams, options?: RequestOptions): ApiPromise<Target[], ApiError>`
 - **Wire**: `POST /targets/actions/query`
 - **Auth**: all of `thingspaceOauth`, `vzM2MToken` — both are sent
 - **Request body**: `application/json` — the `body` field
+- **SDK-sent**: `header Idempotency-Key` (minted per call)
 - **Returns**: `Target[]` — a bare `application/json` array; the success type *is* the array, not a wrapper model
-- **Error**: `ResponseError` — untyped, `payload.kind` always `"undeclared"`
+- **Error**: `VerizonError` with `kind: "api"` — untyped, `payload.kind` always `"undeclared"`
 
 **Fields** — `Targets.QueryTargetRequestParams` (1):
 

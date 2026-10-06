@@ -4,6 +4,7 @@ import { gatewayidentifierSchema, type Gatewayidentifier } from "./gatewayidenti
 import { onboardingSchema, type Onboarding } from "./onboarding.js";
 
 export type DtoSensorOnBoardStatusRequest = {
+  /** The numeric account name, which must include leading zeros */
   accountname?: string;
   gatewayidentifier?: Gatewayidentifier;
   onboarding?: Onboarding;

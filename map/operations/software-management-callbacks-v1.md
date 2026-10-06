@@ -4,7 +4,7 @@
 
 Accessor: `client.softwareManagementCallbacksV1` · Source: `src/resources/software-management-callbacks-v1.ts` · 3 operations · Request and error types: namespace `SoftwareManagementCallbacksV1`
 
-**Type sources**: every type an operation names, with the file that declares it and the schema value exported beside it. Import every name from `verizon`; the `Source` path is where to **read** the shape, never what to import. `ResponseError` and the runtime error family are excluded — see sdk-map.md.
+**Type sources**: every type an operation names, with the file that declares it and the schema value exported beside it. Import every name from `verizon`; the `Source` path is where to **read** the shape, never what to import. `ApiError`, the runtime error family and the file vocabulary are excluded — see sdk-map.md.
 
 ### deregisterCallback3
 
@@ -13,8 +13,9 @@ Accessor: `client.softwareManagementCallbacksV1` · Source: `src/resources/softw
 - **Wire**: `DELETE /callbacks/{account}/name/{service}`
 - **Auth**: all of `thingspaceOauth`, `vzM2MToken` — both are sent
 - **Request body**: none — no `Content-Type` header is sent
+- **SDK-sent**: `header Idempotency-Key` (minted per call)
 - **Returns**: `undefined` — the operation resolves to nothing
-- **Error**: `SoftwareManagementCallbacksV1.DeregisterCallback3Error` — **typed arms**, narrowed on `err.payload.kind`
+- **Error**: `VerizonError` with `kind: "api"`, an instance of `SoftwareManagementCallbacksV1.DeregisterCallback3Error` — **typed arms**, narrowed on `err.payload.kind`
 - **Error arms**: `"error400"` [400] no body · `"undeclared"` [any other] `rawBody: ArrayBuffer`
 
 **Fields** — `SoftwareManagementCallbacksV1.DeregisterCallback3Request` (2):
@@ -36,7 +37,7 @@ Accessor: `client.softwareManagementCallbacksV1` · Source: `src/resources/softw
 - **Auth**: all of `thingspaceOauth`, `vzM2MToken` — both are sent
 - **Request body**: none — no `Content-Type` header is sent
 - **Returns**: `RegisteredCallbacks[]` — a bare `application/json` array; the success type *is* the array, not a wrapper model
-- **Error**: `SoftwareManagementCallbacksV1.ListRegisteredCallbacks3Error` — **typed arms**, narrowed on `err.payload.kind`
+- **Error**: `VerizonError` with `kind: "api"`, an instance of `SoftwareManagementCallbacksV1.ListRegisteredCallbacks3Error` — **typed arms**, narrowed on `err.payload.kind`
 - **Error arms**: `"fotaV1Result"` [400] `FotaV1Result` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
 
 **Fields** — `SoftwareManagementCallbacksV1.ListRegisteredCallbacks3Request` (1):
@@ -57,8 +58,9 @@ Accessor: `client.softwareManagementCallbacksV1` · Source: `src/resources/softw
 - **Wire**: `POST /callbacks/{account}`
 - **Auth**: all of `thingspaceOauth`, `vzM2MToken` — both are sent
 - **Request body**: `application/json` — the `body` field
+- **SDK-sent**: `header Idempotency-Key` (minted per call)
 - **Returns**: `FotaV1CallbackRegistrationResult`
-- **Error**: `SoftwareManagementCallbacksV1.RegisterCallback3Error` — **typed arms**, narrowed on `err.payload.kind`
+- **Error**: `VerizonError` with `kind: "api"`, an instance of `SoftwareManagementCallbacksV1.RegisterCallback3Error` — **typed arms**, narrowed on `err.payload.kind`
 - **Error arms**: `"fotaV1Result"` [400] `FotaV1Result` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
 
 **Fields** — `SoftwareManagementCallbacksV1.RegisterCallback3Request` (2):

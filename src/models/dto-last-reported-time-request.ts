@@ -6,7 +6,9 @@ import {
 } from "./dto-device-resource-identifier.js";
 
 export type DtoLastReportedTimeRequest = {
+  /** The numeric account name, which must include leading zeros */
   accountname?: string;
+  /** Device identifiers, one or more are required */
   resourceidentifier?: DtoDeviceResourceIdentifier;
 };
 

@@ -1,9 +1,10 @@
 import type { AuthSchemes } from "../auth-schemes.js";
+import { ApiError, type Declared, type ErrorDecoders, type ErrorPayload } from "../core/api-error.js";
 import type { ApiPromise } from "../core/api-promise.js";
 import type { RequestOptions } from "../core/api-request.js";
 import { allAuth } from "../core/auth/schemes.js";
 import type { RawClient } from "../core/raw-client.js";
-import { ResponseError, type Declared, type ErrorDecoders } from "../core/response-error.js";
+import { uuid } from "../core/uuid.js";
 import * as s from "../core/validation/index.js";
 import {
   asynchronousRequestResultforplannerSchema,
@@ -31,6 +32,9 @@ import {
 } from "../models/rest-error-responseforplanner.js";
 import type { Servers } from "../servers.js";
 
+/**
+ * ThingSpace Intelligence is an offering of integrated connectivity and service management.
+ */
 export class IntelligenceServiceController {
   readonly #rawClient: RawClient;
   readonly #servers: Servers;
@@ -42,6 +46,21 @@ export class IntelligenceServiceController {
     this.#auth = auth;
   }
 
+  /**
+   * Retrieve Windows
+   *
+   * @remarks
+   * Retrieves available device windows for Connection Planner.
+   *
+   * @returns The asynchronous request status.
+   *
+   * @throws {@link IntelligenceServiceController.SetConnectionPlannerError} when the API answers
+   * with an error status — narrow on `err.payload.kind`
+   *
+   * @throws {@link VerizonError} when no usable response was produced: a connection failure, a
+   * timeout, a body that would not decode, a value that would not encode, or a credential that
+   * could not be obtained
+   */
   setConnectionPlanner(
     request: IntelligenceServiceController.SetConnectionPlannerRequest,
     options?: RequestOptions,
@@ -52,8 +71,11 @@ export class IntelligenceServiceController {
     return this.#rawClient.execute(
       {
         method: "POST",
-        url: this.#servers.hyperPreciseCredentials("/v1/intelligence/device/connection-planner"),
+        urlTemplate: this.#servers.thingspace("/v1/intelligence/device/connection-planner"),
         auth: allAuth(this.#auth.thingspaceOauth, this.#auth.vzM2MToken),
+        pathParams: [],
+        query: [],
+        headers: [{ name: "Idempotency-Key", value: uuid(), schema: s.string() }],
         body: {
           kind: "json",
           value: request.body,
@@ -68,6 +90,21 @@ export class IntelligenceServiceController {
     );
   }
 
+  /**
+   * Device Status for Connection Planner
+   *
+   * @remarks
+   * Retrieves the device status for the Connection Planner service.
+   *
+   * @returns Success
+   *
+   * @throws {@link IntelligenceServiceController.StatusConnectionPlannerError} when the API answers
+   * with an error status — narrow on `err.payload.kind`
+   *
+   * @throws {@link VerizonError} when no usable response was produced: a connection failure, a
+   * timeout, a body that would not decode, a value that would not encode, or a credential that
+   * could not be obtained
+   */
   statusConnectionPlanner(
     request: IntelligenceServiceController.StatusConnectionPlannerRequest,
     options?: RequestOptions,
@@ -78,8 +115,11 @@ export class IntelligenceServiceController {
     return this.#rawClient.execute(
       {
         method: "POST",
-        url: this.#servers.hyperPreciseCredentials("/v1/intelligence/device/connection-planner/status"),
+        urlTemplate: this.#servers.thingspace("/v1/intelligence/device/connection-planner/status"),
         auth: allAuth(this.#auth.thingspaceOauth, this.#auth.vzM2MToken),
+        pathParams: [],
+        query: [],
+        headers: [{ name: "Idempotency-Key", value: uuid(), schema: s.string() }],
         body: {
           kind: "json",
           value: request.body,
@@ -100,15 +140,17 @@ export namespace IntelligenceServiceController {
     body?: GetDevicesWindowsRequestforplanner;
   };
 
-  export class SetConnectionPlannerError extends ResponseError<
-    | Declared<"restErrorResponseforplanner", RestErrorResponseforplanner>
-    | Declared<"authRestErrorResponseforplanner", AuthRestErrorResponseforplanner>
-    | Declared<"restErrorResponseforplanner2", RestErrorResponseforplanner>
-    | Declared<"restErrorResponseforplanner3", RestErrorResponseforplanner>
-    | Declared<"restErrorResponseforplanner4", RestErrorResponseforplanner>
-    | Declared<"restErrorResponseforplanner5", RestErrorResponseforplanner>
-    | Declared<"restErrorResponseforplanner6", RestErrorResponseforplanner>
-  > {
+  export class SetConnectionPlannerError extends ApiError {
+    declare readonly payload: ErrorPayload<
+      | Declared<"restErrorResponseforplanner", RestErrorResponseforplanner>
+      | Declared<"authRestErrorResponseforplanner", AuthRestErrorResponseforplanner>
+      | Declared<"restErrorResponseforplanner2", RestErrorResponseforplanner>
+      | Declared<"restErrorResponseforplanner3", RestErrorResponseforplanner>
+      | Declared<"restErrorResponseforplanner4", RestErrorResponseforplanner>
+      | Declared<"restErrorResponseforplanner5", RestErrorResponseforplanner>
+      | Declared<"restErrorResponseforplanner6", RestErrorResponseforplanner>
+    >;
+
     static readonly errors: ErrorDecoders<SetConnectionPlannerError> = [
       {
         on: 400,
@@ -141,7 +183,7 @@ export namespace IntelligenceServiceController {
         decode: { kind: "json", schema: restErrorResponseforplannerSchema },
       },
       {
-        on: [400, 599],
+        on: "default",
         kind: "restErrorResponseforplanner6",
         decode: { kind: "json", schema: restErrorResponseforplannerSchema },
       },
@@ -152,15 +194,17 @@ export namespace IntelligenceServiceController {
     body?: GetDeviceStatusesRequestforplanner;
   };
 
-  export class StatusConnectionPlannerError extends ResponseError<
-    | Declared<"restErrorResponseforplanner", RestErrorResponseforplanner>
-    | Declared<"authRestErrorResponseforplanner", AuthRestErrorResponseforplanner>
-    | Declared<"restErrorResponseforplanner2", RestErrorResponseforplanner>
-    | Declared<"restErrorResponseforplanner3", RestErrorResponseforplanner>
-    | Declared<"restErrorResponseforplanner4", RestErrorResponseforplanner>
-    | Declared<"restErrorResponseforplanner5", RestErrorResponseforplanner>
-    | Declared<"restErrorResponseforplanner6", RestErrorResponseforplanner>
-  > {
+  export class StatusConnectionPlannerError extends ApiError {
+    declare readonly payload: ErrorPayload<
+      | Declared<"restErrorResponseforplanner", RestErrorResponseforplanner>
+      | Declared<"authRestErrorResponseforplanner", AuthRestErrorResponseforplanner>
+      | Declared<"restErrorResponseforplanner2", RestErrorResponseforplanner>
+      | Declared<"restErrorResponseforplanner3", RestErrorResponseforplanner>
+      | Declared<"restErrorResponseforplanner4", RestErrorResponseforplanner>
+      | Declared<"restErrorResponseforplanner5", RestErrorResponseforplanner>
+      | Declared<"restErrorResponseforplanner6", RestErrorResponseforplanner>
+    >;
+
     static readonly errors: ErrorDecoders<StatusConnectionPlannerError> = [
       {
         on: 400,
@@ -193,7 +237,7 @@ export namespace IntelligenceServiceController {
         decode: { kind: "json", schema: restErrorResponseforplannerSchema },
       },
       {
-        on: [400, 599],
+        on: "default",
         kind: "restErrorResponseforplanner6",
         decode: { kind: "json", schema: restErrorResponseforplannerSchema },
       },

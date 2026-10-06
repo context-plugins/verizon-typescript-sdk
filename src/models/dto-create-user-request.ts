@@ -3,6 +3,7 @@ import type { Schema } from "../core/validation/schema.js";
 import { dtoUserDtoSchema, type DtoUserDto } from "./dto-user-dto.js";
 
 export type DtoCreateUserRequest = {
+  /** The numeric account name, which must include leading zeros */
   accountname?: string;
   user?: DtoUserDto;
 };

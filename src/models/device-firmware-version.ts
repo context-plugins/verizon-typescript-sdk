@@ -1,10 +1,13 @@
 import * as s from "../core/validation/index.js";
 import type { Schema } from "../core/validation/schema.js";
 
+/** Device and firmware information. */
 export type DeviceFirmwareVersion = {
   status?: string;
   reason?: string;
+  /** Device IMEI. */
   deviceId: string;
+  /** Device Firmware Version. */
   firmwareVersion: string;
   firmwareVersionUpdateTime?: Date;
 };

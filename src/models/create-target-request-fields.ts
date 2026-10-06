@@ -4,6 +4,7 @@ import { fieldsHttpHeadersSchema, type FieldsHttpHeaders } from "./fields-http-h
 
 export type CreateTargetRequestFields = {
   httpheaders?: FieldsHttpHeaders;
+  /** List of device types. */
   devicetypes?: string[];
 };
 

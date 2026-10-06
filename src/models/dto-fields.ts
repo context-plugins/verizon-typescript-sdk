@@ -1,6 +1,7 @@
 import * as s from "../core/validation/index.js";
 import type { Schema } from "../core/validation/schema.js";
 
+/** Fields to return needed by search */
 export type DtoFields = {
   additionalProp1?: string;
   additionalProp2?: string;

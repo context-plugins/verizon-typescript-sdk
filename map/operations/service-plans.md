@@ -4,16 +4,17 @@
 
 Accessor: `client.servicePlans` · Source: `src/resources/service-plans.ts` · 1 operation · Request and error types: namespace `ServicePlans`
 
-**Type sources**: every type an operation names, with the file that declares it and the schema value exported beside it. Import every name from `verizon`; the `Source` path is where to **read** the shape, never what to import. `ResponseError` and the runtime error family are excluded — see sdk-map.md.
+**Type sources**: every type an operation names, with the file that declares it and the schema value exported beside it. Import every name from `verizon`; the `Source` path is where to **read** the shape, never what to import. `ApiError`, the runtime error family and the file vocabulary are excluded — see sdk-map.md.
 
 ### listAccountServicePlans
 
+- **Server**: `thingspace` — not the `hyperPreciseCredentials` group; see Servers & auth in sdk-map.md
 - **Signature**: `listAccountServicePlans(request: ServicePlans.ListAccountServicePlansRequest, options?: RequestOptions): ApiPromise<ServicePlan[], ServicePlans.ListAccountServicePlansError>`
 - **Wire**: `GET /m2m/v1/plans/{aname}`
 - **Auth**: all of `thingspaceOauth`, `vzM2MToken` — both are sent
 - **Request body**: none — no `Content-Type` header is sent
 - **Returns**: `ServicePlan[]` — a bare `application/json` array; the success type *is* the array, not a wrapper model
-- **Error**: `ServicePlans.ListAccountServicePlansError` — **typed arms**, narrowed on `err.payload.kind`
+- **Error**: `VerizonError` with `kind: "api"`, an instance of `ServicePlans.ListAccountServicePlansError` — **typed arms**, narrowed on `err.payload.kind`
 - **Error arms**: `"connectivityManagementResult"` [400] `ConnectivityManagementResult` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
 
 **Fields** — `ServicePlans.ListAccountServicePlansRequest` (1):

@@ -6,6 +6,7 @@ import { geometrySchema, type Geometry } from "./unions/geometry.js";
 export type FeatureItem = {
   type: Type1;
   geometry: Geometry;
+  /** Properties object for a GeoJSON Feature (no additional properties allowed). */
   properties: Record<string, unknown>;
 };
 

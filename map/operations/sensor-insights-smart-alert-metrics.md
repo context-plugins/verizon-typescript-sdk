@@ -4,16 +4,18 @@
 
 Accessor: `client.sensorInsightsSmartAlertMetrics` · Source: `src/resources/sensor-insights-smart-alert-metrics.ts` · 1 operation · Request and error types: namespace `SensorInsightsSmartAlertMetrics`
 
-**Type sources**: every type an operation names, with the file that declares it and the schema value exported beside it. Import every name from `verizon`; the `Source` path is where to **read** the shape, never what to import. `ResponseError` and the runtime error family are excluded — see sdk-map.md.
+**Type sources**: every type an operation names, with the file that declares it and the schema value exported beside it. Import every name from `verizon`; the `Source` path is where to **read** the shape, never what to import. `ApiError`, the runtime error family and the file vocabulary are excluded — see sdk-map.md.
 
 ### sensorinsightsmetricsquery
 
+- **Server**: `thingspace` — not the `hyperPreciseCredentials` group; see Servers & auth in sdk-map.md
 - **Signature**: `sensorinsightsmetricsquery(request: SensorInsightsSmartAlertMetrics.SensorinsightsmetricsqueryRequest, options?: RequestOptions): ApiPromise<DtoQueryMetricsResponse, SensorInsightsSmartAlertMetrics.SensorinsightsmetricsqueryError>`
 - **Wire**: `POST /dm/v1/smartAlerts/actions/metrics`
 - **Auth**: all of `thingspaceOauth`, `vzM2MToken` — both are sent
 - **Request body**: `application/json` — the `body` field
+- **SDK-sent**: `header Idempotency-Key` (minted per call)
 - **Returns**: `DtoQueryMetricsResponse`
-- **Error**: `SensorInsightsSmartAlertMetrics.SensorinsightsmetricsqueryError` — **typed arms**, narrowed on `err.payload.kind`
+- **Error**: `VerizonError` with `kind: "api"`, an instance of `SensorInsightsSmartAlertMetrics.SensorinsightsmetricsqueryError` — **typed arms**, narrowed on `err.payload.kind`
 - **Error arms**: `"managementError400"` [400] `ManagementError400` · `"managementError"` [401] `ManagementError` · `"managementError403"` [403] `ManagementError403` · `"managementError500"` [500] `ManagementError500` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
 
 **Fields** — `SensorInsightsSmartAlertMetrics.SensorinsightsmetricsqueryRequest` (1):

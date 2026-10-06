@@ -1,9 +1,10 @@
 import type { AuthSchemes } from "../auth-schemes.js";
+import { ApiError, type Declared, type ErrorDecoders, type ErrorPayload } from "../core/api-error.js";
 import type { ApiPromise } from "../core/api-promise.js";
 import type { RequestOptions } from "../core/api-request.js";
 import { allAuth } from "../core/auth/schemes.js";
 import type { RawClient } from "../core/raw-client.js";
-import { ResponseError, type Declared, type ErrorDecoders } from "../core/response-error.js";
+import { uuid } from "../core/uuid.js";
 import * as s from "../core/validation/index.js";
 import {
   dtoAddUsersToNotificationGroupRequestSchema,
@@ -40,6 +41,9 @@ import { managementError404Schema, type ManagementError404 } from "../models/man
 import { managementError500Schema, type ManagementError500 } from "../models/management-error500.js";
 import type { Servers } from "../servers.js";
 
+/**
+ * Create and manage groups to recieve notifications and alerts
+ */
 export class SensorInsightsNotificationGroups {
   readonly #rawClient: RawClient;
   readonly #servers: Servers;
@@ -51,6 +55,19 @@ export class SensorInsightsNotificationGroups {
     this.#auth = auth;
   }
 
+  /**
+   * Add users to a notification group
+   *
+   * @returns OK
+   *
+   * @throws {@link
+   * SensorInsightsNotificationGroups.SensorInsightsAddUsersToNotificationGroupRequestError} when
+   * the API answers with an error status — narrow on `err.payload.kind`
+   *
+   * @throws {@link VerizonError} when no usable response was produced: a connection failure, a
+   * timeout, a body that would not decode, a value that would not encode, or a credential that
+   * could not be obtained
+   */
   sensorInsightsAddUsersToNotificationGroupRequest(
     request: SensorInsightsNotificationGroups.SensorInsightsAddUsersToNotificationGroupRequestRequest,
     options?: RequestOptions,
@@ -61,8 +78,11 @@ export class SensorInsightsNotificationGroups {
     return this.#rawClient.execute(
       {
         method: "POST",
-        url: this.#servers.hyperPreciseCredentials("/dm/v1/notificationGroups/actions/add-users"),
+        urlTemplate: this.#servers.thingspace("/dm/v1/notificationGroups/actions/add-users"),
         auth: allAuth(this.#auth.thingspaceOauth, this.#auth.vzM2MToken),
+        pathParams: [],
+        query: [],
+        headers: [{ name: "Idempotency-Key", value: uuid(), schema: s.string() }],
         body: { kind: "json", value: request.body, schema: dtoAddUsersToNotificationGroupRequestSchema },
       },
       {
@@ -73,6 +93,19 @@ export class SensorInsightsNotificationGroups {
     );
   }
 
+  /**
+   * Create a notification group
+   *
+   * @returns OK
+   *
+   * @throws {@link
+   * SensorInsightsNotificationGroups.SensorInsightsCreateNotificationGroupRequestError} when the
+   * API answers with an error status — narrow on `err.payload.kind`
+   *
+   * @throws {@link VerizonError} when no usable response was produced: a connection failure, a
+   * timeout, a body that would not decode, a value that would not encode, or a credential that
+   * could not be obtained
+   */
   sensorInsightsCreateNotificationGroupRequest(
     request: SensorInsightsNotificationGroups.SensorInsightsCreateNotificationGroupRequestRequest,
     options?: RequestOptions,
@@ -83,8 +116,11 @@ export class SensorInsightsNotificationGroups {
     return this.#rawClient.execute(
       {
         method: "POST",
-        url: this.#servers.hyperPreciseCredentials("/dm/v1/notificationGroups"),
+        urlTemplate: this.#servers.thingspace("/dm/v1/notificationGroups"),
         auth: allAuth(this.#auth.thingspaceOauth, this.#auth.vzM2MToken),
+        pathParams: [],
+        query: [],
+        headers: [{ name: "Idempotency-Key", value: uuid(), schema: s.string() }],
         body: { kind: "json", value: request.body, schema: dtoCreateNotificationGroupRequestSchema },
       },
       {
@@ -95,6 +131,18 @@ export class SensorInsightsNotificationGroups {
     );
   }
 
+  /**
+   * Delete a notification group
+   *
+   * @returns No Content
+   *
+   * @throws {@link SensorInsightsNotificationGroups.SensorInsightsDeleteNotificationGroupError}
+   * when the API answers with an error status — narrow on `err.payload.kind`
+   *
+   * @throws {@link VerizonError} when no usable response was produced: a connection failure, a
+   * timeout, a body that would not decode, a value that would not encode, or a credential that
+   * could not be obtained
+   */
   sensorInsightsDeleteNotificationGroup(
     request: SensorInsightsNotificationGroups.SensorInsightsDeleteNotificationGroupRequest,
     options?: RequestOptions,
@@ -102,9 +150,11 @@ export class SensorInsightsNotificationGroups {
     return this.#rawClient.execute(
       {
         method: "DELETE",
-        url: this.#servers.hyperPreciseCredentials("/dm/v1/notificationGroups"),
+        urlTemplate: this.#servers.thingspace("/dm/v1/notificationGroups"),
         auth: allAuth(this.#auth.thingspaceOauth, this.#auth.vzM2MToken),
+        pathParams: [],
         query: [{ name: "payload", value: request.payload, schema: dtoDeleteNotificationGroupRequestSchema }],
+        headers: [{ name: "Idempotency-Key", value: uuid(), schema: s.string() }],
         body: { kind: "empty" },
       },
       {
@@ -115,6 +165,19 @@ export class SensorInsightsNotificationGroups {
     );
   }
 
+  /**
+   * Retrieve a notification group
+   *
+   * @returns OK
+   *
+   * @throws {@link
+   * SensorInsightsNotificationGroups.SensorInsightsListNotificationGroupRequestError} when the API
+   * answers with an error status — narrow on `err.payload.kind`
+   *
+   * @throws {@link VerizonError} when no usable response was produced: a connection failure, a
+   * timeout, a body that would not decode, a value that would not encode, or a credential that
+   * could not be obtained
+   */
   sensorInsightsListNotificationGroupRequest(
     request: SensorInsightsNotificationGroups.SensorInsightsListNotificationGroupRequestRequest,
     options?: RequestOptions,
@@ -125,8 +188,11 @@ export class SensorInsightsNotificationGroups {
     return this.#rawClient.execute(
       {
         method: "POST",
-        url: this.#servers.hyperPreciseCredentials("/dm/v1/notificationGroups/actions/query"),
+        urlTemplate: this.#servers.thingspace("/dm/v1/notificationGroups/actions/query"),
         auth: allAuth(this.#auth.thingspaceOauth, this.#auth.vzM2MToken),
+        pathParams: [],
+        query: [],
+        headers: [{ name: "Idempotency-Key", value: uuid(), schema: s.string() }],
         body: { kind: "json", value: request.body, schema: dtoListNotificationGroupRequestSchema },
       },
       {
@@ -137,6 +203,19 @@ export class SensorInsightsNotificationGroups {
     );
   }
 
+  /**
+   * Remove users from a notification group
+   *
+   * @returns OK
+   *
+   * @throws {@link
+   * SensorInsightsNotificationGroups.SensorInsightsRemoveUsersFromNotificationGroupRequestError}
+   * when the API answers with an error status — narrow on `err.payload.kind`
+   *
+   * @throws {@link VerizonError} when no usable response was produced: a connection failure, a
+   * timeout, a body that would not decode, a value that would not encode, or a credential that
+   * could not be obtained
+   */
   sensorInsightsRemoveUsersFromNotificationGroupRequest(
     request: SensorInsightsNotificationGroups.SensorInsightsRemoveUsersFromNotificationGroupRequestRequest,
     options?: RequestOptions,
@@ -147,8 +226,11 @@ export class SensorInsightsNotificationGroups {
     return this.#rawClient.execute(
       {
         method: "POST",
-        url: this.#servers.hyperPreciseCredentials("/dm/v1/notificationGroups/actions/remove-users"),
+        urlTemplate: this.#servers.thingspace("/dm/v1/notificationGroups/actions/remove-users"),
         auth: allAuth(this.#auth.thingspaceOauth, this.#auth.vzM2MToken),
+        pathParams: [],
+        query: [],
+        headers: [{ name: "Idempotency-Key", value: uuid(), schema: s.string() }],
         body: { kind: "json", value: request.body, schema: dtoRemoveUsersFromNotificationGroupRequestSchema },
       },
       {
@@ -160,6 +242,19 @@ export class SensorInsightsNotificationGroups {
     );
   }
 
+  /**
+   * Partially update a notification group
+   *
+   * @returns OK
+   *
+   * @throws {@link
+   * SensorInsightsNotificationGroups.SensorInsightsUpdateNotificationGroupRequestError} when the
+   * API answers with an error status — narrow on `err.payload.kind`
+   *
+   * @throws {@link VerizonError} when no usable response was produced: a connection failure, a
+   * timeout, a body that would not decode, a value that would not encode, or a credential that
+   * could not be obtained
+   */
   sensorInsightsUpdateNotificationGroupRequest(
     request: SensorInsightsNotificationGroups.SensorInsightsUpdateNotificationGroupRequestRequest,
     options?: RequestOptions,
@@ -170,8 +265,11 @@ export class SensorInsightsNotificationGroups {
     return this.#rawClient.execute(
       {
         method: "PATCH",
-        url: this.#servers.hyperPreciseCredentials("/dm/v1/notificationGroups"),
+        urlTemplate: this.#servers.thingspace("/dm/v1/notificationGroups"),
         auth: allAuth(this.#auth.thingspaceOauth, this.#auth.vzM2MToken),
+        pathParams: [],
+        query: [],
+        headers: [{ name: "Idempotency-Key", value: uuid(), schema: s.string() }],
         body: { kind: "json", value: request.body, schema: dtoUpdateNotificationGroupRequestSchema },
       },
       {
@@ -185,20 +283,23 @@ export class SensorInsightsNotificationGroups {
 
 export namespace SensorInsightsNotificationGroups {
   export type SensorInsightsAddUsersToNotificationGroupRequestRequest = {
+    /** Add users to a notification group */
     body: DtoAddUsersToNotificationGroupRequest;
   };
 
-  export class SensorInsightsAddUsersToNotificationGroupRequestError extends ResponseError<
-    | Declared<"managementError400", ManagementError400>
-    | Declared<"managementError", ManagementError>
-    | Declared<"managementError403", ManagementError403>
-    | Declared<"managementError404", ManagementError404>
-    | Declared<"managementError2", ManagementError>
-    | Declared<"managementError3", ManagementError>
-    | Declared<"managementError4", ManagementError>
-    | Declared<"managementError500", ManagementError500>
-    | Declared<"managementError5", ManagementError>
-  > {
+  export class SensorInsightsAddUsersToNotificationGroupRequestError extends ApiError {
+    declare readonly payload: ErrorPayload<
+      | Declared<"managementError400", ManagementError400>
+      | Declared<"managementError", ManagementError>
+      | Declared<"managementError403", ManagementError403>
+      | Declared<"managementError404", ManagementError404>
+      | Declared<"managementError2", ManagementError>
+      | Declared<"managementError3", ManagementError>
+      | Declared<"managementError4", ManagementError>
+      | Declared<"managementError500", ManagementError500>
+      | Declared<"managementError5", ManagementError>
+    >;
+
     static readonly errors: ErrorDecoders<SensorInsightsAddUsersToNotificationGroupRequestError> = [
       { on: 400, kind: "managementError400", decode: { kind: "json", schema: managementError400Schema } },
       { on: 401, kind: "managementError", decode: { kind: "json", schema: managementErrorSchema } },
@@ -208,24 +309,27 @@ export namespace SensorInsightsNotificationGroups {
       { on: 415, kind: "managementError3", decode: { kind: "json", schema: managementErrorSchema } },
       { on: 429, kind: "managementError4", decode: { kind: "json", schema: managementErrorSchema } },
       { on: 500, kind: "managementError500", decode: { kind: "json", schema: managementError500Schema } },
-      { on: [400, 599], kind: "managementError5", decode: { kind: "json", schema: managementErrorSchema } },
+      { on: "default", kind: "managementError5", decode: { kind: "json", schema: managementErrorSchema } },
     ];
   }
 
   export type SensorInsightsCreateNotificationGroupRequestRequest = {
+    /** Create a notification group */
     body: DtoCreateNotificationGroupRequest;
   };
 
-  export class SensorInsightsCreateNotificationGroupRequestError extends ResponseError<
-    | Declared<"managementError400", ManagementError400>
-    | Declared<"managementError", ManagementError>
-    | Declared<"managementError403", ManagementError403>
-    | Declared<"managementError2", ManagementError>
-    | Declared<"managementError3", ManagementError>
-    | Declared<"managementError4", ManagementError>
-    | Declared<"managementError500", ManagementError500>
-    | Declared<"managementError5", ManagementError>
-  > {
+  export class SensorInsightsCreateNotificationGroupRequestError extends ApiError {
+    declare readonly payload: ErrorPayload<
+      | Declared<"managementError400", ManagementError400>
+      | Declared<"managementError", ManagementError>
+      | Declared<"managementError403", ManagementError403>
+      | Declared<"managementError2", ManagementError>
+      | Declared<"managementError3", ManagementError>
+      | Declared<"managementError4", ManagementError>
+      | Declared<"managementError500", ManagementError500>
+      | Declared<"managementError5", ManagementError>
+    >;
+
     static readonly errors: ErrorDecoders<SensorInsightsCreateNotificationGroupRequestError> = [
       { on: 400, kind: "managementError400", decode: { kind: "json", schema: managementError400Schema } },
       { on: 401, kind: "managementError", decode: { kind: "json", schema: managementErrorSchema } },
@@ -234,20 +338,23 @@ export namespace SensorInsightsNotificationGroups {
       { on: 415, kind: "managementError3", decode: { kind: "json", schema: managementErrorSchema } },
       { on: 429, kind: "managementError4", decode: { kind: "json", schema: managementErrorSchema } },
       { on: 500, kind: "managementError500", decode: { kind: "json", schema: managementError500Schema } },
-      { on: [400, 599], kind: "managementError5", decode: { kind: "json", schema: managementErrorSchema } },
+      { on: "default", kind: "managementError5", decode: { kind: "json", schema: managementErrorSchema } },
     ];
   }
 
   export type SensorInsightsDeleteNotificationGroupRequest = {
+    /** Payload for the delete request. */
     payload: DtoDeleteNotificationGroupRequest;
   };
 
-  export class SensorInsightsDeleteNotificationGroupError extends ResponseError<
-    | Declared<"managementError400", ManagementError400>
-    | Declared<"managementError", ManagementError>
-    | Declared<"managementError403", ManagementError403>
-    | Declared<"managementError404", ManagementError404>
-  > {
+  export class SensorInsightsDeleteNotificationGroupError extends ApiError {
+    declare readonly payload: ErrorPayload<
+      | Declared<"managementError400", ManagementError400>
+      | Declared<"managementError", ManagementError>
+      | Declared<"managementError403", ManagementError403>
+      | Declared<"managementError404", ManagementError404>
+    >;
+
     static readonly errors: ErrorDecoders<SensorInsightsDeleteNotificationGroupError> = [
       { on: 400, kind: "managementError400", decode: { kind: "json", schema: managementError400Schema } },
       { on: 401, kind: "managementError", decode: { kind: "json", schema: managementErrorSchema } },
@@ -257,20 +364,23 @@ export namespace SensorInsightsNotificationGroups {
   }
 
   export type SensorInsightsListNotificationGroupRequestRequest = {
+    /** Retrieve a notification group */
     body: DtoListNotificationGroupRequest;
   };
 
-  export class SensorInsightsListNotificationGroupRequestError extends ResponseError<
-    | Declared<"managementError400", ManagementError400>
-    | Declared<"managementError", ManagementError>
-    | Declared<"managementError403", ManagementError403>
-    | Declared<"managementError404", ManagementError404>
-    | Declared<"managementError2", ManagementError>
-    | Declared<"managementError3", ManagementError>
-    | Declared<"managementError4", ManagementError>
-    | Declared<"managementError500", ManagementError500>
-    | Declared<"managementError5", ManagementError>
-  > {
+  export class SensorInsightsListNotificationGroupRequestError extends ApiError {
+    declare readonly payload: ErrorPayload<
+      | Declared<"managementError400", ManagementError400>
+      | Declared<"managementError", ManagementError>
+      | Declared<"managementError403", ManagementError403>
+      | Declared<"managementError404", ManagementError404>
+      | Declared<"managementError2", ManagementError>
+      | Declared<"managementError3", ManagementError>
+      | Declared<"managementError4", ManagementError>
+      | Declared<"managementError500", ManagementError500>
+      | Declared<"managementError5", ManagementError>
+    >;
+
     static readonly errors: ErrorDecoders<SensorInsightsListNotificationGroupRequestError> = [
       { on: 400, kind: "managementError400", decode: { kind: "json", schema: managementError400Schema } },
       { on: 401, kind: "managementError", decode: { kind: "json", schema: managementErrorSchema } },
@@ -280,25 +390,28 @@ export namespace SensorInsightsNotificationGroups {
       { on: 415, kind: "managementError3", decode: { kind: "json", schema: managementErrorSchema } },
       { on: 429, kind: "managementError4", decode: { kind: "json", schema: managementErrorSchema } },
       { on: 500, kind: "managementError500", decode: { kind: "json", schema: managementError500Schema } },
-      { on: [400, 599], kind: "managementError5", decode: { kind: "json", schema: managementErrorSchema } },
+      { on: "default", kind: "managementError5", decode: { kind: "json", schema: managementErrorSchema } },
     ];
   }
 
   export type SensorInsightsRemoveUsersFromNotificationGroupRequestRequest = {
+    /** Remove users from a notification group */
     body: DtoRemoveUsersFromNotificationGroupRequest;
   };
 
-  export class SensorInsightsRemoveUsersFromNotificationGroupRequestError extends ResponseError<
-    | Declared<"managementError400", ManagementError400>
-    | Declared<"managementError", ManagementError>
-    | Declared<"managementError403", ManagementError403>
-    | Declared<"managementError404", ManagementError404>
-    | Declared<"managementError2", ManagementError>
-    | Declared<"managementError3", ManagementError>
-    | Declared<"managementError4", ManagementError>
-    | Declared<"managementError500", ManagementError500>
-    | Declared<"managementError5", ManagementError>
-  > {
+  export class SensorInsightsRemoveUsersFromNotificationGroupRequestError extends ApiError {
+    declare readonly payload: ErrorPayload<
+      | Declared<"managementError400", ManagementError400>
+      | Declared<"managementError", ManagementError>
+      | Declared<"managementError403", ManagementError403>
+      | Declared<"managementError404", ManagementError404>
+      | Declared<"managementError2", ManagementError>
+      | Declared<"managementError3", ManagementError>
+      | Declared<"managementError4", ManagementError>
+      | Declared<"managementError500", ManagementError500>
+      | Declared<"managementError5", ManagementError>
+    >;
+
     static readonly errors: ErrorDecoders<SensorInsightsRemoveUsersFromNotificationGroupRequestError> = [
       { on: 400, kind: "managementError400", decode: { kind: "json", schema: managementError400Schema } },
       { on: 401, kind: "managementError", decode: { kind: "json", schema: managementErrorSchema } },
@@ -308,25 +421,28 @@ export namespace SensorInsightsNotificationGroups {
       { on: 415, kind: "managementError3", decode: { kind: "json", schema: managementErrorSchema } },
       { on: 429, kind: "managementError4", decode: { kind: "json", schema: managementErrorSchema } },
       { on: 500, kind: "managementError500", decode: { kind: "json", schema: managementError500Schema } },
-      { on: [400, 599], kind: "managementError5", decode: { kind: "json", schema: managementErrorSchema } },
+      { on: "default", kind: "managementError5", decode: { kind: "json", schema: managementErrorSchema } },
     ];
   }
 
   export type SensorInsightsUpdateNotificationGroupRequestRequest = {
+    /** Partially update a notification group */
     body: DtoUpdateNotificationGroupRequest;
   };
 
-  export class SensorInsightsUpdateNotificationGroupRequestError extends ResponseError<
-    | Declared<"managementError400", ManagementError400>
-    | Declared<"managementError", ManagementError>
-    | Declared<"managementError403", ManagementError403>
-    | Declared<"managementError404", ManagementError404>
-    | Declared<"managementError2", ManagementError>
-    | Declared<"managementError3", ManagementError>
-    | Declared<"managementError4", ManagementError>
-    | Declared<"managementError500", ManagementError500>
-    | Declared<"managementError5", ManagementError>
-  > {
+  export class SensorInsightsUpdateNotificationGroupRequestError extends ApiError {
+    declare readonly payload: ErrorPayload<
+      | Declared<"managementError400", ManagementError400>
+      | Declared<"managementError", ManagementError>
+      | Declared<"managementError403", ManagementError403>
+      | Declared<"managementError404", ManagementError404>
+      | Declared<"managementError2", ManagementError>
+      | Declared<"managementError3", ManagementError>
+      | Declared<"managementError4", ManagementError>
+      | Declared<"managementError500", ManagementError500>
+      | Declared<"managementError5", ManagementError>
+    >;
+
     static readonly errors: ErrorDecoders<SensorInsightsUpdateNotificationGroupRequestError> = [
       { on: 400, kind: "managementError400", decode: { kind: "json", schema: managementError400Schema } },
       { on: 401, kind: "managementError", decode: { kind: "json", schema: managementErrorSchema } },
@@ -336,7 +452,7 @@ export namespace SensorInsightsNotificationGroups {
       { on: 415, kind: "managementError3", decode: { kind: "json", schema: managementErrorSchema } },
       { on: 429, kind: "managementError4", decode: { kind: "json", schema: managementErrorSchema } },
       { on: 500, kind: "managementError500", decode: { kind: "json", schema: managementError500Schema } },
-      { on: [400, 599], kind: "managementError5", decode: { kind: "json", schema: managementErrorSchema } },
+      { on: "default", kind: "managementError5", decode: { kind: "json", schema: managementErrorSchema } },
     ];
   }
 }

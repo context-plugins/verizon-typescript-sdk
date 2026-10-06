@@ -2,6 +2,7 @@ import * as s from "../core/validation/index.js";
 import type { Schema } from "../core/validation/schema.js";
 
 export type DtoResourceidentifier = {
+  /** UUID of the user record, assigned at creation */
   id?: string;
 };
 

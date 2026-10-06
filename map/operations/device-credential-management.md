@@ -4,7 +4,7 @@
 
 Accessor: `client.deviceCredentialManagement` · Source: `src/resources/device-credential-management.ts` · 4 operations · Request and error types: namespace `DeviceCredentialManagement`
 
-**Type sources**: every type an operation names, with the file that declares it and the schema value exported beside it. Import every name from `verizon`; the `Source` path is where to **read** the shape, never what to import. `ResponseError` and the runtime error family are excluded — see sdk-map.md.
+**Type sources**: every type an operation names, with the file that declares it and the schema value exported beside it. Import every name from `verizon`; the `Source` path is where to **read** the shape, never what to import. `ApiError`, the runtime error family and the file vocabulary are excluded — see sdk-map.md.
 
 ### dropCredentials
 
@@ -12,8 +12,9 @@ Accessor: `client.deviceCredentialManagement` · Source: `src/resources/device-c
 - **Wire**: `POST /credentials/drop`
 - **Auth**: all of `thingspaceOauth`, `vzM2MToken` — both are sent
 - **Request body**: `application/json` — the `body` field
+- **SDK-sent**: `header Idempotency-Key` (minted per call)
 - **Returns**: `DropResponse`
-- **Error**: `DeviceCredentialManagement.DropCredentialsError` — **typed arms**, narrowed on `err.payload.kind`
+- **Error**: `VerizonError` with `kind: "api"`, an instance of `DeviceCredentialManagement.DropCredentialsError` — **typed arms**, narrowed on `err.payload.kind`
 - **Error arms**: `"errorResponse"` [400] `ErrorResponse` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
 
 **Fields** — `DeviceCredentialManagement.DropCredentialsRequest` (1):
@@ -34,8 +35,9 @@ Accessor: `client.deviceCredentialManagement` · Source: `src/resources/device-c
 - **Wire**: `POST /credentials/generate`
 - **Auth**: all of `thingspaceOauth`, `vzM2MToken` — both are sent
 - **Request body**: `application/json` — the `body` field
+- **SDK-sent**: `header Idempotency-Key` (minted per call)
 - **Returns**: `GenerateResponse`
-- **Error**: `DeviceCredentialManagement.GenerateCredentialsError` — **typed arms**, narrowed on `err.payload.kind`
+- **Error**: `VerizonError` with `kind: "api"`, an instance of `DeviceCredentialManagement.GenerateCredentialsError` — **typed arms**, narrowed on `err.payload.kind`
 - **Error arms**: `"errorResponse"` [400] `ErrorResponse` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
 
 **Fields** — `DeviceCredentialManagement.GenerateCredentialsRequest` (1):
@@ -56,8 +58,9 @@ Accessor: `client.deviceCredentialManagement` · Source: `src/resources/device-c
 - **Wire**: `POST /credentials/reset`
 - **Auth**: all of `thingspaceOauth`, `vzM2MToken` — both are sent
 - **Request body**: `application/json` — the `body` field
+- **SDK-sent**: `header Idempotency-Key` (minted per call)
 - **Returns**: `GenerateResponse`
-- **Error**: `DeviceCredentialManagement.ResetCredentialsError` — **typed arms**, narrowed on `err.payload.kind`
+- **Error**: `VerizonError` with `kind: "api"`, an instance of `DeviceCredentialManagement.ResetCredentialsError` — **typed arms**, narrowed on `err.payload.kind`
 - **Error arms**: `"errorResponse"` [400] `ErrorResponse` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
 
 **Fields** — `DeviceCredentialManagement.ResetCredentialsRequest` (1):
@@ -78,8 +81,9 @@ Accessor: `client.deviceCredentialManagement` · Source: `src/resources/device-c
 - **Wire**: `POST /credentials/retrieve`
 - **Auth**: all of `thingspaceOauth`, `vzM2MToken` — both are sent
 - **Request body**: `application/json` — the `body` field
+- **SDK-sent**: `header Idempotency-Key` (minted per call)
 - **Returns**: `RetrieveResponse`
-- **Error**: `DeviceCredentialManagement.RetrieveCredentialsError` — **typed arms**, narrowed on `err.payload.kind`
+- **Error**: `VerizonError` with `kind: "api"`, an instance of `DeviceCredentialManagement.RetrieveCredentialsError` — **typed arms**, narrowed on `err.payload.kind`
 - **Error arms**: `"errorResponse"` [400] `ErrorResponse` · `"error401"` [401] no body · `"undeclared"` [any other] `rawBody: ArrayBuffer`
 
 **Fields** — `DeviceCredentialManagement.RetrieveCredentialsRequest` (1):

@@ -1,6 +1,7 @@
 import * as s from "../core/validation/index.js";
 import type { EnumSchema } from "../core/validation/schema.js";
 
+/** Status of the report. */
 export const ReportStatus = {
   Queued: "QUEUED",
   Inprogress: "INPROGRESS",

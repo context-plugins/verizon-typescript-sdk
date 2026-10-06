@@ -1,5 +1,8 @@
-import type { UrlTemplate } from "./core/api-request.js";
-import { SdkError } from "./core/errors.js";
+import type { ClientOptions } from "./client-options.js";
+import type { ServerBase, UrlTemplate } from "./core/api-request.js";
+import { ConfigurationError } from "./core/errors.js";
+import { resolveBaseUrl } from "./core/url.js";
+import * as s from "./core/validation/index.js";
 
 export const ServerEnvironment = {
   Production: "production",
@@ -10,840 +13,800 @@ export const ServerEnvironment = {
 } as const;
 export type ServerEnvironment = (typeof ServerEnvironment)[keyof typeof ServerEnvironment];
 
-export type HyperPreciseCredentialsServerOptions = {
-  production?: { baseUrl?: string };
-  staging?: { baseUrl?: string };
-  dev?: { baseUrl?: string };
-  qa?: { baseUrl?: string };
-  mockServerForLimitedAvailabilitySeeQuickStart?: { baseUrl?: string };
-};
-
-export type ImpServerServerOptions = {
-  production?: { baseUrl?: string };
-  staging?: { baseUrl?: string };
-  dev?: { baseUrl?: string };
-  qa?: { baseUrl?: string };
-  mockServerForLimitedAvailabilitySeeQuickStart?: { baseUrl?: string };
-};
-
-export type ThingspaceServerOptions = {
-  production?: { baseUrl?: string };
-  staging?: { baseUrl?: string };
-  dev?: { baseUrl?: string };
-  qa?: { baseUrl?: string };
-  mockServerForLimitedAvailabilitySeeQuickStart?: { baseUrl?: string };
-};
-
-export type OAuthServerServerOptions = {
-  production?: { baseUrl?: string };
-  staging?: { baseUrl?: string };
-  dev?: { baseUrl?: string };
-  qa?: { baseUrl?: string };
-  mockServerForLimitedAvailabilitySeeQuickStart?: { baseUrl?: string };
-};
-
-export type M2MServerOptions = {
-  production?: { baseUrl?: string };
-  staging?: { baseUrl?: string };
-  dev?: { baseUrl?: string };
-  qa?: { baseUrl?: string };
-  mockServerForLimitedAvailabilitySeeQuickStart?: { baseUrl?: string };
-};
-
-export type DeviceLocationServerOptions = {
-  production?: { baseUrl?: string };
-  staging?: { baseUrl?: string };
-  dev?: { baseUrl?: string };
-  qa?: { baseUrl?: string };
-  mockServerForLimitedAvailabilitySeeQuickStart?: { baseUrl?: string };
-};
-
-export type SubscriptionServerServerOptions = {
-  production?: { baseUrl?: string };
-  staging?: { baseUrl?: string };
-  dev?: { baseUrl?: string };
-  qa?: { baseUrl?: string };
-  mockServerForLimitedAvailabilitySeeQuickStart?: { baseUrl?: string };
-};
-
-export type SoftwareManagementV1ServerOptions = {
-  production?: { baseUrl?: string };
-  staging?: { baseUrl?: string };
-  dev?: { baseUrl?: string };
-  qa?: { baseUrl?: string };
-  mockServerForLimitedAvailabilitySeeQuickStart?: { baseUrl?: string };
-};
-
-export type SoftwareManagementV2ServerOptions = {
-  production?: { baseUrl?: string };
-  staging?: { baseUrl?: string };
-  dev?: { baseUrl?: string };
-  qa?: { baseUrl?: string };
-  mockServerForLimitedAvailabilitySeeQuickStart?: { baseUrl?: string };
-};
-
-export type SoftwareManagementV3ServerOptions = {
-  production?: { baseUrl?: string };
-  staging?: { baseUrl?: string };
-  dev?: { baseUrl?: string };
-  qa?: { baseUrl?: string };
-  mockServerForLimitedAvailabilitySeeQuickStart?: { baseUrl?: string };
-};
-
-export type DeviceDiagnosticsServerOptions = {
-  production?: { baseUrl?: string };
-  staging?: { baseUrl?: string };
-  dev?: { baseUrl?: string };
-  qa?: { baseUrl?: string };
-  mockServerForLimitedAvailabilitySeeQuickStart?: { baseUrl?: string };
-};
-
-export type CloudConnectorServerOptions = {
-  production?: { baseUrl?: string };
-  staging?: { baseUrl?: string };
-  dev?: { baseUrl?: string };
-  qa?: { baseUrl?: string };
-  mockServerForLimitedAvailabilitySeeQuickStart?: { baseUrl?: string };
-};
-
-export type HyperPreciseLocationServerOptions = {
-  production?: { baseUrl?: string };
-  staging?: { baseUrl?: string };
-  dev?: { baseUrl?: string };
-  qa?: { baseUrl?: string };
-  mockServerForLimitedAvailabilitySeeQuickStart?: { baseUrl?: string };
-};
-
-export type ServicesServerOptions = {
-  production?: { baseUrl?: string };
-  staging?: { baseUrl?: string };
-  dev?: { baseUrl?: string };
-  qa?: { baseUrl?: string };
-  mockServerForLimitedAvailabilitySeeQuickStart?: { baseUrl?: string };
-};
-
-export type QualityOfServiceServerOptions = {
-  production?: { baseUrl?: string };
-  staging?: { baseUrl?: string };
-  dev?: { baseUrl?: string };
-  qa?: { baseUrl?: string };
-  mockServerForLimitedAvailabilitySeeQuickStart?: { baseUrl?: string };
-};
-
-export type ServerOptions = {
-  hyperPreciseCredentials?: HyperPreciseCredentialsServerOptions;
-  impServer?: ImpServerServerOptions;
-  thingspace?: ThingspaceServerOptions;
-  oAuthServer?: OAuthServerServerOptions;
-  m2M?: M2MServerOptions;
-  deviceLocation?: DeviceLocationServerOptions;
-  subscriptionServer?: SubscriptionServerServerOptions;
-  softwareManagementV1?: SoftwareManagementV1ServerOptions;
-  softwareManagementV2?: SoftwareManagementV2ServerOptions;
-  softwareManagementV3?: SoftwareManagementV3ServerOptions;
-  deviceDiagnostics?: DeviceDiagnosticsServerOptions;
-  cloudConnector?: CloudConnectorServerOptions;
-  hyperPreciseLocation?: HyperPreciseLocationServerOptions;
-  services?: ServicesServerOptions;
-  qualityOfService?: QualityOfServiceServerOptions;
-};
-
 export type Servers = {
-  hyperPreciseCredentials: (subPath: string) => UrlTemplate;
-  impServer: (subPath: string) => UrlTemplate;
-  thingspace: (subPath: string) => UrlTemplate;
-  oAuthServer: (subPath: string) => UrlTemplate;
-  m2M: (subPath: string) => UrlTemplate;
-  deviceLocation: (subPath: string) => UrlTemplate;
-  subscriptionServer: (subPath: string) => UrlTemplate;
-  softwareManagementV1: (subPath: string) => UrlTemplate;
-  softwareManagementV2: (subPath: string) => UrlTemplate;
-  softwareManagementV3: (subPath: string) => UrlTemplate;
-  deviceDiagnostics: (subPath: string) => UrlTemplate;
-  cloudConnector: (subPath: string) => UrlTemplate;
-  hyperPreciseLocation: (subPath: string) => UrlTemplate;
-  services: (subPath: string) => UrlTemplate;
-  qualityOfService: (subPath: string) => UrlTemplate;
+  hyperPreciseCredentials: <Path extends string>(subPath: Path) => UrlTemplate<Path>;
+  impServer: <Path extends string>(subPath: Path) => UrlTemplate<Path>;
+  thingspace: <Path extends string>(subPath: Path) => UrlTemplate<Path>;
+  oAuthServer: <Path extends string>(subPath: Path) => UrlTemplate<Path>;
+  m2M: <Path extends string>(subPath: Path) => UrlTemplate<Path>;
+  deviceLocation: <Path extends string>(subPath: Path) => UrlTemplate<Path>;
+  subscriptionServer: <Path extends string>(subPath: Path) => UrlTemplate<Path>;
+  softwareManagementV1: <Path extends string>(subPath: Path) => UrlTemplate<Path>;
+  softwareManagementV2: <Path extends string>(subPath: Path) => UrlTemplate<Path>;
+  softwareManagementV3: <Path extends string>(subPath: Path) => UrlTemplate<Path>;
+  deviceDiagnostics: <Path extends string>(subPath: Path) => UrlTemplate<Path>;
+  cloudConnector: <Path extends string>(subPath: Path) => UrlTemplate<Path>;
+  hyperPreciseLocation: <Path extends string>(subPath: Path) => UrlTemplate<Path>;
+  services: <Path extends string>(subPath: Path) => UrlTemplate<Path>;
+  qualityOfService: <Path extends string>(subPath: Path) => UrlTemplate<Path>;
 };
 
-export const DEFAULT_SERVER_OPTIONS = {
+const productionSchemas = {
   hyperPreciseCredentials: {
-    production: { baseUrl: "https://thingspace.verizon.com/api/auth/v1" },
-    staging: { baseUrl: "https://staging.thingspace.verizon.com/api/auth/v1" },
-    dev: { baseUrl: "https://staging.thingspace.verizon.com/api/auth/v1" },
-    qa: { baseUrl: "https://thingspace.verizon.com/api/auth/v1" },
-    mockServerForLimitedAvailabilitySeeQuickStart: {
-      baseUrl: "https://staging.thingspace.verizon.com/api/auth/v1",
-    },
+    baseUrl: s.of(s.defaulted(s.string(), "https://thingspace.verizon.com/api/auth/v1")),
   },
-  impServer: {
-    production: { baseUrl: "https://imp.thingspace.verizon.com" },
-    staging: { baseUrl: "https://imp-staging.thingspace.verizon.com" },
-    dev: { baseUrl: "https://devmanagement-staging.imp.thingspace.verizon.com" },
-    qa: { baseUrl: "https://tsd-nginx-qa-us-east-1.imp.thingspace.verizon.com" },
-    mockServerForLimitedAvailabilitySeeQuickStart: { baseUrl: "https://mock-staging.thingspace.verizon.com" },
-  },
-  thingspace: {
-    production: { baseUrl: "https://thingspace.verizon.com/api" },
-    staging: { baseUrl: "https://staging.thingspace.verizon.com/api" },
-    dev: { baseUrl: "https://devmanagement-staging.thingspace.verizon.com/api" },
-    qa: { baseUrl: "https://tsd-nginx-qa-us-east-1.thingspace.verizon.com/api" },
-    mockServerForLimitedAvailabilitySeeQuickStart: {
-      baseUrl: "https://mock-staging.thingspace.verizon.com/api",
-    },
-  },
-  oAuthServer: {
-    production: { baseUrl: "https://thingspace.verizon.com/api/ts/v1" },
-    staging: { baseUrl: "https://staging.thingspace.verizon.com/api/ts/v1" },
-    dev: { baseUrl: "https://devmanagement-staging.thingspace.verizon.com:80/ts/v1" },
-    qa: { baseUrl: "https://tsd-nginx-qa-us-east-1.thingspace.verizon.com/api/ts/v1" },
-    mockServerForLimitedAvailabilitySeeQuickStart: {
-      baseUrl: "https://mock-staging.thingspace.verizon.com/api/ts/v1",
-    },
-  },
-  m2M: {
-    production: { baseUrl: "https://thingspace.verizon.com/api/m2m" },
-    staging: { baseUrl: "https://staging.thingspace.verizon.com/api/m2m" },
-    dev: { baseUrl: "https://devmanagement-staging.thingspace.verizon.com:80/m2m" },
-    qa: { baseUrl: "https://tsd-nginx-qa-us-east-1.thingspace.verizon.com/api/m2m" },
-    mockServerForLimitedAvailabilitySeeQuickStart: {
-      baseUrl: "https://mock-staging.thingspace.verizon.com/api/m2m",
-    },
-  },
-  deviceLocation: {
-    production: { baseUrl: "https://thingspace.verizon.com/api/loc/v1" },
-    staging: { baseUrl: "https://staging.thingspace.verizon.com/api/loc/v1" },
-    dev: { baseUrl: "https://devmanagement-staging.thingspace.verizon.com:80/loc/v1" },
-    qa: { baseUrl: "https://tsd-nginx-qa-us-east-1.thingspace.verizon.com/api/loc/v1" },
-    mockServerForLimitedAvailabilitySeeQuickStart: {
-      baseUrl: "https://mock-staging.thingspace.verizon.com/api/loc/v1",
-    },
-  },
+  impServer: { baseUrl: s.of(s.defaulted(s.string(), "https://imp.thingspace.verizon.com")) },
+  thingspace: { baseUrl: s.of(s.defaulted(s.string(), "https://thingspace.verizon.com/api")) },
+  oAuthServer: { baseUrl: s.of(s.defaulted(s.string(), "https://thingspace.verizon.com/api/ts/v1")) },
+  m2M: { baseUrl: s.of(s.defaulted(s.string(), "https://thingspace.verizon.com/api/m2m")) },
+  deviceLocation: { baseUrl: s.of(s.defaulted(s.string(), "https://thingspace.verizon.com/api/loc/v1")) },
   subscriptionServer: {
-    production: { baseUrl: "https://thingspace.verizon.com/api/subsc/v1" },
-    staging: { baseUrl: "https://staging.thingspace.verizon.com/api/subsc/v1" },
-    dev: { baseUrl: "https://devmanagement-staging.thingspace.verizon.com:80/subsc/v1" },
-    qa: { baseUrl: "https://tsd-nginx-qa-us-east-1.thingspace.verizon.com/api/subsc/v1" },
-    mockServerForLimitedAvailabilitySeeQuickStart: {
-      baseUrl: "https://mock-staging.thingspace.verizon.com/api/subsc/v1",
-    },
+    baseUrl: s.of(s.defaulted(s.string(), "https://thingspace.verizon.com/api/subsc/v1")),
   },
   softwareManagementV1: {
-    production: { baseUrl: "https://thingspace.verizon.com/api/fota/v1" },
-    staging: { baseUrl: "https://staging.thingspace.verizon.com/api/fota/v1" },
-    dev: { baseUrl: "https://devmanagement-staging.thingspace.verizon.com:80/fota/v1" },
-    qa: { baseUrl: "https://tsd-nginx-qa-us-east-1.thingspace.verizon.com/api/fota/v1" },
-    mockServerForLimitedAvailabilitySeeQuickStart: {
-      baseUrl: "https://mock-staging.thingspace.verizon.com/api/fota/v1",
-    },
+    baseUrl: s.of(s.defaulted(s.string(), "https://thingspace.verizon.com/api/fota/v1")),
   },
   softwareManagementV2: {
-    production: { baseUrl: "https://thingspace.verizon.com/api/fota/v2" },
-    staging: { baseUrl: "https://staging.thingspace.verizon.com/api/fota/v2" },
-    dev: { baseUrl: "https://devmanagement-staging.thingspace.verizon.com:80/fota/v2" },
-    qa: { baseUrl: "https://tsd-nginx-qa-us-east-1.thingspace.verizon.com/api/fota/v2" },
-    mockServerForLimitedAvailabilitySeeQuickStart: {
-      baseUrl: "https://mock-staging.thingspace.verizon.com/api/fota/v2",
-    },
+    baseUrl: s.of(s.defaulted(s.string(), "https://thingspace.verizon.com/api/fota/v2")),
   },
   softwareManagementV3: {
-    production: { baseUrl: "https://thingspace.verizon.com/api/fota/v3" },
-    staging: { baseUrl: "https://staging.thingspace.verizon.com/api/fota/v3" },
-    dev: { baseUrl: "https://devmanagement-staging.thingspace.verizon.com:80/fota/v3" },
-    qa: { baseUrl: "https://tsd-nginx-qa-us-east-1.thingspace.verizon.com/api/fota/v3" },
-    mockServerForLimitedAvailabilitySeeQuickStart: {
-      baseUrl: "https://mock-staging.thingspace.verizon.com/api/fota/v3",
-    },
+    baseUrl: s.of(s.defaulted(s.string(), "https://thingspace.verizon.com/api/fota/v3")),
   },
   deviceDiagnostics: {
-    production: { baseUrl: "https://thingspace.verizon.com/api/diagnostics/v1" },
-    staging: { baseUrl: "https://staging.thingspace.verizon.com/api/diagnostics/v1" },
-    dev: { baseUrl: "https://devmanagement-staging.thingspace.verizon.com:80/diagnostics/v1" },
-    qa: { baseUrl: "https://tsd-nginx-qa-us-east-1.thingspace.verizon.com/api/diagnostics/v1" },
-    mockServerForLimitedAvailabilitySeeQuickStart: {
-      baseUrl: "https://mock-staging.thingspace.verizon.com/api/diagnostics/v1",
-    },
+    baseUrl: s.of(s.defaulted(s.string(), "https://thingspace.verizon.com/api/diagnostics/v1")),
+  },
+  cloudConnector: { baseUrl: s.of(s.defaulted(s.string(), "https://thingspace.verizon.com/api/cc/v1")) },
+  hyperPreciseLocation: {
+    baseUrl: s.of(s.defaulted(s.string(), "https://thingspace.verizon.com/api/hyper-precise/v1")),
+  },
+  services: { baseUrl: s.of(s.defaulted(s.string(), "https://5gedge.verizon.com/api/mec/services")) },
+  qualityOfService: {
+    baseUrl: s.of(s.defaulted(s.string(), "https://thingspace.verizon.com/api/m2m/v1/devices")),
+  },
+};
+
+const stagingSchemas = {
+  hyperPreciseCredentials: {
+    baseUrl: s.of(s.defaulted(s.string(), "https://staging.thingspace.verizon.com/api/auth/v1")),
+  },
+  impServer: { baseUrl: s.of(s.defaulted(s.string(), "https://imp-staging.thingspace.verizon.com")) },
+  thingspace: { baseUrl: s.of(s.defaulted(s.string(), "https://staging.thingspace.verizon.com/api")) },
+  oAuthServer: { baseUrl: s.of(s.defaulted(s.string(), "https://staging.thingspace.verizon.com/api/ts/v1")) },
+  m2M: { baseUrl: s.of(s.defaulted(s.string(), "https://staging.thingspace.verizon.com/api/m2m")) },
+  deviceLocation: {
+    baseUrl: s.of(s.defaulted(s.string(), "https://staging.thingspace.verizon.com/api/loc/v1")),
+  },
+  subscriptionServer: {
+    baseUrl: s.of(s.defaulted(s.string(), "https://staging.thingspace.verizon.com/api/subsc/v1")),
+  },
+  softwareManagementV1: {
+    baseUrl: s.of(s.defaulted(s.string(), "https://staging.thingspace.verizon.com/api/fota/v1")),
+  },
+  softwareManagementV2: {
+    baseUrl: s.of(s.defaulted(s.string(), "https://staging.thingspace.verizon.com/api/fota/v2")),
+  },
+  softwareManagementV3: {
+    baseUrl: s.of(s.defaulted(s.string(), "https://staging.thingspace.verizon.com/api/fota/v3")),
+  },
+  deviceDiagnostics: {
+    baseUrl: s.of(s.defaulted(s.string(), "https://staging.thingspace.verizon.com/api/diagnostics/v1")),
   },
   cloudConnector: {
-    production: { baseUrl: "https://thingspace.verizon.com/api/cc/v1" },
-    staging: { baseUrl: "https://staging.thingspace.verizon.com/api/cc/v1" },
-    dev: { baseUrl: "https://devmanagement-staging.thingspace.verizon.com:80/cc/v1" },
-    qa: { baseUrl: "https://tsd-nginx-qa-us-east-1.thingspace.verizon.com/api/cc/v1" },
-    mockServerForLimitedAvailabilitySeeQuickStart: {
-      baseUrl: "https://mock-staging.thingspace.verizon.com/api/cc/v1",
-    },
+    baseUrl: s.of(s.defaulted(s.string(), "https://staging.thingspace.verizon.com/api/cc/v1")),
   },
   hyperPreciseLocation: {
-    production: { baseUrl: "https://thingspace.verizon.com/api/hyper-precise/v1" },
-    staging: { baseUrl: "https://staging.thingspace.verizon.com/api/hyper-precise/v1" },
-    dev: { baseUrl: "https://devmanagement-staging.thingspace.verizon.com:80/hyper-precise/v1" },
-    qa: { baseUrl: "https://tsd-nginx-qa-us-east-1.thingspace.verizon.com/api/hyper-precise/v1" },
-    mockServerForLimitedAvailabilitySeeQuickStart: {
-      baseUrl: "https://mock-staging.thingspace.verizon.com/api/hyper-precise/v1",
-    },
+    baseUrl: s.of(s.defaulted(s.string(), "https://staging.thingspace.verizon.com/api/hyper-precise/v1")),
+  },
+  services: { baseUrl: s.of(s.defaulted(s.string(), "https://staging.5gedge.verizon.com/api/mec/services")) },
+  qualityOfService: {
+    baseUrl: s.of(s.defaulted(s.string(), "https://staging.thingspace.verizon.com/api/m2m/v1/devices")),
+  },
+};
+
+const devSchemas = {
+  hyperPreciseCredentials: {
+    baseUrl: s.of(s.defaulted(s.string(), "https://staging.thingspace.verizon.com/api/auth/v1")),
+  },
+  impServer: {
+    baseUrl: s.of(s.defaulted(s.string(), "https://devmanagement-staging.imp.thingspace.verizon.com")),
+  },
+  thingspace: {
+    baseUrl: s.of(s.defaulted(s.string(), "https://devmanagement-staging.thingspace.verizon.com/api")),
+  },
+  oAuthServer: {
+    baseUrl: s.of(s.defaulted(s.string(), "https://devmanagement-staging.thingspace.verizon.com:80/ts/v1")),
+  },
+  m2M: {
+    baseUrl: s.of(s.defaulted(s.string(), "https://devmanagement-staging.thingspace.verizon.com:80/m2m")),
+  },
+  deviceLocation: {
+    baseUrl: s.of(s.defaulted(s.string(), "https://devmanagement-staging.thingspace.verizon.com:80/loc/v1")),
+  },
+  subscriptionServer: {
+    baseUrl: s.of(
+      s.defaulted(s.string(), "https://devmanagement-staging.thingspace.verizon.com:80/subsc/v1"),
+    ),
+  },
+  softwareManagementV1: {
+    baseUrl: s.of(s.defaulted(s.string(), "https://devmanagement-staging.thingspace.verizon.com:80/fota/v1")),
+  },
+  softwareManagementV2: {
+    baseUrl: s.of(s.defaulted(s.string(), "https://devmanagement-staging.thingspace.verizon.com:80/fota/v2")),
+  },
+  softwareManagementV3: {
+    baseUrl: s.of(s.defaulted(s.string(), "https://devmanagement-staging.thingspace.verizon.com:80/fota/v3")),
+  },
+  deviceDiagnostics: {
+    baseUrl: s.of(
+      s.defaulted(s.string(), "https://devmanagement-staging.thingspace.verizon.com:80/diagnostics/v1"),
+    ),
+  },
+  cloudConnector: {
+    baseUrl: s.of(s.defaulted(s.string(), "https://devmanagement-staging.thingspace.verizon.com:80/cc/v1")),
+  },
+  hyperPreciseLocation: {
+    baseUrl: s.of(
+      s.defaulted(s.string(), "https://devmanagement-staging.thingspace.verizon.com:80/hyper-precise/v1"),
+    ),
   },
   services: {
-    production: { baseUrl: "https://5gedge.verizon.com/api/mec/services" },
-    staging: { baseUrl: "https://staging.5gedge.verizon.com/api/mec/services" },
-    dev: { baseUrl: "https://devmanagement-staging.5gedge.verizon.com:80/mec/services" },
-    qa: { baseUrl: "https://tsd-nginx-qa-us-east-1.5gedge.verizon.com/api/mec/services" },
-    mockServerForLimitedAvailabilitySeeQuickStart: {
-      baseUrl: "https://mock-staging.thingspace.verizon.com/api/mec/services",
-    },
+    baseUrl: s.of(
+      s.defaulted(s.string(), "https://devmanagement-staging.5gedge.verizon.com:80/mec/services"),
+    ),
   },
   qualityOfService: {
-    production: { baseUrl: "https://thingspace.verizon.com/api/m2m/v1/devices" },
-    staging: { baseUrl: "https://staging.thingspace.verizon.com/api/m2m/v1/devices" },
-    dev: { baseUrl: "https://devmanagement-staging.thingspace.verizon.com/api/m2m/v1/devices" },
-    qa: { baseUrl: "https://tsd-nginx-qa-us-east-1.thingspace.verizon.com/api/m2m/v1/devices" },
-    mockServerForLimitedAvailabilitySeeQuickStart: {
-      baseUrl: "https://mock-staging.thingspace.verizon.com/api/m2m/v1/devices",
-    },
+    baseUrl: s.of(
+      s.defaulted(s.string(), "https://devmanagement-staging.thingspace.verizon.com/api/m2m/v1/devices"),
+    ),
   },
-} as const satisfies ServerOptions;
+};
 
-export function buildServers(environment: ServerEnvironment, options: ServerOptions): Servers {
+const qaSchemas = {
+  hyperPreciseCredentials: {
+    baseUrl: s.of(s.defaulted(s.string(), "https://thingspace.verizon.com/api/auth/v1")),
+  },
+  impServer: {
+    baseUrl: s.of(s.defaulted(s.string(), "https://tsd-nginx-qa-us-east-1.imp.thingspace.verizon.com")),
+  },
+  thingspace: {
+    baseUrl: s.of(s.defaulted(s.string(), "https://tsd-nginx-qa-us-east-1.thingspace.verizon.com/api")),
+  },
+  oAuthServer: {
+    baseUrl: s.of(s.defaulted(s.string(), "https://tsd-nginx-qa-us-east-1.thingspace.verizon.com/api/ts/v1")),
+  },
+  m2M: {
+    baseUrl: s.of(s.defaulted(s.string(), "https://tsd-nginx-qa-us-east-1.thingspace.verizon.com/api/m2m")),
+  },
+  deviceLocation: {
+    baseUrl: s.of(
+      s.defaulted(s.string(), "https://tsd-nginx-qa-us-east-1.thingspace.verizon.com/api/loc/v1"),
+    ),
+  },
+  subscriptionServer: {
+    baseUrl: s.of(
+      s.defaulted(s.string(), "https://tsd-nginx-qa-us-east-1.thingspace.verizon.com/api/subsc/v1"),
+    ),
+  },
+  softwareManagementV1: {
+    baseUrl: s.of(
+      s.defaulted(s.string(), "https://tsd-nginx-qa-us-east-1.thingspace.verizon.com/api/fota/v1"),
+    ),
+  },
+  softwareManagementV2: {
+    baseUrl: s.of(
+      s.defaulted(s.string(), "https://tsd-nginx-qa-us-east-1.thingspace.verizon.com/api/fota/v2"),
+    ),
+  },
+  softwareManagementV3: {
+    baseUrl: s.of(
+      s.defaulted(s.string(), "https://tsd-nginx-qa-us-east-1.thingspace.verizon.com/api/fota/v3"),
+    ),
+  },
+  deviceDiagnostics: {
+    baseUrl: s.of(
+      s.defaulted(s.string(), "https://tsd-nginx-qa-us-east-1.thingspace.verizon.com/api/diagnostics/v1"),
+    ),
+  },
+  cloudConnector: {
+    baseUrl: s.of(s.defaulted(s.string(), "https://tsd-nginx-qa-us-east-1.thingspace.verizon.com/api/cc/v1")),
+  },
+  hyperPreciseLocation: {
+    baseUrl: s.of(
+      s.defaulted(s.string(), "https://tsd-nginx-qa-us-east-1.thingspace.verizon.com/api/hyper-precise/v1"),
+    ),
+  },
+  services: {
+    baseUrl: s.of(
+      s.defaulted(s.string(), "https://tsd-nginx-qa-us-east-1.5gedge.verizon.com/api/mec/services"),
+    ),
+  },
+  qualityOfService: {
+    baseUrl: s.of(
+      s.defaulted(s.string(), "https://tsd-nginx-qa-us-east-1.thingspace.verizon.com/api/m2m/v1/devices"),
+    ),
+  },
+};
+
+const mockServerForLimitedAvailabilitySeeQuickStartSchemas = {
+  hyperPreciseCredentials: {
+    baseUrl: s.of(s.defaulted(s.string(), "https://staging.thingspace.verizon.com/api/auth/v1")),
+  },
+  impServer: { baseUrl: s.of(s.defaulted(s.string(), "https://mock-staging.thingspace.verizon.com")) },
+  thingspace: { baseUrl: s.of(s.defaulted(s.string(), "https://mock-staging.thingspace.verizon.com/api")) },
+  oAuthServer: {
+    baseUrl: s.of(s.defaulted(s.string(), "https://mock-staging.thingspace.verizon.com/api/ts/v1")),
+  },
+  m2M: { baseUrl: s.of(s.defaulted(s.string(), "https://mock-staging.thingspace.verizon.com/api/m2m")) },
+  deviceLocation: {
+    baseUrl: s.of(s.defaulted(s.string(), "https://mock-staging.thingspace.verizon.com/api/loc/v1")),
+  },
+  subscriptionServer: {
+    baseUrl: s.of(s.defaulted(s.string(), "https://mock-staging.thingspace.verizon.com/api/subsc/v1")),
+  },
+  softwareManagementV1: {
+    baseUrl: s.of(s.defaulted(s.string(), "https://mock-staging.thingspace.verizon.com/api/fota/v1")),
+  },
+  softwareManagementV2: {
+    baseUrl: s.of(s.defaulted(s.string(), "https://mock-staging.thingspace.verizon.com/api/fota/v2")),
+  },
+  softwareManagementV3: {
+    baseUrl: s.of(s.defaulted(s.string(), "https://mock-staging.thingspace.verizon.com/api/fota/v3")),
+  },
+  deviceDiagnostics: {
+    baseUrl: s.of(s.defaulted(s.string(), "https://mock-staging.thingspace.verizon.com/api/diagnostics/v1")),
+  },
+  cloudConnector: {
+    baseUrl: s.of(s.defaulted(s.string(), "https://mock-staging.thingspace.verizon.com/api/cc/v1")),
+  },
+  hyperPreciseLocation: {
+    baseUrl: s.of(
+      s.defaulted(s.string(), "https://mock-staging.thingspace.verizon.com/api/hyper-precise/v1"),
+    ),
+  },
+  services: {
+    baseUrl: s.of(s.defaulted(s.string(), "https://mock-staging.thingspace.verizon.com/api/mec/services")),
+  },
+  qualityOfService: {
+    baseUrl: s.of(s.defaulted(s.string(), "https://mock-staging.thingspace.verizon.com/api/m2m/v1/devices")),
+  },
+};
+
+export function buildServers(options: ClientOptions): Servers {
+  const base = {
+    hyperPreciseCredentials: resolveBaseUrl(hyperPreciseCredentialsServer(options)),
+    impServer: resolveBaseUrl(impServerServer(options)),
+    thingspace: resolveBaseUrl(thingspaceServer(options)),
+    oAuthServer: resolveBaseUrl(oAuthServerServer(options)),
+    m2M: resolveBaseUrl(m2MServer(options)),
+    deviceLocation: resolveBaseUrl(deviceLocationServer(options)),
+    subscriptionServer: resolveBaseUrl(subscriptionServerServer(options)),
+    softwareManagementV1: resolveBaseUrl(softwareManagementV1Server(options)),
+    softwareManagementV2: resolveBaseUrl(softwareManagementV2Server(options)),
+    softwareManagementV3: resolveBaseUrl(softwareManagementV3Server(options)),
+    deviceDiagnostics: resolveBaseUrl(deviceDiagnosticsServer(options)),
+    cloudConnector: resolveBaseUrl(cloudConnectorServer(options)),
+    hyperPreciseLocation: resolveBaseUrl(hyperPreciseLocationServer(options)),
+    services: resolveBaseUrl(servicesServer(options)),
+    qualityOfService: resolveBaseUrl(qualityOfServiceServer(options)),
+  };
   return {
-    hyperPreciseCredentials: (s) =>
-      hyperPreciseCredentialsServer(environment, s, options.hyperPreciseCredentials),
-    impServer: (s) => impServerServer(environment, s, options.impServer),
-    thingspace: (s) => thingspaceServer(environment, s, options.thingspace),
-    oAuthServer: (s) => oAuthServerServer(environment, s, options.oAuthServer),
-    m2M: (s) => m2MServer(environment, s, options.m2M),
-    deviceLocation: (s) => deviceLocationServer(environment, s, options.deviceLocation),
-    subscriptionServer: (s) => subscriptionServerServer(environment, s, options.subscriptionServer),
-    softwareManagementV1: (s) => softwareManagementV1Server(environment, s, options.softwareManagementV1),
-    softwareManagementV2: (s) => softwareManagementV2Server(environment, s, options.softwareManagementV2),
-    softwareManagementV3: (s) => softwareManagementV3Server(environment, s, options.softwareManagementV3),
-    deviceDiagnostics: (s) => deviceDiagnosticsServer(environment, s, options.deviceDiagnostics),
-    cloudConnector: (s) => cloudConnectorServer(environment, s, options.cloudConnector),
-    hyperPreciseLocation: (s) => hyperPreciseLocationServer(environment, s, options.hyperPreciseLocation),
-    services: (s) => servicesServer(environment, s, options.services),
-    qualityOfService: (s) => qualityOfServiceServer(environment, s, options.qualityOfService),
+    hyperPreciseCredentials: (subPath) => ({ baseUrl: base.hyperPreciseCredentials, subPath }),
+    impServer: (subPath) => ({ baseUrl: base.impServer, subPath }),
+    thingspace: (subPath) => ({ baseUrl: base.thingspace, subPath }),
+    oAuthServer: (subPath) => ({ baseUrl: base.oAuthServer, subPath }),
+    m2M: (subPath) => ({ baseUrl: base.m2M, subPath }),
+    deviceLocation: (subPath) => ({ baseUrl: base.deviceLocation, subPath }),
+    subscriptionServer: (subPath) => ({ baseUrl: base.subscriptionServer, subPath }),
+    softwareManagementV1: (subPath) => ({ baseUrl: base.softwareManagementV1, subPath }),
+    softwareManagementV2: (subPath) => ({ baseUrl: base.softwareManagementV2, subPath }),
+    softwareManagementV3: (subPath) => ({ baseUrl: base.softwareManagementV3, subPath }),
+    deviceDiagnostics: (subPath) => ({ baseUrl: base.deviceDiagnostics, subPath }),
+    cloudConnector: (subPath) => ({ baseUrl: base.cloudConnector, subPath }),
+    hyperPreciseLocation: (subPath) => ({ baseUrl: base.hyperPreciseLocation, subPath }),
+    services: (subPath) => ({ baseUrl: base.services, subPath }),
+    qualityOfService: (subPath) => ({ baseUrl: base.qualityOfService, subPath }),
   };
 }
 
-function hyperPreciseCredentialsServer(
-  environment: ServerEnvironment,
-  subPath: string,
-  options?: HyperPreciseCredentialsServerOptions,
-): UrlTemplate {
+function hyperPreciseCredentialsServer(options: ClientOptions): ServerBase {
+  const environment = options.serverEnvironment;
   switch (environment) {
-    case ServerEnvironment.Production: {
-      const production = {
-        ...DEFAULT_SERVER_OPTIONS.hyperPreciseCredentials.production,
-        ...options?.production,
+    case ServerEnvironment.Production:
+    case undefined:
+      return {
+        baseUrl: productionSchemas.hyperPreciseCredentials.baseUrl.decode(
+          options.serverOptions?.hyperPreciseCredentials?.baseUrl,
+        ),
       };
-      return { baseUrl: production.baseUrl, subPath };
-    }
-    case ServerEnvironment.Staging: {
-      const staging = { ...DEFAULT_SERVER_OPTIONS.hyperPreciseCredentials.staging, ...options?.staging };
-      return { baseUrl: staging.baseUrl, subPath };
-    }
-    case ServerEnvironment.Dev: {
-      const dev = { ...DEFAULT_SERVER_OPTIONS.hyperPreciseCredentials.dev, ...options?.dev };
-      return { baseUrl: dev.baseUrl, subPath };
-    }
-    case ServerEnvironment.Qa: {
-      const qa = { ...DEFAULT_SERVER_OPTIONS.hyperPreciseCredentials.qa, ...options?.qa };
-      return { baseUrl: qa.baseUrl, subPath };
-    }
-    case ServerEnvironment.MockServerForLimitedAvailabilitySeeQuickStart: {
-      const mockServerForLimitedAvailabilitySeeQuickStart = {
-        ...DEFAULT_SERVER_OPTIONS.hyperPreciseCredentials.mockServerForLimitedAvailabilitySeeQuickStart,
-        ...options?.mockServerForLimitedAvailabilitySeeQuickStart,
+    case ServerEnvironment.Staging:
+      return {
+        baseUrl: stagingSchemas.hyperPreciseCredentials.baseUrl.decode(
+          options.serverOptions?.hyperPreciseCredentials?.baseUrl,
+        ),
       };
-      return { baseUrl: mockServerForLimitedAvailabilitySeeQuickStart.baseUrl, subPath };
-    }
+    case ServerEnvironment.Dev:
+      return {
+        baseUrl: devSchemas.hyperPreciseCredentials.baseUrl.decode(
+          options.serverOptions?.hyperPreciseCredentials?.baseUrl,
+        ),
+      };
+    case ServerEnvironment.Qa:
+      return {
+        baseUrl: qaSchemas.hyperPreciseCredentials.baseUrl.decode(
+          options.serverOptions?.hyperPreciseCredentials?.baseUrl,
+        ),
+      };
+    case ServerEnvironment.MockServerForLimitedAvailabilitySeeQuickStart:
+      return {
+        baseUrl: mockServerForLimitedAvailabilitySeeQuickStartSchemas.hyperPreciseCredentials.baseUrl.decode(
+          options.serverOptions?.hyperPreciseCredentials?.baseUrl,
+        ),
+      };
     default:
       unknownEnvironment(environment);
   }
 }
 
-function impServerServer(
-  environment: ServerEnvironment,
-  subPath: string,
-  options?: ImpServerServerOptions,
-): UrlTemplate {
+function impServerServer(options: ClientOptions): ServerBase {
+  const environment = options.serverEnvironment;
   switch (environment) {
-    case ServerEnvironment.Production: {
-      const production = { ...DEFAULT_SERVER_OPTIONS.impServer.production, ...options?.production };
-      return { baseUrl: production.baseUrl, subPath };
-    }
-    case ServerEnvironment.Staging: {
-      const staging = { ...DEFAULT_SERVER_OPTIONS.impServer.staging, ...options?.staging };
-      return { baseUrl: staging.baseUrl, subPath };
-    }
-    case ServerEnvironment.Dev: {
-      const dev = { ...DEFAULT_SERVER_OPTIONS.impServer.dev, ...options?.dev };
-      return { baseUrl: dev.baseUrl, subPath };
-    }
-    case ServerEnvironment.Qa: {
-      const qa = { ...DEFAULT_SERVER_OPTIONS.impServer.qa, ...options?.qa };
-      return { baseUrl: qa.baseUrl, subPath };
-    }
-    case ServerEnvironment.MockServerForLimitedAvailabilitySeeQuickStart: {
-      const mockServerForLimitedAvailabilitySeeQuickStart = {
-        ...DEFAULT_SERVER_OPTIONS.impServer.mockServerForLimitedAvailabilitySeeQuickStart,
-        ...options?.mockServerForLimitedAvailabilitySeeQuickStart,
+    case ServerEnvironment.Production:
+    case undefined:
+      return {
+        baseUrl: productionSchemas.impServer.baseUrl.decode(options.serverOptions?.impServer?.baseUrl),
       };
-      return { baseUrl: mockServerForLimitedAvailabilitySeeQuickStart.baseUrl, subPath };
-    }
+    case ServerEnvironment.Staging:
+      return { baseUrl: stagingSchemas.impServer.baseUrl.decode(options.serverOptions?.impServer?.baseUrl) };
+    case ServerEnvironment.Dev:
+      return { baseUrl: devSchemas.impServer.baseUrl.decode(options.serverOptions?.impServer?.baseUrl) };
+    case ServerEnvironment.Qa:
+      return { baseUrl: qaSchemas.impServer.baseUrl.decode(options.serverOptions?.impServer?.baseUrl) };
+    case ServerEnvironment.MockServerForLimitedAvailabilitySeeQuickStart:
+      return {
+        baseUrl: mockServerForLimitedAvailabilitySeeQuickStartSchemas.impServer.baseUrl.decode(
+          options.serverOptions?.impServer?.baseUrl,
+        ),
+      };
     default:
       unknownEnvironment(environment);
   }
 }
 
-function thingspaceServer(
-  environment: ServerEnvironment,
-  subPath: string,
-  options?: ThingspaceServerOptions,
-): UrlTemplate {
+function thingspaceServer(options: ClientOptions): ServerBase {
+  const environment = options.serverEnvironment;
   switch (environment) {
-    case ServerEnvironment.Production: {
-      const production = { ...DEFAULT_SERVER_OPTIONS.thingspace.production, ...options?.production };
-      return { baseUrl: production.baseUrl, subPath };
-    }
-    case ServerEnvironment.Staging: {
-      const staging = { ...DEFAULT_SERVER_OPTIONS.thingspace.staging, ...options?.staging };
-      return { baseUrl: staging.baseUrl, subPath };
-    }
-    case ServerEnvironment.Dev: {
-      const dev = { ...DEFAULT_SERVER_OPTIONS.thingspace.dev, ...options?.dev };
-      return { baseUrl: dev.baseUrl, subPath };
-    }
-    case ServerEnvironment.Qa: {
-      const qa = { ...DEFAULT_SERVER_OPTIONS.thingspace.qa, ...options?.qa };
-      return { baseUrl: qa.baseUrl, subPath };
-    }
-    case ServerEnvironment.MockServerForLimitedAvailabilitySeeQuickStart: {
-      const mockServerForLimitedAvailabilitySeeQuickStart = {
-        ...DEFAULT_SERVER_OPTIONS.thingspace.mockServerForLimitedAvailabilitySeeQuickStart,
-        ...options?.mockServerForLimitedAvailabilitySeeQuickStart,
+    case ServerEnvironment.Production:
+    case undefined:
+      return {
+        baseUrl: productionSchemas.thingspace.baseUrl.decode(options.serverOptions?.thingspace?.baseUrl),
       };
-      return { baseUrl: mockServerForLimitedAvailabilitySeeQuickStart.baseUrl, subPath };
-    }
+    case ServerEnvironment.Staging:
+      return {
+        baseUrl: stagingSchemas.thingspace.baseUrl.decode(options.serverOptions?.thingspace?.baseUrl),
+      };
+    case ServerEnvironment.Dev:
+      return { baseUrl: devSchemas.thingspace.baseUrl.decode(options.serverOptions?.thingspace?.baseUrl) };
+    case ServerEnvironment.Qa:
+      return { baseUrl: qaSchemas.thingspace.baseUrl.decode(options.serverOptions?.thingspace?.baseUrl) };
+    case ServerEnvironment.MockServerForLimitedAvailabilitySeeQuickStart:
+      return {
+        baseUrl: mockServerForLimitedAvailabilitySeeQuickStartSchemas.thingspace.baseUrl.decode(
+          options.serverOptions?.thingspace?.baseUrl,
+        ),
+      };
     default:
       unknownEnvironment(environment);
   }
 }
 
-function oAuthServerServer(
-  environment: ServerEnvironment,
-  subPath: string,
-  options?: OAuthServerServerOptions,
-): UrlTemplate {
+function oAuthServerServer(options: ClientOptions): ServerBase {
+  const environment = options.serverEnvironment;
   switch (environment) {
-    case ServerEnvironment.Production: {
-      const production = { ...DEFAULT_SERVER_OPTIONS.oAuthServer.production, ...options?.production };
-      return { baseUrl: production.baseUrl, subPath };
-    }
-    case ServerEnvironment.Staging: {
-      const staging = { ...DEFAULT_SERVER_OPTIONS.oAuthServer.staging, ...options?.staging };
-      return { baseUrl: staging.baseUrl, subPath };
-    }
-    case ServerEnvironment.Dev: {
-      const dev = { ...DEFAULT_SERVER_OPTIONS.oAuthServer.dev, ...options?.dev };
-      return { baseUrl: dev.baseUrl, subPath };
-    }
-    case ServerEnvironment.Qa: {
-      const qa = { ...DEFAULT_SERVER_OPTIONS.oAuthServer.qa, ...options?.qa };
-      return { baseUrl: qa.baseUrl, subPath };
-    }
-    case ServerEnvironment.MockServerForLimitedAvailabilitySeeQuickStart: {
-      const mockServerForLimitedAvailabilitySeeQuickStart = {
-        ...DEFAULT_SERVER_OPTIONS.oAuthServer.mockServerForLimitedAvailabilitySeeQuickStart,
-        ...options?.mockServerForLimitedAvailabilitySeeQuickStart,
+    case ServerEnvironment.Production:
+    case undefined:
+      return {
+        baseUrl: productionSchemas.oAuthServer.baseUrl.decode(options.serverOptions?.oAuthServer?.baseUrl),
       };
-      return { baseUrl: mockServerForLimitedAvailabilitySeeQuickStart.baseUrl, subPath };
-    }
+    case ServerEnvironment.Staging:
+      return {
+        baseUrl: stagingSchemas.oAuthServer.baseUrl.decode(options.serverOptions?.oAuthServer?.baseUrl),
+      };
+    case ServerEnvironment.Dev:
+      return { baseUrl: devSchemas.oAuthServer.baseUrl.decode(options.serverOptions?.oAuthServer?.baseUrl) };
+    case ServerEnvironment.Qa:
+      return { baseUrl: qaSchemas.oAuthServer.baseUrl.decode(options.serverOptions?.oAuthServer?.baseUrl) };
+    case ServerEnvironment.MockServerForLimitedAvailabilitySeeQuickStart:
+      return {
+        baseUrl: mockServerForLimitedAvailabilitySeeQuickStartSchemas.oAuthServer.baseUrl.decode(
+          options.serverOptions?.oAuthServer?.baseUrl,
+        ),
+      };
     default:
       unknownEnvironment(environment);
   }
 }
 
-function m2MServer(environment: ServerEnvironment, subPath: string, options?: M2MServerOptions): UrlTemplate {
+function m2MServer(options: ClientOptions): ServerBase {
+  const environment = options.serverEnvironment;
   switch (environment) {
-    case ServerEnvironment.Production: {
-      const production = { ...DEFAULT_SERVER_OPTIONS.m2M.production, ...options?.production };
-      return { baseUrl: production.baseUrl, subPath };
-    }
-    case ServerEnvironment.Staging: {
-      const staging = { ...DEFAULT_SERVER_OPTIONS.m2M.staging, ...options?.staging };
-      return { baseUrl: staging.baseUrl, subPath };
-    }
-    case ServerEnvironment.Dev: {
-      const dev = { ...DEFAULT_SERVER_OPTIONS.m2M.dev, ...options?.dev };
-      return { baseUrl: dev.baseUrl, subPath };
-    }
-    case ServerEnvironment.Qa: {
-      const qa = { ...DEFAULT_SERVER_OPTIONS.m2M.qa, ...options?.qa };
-      return { baseUrl: qa.baseUrl, subPath };
-    }
-    case ServerEnvironment.MockServerForLimitedAvailabilitySeeQuickStart: {
-      const mockServerForLimitedAvailabilitySeeQuickStart = {
-        ...DEFAULT_SERVER_OPTIONS.m2M.mockServerForLimitedAvailabilitySeeQuickStart,
-        ...options?.mockServerForLimitedAvailabilitySeeQuickStart,
+    case ServerEnvironment.Production:
+    case undefined:
+      return { baseUrl: productionSchemas.m2M.baseUrl.decode(options.serverOptions?.m2M?.baseUrl) };
+    case ServerEnvironment.Staging:
+      return { baseUrl: stagingSchemas.m2M.baseUrl.decode(options.serverOptions?.m2M?.baseUrl) };
+    case ServerEnvironment.Dev:
+      return { baseUrl: devSchemas.m2M.baseUrl.decode(options.serverOptions?.m2M?.baseUrl) };
+    case ServerEnvironment.Qa:
+      return { baseUrl: qaSchemas.m2M.baseUrl.decode(options.serverOptions?.m2M?.baseUrl) };
+    case ServerEnvironment.MockServerForLimitedAvailabilitySeeQuickStart:
+      return {
+        baseUrl: mockServerForLimitedAvailabilitySeeQuickStartSchemas.m2M.baseUrl.decode(
+          options.serverOptions?.m2M?.baseUrl,
+        ),
       };
-      return { baseUrl: mockServerForLimitedAvailabilitySeeQuickStart.baseUrl, subPath };
-    }
     default:
       unknownEnvironment(environment);
   }
 }
 
-function deviceLocationServer(
-  environment: ServerEnvironment,
-  subPath: string,
-  options?: DeviceLocationServerOptions,
-): UrlTemplate {
+function deviceLocationServer(options: ClientOptions): ServerBase {
+  const environment = options.serverEnvironment;
   switch (environment) {
-    case ServerEnvironment.Production: {
-      const production = { ...DEFAULT_SERVER_OPTIONS.deviceLocation.production, ...options?.production };
-      return { baseUrl: production.baseUrl, subPath };
-    }
-    case ServerEnvironment.Staging: {
-      const staging = { ...DEFAULT_SERVER_OPTIONS.deviceLocation.staging, ...options?.staging };
-      return { baseUrl: staging.baseUrl, subPath };
-    }
-    case ServerEnvironment.Dev: {
-      const dev = { ...DEFAULT_SERVER_OPTIONS.deviceLocation.dev, ...options?.dev };
-      return { baseUrl: dev.baseUrl, subPath };
-    }
-    case ServerEnvironment.Qa: {
-      const qa = { ...DEFAULT_SERVER_OPTIONS.deviceLocation.qa, ...options?.qa };
-      return { baseUrl: qa.baseUrl, subPath };
-    }
-    case ServerEnvironment.MockServerForLimitedAvailabilitySeeQuickStart: {
-      const mockServerForLimitedAvailabilitySeeQuickStart = {
-        ...DEFAULT_SERVER_OPTIONS.deviceLocation.mockServerForLimitedAvailabilitySeeQuickStart,
-        ...options?.mockServerForLimitedAvailabilitySeeQuickStart,
+    case ServerEnvironment.Production:
+    case undefined:
+      return {
+        baseUrl: productionSchemas.deviceLocation.baseUrl.decode(
+          options.serverOptions?.deviceLocation?.baseUrl,
+        ),
       };
-      return { baseUrl: mockServerForLimitedAvailabilitySeeQuickStart.baseUrl, subPath };
-    }
+    case ServerEnvironment.Staging:
+      return {
+        baseUrl: stagingSchemas.deviceLocation.baseUrl.decode(options.serverOptions?.deviceLocation?.baseUrl),
+      };
+    case ServerEnvironment.Dev:
+      return {
+        baseUrl: devSchemas.deviceLocation.baseUrl.decode(options.serverOptions?.deviceLocation?.baseUrl),
+      };
+    case ServerEnvironment.Qa:
+      return {
+        baseUrl: qaSchemas.deviceLocation.baseUrl.decode(options.serverOptions?.deviceLocation?.baseUrl),
+      };
+    case ServerEnvironment.MockServerForLimitedAvailabilitySeeQuickStart:
+      return {
+        baseUrl: mockServerForLimitedAvailabilitySeeQuickStartSchemas.deviceLocation.baseUrl.decode(
+          options.serverOptions?.deviceLocation?.baseUrl,
+        ),
+      };
     default:
       unknownEnvironment(environment);
   }
 }
 
-function subscriptionServerServer(
-  environment: ServerEnvironment,
-  subPath: string,
-  options?: SubscriptionServerServerOptions,
-): UrlTemplate {
+function subscriptionServerServer(options: ClientOptions): ServerBase {
+  const environment = options.serverEnvironment;
   switch (environment) {
-    case ServerEnvironment.Production: {
-      const production = { ...DEFAULT_SERVER_OPTIONS.subscriptionServer.production, ...options?.production };
-      return { baseUrl: production.baseUrl, subPath };
-    }
-    case ServerEnvironment.Staging: {
-      const staging = { ...DEFAULT_SERVER_OPTIONS.subscriptionServer.staging, ...options?.staging };
-      return { baseUrl: staging.baseUrl, subPath };
-    }
-    case ServerEnvironment.Dev: {
-      const dev = { ...DEFAULT_SERVER_OPTIONS.subscriptionServer.dev, ...options?.dev };
-      return { baseUrl: dev.baseUrl, subPath };
-    }
-    case ServerEnvironment.Qa: {
-      const qa = { ...DEFAULT_SERVER_OPTIONS.subscriptionServer.qa, ...options?.qa };
-      return { baseUrl: qa.baseUrl, subPath };
-    }
-    case ServerEnvironment.MockServerForLimitedAvailabilitySeeQuickStart: {
-      const mockServerForLimitedAvailabilitySeeQuickStart = {
-        ...DEFAULT_SERVER_OPTIONS.subscriptionServer.mockServerForLimitedAvailabilitySeeQuickStart,
-        ...options?.mockServerForLimitedAvailabilitySeeQuickStart,
+    case ServerEnvironment.Production:
+    case undefined:
+      return {
+        baseUrl: productionSchemas.subscriptionServer.baseUrl.decode(
+          options.serverOptions?.subscriptionServer?.baseUrl,
+        ),
       };
-      return { baseUrl: mockServerForLimitedAvailabilitySeeQuickStart.baseUrl, subPath };
-    }
+    case ServerEnvironment.Staging:
+      return {
+        baseUrl: stagingSchemas.subscriptionServer.baseUrl.decode(
+          options.serverOptions?.subscriptionServer?.baseUrl,
+        ),
+      };
+    case ServerEnvironment.Dev:
+      return {
+        baseUrl: devSchemas.subscriptionServer.baseUrl.decode(
+          options.serverOptions?.subscriptionServer?.baseUrl,
+        ),
+      };
+    case ServerEnvironment.Qa:
+      return {
+        baseUrl: qaSchemas.subscriptionServer.baseUrl.decode(
+          options.serverOptions?.subscriptionServer?.baseUrl,
+        ),
+      };
+    case ServerEnvironment.MockServerForLimitedAvailabilitySeeQuickStart:
+      return {
+        baseUrl: mockServerForLimitedAvailabilitySeeQuickStartSchemas.subscriptionServer.baseUrl.decode(
+          options.serverOptions?.subscriptionServer?.baseUrl,
+        ),
+      };
     default:
       unknownEnvironment(environment);
   }
 }
 
-function softwareManagementV1Server(
-  environment: ServerEnvironment,
-  subPath: string,
-  options?: SoftwareManagementV1ServerOptions,
-): UrlTemplate {
+function softwareManagementV1Server(options: ClientOptions): ServerBase {
+  const environment = options.serverEnvironment;
   switch (environment) {
-    case ServerEnvironment.Production: {
-      const production = {
-        ...DEFAULT_SERVER_OPTIONS.softwareManagementV1.production,
-        ...options?.production,
+    case ServerEnvironment.Production:
+    case undefined:
+      return {
+        baseUrl: productionSchemas.softwareManagementV1.baseUrl.decode(
+          options.serverOptions?.softwareManagementV1?.baseUrl,
+        ),
       };
-      return { baseUrl: production.baseUrl, subPath };
-    }
-    case ServerEnvironment.Staging: {
-      const staging = { ...DEFAULT_SERVER_OPTIONS.softwareManagementV1.staging, ...options?.staging };
-      return { baseUrl: staging.baseUrl, subPath };
-    }
-    case ServerEnvironment.Dev: {
-      const dev = { ...DEFAULT_SERVER_OPTIONS.softwareManagementV1.dev, ...options?.dev };
-      return { baseUrl: dev.baseUrl, subPath };
-    }
-    case ServerEnvironment.Qa: {
-      const qa = { ...DEFAULT_SERVER_OPTIONS.softwareManagementV1.qa, ...options?.qa };
-      return { baseUrl: qa.baseUrl, subPath };
-    }
-    case ServerEnvironment.MockServerForLimitedAvailabilitySeeQuickStart: {
-      const mockServerForLimitedAvailabilitySeeQuickStart = {
-        ...DEFAULT_SERVER_OPTIONS.softwareManagementV1.mockServerForLimitedAvailabilitySeeQuickStart,
-        ...options?.mockServerForLimitedAvailabilitySeeQuickStart,
+    case ServerEnvironment.Staging:
+      return {
+        baseUrl: stagingSchemas.softwareManagementV1.baseUrl.decode(
+          options.serverOptions?.softwareManagementV1?.baseUrl,
+        ),
       };
-      return { baseUrl: mockServerForLimitedAvailabilitySeeQuickStart.baseUrl, subPath };
-    }
+    case ServerEnvironment.Dev:
+      return {
+        baseUrl: devSchemas.softwareManagementV1.baseUrl.decode(
+          options.serverOptions?.softwareManagementV1?.baseUrl,
+        ),
+      };
+    case ServerEnvironment.Qa:
+      return {
+        baseUrl: qaSchemas.softwareManagementV1.baseUrl.decode(
+          options.serverOptions?.softwareManagementV1?.baseUrl,
+        ),
+      };
+    case ServerEnvironment.MockServerForLimitedAvailabilitySeeQuickStart:
+      return {
+        baseUrl: mockServerForLimitedAvailabilitySeeQuickStartSchemas.softwareManagementV1.baseUrl.decode(
+          options.serverOptions?.softwareManagementV1?.baseUrl,
+        ),
+      };
     default:
       unknownEnvironment(environment);
   }
 }
 
-function softwareManagementV2Server(
-  environment: ServerEnvironment,
-  subPath: string,
-  options?: SoftwareManagementV2ServerOptions,
-): UrlTemplate {
+function softwareManagementV2Server(options: ClientOptions): ServerBase {
+  const environment = options.serverEnvironment;
   switch (environment) {
-    case ServerEnvironment.Production: {
-      const production = {
-        ...DEFAULT_SERVER_OPTIONS.softwareManagementV2.production,
-        ...options?.production,
+    case ServerEnvironment.Production:
+    case undefined:
+      return {
+        baseUrl: productionSchemas.softwareManagementV2.baseUrl.decode(
+          options.serverOptions?.softwareManagementV2?.baseUrl,
+        ),
       };
-      return { baseUrl: production.baseUrl, subPath };
-    }
-    case ServerEnvironment.Staging: {
-      const staging = { ...DEFAULT_SERVER_OPTIONS.softwareManagementV2.staging, ...options?.staging };
-      return { baseUrl: staging.baseUrl, subPath };
-    }
-    case ServerEnvironment.Dev: {
-      const dev = { ...DEFAULT_SERVER_OPTIONS.softwareManagementV2.dev, ...options?.dev };
-      return { baseUrl: dev.baseUrl, subPath };
-    }
-    case ServerEnvironment.Qa: {
-      const qa = { ...DEFAULT_SERVER_OPTIONS.softwareManagementV2.qa, ...options?.qa };
-      return { baseUrl: qa.baseUrl, subPath };
-    }
-    case ServerEnvironment.MockServerForLimitedAvailabilitySeeQuickStart: {
-      const mockServerForLimitedAvailabilitySeeQuickStart = {
-        ...DEFAULT_SERVER_OPTIONS.softwareManagementV2.mockServerForLimitedAvailabilitySeeQuickStart,
-        ...options?.mockServerForLimitedAvailabilitySeeQuickStart,
+    case ServerEnvironment.Staging:
+      return {
+        baseUrl: stagingSchemas.softwareManagementV2.baseUrl.decode(
+          options.serverOptions?.softwareManagementV2?.baseUrl,
+        ),
       };
-      return { baseUrl: mockServerForLimitedAvailabilitySeeQuickStart.baseUrl, subPath };
-    }
+    case ServerEnvironment.Dev:
+      return {
+        baseUrl: devSchemas.softwareManagementV2.baseUrl.decode(
+          options.serverOptions?.softwareManagementV2?.baseUrl,
+        ),
+      };
+    case ServerEnvironment.Qa:
+      return {
+        baseUrl: qaSchemas.softwareManagementV2.baseUrl.decode(
+          options.serverOptions?.softwareManagementV2?.baseUrl,
+        ),
+      };
+    case ServerEnvironment.MockServerForLimitedAvailabilitySeeQuickStart:
+      return {
+        baseUrl: mockServerForLimitedAvailabilitySeeQuickStartSchemas.softwareManagementV2.baseUrl.decode(
+          options.serverOptions?.softwareManagementV2?.baseUrl,
+        ),
+      };
     default:
       unknownEnvironment(environment);
   }
 }
 
-function softwareManagementV3Server(
-  environment: ServerEnvironment,
-  subPath: string,
-  options?: SoftwareManagementV3ServerOptions,
-): UrlTemplate {
+function softwareManagementV3Server(options: ClientOptions): ServerBase {
+  const environment = options.serverEnvironment;
   switch (environment) {
-    case ServerEnvironment.Production: {
-      const production = {
-        ...DEFAULT_SERVER_OPTIONS.softwareManagementV3.production,
-        ...options?.production,
+    case ServerEnvironment.Production:
+    case undefined:
+      return {
+        baseUrl: productionSchemas.softwareManagementV3.baseUrl.decode(
+          options.serverOptions?.softwareManagementV3?.baseUrl,
+        ),
       };
-      return { baseUrl: production.baseUrl, subPath };
-    }
-    case ServerEnvironment.Staging: {
-      const staging = { ...DEFAULT_SERVER_OPTIONS.softwareManagementV3.staging, ...options?.staging };
-      return { baseUrl: staging.baseUrl, subPath };
-    }
-    case ServerEnvironment.Dev: {
-      const dev = { ...DEFAULT_SERVER_OPTIONS.softwareManagementV3.dev, ...options?.dev };
-      return { baseUrl: dev.baseUrl, subPath };
-    }
-    case ServerEnvironment.Qa: {
-      const qa = { ...DEFAULT_SERVER_OPTIONS.softwareManagementV3.qa, ...options?.qa };
-      return { baseUrl: qa.baseUrl, subPath };
-    }
-    case ServerEnvironment.MockServerForLimitedAvailabilitySeeQuickStart: {
-      const mockServerForLimitedAvailabilitySeeQuickStart = {
-        ...DEFAULT_SERVER_OPTIONS.softwareManagementV3.mockServerForLimitedAvailabilitySeeQuickStart,
-        ...options?.mockServerForLimitedAvailabilitySeeQuickStart,
+    case ServerEnvironment.Staging:
+      return {
+        baseUrl: stagingSchemas.softwareManagementV3.baseUrl.decode(
+          options.serverOptions?.softwareManagementV3?.baseUrl,
+        ),
       };
-      return { baseUrl: mockServerForLimitedAvailabilitySeeQuickStart.baseUrl, subPath };
-    }
+    case ServerEnvironment.Dev:
+      return {
+        baseUrl: devSchemas.softwareManagementV3.baseUrl.decode(
+          options.serverOptions?.softwareManagementV3?.baseUrl,
+        ),
+      };
+    case ServerEnvironment.Qa:
+      return {
+        baseUrl: qaSchemas.softwareManagementV3.baseUrl.decode(
+          options.serverOptions?.softwareManagementV3?.baseUrl,
+        ),
+      };
+    case ServerEnvironment.MockServerForLimitedAvailabilitySeeQuickStart:
+      return {
+        baseUrl: mockServerForLimitedAvailabilitySeeQuickStartSchemas.softwareManagementV3.baseUrl.decode(
+          options.serverOptions?.softwareManagementV3?.baseUrl,
+        ),
+      };
     default:
       unknownEnvironment(environment);
   }
 }
 
-function deviceDiagnosticsServer(
-  environment: ServerEnvironment,
-  subPath: string,
-  options?: DeviceDiagnosticsServerOptions,
-): UrlTemplate {
+function deviceDiagnosticsServer(options: ClientOptions): ServerBase {
+  const environment = options.serverEnvironment;
   switch (environment) {
-    case ServerEnvironment.Production: {
-      const production = { ...DEFAULT_SERVER_OPTIONS.deviceDiagnostics.production, ...options?.production };
-      return { baseUrl: production.baseUrl, subPath };
-    }
-    case ServerEnvironment.Staging: {
-      const staging = { ...DEFAULT_SERVER_OPTIONS.deviceDiagnostics.staging, ...options?.staging };
-      return { baseUrl: staging.baseUrl, subPath };
-    }
-    case ServerEnvironment.Dev: {
-      const dev = { ...DEFAULT_SERVER_OPTIONS.deviceDiagnostics.dev, ...options?.dev };
-      return { baseUrl: dev.baseUrl, subPath };
-    }
-    case ServerEnvironment.Qa: {
-      const qa = { ...DEFAULT_SERVER_OPTIONS.deviceDiagnostics.qa, ...options?.qa };
-      return { baseUrl: qa.baseUrl, subPath };
-    }
-    case ServerEnvironment.MockServerForLimitedAvailabilitySeeQuickStart: {
-      const mockServerForLimitedAvailabilitySeeQuickStart = {
-        ...DEFAULT_SERVER_OPTIONS.deviceDiagnostics.mockServerForLimitedAvailabilitySeeQuickStart,
-        ...options?.mockServerForLimitedAvailabilitySeeQuickStart,
+    case ServerEnvironment.Production:
+    case undefined:
+      return {
+        baseUrl: productionSchemas.deviceDiagnostics.baseUrl.decode(
+          options.serverOptions?.deviceDiagnostics?.baseUrl,
+        ),
       };
-      return { baseUrl: mockServerForLimitedAvailabilitySeeQuickStart.baseUrl, subPath };
-    }
+    case ServerEnvironment.Staging:
+      return {
+        baseUrl: stagingSchemas.deviceDiagnostics.baseUrl.decode(
+          options.serverOptions?.deviceDiagnostics?.baseUrl,
+        ),
+      };
+    case ServerEnvironment.Dev:
+      return {
+        baseUrl: devSchemas.deviceDiagnostics.baseUrl.decode(
+          options.serverOptions?.deviceDiagnostics?.baseUrl,
+        ),
+      };
+    case ServerEnvironment.Qa:
+      return {
+        baseUrl: qaSchemas.deviceDiagnostics.baseUrl.decode(
+          options.serverOptions?.deviceDiagnostics?.baseUrl,
+        ),
+      };
+    case ServerEnvironment.MockServerForLimitedAvailabilitySeeQuickStart:
+      return {
+        baseUrl: mockServerForLimitedAvailabilitySeeQuickStartSchemas.deviceDiagnostics.baseUrl.decode(
+          options.serverOptions?.deviceDiagnostics?.baseUrl,
+        ),
+      };
     default:
       unknownEnvironment(environment);
   }
 }
 
-function cloudConnectorServer(
-  environment: ServerEnvironment,
-  subPath: string,
-  options?: CloudConnectorServerOptions,
-): UrlTemplate {
+function cloudConnectorServer(options: ClientOptions): ServerBase {
+  const environment = options.serverEnvironment;
   switch (environment) {
-    case ServerEnvironment.Production: {
-      const production = { ...DEFAULT_SERVER_OPTIONS.cloudConnector.production, ...options?.production };
-      return { baseUrl: production.baseUrl, subPath };
-    }
-    case ServerEnvironment.Staging: {
-      const staging = { ...DEFAULT_SERVER_OPTIONS.cloudConnector.staging, ...options?.staging };
-      return { baseUrl: staging.baseUrl, subPath };
-    }
-    case ServerEnvironment.Dev: {
-      const dev = { ...DEFAULT_SERVER_OPTIONS.cloudConnector.dev, ...options?.dev };
-      return { baseUrl: dev.baseUrl, subPath };
-    }
-    case ServerEnvironment.Qa: {
-      const qa = { ...DEFAULT_SERVER_OPTIONS.cloudConnector.qa, ...options?.qa };
-      return { baseUrl: qa.baseUrl, subPath };
-    }
-    case ServerEnvironment.MockServerForLimitedAvailabilitySeeQuickStart: {
-      const mockServerForLimitedAvailabilitySeeQuickStart = {
-        ...DEFAULT_SERVER_OPTIONS.cloudConnector.mockServerForLimitedAvailabilitySeeQuickStart,
-        ...options?.mockServerForLimitedAvailabilitySeeQuickStart,
+    case ServerEnvironment.Production:
+    case undefined:
+      return {
+        baseUrl: productionSchemas.cloudConnector.baseUrl.decode(
+          options.serverOptions?.cloudConnector?.baseUrl,
+        ),
       };
-      return { baseUrl: mockServerForLimitedAvailabilitySeeQuickStart.baseUrl, subPath };
-    }
+    case ServerEnvironment.Staging:
+      return {
+        baseUrl: stagingSchemas.cloudConnector.baseUrl.decode(options.serverOptions?.cloudConnector?.baseUrl),
+      };
+    case ServerEnvironment.Dev:
+      return {
+        baseUrl: devSchemas.cloudConnector.baseUrl.decode(options.serverOptions?.cloudConnector?.baseUrl),
+      };
+    case ServerEnvironment.Qa:
+      return {
+        baseUrl: qaSchemas.cloudConnector.baseUrl.decode(options.serverOptions?.cloudConnector?.baseUrl),
+      };
+    case ServerEnvironment.MockServerForLimitedAvailabilitySeeQuickStart:
+      return {
+        baseUrl: mockServerForLimitedAvailabilitySeeQuickStartSchemas.cloudConnector.baseUrl.decode(
+          options.serverOptions?.cloudConnector?.baseUrl,
+        ),
+      };
     default:
       unknownEnvironment(environment);
   }
 }
 
-function hyperPreciseLocationServer(
-  environment: ServerEnvironment,
-  subPath: string,
-  options?: HyperPreciseLocationServerOptions,
-): UrlTemplate {
+function hyperPreciseLocationServer(options: ClientOptions): ServerBase {
+  const environment = options.serverEnvironment;
   switch (environment) {
-    case ServerEnvironment.Production: {
-      const production = {
-        ...DEFAULT_SERVER_OPTIONS.hyperPreciseLocation.production,
-        ...options?.production,
+    case ServerEnvironment.Production:
+    case undefined:
+      return {
+        baseUrl: productionSchemas.hyperPreciseLocation.baseUrl.decode(
+          options.serverOptions?.hyperPreciseLocation?.baseUrl,
+        ),
       };
-      return { baseUrl: production.baseUrl, subPath };
-    }
-    case ServerEnvironment.Staging: {
-      const staging = { ...DEFAULT_SERVER_OPTIONS.hyperPreciseLocation.staging, ...options?.staging };
-      return { baseUrl: staging.baseUrl, subPath };
-    }
-    case ServerEnvironment.Dev: {
-      const dev = { ...DEFAULT_SERVER_OPTIONS.hyperPreciseLocation.dev, ...options?.dev };
-      return { baseUrl: dev.baseUrl, subPath };
-    }
-    case ServerEnvironment.Qa: {
-      const qa = { ...DEFAULT_SERVER_OPTIONS.hyperPreciseLocation.qa, ...options?.qa };
-      return { baseUrl: qa.baseUrl, subPath };
-    }
-    case ServerEnvironment.MockServerForLimitedAvailabilitySeeQuickStart: {
-      const mockServerForLimitedAvailabilitySeeQuickStart = {
-        ...DEFAULT_SERVER_OPTIONS.hyperPreciseLocation.mockServerForLimitedAvailabilitySeeQuickStart,
-        ...options?.mockServerForLimitedAvailabilitySeeQuickStart,
+    case ServerEnvironment.Staging:
+      return {
+        baseUrl: stagingSchemas.hyperPreciseLocation.baseUrl.decode(
+          options.serverOptions?.hyperPreciseLocation?.baseUrl,
+        ),
       };
-      return { baseUrl: mockServerForLimitedAvailabilitySeeQuickStart.baseUrl, subPath };
-    }
+    case ServerEnvironment.Dev:
+      return {
+        baseUrl: devSchemas.hyperPreciseLocation.baseUrl.decode(
+          options.serverOptions?.hyperPreciseLocation?.baseUrl,
+        ),
+      };
+    case ServerEnvironment.Qa:
+      return {
+        baseUrl: qaSchemas.hyperPreciseLocation.baseUrl.decode(
+          options.serverOptions?.hyperPreciseLocation?.baseUrl,
+        ),
+      };
+    case ServerEnvironment.MockServerForLimitedAvailabilitySeeQuickStart:
+      return {
+        baseUrl: mockServerForLimitedAvailabilitySeeQuickStartSchemas.hyperPreciseLocation.baseUrl.decode(
+          options.serverOptions?.hyperPreciseLocation?.baseUrl,
+        ),
+      };
     default:
       unknownEnvironment(environment);
   }
 }
 
-function servicesServer(
-  environment: ServerEnvironment,
-  subPath: string,
-  options?: ServicesServerOptions,
-): UrlTemplate {
+function servicesServer(options: ClientOptions): ServerBase {
+  const environment = options.serverEnvironment;
   switch (environment) {
-    case ServerEnvironment.Production: {
-      const production = { ...DEFAULT_SERVER_OPTIONS.services.production, ...options?.production };
-      return { baseUrl: production.baseUrl, subPath };
-    }
-    case ServerEnvironment.Staging: {
-      const staging = { ...DEFAULT_SERVER_OPTIONS.services.staging, ...options?.staging };
-      return { baseUrl: staging.baseUrl, subPath };
-    }
-    case ServerEnvironment.Dev: {
-      const dev = { ...DEFAULT_SERVER_OPTIONS.services.dev, ...options?.dev };
-      return { baseUrl: dev.baseUrl, subPath };
-    }
-    case ServerEnvironment.Qa: {
-      const qa = { ...DEFAULT_SERVER_OPTIONS.services.qa, ...options?.qa };
-      return { baseUrl: qa.baseUrl, subPath };
-    }
-    case ServerEnvironment.MockServerForLimitedAvailabilitySeeQuickStart: {
-      const mockServerForLimitedAvailabilitySeeQuickStart = {
-        ...DEFAULT_SERVER_OPTIONS.services.mockServerForLimitedAvailabilitySeeQuickStart,
-        ...options?.mockServerForLimitedAvailabilitySeeQuickStart,
+    case ServerEnvironment.Production:
+    case undefined:
+      return { baseUrl: productionSchemas.services.baseUrl.decode(options.serverOptions?.services?.baseUrl) };
+    case ServerEnvironment.Staging:
+      return { baseUrl: stagingSchemas.services.baseUrl.decode(options.serverOptions?.services?.baseUrl) };
+    case ServerEnvironment.Dev:
+      return { baseUrl: devSchemas.services.baseUrl.decode(options.serverOptions?.services?.baseUrl) };
+    case ServerEnvironment.Qa:
+      return { baseUrl: qaSchemas.services.baseUrl.decode(options.serverOptions?.services?.baseUrl) };
+    case ServerEnvironment.MockServerForLimitedAvailabilitySeeQuickStart:
+      return {
+        baseUrl: mockServerForLimitedAvailabilitySeeQuickStartSchemas.services.baseUrl.decode(
+          options.serverOptions?.services?.baseUrl,
+        ),
       };
-      return { baseUrl: mockServerForLimitedAvailabilitySeeQuickStart.baseUrl, subPath };
-    }
     default:
       unknownEnvironment(environment);
   }
 }
 
-function qualityOfServiceServer(
-  environment: ServerEnvironment,
-  subPath: string,
-  options?: QualityOfServiceServerOptions,
-): UrlTemplate {
+function qualityOfServiceServer(options: ClientOptions): ServerBase {
+  const environment = options.serverEnvironment;
   switch (environment) {
-    case ServerEnvironment.Production: {
-      const production = { ...DEFAULT_SERVER_OPTIONS.qualityOfService.production, ...options?.production };
-      return { baseUrl: production.baseUrl, subPath };
-    }
-    case ServerEnvironment.Staging: {
-      const staging = { ...DEFAULT_SERVER_OPTIONS.qualityOfService.staging, ...options?.staging };
-      return { baseUrl: staging.baseUrl, subPath };
-    }
-    case ServerEnvironment.Dev: {
-      const dev = { ...DEFAULT_SERVER_OPTIONS.qualityOfService.dev, ...options?.dev };
-      return { baseUrl: dev.baseUrl, subPath };
-    }
-    case ServerEnvironment.Qa: {
-      const qa = { ...DEFAULT_SERVER_OPTIONS.qualityOfService.qa, ...options?.qa };
-      return { baseUrl: qa.baseUrl, subPath };
-    }
-    case ServerEnvironment.MockServerForLimitedAvailabilitySeeQuickStart: {
-      const mockServerForLimitedAvailabilitySeeQuickStart = {
-        ...DEFAULT_SERVER_OPTIONS.qualityOfService.mockServerForLimitedAvailabilitySeeQuickStart,
-        ...options?.mockServerForLimitedAvailabilitySeeQuickStart,
+    case ServerEnvironment.Production:
+    case undefined:
+      return {
+        baseUrl: productionSchemas.qualityOfService.baseUrl.decode(
+          options.serverOptions?.qualityOfService?.baseUrl,
+        ),
       };
-      return { baseUrl: mockServerForLimitedAvailabilitySeeQuickStart.baseUrl, subPath };
-    }
+    case ServerEnvironment.Staging:
+      return {
+        baseUrl: stagingSchemas.qualityOfService.baseUrl.decode(
+          options.serverOptions?.qualityOfService?.baseUrl,
+        ),
+      };
+    case ServerEnvironment.Dev:
+      return {
+        baseUrl: devSchemas.qualityOfService.baseUrl.decode(options.serverOptions?.qualityOfService?.baseUrl),
+      };
+    case ServerEnvironment.Qa:
+      return {
+        baseUrl: qaSchemas.qualityOfService.baseUrl.decode(options.serverOptions?.qualityOfService?.baseUrl),
+      };
+    case ServerEnvironment.MockServerForLimitedAvailabilitySeeQuickStart:
+      return {
+        baseUrl: mockServerForLimitedAvailabilitySeeQuickStartSchemas.qualityOfService.baseUrl.decode(
+          options.serverOptions?.qualityOfService?.baseUrl,
+        ),
+      };
     default:
       unknownEnvironment(environment);
   }
 }
 
 function unknownEnvironment(environment: never): never {
-  throw new SdkError({ message: `Unknown server environment: ${String(environment)}` });
+  throw new ConfigurationError(`Unknown server environment: ${String(environment)}`);
 }

@@ -8,10 +8,15 @@ import {
 import { deviceFilter1Schema, type DeviceFilter1 } from "./unions/device-filter1.js";
 
 export type ESimGlobalDeviceList = {
+  /** The numeric name of the account. */
   accountName?: string;
+  /** The last status of the device as a list filter. */
   provisioningStatusFilter?: ProvisioningStatusFilter;
+  /** The last status of the device's profile as a filter. */
   profileStatusFilter?: ProfileStatusFilter;
+  /** The cellular service provider. */
   carrierNameFilter?: string;
+  /** An array of device identifiers to filter the list. */
   deviceFilter?: DeviceFilter1[];
 };
 

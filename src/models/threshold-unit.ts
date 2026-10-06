@@ -1,6 +1,7 @@
 import * as s from "../core/validation/index.js";
 import type { EnumSchema } from "../core/validation/schema.js";
 
+/** The units of the threshold. This can be KB, Kilobits, MB, Megabits, or GB, Gigabits */
 export const ThresholdUnit = {
   Kb: "KB",
   Mb: "MB",

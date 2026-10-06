@@ -4,17 +4,19 @@
 
 Accessor: `client.sensorInsightsNotificationGroups` · Source: `src/resources/sensor-insights-notification-groups.ts` · 6 operations · Request and error types: namespace `SensorInsightsNotificationGroups`
 
-**Type sources**: every type an operation names, with the file that declares it and the schema value exported beside it. Import every name from `verizon`; the `Source` path is where to **read** the shape, never what to import. `ResponseError` and the runtime error family are excluded — see sdk-map.md.
+**Type sources**: every type an operation names, with the file that declares it and the schema value exported beside it. Import every name from `verizon`; the `Source` path is where to **read** the shape, never what to import. `ApiError`, the runtime error family and the file vocabulary are excluded — see sdk-map.md.
 
 ### sensorInsightsAddUsersToNotificationGroupRequest
 
+- **Server**: `thingspace` — not the `hyperPreciseCredentials` group; see Servers & auth in sdk-map.md
 - **Signature**: `sensorInsightsAddUsersToNotificationGroupRequest(request: SensorInsightsNotificationGroups.SensorInsightsAddUsersToNotificationGroupRequestRequest, options?: RequestOptions): ApiPromise<undefined, SensorInsightsNotificationGroups.SensorInsightsAddUsersToNotificationGroupRequestError>`
 - **Wire**: `POST /dm/v1/notificationGroups/actions/add-users`
 - **Auth**: all of `thingspaceOauth`, `vzM2MToken` — both are sent
 - **Request body**: `application/json` — the `body` field
+- **SDK-sent**: `header Idempotency-Key` (minted per call)
 - **Returns**: `undefined` — the operation resolves to nothing
-- **Error**: `SensorInsightsNotificationGroups.SensorInsightsAddUsersToNotificationGroupRequestError` — **typed arms**, narrowed on `err.payload.kind`
-- **Error arms**: `"managementError400"` [400] `ManagementError400` · `"managementError"` [401] `ManagementError` · `"managementError403"` [403] `ManagementError403` · `"managementError404"` [404] `ManagementError404` · `"managementError2"` [406] `ManagementError` · `"managementError3"` [415] `ManagementError` · `"managementError4"` [429] `ManagementError` · `"managementError500"` [500] `ManagementError500` · `"managementError5"` [400–599] `ManagementError` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
+- **Error**: `VerizonError` with `kind: "api"`, an instance of `SensorInsightsNotificationGroups.SensorInsightsAddUsersToNotificationGroupRequestError` — **typed arms**, narrowed on `err.payload.kind`
+- **Error arms**: `"managementError400"` [400] `ManagementError400` · `"managementError"` [401] `ManagementError` · `"managementError403"` [403] `ManagementError403` · `"managementError404"` [404] `ManagementError404` · `"managementError2"` [406] `ManagementError` · `"managementError3"` [415] `ManagementError` · `"managementError4"` [429] `ManagementError` · `"managementError500"` [500] `ManagementError500` · `"managementError5"` [default — any status no arm above covers] `ManagementError` · `"undeclared"` [a `default`-matched body that did not fit `ManagementError`] `rawBody: ArrayBuffer`
 
 **Fields** — `SensorInsightsNotificationGroups.SensorInsightsAddUsersToNotificationGroupRequestRequest` (1):
 
@@ -33,13 +35,15 @@ Accessor: `client.sensorInsightsNotificationGroups` · Source: `src/resources/se
 
 ### sensorInsightsCreateNotificationGroupRequest
 
+- **Server**: `thingspace` — not the `hyperPreciseCredentials` group; see Servers & auth in sdk-map.md
 - **Signature**: `sensorInsightsCreateNotificationGroupRequest(request: SensorInsightsNotificationGroups.SensorInsightsCreateNotificationGroupRequestRequest, options?: RequestOptions): ApiPromise<DtoNotificationGroupResponseEntity, SensorInsightsNotificationGroups.SensorInsightsCreateNotificationGroupRequestError>`
 - **Wire**: `POST /dm/v1/notificationGroups`
 - **Auth**: all of `thingspaceOauth`, `vzM2MToken` — both are sent
 - **Request body**: `application/json` — the `body` field
+- **SDK-sent**: `header Idempotency-Key` (minted per call)
 - **Returns**: `DtoNotificationGroupResponseEntity`
-- **Error**: `SensorInsightsNotificationGroups.SensorInsightsCreateNotificationGroupRequestError` — **typed arms**, narrowed on `err.payload.kind`
-- **Error arms**: `"managementError400"` [400] `ManagementError400` · `"managementError"` [401] `ManagementError` · `"managementError403"` [403] `ManagementError403` · `"managementError2"` [406] `ManagementError` · `"managementError3"` [415] `ManagementError` · `"managementError4"` [429] `ManagementError` · `"managementError500"` [500] `ManagementError500` · `"managementError5"` [400–599] `ManagementError` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
+- **Error**: `VerizonError` with `kind: "api"`, an instance of `SensorInsightsNotificationGroups.SensorInsightsCreateNotificationGroupRequestError` — **typed arms**, narrowed on `err.payload.kind`
+- **Error arms**: `"managementError400"` [400] `ManagementError400` · `"managementError"` [401] `ManagementError` · `"managementError403"` [403] `ManagementError403` · `"managementError2"` [406] `ManagementError` · `"managementError3"` [415] `ManagementError` · `"managementError4"` [429] `ManagementError` · `"managementError500"` [500] `ManagementError500` · `"managementError5"` [default — any status no arm above covers] `ManagementError` · `"undeclared"` [a `default`-matched body that did not fit `ManagementError`] `rawBody: ArrayBuffer`
 
 **Fields** — `SensorInsightsNotificationGroups.SensorInsightsCreateNotificationGroupRequestRequest` (1):
 
@@ -58,12 +62,14 @@ Accessor: `client.sensorInsightsNotificationGroups` · Source: `src/resources/se
 
 ### sensorInsightsDeleteNotificationGroup
 
+- **Server**: `thingspace` — not the `hyperPreciseCredentials` group; see Servers & auth in sdk-map.md
 - **Signature**: `sensorInsightsDeleteNotificationGroup(request: SensorInsightsNotificationGroups.SensorInsightsDeleteNotificationGroupRequest, options?: RequestOptions): ApiPromise<undefined, SensorInsightsNotificationGroups.SensorInsightsDeleteNotificationGroupError>`
 - **Wire**: `DELETE /dm/v1/notificationGroups`
 - **Auth**: all of `thingspaceOauth`, `vzM2MToken` — both are sent
 - **Request body**: none — no `Content-Type` header is sent
+- **SDK-sent**: `header Idempotency-Key` (minted per call)
 - **Returns**: `undefined` — the operation resolves to nothing
-- **Error**: `SensorInsightsNotificationGroups.SensorInsightsDeleteNotificationGroupError` — **typed arms**, narrowed on `err.payload.kind`
+- **Error**: `VerizonError` with `kind: "api"`, an instance of `SensorInsightsNotificationGroups.SensorInsightsDeleteNotificationGroupError` — **typed arms**, narrowed on `err.payload.kind`
 - **Error arms**: `"managementError400"` [400] `ManagementError400` · `"managementError"` [401] `ManagementError` · `"managementError403"` [403] `ManagementError403` · `"managementError404"` [404] `ManagementError404` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
 
 **Fields** — `SensorInsightsNotificationGroups.SensorInsightsDeleteNotificationGroupRequest` (1):
@@ -82,13 +88,15 @@ Accessor: `client.sensorInsightsNotificationGroups` · Source: `src/resources/se
 
 ### sensorInsightsListNotificationGroupRequest
 
+- **Server**: `thingspace` — not the `hyperPreciseCredentials` group; see Servers & auth in sdk-map.md
 - **Signature**: `sensorInsightsListNotificationGroupRequest(request: SensorInsightsNotificationGroups.SensorInsightsListNotificationGroupRequestRequest, options?: RequestOptions): ApiPromise<DtoNotificationGroupResponseEntity[], SensorInsightsNotificationGroups.SensorInsightsListNotificationGroupRequestError>`
 - **Wire**: `POST /dm/v1/notificationGroups/actions/query`
 - **Auth**: all of `thingspaceOauth`, `vzM2MToken` — both are sent
 - **Request body**: `application/json` — the `body` field
+- **SDK-sent**: `header Idempotency-Key` (minted per call)
 - **Returns**: `DtoNotificationGroupResponseEntity[]` — a bare `application/json` array; the success type *is* the array, not a wrapper model
-- **Error**: `SensorInsightsNotificationGroups.SensorInsightsListNotificationGroupRequestError` — **typed arms**, narrowed on `err.payload.kind`
-- **Error arms**: `"managementError400"` [400] `ManagementError400` · `"managementError"` [401] `ManagementError` · `"managementError403"` [403] `ManagementError403` · `"managementError404"` [404] `ManagementError404` · `"managementError2"` [406] `ManagementError` · `"managementError3"` [415] `ManagementError` · `"managementError4"` [429] `ManagementError` · `"managementError500"` [500] `ManagementError500` · `"managementError5"` [400–599] `ManagementError` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
+- **Error**: `VerizonError` with `kind: "api"`, an instance of `SensorInsightsNotificationGroups.SensorInsightsListNotificationGroupRequestError` — **typed arms**, narrowed on `err.payload.kind`
+- **Error arms**: `"managementError400"` [400] `ManagementError400` · `"managementError"` [401] `ManagementError` · `"managementError403"` [403] `ManagementError403` · `"managementError404"` [404] `ManagementError404` · `"managementError2"` [406] `ManagementError` · `"managementError3"` [415] `ManagementError` · `"managementError4"` [429] `ManagementError` · `"managementError500"` [500] `ManagementError500` · `"managementError5"` [default — any status no arm above covers] `ManagementError` · `"undeclared"` [a `default`-matched body that did not fit `ManagementError`] `rawBody: ArrayBuffer`
 
 **Fields** — `SensorInsightsNotificationGroups.SensorInsightsListNotificationGroupRequestRequest` (1):
 
@@ -108,13 +116,15 @@ Accessor: `client.sensorInsightsNotificationGroups` · Source: `src/resources/se
 
 ### sensorInsightsRemoveUsersFromNotificationGroupRequest
 
+- **Server**: `thingspace` — not the `hyperPreciseCredentials` group; see Servers & auth in sdk-map.md
 - **Signature**: `sensorInsightsRemoveUsersFromNotificationGroupRequest(request: SensorInsightsNotificationGroups.SensorInsightsRemoveUsersFromNotificationGroupRequestRequest, options?: RequestOptions): ApiPromise<undefined, SensorInsightsNotificationGroups.SensorInsightsRemoveUsersFromNotificationGroupRequestError>`
 - **Wire**: `POST /dm/v1/notificationGroups/actions/remove-users`
 - **Auth**: all of `thingspaceOauth`, `vzM2MToken` — both are sent
 - **Request body**: `application/json` — the `body` field
+- **SDK-sent**: `header Idempotency-Key` (minted per call)
 - **Returns**: `undefined` — the operation resolves to nothing
-- **Error**: `SensorInsightsNotificationGroups.SensorInsightsRemoveUsersFromNotificationGroupRequestError` — **typed arms**, narrowed on `err.payload.kind`
-- **Error arms**: `"managementError400"` [400] `ManagementError400` · `"managementError"` [401] `ManagementError` · `"managementError403"` [403] `ManagementError403` · `"managementError404"` [404] `ManagementError404` · `"managementError2"` [406] `ManagementError` · `"managementError3"` [415] `ManagementError` · `"managementError4"` [429] `ManagementError` · `"managementError500"` [500] `ManagementError500` · `"managementError5"` [400–599] `ManagementError` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
+- **Error**: `VerizonError` with `kind: "api"`, an instance of `SensorInsightsNotificationGroups.SensorInsightsRemoveUsersFromNotificationGroupRequestError` — **typed arms**, narrowed on `err.payload.kind`
+- **Error arms**: `"managementError400"` [400] `ManagementError400` · `"managementError"` [401] `ManagementError` · `"managementError403"` [403] `ManagementError403` · `"managementError404"` [404] `ManagementError404` · `"managementError2"` [406] `ManagementError` · `"managementError3"` [415] `ManagementError` · `"managementError4"` [429] `ManagementError` · `"managementError500"` [500] `ManagementError500` · `"managementError5"` [default — any status no arm above covers] `ManagementError` · `"undeclared"` [a `default`-matched body that did not fit `ManagementError`] `rawBody: ArrayBuffer`
 
 **Fields** — `SensorInsightsNotificationGroups.SensorInsightsRemoveUsersFromNotificationGroupRequestRequest` (1):
 
@@ -133,13 +143,15 @@ Accessor: `client.sensorInsightsNotificationGroups` · Source: `src/resources/se
 
 ### sensorInsightsUpdateNotificationGroupRequest
 
+- **Server**: `thingspace` — not the `hyperPreciseCredentials` group; see Servers & auth in sdk-map.md
 - **Signature**: `sensorInsightsUpdateNotificationGroupRequest(request: SensorInsightsNotificationGroups.SensorInsightsUpdateNotificationGroupRequestRequest, options?: RequestOptions): ApiPromise<DtoNotificationGroupResponseEntity, SensorInsightsNotificationGroups.SensorInsightsUpdateNotificationGroupRequestError>`
 - **Wire**: `PATCH /dm/v1/notificationGroups`
 - **Auth**: all of `thingspaceOauth`, `vzM2MToken` — both are sent
 - **Request body**: `application/json` — the `body` field
+- **SDK-sent**: `header Idempotency-Key` (minted per call)
 - **Returns**: `DtoNotificationGroupResponseEntity`
-- **Error**: `SensorInsightsNotificationGroups.SensorInsightsUpdateNotificationGroupRequestError` — **typed arms**, narrowed on `err.payload.kind`
-- **Error arms**: `"managementError400"` [400] `ManagementError400` · `"managementError"` [401] `ManagementError` · `"managementError403"` [403] `ManagementError403` · `"managementError404"` [404] `ManagementError404` · `"managementError2"` [406] `ManagementError` · `"managementError3"` [415] `ManagementError` · `"managementError4"` [429] `ManagementError` · `"managementError500"` [500] `ManagementError500` · `"managementError5"` [400–599] `ManagementError` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
+- **Error**: `VerizonError` with `kind: "api"`, an instance of `SensorInsightsNotificationGroups.SensorInsightsUpdateNotificationGroupRequestError` — **typed arms**, narrowed on `err.payload.kind`
+- **Error arms**: `"managementError400"` [400] `ManagementError400` · `"managementError"` [401] `ManagementError` · `"managementError403"` [403] `ManagementError403` · `"managementError404"` [404] `ManagementError404` · `"managementError2"` [406] `ManagementError` · `"managementError3"` [415] `ManagementError` · `"managementError4"` [429] `ManagementError` · `"managementError500"` [500] `ManagementError500` · `"managementError5"` [default — any status no arm above covers] `ManagementError` · `"undeclared"` [a `default`-matched body that did not fit `ManagementError`] `rawBody: ArrayBuffer`
 
 **Fields** — `SensorInsightsNotificationGroups.SensorInsightsUpdateNotificationGroupRequestRequest` (1):
 

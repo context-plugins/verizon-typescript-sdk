@@ -16,6 +16,10 @@ import {
   type WrongWayDrivingCauseCode,
 } from "../wrong-way-driving-cause-code.js";
 
+/**
+ * The main cause of a detected event. Each entry is of a different type and represents the sub
+ * cause code.
+ */
 export type CauseCodeChoice =
   | TrafficConditionCauseCode
   | AccidentCauseCode

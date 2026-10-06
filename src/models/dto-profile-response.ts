@@ -3,14 +3,22 @@ import type { Schema } from "../core/validation/schema.js";
 
 export type DtoProfileResponse = {
   id?: string;
+  /** the user defined profile kind */
   kind?: string;
+  /** The resource version */
   version?: string;
   versionid?: string;
+  /** Timestamp of the record */
   createdon?: Date;
+  /** Timestamp of the record */
   lastupdated?: Date;
+  /** user defined profile name */
   name?: string;
+  /** UUID of the ECPD account the user belongs to */
   foreignid?: string;
+  /** The billing account ID. This is the same value as the Account ID */
   billingaccountid?: string;
+  /** device model id */
   modelid?: string;
   configuration?: Record<string, unknown>;
 };

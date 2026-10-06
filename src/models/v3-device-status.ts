@@ -1,12 +1,19 @@
 import * as s from "../core/validation/index.js";
 import type { Schema } from "../core/validation/schema.js";
 
+/** Device status. */
 export type V3DeviceStatus = {
+  /** Device IMEI. */
   deviceId: string;
+  /** Success or failure. */
   status: string;
+  /** Result reason. */
   resultReason?: string;
+  /** Updated Time. */
   updatedTime?: Date;
+  /** The most recent attempt time. */
   recentAttemptTime?: Date;
+  /** Next attempt time. */
   nextAttemptTime?: Date;
 };
 

@@ -10,6 +10,7 @@ export type Rateplantype2 = {
   promotionOffered?: boolean;
   promotionDays?: number;
   ratePlanType?: string;
+  /** Account information */
   account?: Accountid[];
 };
 
@@ -19,7 +20,7 @@ export const rateplantype2Schema: Schema<Rateplantype2> = s.object<Rateplantype2
   carrierRatePlanCode: s.optional(s.string()),
   zeroDollarBilling: s.optional(s.boolean()),
   promotionOffered: s.optional(s.boolean()),
-  promotionDays: s.optional(s.number()),
+  promotionDays: s.optional(s.int()),
   ratePlanType: s.optional(s.string()),
   account: s.optional(s.array(s.lazy(() => accountidSchema))),
 });

@@ -13,7 +13,9 @@ import {
 export type AccountSharePricePlanTrigger = {
   accountShare?: AccountShareFilterCriteria;
   condition?: AccountSharePricePlanTriggerCondition;
+  /** a flag to set if the trigger changes service plans, true, or not, false */
   changePlan?: boolean;
+  /** The service plan code to switch to */
   changePlanDetails?: ChangePlanDetails;
 };
 

@@ -10,5 +10,5 @@ export type SmsTriggerRequest = {
 export const smsTriggerRequestSchema: Schema<SmsTriggerRequest> = s.object<SmsTriggerRequest>({
   comparator: s.optional(s.string()),
   smsType: s.optional(s.string()),
-  threshold: s.optional(s.number()),
+  threshold: s.optional(s.int()),
 });

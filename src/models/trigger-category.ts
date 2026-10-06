@@ -1,6 +1,7 @@
 import * as s from "../core/validation/index.js";
 import type { EnumSchema } from "../core/validation/schema.js";
 
+/** The type of trigger being created or modified */
 export const TriggerCategory = {
   AccountUsage: "AccountUsage",
   DeviceGroupUsage: "DeviceGroupUsage",

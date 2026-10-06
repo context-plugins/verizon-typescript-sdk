@@ -1,8 +1,11 @@
 import * as s from "../core/validation/index.js";
 import type { Schema } from "../core/validation/schema.js";
 
+/** Check-in history for a device. */
 export type CheckInHistoryItem = {
+  /** Device IMEI. */
   deviceId: string;
+  /** Type of client. */
   clientType: string;
   result: string;
   failureType: string;

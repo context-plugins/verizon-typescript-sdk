@@ -3,6 +3,7 @@ import type { Schema } from "../core/validation/schema.js";
 import { sensorInsightsBleSchema, type SensorInsightsBle } from "./sensor-insights-ble.js";
 
 export type DtoDeviceConfig = {
+  /** Property objects for Bluetooth Low-Energy (BLE) devices */
   ble?: SensorInsightsBle;
 };
 

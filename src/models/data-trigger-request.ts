@@ -9,6 +9,6 @@ export type DataTriggerRequest = {
 
 export const dataTriggerRequestSchema: Schema<DataTriggerRequest> = s.object<DataTriggerRequest>({
   comparator: s.optional(s.string()),
-  threshold: s.optional(s.number()),
+  threshold: s.optional(s.int()),
   thresholdUnit: s.optional(s.string()),
 });

@@ -6,9 +6,16 @@ import {
 } from "./device-filter-without-account.js";
 import { deviceIdSchema, type DeviceId } from "./device-id.js";
 
+/** Request to return service suspension information about one or more devices. */
 export type DeviceSuspensionStatusRequest = {
+  /**
+   * The devices that you want to include in the request, specified by device identifier. You only
+   * need to provide one identifier per device.
+   */
   deviceIds?: DeviceId[];
+  /** Filter for devices without account. */
   filter?: DeviceFilterWithoutAccount;
+  /** The name of a billing account. */
   accountName?: string;
 };
 

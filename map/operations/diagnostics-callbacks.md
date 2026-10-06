@@ -4,7 +4,7 @@
 
 Accessor: `client.diagnosticsCallbacks` · Source: `src/resources/diagnostics-callbacks.ts` · 3 operations · Request and error types: namespace `DiagnosticsCallbacks`
 
-**Type sources**: every type an operation names, with the file that declares it and the schema value exported beside it. Import every name from `verizon`; the `Source` path is where to **read** the shape, never what to import. `ResponseError` and the runtime error family are excluded — see sdk-map.md.
+**Type sources**: every type an operation names, with the file that declares it and the schema value exported beside it. Import every name from `verizon`; the `Source` path is where to **read** the shape, never what to import. `ApiError`, the runtime error family and the file vocabulary are excluded — see sdk-map.md.
 
 ### getDiagnosticsSubscriptionCallbackInfo
 
@@ -14,7 +14,7 @@ Accessor: `client.diagnosticsCallbacks` · Source: `src/resources/diagnostics-ca
 - **Auth**: all of `thingspaceOauth`, `vzM2MToken` — both are sent
 - **Request body**: none — no `Content-Type` header is sent
 - **Returns**: `DeviceDiagnosticsCallback[]` — a bare `application/json` array; the success type *is* the array, not a wrapper model
-- **Error**: `DiagnosticsCallbacks.GetDiagnosticsSubscriptionCallbackInfoError` — **typed arms**, narrowed on `err.payload.kind`
+- **Error**: `VerizonError` with `kind: "api"`, an instance of `DiagnosticsCallbacks.GetDiagnosticsSubscriptionCallbackInfoError` — **typed arms**, narrowed on `err.payload.kind`
 - **Error arms**: `"deviceDiagnosticsResult"` [400] `DeviceDiagnosticsResult` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
 
 **Fields** — `DiagnosticsCallbacks.GetDiagnosticsSubscriptionCallbackInfoRequest` (1):
@@ -35,8 +35,9 @@ Accessor: `client.diagnosticsCallbacks` · Source: `src/resources/diagnostics-ca
 - **Wire**: `POST /callbacks`
 - **Auth**: all of `thingspaceOauth`, `vzM2MToken` — both are sent
 - **Request body**: none — no `Content-Type` header is sent
+- **SDK-sent**: `header Idempotency-Key` (minted per call)
 - **Returns**: `DeviceDiagnosticsCallback`
-- **Error**: `DiagnosticsCallbacks.RegisterDiagnosticsCallbackUrlError` — **typed arms**, narrowed on `err.payload.kind`
+- **Error**: `VerizonError` with `kind: "api"`, an instance of `DiagnosticsCallbacks.RegisterDiagnosticsCallbackUrlError` — **typed arms**, narrowed on `err.payload.kind`
 - **Error arms**: `"deviceDiagnosticsResult"` [400] `DeviceDiagnosticsResult` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
 
 | Type | Schema value | Source |
@@ -51,8 +52,9 @@ Accessor: `client.diagnosticsCallbacks` · Source: `src/resources/diagnostics-ca
 - **Wire**: `DELETE /callbacks`
 - **Auth**: all of `thingspaceOauth`, `vzM2MToken` — both are sent
 - **Request body**: none — no `Content-Type` header is sent
+- **SDK-sent**: `header Idempotency-Key` (minted per call)
 - **Returns**: `DeviceDiagnosticsCallback`
-- **Error**: `DiagnosticsCallbacks.UnregisterDiagnosticsCallbackError` — **typed arms**, narrowed on `err.payload.kind`
+- **Error**: `VerizonError` with `kind: "api"`, an instance of `DiagnosticsCallbacks.UnregisterDiagnosticsCallbackError` — **typed arms**, narrowed on `err.payload.kind`
 - **Error arms**: `"deviceDiagnosticsResult"` [400] `DeviceDiagnosticsResult` · `"undeclared"` [any other] `rawBody: ArrayBuffer`
 
 **Fields** — `DiagnosticsCallbacks.UnregisterDiagnosticsCallbackRequest` (2):
