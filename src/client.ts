@@ -196,7 +196,7 @@ export class VerizonClient {
 
   constructor(options: ClientOptions = {}) {
     this.#rawClient = new RawClient({
-      ...buildCoreClientOptions(options),
+      ...buildCoreClientOptions(options, "VERIZON_CLIENT_LOG"),
       defaultHeaders: [
         { name: "User-Agent", value: "VerizonClient/1.0.0 TypeScript", schema: s.string() },
         { name: "X-APIMatic-Lang", value: "TypeScript", schema: s.string() },

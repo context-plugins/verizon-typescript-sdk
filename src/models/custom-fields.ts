@@ -6,10 +6,10 @@ export type CustomFields = {
   /** The key for an extended attribute. */
   key: string;
   /** The value of an extended attribute. */
-  value: string;
+  value?: string;
 };
 
 export const customFieldsSchema: Schema<CustomFields> = s.object<CustomFields>({
   key: s.string(),
-  value: s.string(),
+  value: s.optional(s.string()),
 });
